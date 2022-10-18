@@ -26,7 +26,7 @@ export const CategoryList = [
   },
   {
     title:"Artworks",
-    href:"/restaurant-logos",
+    href:"/restaurant-artworks",
     source :"/frontend-used-images/Category-Images/Artworks.png",
   },
   {

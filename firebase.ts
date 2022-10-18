@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApp, getApps } from 'firebase/app'
-import { doc, getFirestore, setDoc } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
+import { addDoc, collection, doc, getFirestore, setDoc } from 'firebase/firestore'
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getStorage, ref } from 'firebase/storage'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,18 +23,32 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 const db = getFirestore()
 const auth = getAuth()
+const storage = getStorage()
+
 
 export default app
 
 
 
- const createUserDoc = (uid:string, email:string, username:string, occupation:string, subscriptionLevel:string) =>{
+const createUserDoc = (uid: string, email: string, username: string, occupation: string, subscriptionLevel: string) => {
   setDoc(doc(db, 'users', uid), {
     email: email,
     occupation: 'Not Specified',
-    subscriptionLevel : 'Free',
-    username: username ,
+    subscriptionLevel: 'Free',
+    username: username,
   })
 }
 
-export { auth, db, createUserDoc }
+const createImageDoc = (name:string, alt_text:string , checkbox:boolean, collection_name: string, description: string, url: string) =>{
+  addDoc(collection(db, collection_name ), {
+    name: name,
+    alt_text: alt_text,
+    paid : checkbox,
+    description: description,
+    url: url,
+    views: 0
+  })
+  
+}
+
+export { auth, db, createUserDoc, createImageDoc }

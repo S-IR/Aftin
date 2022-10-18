@@ -5,11 +5,11 @@ import styles from '../../styles/Home.module.css'
 
 function CreateWithUs() {
 
-  const { ref: PhotoSection, inView: PhotoSectionVisible } = useInView();
-  const { ref: ArtisticSection, inView: ArtisticSectionVisible } = useInView();
-  const { ref: EditingSection, inView: EditingSectionVisible } = useInView();
-  const { ref: HiringSection, inView: HiringSectionVisible } = useInView();
-  const { ref: AISection, inView: AISectionVisible } = useInView();
+  const { ref: PhotoSection, inView: PhotoSectionVisible } = useInView({triggerOnce:true});
+  const { ref: ArtisticSection, inView: ArtisticSectionVisible } = useInView({triggerOnce:true});
+  const { ref: EditingSection, inView: EditingSectionVisible } = useInView({triggerOnce:true});
+  const { ref: HiringSection, inView: HiringSectionVisible } = useInView({triggerOnce:true});
+  const { ref: AISection, inView: AISectionVisible } = useInView({triggerOnce:true});
 
 
 
@@ -31,11 +31,11 @@ function CreateWithUs() {
 
         <svg width="1920" height="2700" viewBox="0 0 1920 2700" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_d_1_2)">
-            <path d="M381 10V523.104H1167V1022.71H381V1444.29H1167V1976.4L381 1959.9V2473" stroke="url(#paint0_linear_1_2)" stroke-width="12" />
+            <path d="M381 10V523.104H1167V1022.71H381V1444.29H1167V1976.4L381 1959.9V2473" stroke="url(#paint0_linear_1_2)" strokeWidth="12" />
           </g>
           <defs>
-            <filter id="filter0_d_1_2" x="-4" y="0" width="1928" height="2708" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <filter id="filter0_d_1_2" x="-4" y="0" width="1928" height="2708" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
               <feOffset dy="4" />
               <feGaussianBlur stdDeviation="2" />
@@ -46,9 +46,9 @@ function CreateWithUs() {
             </filter>
             <linearGradient id="paint0_linear_1_2" x1="774" y1="10" x2="774" y2="2473" gradientUnits="userSpaceOnUse">
               <stop />
-              <stop offset="0.322917" stop-color="#670EDA" stop-opacity="0.776042" />
-              <stop offset="0.739583" stop-color="#09B1F9" stop-opacity="0.734375" />
-              <stop offset="1" stop-opacity="0" />
+              <stop offset="0.322917" stopColor="#670EDA" stopOpacity="0.776042" />
+              <stop offset="0.739583" stopColor="#09B1F9" stopOpacity="0.734375" />
+              <stop offset="1" stopOpacity="0" />
             </linearGradient>
           </defs>
         </svg>

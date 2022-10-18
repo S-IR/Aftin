@@ -6,6 +6,9 @@ import { CreateWithUs, HomeBanner, HomeIntro, HomePricingComponent, LinksToCateg
 import Footer from '../components/Footer'
 
 const Home: NextPage = () => {
+
+  
+
   return (
     <>
     <Head>

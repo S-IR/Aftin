@@ -1,0 +1,7 @@
+1.Upload component
+2. Canvas component
+
+I need:
+1. Get the image from the upload component
+2. if it is the first image that i'm uploading, I need to set the canvas w/h to that image w/h
+3. put the image on the canvas

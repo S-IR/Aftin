@@ -1,3 +1,12 @@
+export interface UploadPictures {
+  alt_text : string
+  checkbox: boolean
+  collection_name : string
+  description: string
+  file: File
+  storage_address: string
+}
+
 export interface Genre {
   id: number
   name: string

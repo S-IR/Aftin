@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Link from 'next/link'
 import useAuth from '../../hooks/useAuth'
 import GoogleButton from 'react-google-button'
+import  useAuthThirdParty  from "../../hooks/useAuthThirdParty"
+
+
 
 interface Inputs {
   email: string
@@ -12,6 +14,8 @@ interface Inputs {
 
 
 function LoginDiv() {
+  const { signInWithGoogle } = useAuthThirdParty()
+
 
   const {
     register,
@@ -44,6 +48,9 @@ function LoginDiv() {
           {errors.email && <p className='p-1 text-[13px] text-orange-500'>
             Please enter a valid email</p>}
         </label>
+        <div className='flex flex-col align-middle items-center text-center'>
+          <GoogleButton  label='Login with Google' onClick={signInWithGoogle} />
+        </div>
       </div>
       <div className='flex justify-center items-center'>
         <button type='submit' className='general-buttons !m-0' >Sign In</button>

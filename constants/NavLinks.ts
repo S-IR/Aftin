@@ -8,7 +8,7 @@ export const navLinks = [
     title:"Images",
   },
   {
-    id:"Home",
+    id:"graphic-designs",
     title:"Graphic Designs",
   }
 ]

@@ -5,7 +5,8 @@ import useAuth from '../../hooks/useAuth'
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
 import GoogleButton from 'react-google-button';
-import { signUpWithGoogle } from '../../model/thirdPartyLogin'
+import useAuthThirdParty from '../../hooks/useAuthThirdParty'
+
 
 interface Inputs {
   username: string
@@ -34,6 +35,7 @@ function SignUpDiv() {
   });
 
   const { signIn, signUp } = useAuth()
+  const { signUpWithGoogle } = useAuthThirdParty()
 
   const onSubmit: SubmitHandler<Inputs> = async ({ username, email, password }) => {
     await signUp(email, password, username)

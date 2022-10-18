@@ -7,7 +7,7 @@ import homeIntroBanner from '../../public/frontend-used-images/homeIntroBanner.p
 
 function HomeIntro() {
 
-  const { ref : animatedDOM, inView : animatedDOMVisible} = useInView();
+  const { ref : animatedDOM, inView : animatedDOMVisible} = useInView({triggerOnce:true});
 
   
 

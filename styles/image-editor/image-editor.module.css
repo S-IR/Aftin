@@ -1,0 +1,9 @@
+.sidebarIcons{
+  @apply flex flex-col text-gray-100  items-center justify-center shadow-lg pt-4 opacity-60 hover:opacity-100  hover:shadow-2xl cursor-pointer  focus:rounded-sm  transition-colors duration-500;
+}
+.sidebarBackground{
+  background-image: url('/frontend-used-images/image-editor-sidebar-bg.svg');
+}
+
+
+
