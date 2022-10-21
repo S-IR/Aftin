@@ -9,9 +9,15 @@ MdOutlineDraw
 import { MdOutlineDraw } from 'react-icons/md'
 import { SidebarIcon, UploadButtons, StickersButtons, TextButtons, CropButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore } from '../../components/ImageEditor/index'
 
-import Canvas from '../../components/ImageEditor/Canvas'
 import { filter } from '../../constants/image-editor/filters'
 import { ShowLess } from '../../components/ImageEditor/Sidebar'
+import dynamic from 'next/dynamic'
+
+const Canvas = dynamic(
+  () => import('../../components/ImageEditor/Canvas'),
+  { ssr: false }
+);
+// import Canvas from '../../components/ImageEditor/Canvas'
 
 interface activeSidebarType {
   activeSidebar:
@@ -29,12 +35,12 @@ const Index = () => {
   const [images, setImages] = useState<Array<HTMLImageElement>>([]);
   const [firstImage, setFirstImage] = useState(false);
 
+  
   type options = Array<filter>;
   //sidebar buttons code
   const [activeSidebar, setActiveSidebar] = useState('Upload');
   const [showMore, setShowMore] = useState(false)
 
-  console.log(showMore)
   
   type activeSidebar = activeSidebarType;
 
@@ -87,20 +93,22 @@ const Index = () => {
               setShowMore={setShowMore}
             />
         </div>
-        <div className={`min-h-[90vh] min-w-[300px] bg-gray-800`}>
+        <div className={`min-h-[90vh] min-w-[300px] bg-gray-800 `}>
           {activeSidebar === 'Upload' ? <UploadButtons
             firstImage={firstImage}
             setFirstImage={setFirstImage}
             setImages={setImages}
           /> : ''}
           {activeSidebar === 'Stickers' ? <StickersButtons /> : ''}
-          {activeSidebar === 'Text' ? <TextButtons /> : ''}
+          {activeSidebar === 'Text' ? <TextButtons
+          firstImage={firstImage}
+          /> : ''}
           {activeSidebar === 'Crop' ? <CropButtons /> : ''}
           {activeSidebar === 'Filters' ? <FiltersButtons
           /> : ''}
           {activeSidebar === 'Draw' ? <DrawButtons /> : ''}
         </div>
-        {firstImage ? <Canvas images={images} /> : <DropzoneComp
+        {firstImage ? <Canvas images={images}/>: <DropzoneComp
           firstImage={firstImage}
           setFirstImage={setFirstImage}
           setImages={setImages}

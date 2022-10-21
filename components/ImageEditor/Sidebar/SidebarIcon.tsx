@@ -4,7 +4,7 @@ import { IconType } from 'react-icons/lib'
 import styles from '../../../styles/image-editor/image-editor.module.css'
 
 interface props {
-  Icon: IconType
+  Icon: JSX.Element
   Text: string
   setActiveSidebar: Dispatch<React.SetStateAction<string>>
   activeSidebar: string
@@ -15,7 +15,6 @@ const SidebarIcon = ({ Icon, Text, setActiveSidebar, activeSidebar, showMore }: 
   const isBelowShowMore = ['Crop','Filters','Draw'].includes(Text)
   const displayIcon = showMore && isBelowShowMore
 
-  console.log(displayIcon)
   
   return (
     <div className={`w-full h-[90px] 

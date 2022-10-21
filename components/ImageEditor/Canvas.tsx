@@ -1,56 +1,61 @@
 import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
-import { filtersCount } from '../../features/image-editor/filtersSlice'
-import { canvasFilters } from '../../model/image-editor/Canvas'
-import { useAppSelector } from '../../Redux/hooks'
+import { Stage, Layer, Image as KonvaImage } from 'react-konva'
+import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice'
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks'
+import { CanvasImage, CanvasText } from './Canvas/index'
+
 
 interface props {
   images: Array<HTMLImageElement>
 }
+
 const Canvas = ({ images }: props) => {
-  let canvasRef = useRef<HTMLCanvasElement | null>(null)
-  let contextRef = useRef<CanvasRenderingContext2D | null>(null)
-  let downloadRef = useRef<LegacyRef<HTMLAnchorElement>| null>(null)
+  const canvasElems = useAppSelector(canvasElemsCount)
+  let downloadRef = useRef<LegacyRef<HTMLAnchorElement> | null>(null)
 
-  const filters = useAppSelector(filtersCount)
+  const firstImage = canvasElems.present.find((element) => element.elementType === 'image')
+  const width = firstImage.data.width
+  const height = firstImage.data.height
 
-
-  
-
-  useEffect(() => {
-    if (!canvasRef.current) return
-    contextRef.current = canvasRef.current.getContext("2d")
-    canvasRef.current.width = images[0].width
-    canvasRef.current.height = images[0].height
-    
-   }, [])
-  useEffect(() => {
-    if(!contextRef.current) return
-    console.log(filters)
-    contextRef.current.filter = canvasFilters(filters)
-    images.forEach((image:HTMLImageElement) => {
-      contextRef.current?.drawImage(image, 0, 0);
-    })
-  }, [filters] )//fix THIS USE EFFECT AS IT WILL NOT WORK
-
-  
-
+  const elements = canvasElems.present
+  const [selectedId, selectShape] = React.useState<null | number>(null);
+  const onSelect = () => {
+    selectShape(rect.id)
+  }
 
   return (
     <section className=''>
-      <div>
-        <canvas
-          ref={canvasRef}
-          className='bg-black'
-        >
-        </canvas>
-      </div>
+      <Stage
+        width={width}
+        height={height}
+      >
+        <Layer>
+          {elements.map((element, index) => {
+            switch (element.elementType) {
+              case 'image':
+                return <CanvasImage 
+                data={element.data} key={index} 
+                id={index}
+                selectedId={selectedId} 
+                selectShape={selectShape} />
+              case 'text':
+                return <CanvasText data={element.data} key={index} />
+              default:
+                break
+            }
+          }
+          )}
+
+        </Layer>
+
+      </Stage>
       <div className='w-full h-[70px] bg-gradient-to-br from-blue-800 via-fuchsia-800 to-blue-800'>
         <a className='general-buttons'
           ref={downloadRef}
           // onClick={() => handleDownload(filters, canvasRef.current, downloadRef.current)}
-          href={canvasRef.current?.toDataURL()}
+          href={''}
           download=""
-          >Download
+        >Download
         </a>
       </div>
     </section>
