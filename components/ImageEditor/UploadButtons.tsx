@@ -1,14 +1,15 @@
 import React, { ChangeEvent, useEffect } from 'react'
-import { uploadImage } from '../../model/image-editor/Upload'
+import { uploadImageToCanvas } from '../../model/image-editor/Upload'
+import { useAppDispatch } from '../../Redux/hooks'
 
 interface props{
   firstImage:boolean
   setFirstImage: React.Dispatch<React.SetStateAction<boolean>>
-  setImages: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
 }
 
 
-const UploadButtons = ({firstImage, setFirstImage, setImages}:props) => {
+const UploadButtons = ({firstImage, setFirstImage}:props) => {
+  const dispatch = useAppDispatch();
   return (
     <div className='text-white flex flex-col items-center'>
       <label
@@ -17,9 +18,9 @@ const UploadButtons = ({firstImage, setFirstImage, setImages}:props) => {
       >
       Upload Image
       </label>
-      <input className=" rounded cursor-pointer " id="image_input" 
+      <input className=" rounded cursor-pointer  " id="image_input" 
       type="file"
-      onChange={(e:ChangeEvent<HTMLInputElement>)=> uploadImage(e.target.files, firstImage, setFirstImage, setImages)}
+      onChange={(e:ChangeEvent<HTMLInputElement>)=> uploadImageToCanvas(e.target.files, firstImage, setFirstImage, dispatch)}
       ></input>
 
     </div>

@@ -17,8 +17,8 @@ const SidebarIcon = ({ Icon, Text, setActiveSidebar, activeSidebar, showMore }: 
 
   
   return (
-    <div className={`w-full h-[90px] 
-    ${activeSidebar === Text ? "bg-black border-l-2 border-white" : ""}
+    <div className={`w-full h-[90px] border-l-2
+    ${activeSidebar === Text ? "bg-black  border-red-800" : ""}
     ${!isBelowShowMore || displayIcon? 'opacity-1' : 'pointer-events-none opacity-0'}
     transition-all duration-700
     flex items-center justify-center`}

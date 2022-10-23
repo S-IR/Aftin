@@ -12,6 +12,8 @@ import { SidebarIcon, UploadButtons, StickersButtons, TextButtons, CropButtons, 
 import { filter } from '../../constants/image-editor/filters'
 import { ShowLess } from '../../components/ImageEditor/Sidebar'
 import dynamic from 'next/dynamic'
+import { useAppSelector } from '../../Redux/hooks'
+import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice'
 
 const Canvas = dynamic(
   () => import('../../components/ImageEditor/Canvas'),
@@ -31,17 +33,16 @@ interface activeSidebarType {
 
 const Index = () => {
 
-  //canvas and image related code
-  const [images, setImages] = useState<Array<HTMLImageElement>>([]);
+  //canvas  related code
   const [firstImage, setFirstImage] = useState(false);
-
-  
+  const canvasElems = useAppSelector(canvasElemsCount)
   type options = Array<filter>;
+
   //sidebar buttons code
   const [activeSidebar, setActiveSidebar] = useState('Upload');
   const [showMore, setShowMore] = useState(false)
 
-  
+
   type activeSidebar = activeSidebarType;
 
   return (
@@ -51,7 +52,7 @@ const Index = () => {
       </Head>
       <Navbar />
       <div className='flex w-full '>
-        <div className='min-h-[90vh] max-h-[90vh] bg-gradient-to-br from-[#4952bd] via-purple-900 to-[#4952bd] pt-4 w-[75px] items-center flex flex-col'>
+        <section className='h-[100vh] bg-gradient-to-br from-[#4952bd] via-purple-900 to-[#4952bd]  w-[75px] items-center flex flex-col'>
           <SidebarIcon Icon={<AiOutlineCloudUpload className='w-[32px] h-[32px]' />} setActiveSidebar={setActiveSidebar}
             activeSidebar={activeSidebar}
             Text='Upload'
@@ -87,33 +88,32 @@ const Index = () => {
             activeSidebar={activeSidebar}
             Text='Draw'
             showMore={showMore} />
-    
-            <ShowLess
-              showMore={showMore}
-              setShowMore={setShowMore}
-            />
-        </div>
-        <div className={`min-h-[90vh] min-w-[300px] bg-gray-800 `}>
+
+          <ShowLess
+            showMore={showMore}
+            setShowMore={setShowMore}
+          />
+        </section>
+        <div className={`h-[100vh] min-w-[300px] bg-gray-800 `}>
           {activeSidebar === 'Upload' ? <UploadButtons
             firstImage={firstImage}
             setFirstImage={setFirstImage}
-            setImages={setImages}
           /> : ''}
           {activeSidebar === 'Stickers' ? <StickersButtons /> : ''}
           {activeSidebar === 'Text' ? <TextButtons
-          firstImage={firstImage}
+            firstImage={firstImage}
           /> : ''}
           {activeSidebar === 'Crop' ? <CropButtons /> : ''}
           {activeSidebar === 'Filters' ? <FiltersButtons
           /> : ''}
-          {activeSidebar === 'Draw' ? <DrawButtons /> : ''}
+          {activeSidebar === 'Draw' ? <DrawButtons
+          firstImage={firstImage}
+          /> : ''}
         </div>
-        {firstImage ? <Canvas images={images}/>: <DropzoneComp
+        {firstImage && canvasElems.past.length > 0 ? <Canvas /> : <DropzoneComp
           firstImage={firstImage}
           setFirstImage={setFirstImage}
-          setImages={setImages}
         />}
-
       </div>
 
     </>

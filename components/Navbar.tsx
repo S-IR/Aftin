@@ -18,8 +18,8 @@ function Navbar() {
   return (
     <>
     <nav className="w-full sticky top-0 z-[120] rounded-full ">
-      <div className={`h-[75px] flex items-center w-full navbar bg-gradient-to-r from-gray-900 via-fuchsia-900 to-gray-900 z-50 `}>
-        <ul className="md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
+      <div className={`h-[55px] flex items-center w-full navbar bg-gradient-to-r from-gray-900 via-fuchsia-900/30  to-gray-900 z-50 `}>
+        <ul className=" md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
           {navLinks.map((nav) => (
             <li
               key={nav.id}
@@ -34,17 +34,17 @@ function Navbar() {
           ))}
         </ul>
 
-        <div className="px-4 md:px-6 overflow-auto z-50">
+        <div className="px-4 md:px-6 overflow-auto z-50 pt-[20px]">
           <Image
             src={aftinLogo}
-            width={75}
-            height={75}
+            width={65}
+            height={65}
             alt="Aftin Logo"
           />
         </div>
 
-        <div className="flex flex-1 space-x-4  items-center">
-          <input type="text" placeholder="Search for an image" className="searchbox w-12 h-8 !ml-1"></input>
+        <div className="flex flex-1 space-x-4  items-center justify-center">
+          <input type="text" placeholder="Search for an image" className="hidden md:flex searchbox w-12 h-8 !ml-1"></input>
           <Button text={'Login'} handleOnClick={()=>router.push('/login')} />
           <Button text={'Sign Up'} handleOnClick={()=>router.push('/login')} />
           <button

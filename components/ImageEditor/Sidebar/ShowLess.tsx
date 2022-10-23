@@ -8,7 +8,7 @@ interface props{
 
 const ShowLess = ({ showMore, setShowMore }:props) => {
   return (
-    <div className={`w-full h[90px] flex items-center justify-center
+    <div className={`w-full h[90px] flex items-center justify-center border-l-2 border-white
     ${showMore ? 'opacity-1' : 'pointer-events-none opacity-0'}
     transition-all duration-700
     `}>

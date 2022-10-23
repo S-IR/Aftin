@@ -1,63 +1,83 @@
-import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
-import { Stage, Layer, Image as KonvaImage } from 'react-konva'
+import { Stage } from 'konva/lib/Stage'
+import React, {  useRef  } from 'react'
+import { Stage as KonvaStage, Layer, Image as KonvaImage, KonvaNodeComponent, StageProps, Rect } from 'react-konva'
 import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice'
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks'
-import { CanvasImage, CanvasText } from './Canvas/index'
+import { useAppSelector } from '../../Redux/hooks'
+import CanvasShape from './Canvas/CanvasShape'
+import { CanvasImage, CanvasText, CanvasElementProperties, CanvasEditButtons } from './Canvas/index'
+
 
 
 interface props {
-  images: Array<HTMLImageElement>
+
 }
 
-const Canvas = ({ images }: props) => {
-  const canvasElems = useAppSelector(canvasElemsCount)
-  let downloadRef = useRef<LegacyRef<HTMLAnchorElement> | null>(null)
+const Canvas = ({ }: props) => {
 
-  const firstImage = canvasElems.present.find((element) => element.elementType === 'image')
+  const elements = useAppSelector(canvasElemsCount).present
+  const downloadRef = useRef<HTMLButtonElement>(null)
+  const stageRef = useRef<KonvaNodeComponent<Stage, StageProps>>(null)
+
+  const firstImage = elements.find((element) => element.elementType === 'image')
   const width = firstImage.data.width
   const height = firstImage.data.height
 
-  const elements = canvasElems.present
-  const [selectedId, selectShape] = React.useState<null | number>(null);
-  const onSelect = () => {
-    selectShape(rect.id)
-  }
+  
+  const selectedElement = elements.find(element => element.selected === true)
+
+  
+  //bottom buttons functionalities
 
   return (
-    <section className=''>
-      <Stage
-        width={width}
-        height={height}
-      >
-        <Layer>
-          {elements.map((element, index) => {
-            switch (element.elementType) {
-              case 'image':
-                return <CanvasImage 
-                data={element.data} key={index} 
-                id={index}
-                selectedId={selectedId} 
-                selectShape={selectShape} />
-              case 'text':
-                return <CanvasText data={element.data} key={index} />
-              default:
-                break
+    <section className='relative w-full h-[100vh] flex flex-col items-center'>
+      <CanvasElementProperties />
+      <div id='canvasContainer' className=' flex items-center justify-center align-middle mt-10 border-8 border-gray-600 rounded-lg border-opacity-60'>
+        <KonvaStage
+          width={width}
+          height={height}
+          ref={stageRef}
+          willReadFrequently={true}
+          container={'canvasContainer'}
+        >
+          <Layer>
+            {elements.map((element, index) => {
+              switch (element.elementType) {
+                case 'image':
+                  return <CanvasImage
+                    data={element.data} key={index}
+                    id={index}
+                    isSelected={element.selected}
+                  />
+                case 'text':
+                  return <CanvasText data={element.data} key={index}
+                    id={index}
+                    isSelected={element.selected}
+                  />
+                case 'shape':
+                  return <CanvasShape
+                  data={element.data} key={index}
+                  id={index}
+                  isSelected={element.selected}
+                  />
+                default:
+                  break
+              }
             }
-          }
-          )}
+            )}
+            {/* <Rect 
+            x={0}
+            y={0}
+            width={100}
+            height={100}
+            fillLinearGradientStartPoint={{x: 0, y:0}}
+            fillLinearGradientEndPoint={{x: 100, y:100}}
+            fillLinearGradientColorStops={[0,'red', 0.5, 'green', 1,'blue']}
 
-        </Layer>
-
-      </Stage>
-      <div className='w-full h-[70px] bg-gradient-to-br from-blue-800 via-fuchsia-800 to-blue-800'>
-        <a className='general-buttons'
-          ref={downloadRef}
-          // onClick={() => handleDownload(filters, canvasRef.current, downloadRef.current)}
-          href={''}
-          download=""
-        >Download
-        </a>
+            /> */}
+          </Layer>
+        </KonvaStage>
       </div>
+      <CanvasEditButtons stageRef={stageRef} downloadRef={downloadRef} />
     </section>
   )
 }

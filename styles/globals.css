@@ -9,8 +9,8 @@
   }
   input::-webkit-file-upload-button{
     @apply
-    border-none
-    md:w-32 text-white font-medium rounded-lg text-sm mx-5 my-2.5 text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-2 md:h-10
+    border-none h-4 w-12
+   text-white font-medium rounded-lg text-sm mx-5 my-2.5 text-center mr-2 mb-2  sm:text-xs px-1 
     bg-gradient-to-r from-fuchsia-800 to-gray-700
     hover:shadow-sm hover:shadow-red-400 hover:text-purple-500/80
     focus:outline-none 
@@ -24,14 +24,14 @@
   
   .general-buttons{
     @apply
-    md:w-32 text-white font-medium rounded-lg text-sm mx-5 my-2.5 text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-2 md:h-10
+    md:w-32 text-white font-medium rounded-lg text-sm mx-5 my-2.5 text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-4 md:px-2 md:h-10 p-2 
     bg-gradient-to-r from-fuchsia-800 to-gray-700
-    hover:shadow-md hover:shadow-red-500 hover:text-white/80
+    hover:shadow-md hover:shadow-blue-800 hover:text-white/80
     focus:outline-none 
     active:shadow-2xl
     shadow-lg shadow-blue-500 
     transition ease-in-out duration-500
-    
+    disabled:opacity-25
   }
   .website-theme-settings{
     aspect-ratio: 1920/1080;
@@ -81,6 +81,7 @@
   }
   .input {
     @apply w-full rounded bg-fuchsia-800 px-5 py-3.5 placeholder-gray-200 outline-none focus:bg-[#494545] transition-all duration-300 ;
+    
   }
 
   .signIn{

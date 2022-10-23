@@ -11,7 +11,7 @@ interface props{
 const ShowMore = ({showMore, setShowMore}:props) => {
   if (showMore) return <></>
   return (
-    <div className={`w-full h[90px] flex items-center justify-center`}>
+    <div className={`w-full h[90px] flex items-center justify-center border-l-2 border-white`}>
       <button className={`${styles.sidebarIcons}`} onClick={() => setShowMore(!showMore)}>
         <ExpandMoreIcon className='w-[32px] h-[32px]' />
         <p className='font-serif'>Show More</p>

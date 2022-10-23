@@ -1,40 +1,12 @@
 import { Action, CaseReducer, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit"
 import undoable from "redux-undo"
 import { RootState } from "../../Redux/store"
+import { addImage, imageData } from "./imageHandlingReducer"
+import { addText, textData } from "./textHandlingReducer"
+import { addShape, shapeData  } from "./shapeHandlingReducer"
 
-export interface imageData {
-  image: HTMLImageElement,
-  width: number
-  height: number
-  filters: {
-    brightness: number
-    contrast: number
-    blur: number
-    borderWidth: number
-    borderColor: string
-  }
-  x: number
-  y: number
-  rotate: number
-}
-export interface textData {
-  text: string;
-  x: number;
-  y: number;
-  fontSize: number;
-  fontFamily: string;
-  fontVariant: 'normal' | 'italic' | 'bold';
-  align: 'left' | 'center' | 'right';
-  verticalAlign: 'top'| 'middle' | 'bottom';
-  stroke: string;
-  strokeWidth: number;
-  fillPatternImage: null | HTMLImageElement;
-  rotation: number;
-}
-export interface shapeData {
-  x: number
-  y: number
-}
+
+
 export type canvasElement = {
   elementType: 'image';
   selected: boolean;
@@ -48,51 +20,63 @@ export type canvasElement = {
   selected: boolean;
   data: shapeData;
 }
+interface changeElementPosition {
+  id: number
+  pageX: number
+  pageY: number
+}
+
+interface changeElementScale {
+  id: number
+  scaleX: number
+  scaleY: number
+}
+interface selectElement {
+  id:number
+}
 
 
 export type canvasState = canvasElement[]
 const initialState: null | canvasState = []
 
-const addImage: CaseReducer<WritableDraft<canvasState>, PayloadAction<imageData>> = (state, action) => {
-  const data: imageData = action.payload
-  if (!state) return
-  return [...state, { elementType: 'image', selected: false, data: data }]
-}
-const addText: CaseReducer<WritableDraft<canvasState>, PayloadAction<textData>> = (state, action) => {
-  const data: textData = action.payload
-  if (!state) return
-  return [...state, { elementType: 'text', selected: false, data: data }]
-}
 
-const addShape: CaseReducer<WritableDraft<canvasState>, PayloadAction<shapeData>> = (state, action) => {
-  const data: shapeData = action.payload
-  if (!state) return
-  return [...state, { elementType: 'shape', selected: false, data: data }]
+ const changeElementPositon: CaseReducer<WritableDraft<canvasState>, PayloadAction<changeElementPosition>> = (state, action) => {
+  state[action.payload.id].data.x = action.payload.pageX
+  state[action.payload.id].data.y = action.payload.pageY
+  return state
 }
-
-
+const changeElementScale: CaseReducer<WritableDraft<canvasState>, PayloadAction<changeElementScale>> = (state, action) => {
+  state[action.payload.id].data.scaleX = action.payload.scaleX
+  state[action.payload.id].data.scaleY = action.payload.scaleY
+  return state
+}
+const selectElement: CaseReducer<WritableDraft<canvasState>, PayloadAction<selectElement>> = (state, action) => {
+  state.map((element:canvasElement, index: number) =>{
+    if(index  === action.payload.id) {
+      element.selected = true
+    }else{
+      element.selected = false
+    }
+  })
+}
 
 export const canvasElemSlice = createSlice({
   name: 'canvasElements',
   initialState,
   reducers: {
+    changeElementPositon,
+    changeElementScale,
+    selectElement,
+
+    addText,
     addImage,
     addShape,
-    addText
   },
-
 })
 const undoableCanvasElemSlice = undoable(canvasElemSlice.reducer)
 export default undoableCanvasElemSlice
 
 export const canvasElemsCount = (state: RootState) => state.canvasElems;
-
-// const addImage:CaseReducer<State, PayloadAction<imageData>> = (state, action)=>{
-//   const data:imageData = action.payload
-//   if(state === null) return [{type: 'image', data: data}]
-//   const lastState = state[state.length - 1]
-//   return state.push(lastState, {type: 'image', data: data})
-// }
 
 
 

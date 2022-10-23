@@ -1,26 +1,25 @@
 import React, { ChangeEvent, DragEventHandler, useCallback, useEffect } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useDropzone } from 'react-dropzone';
-import { uploadImage } from '../../model/image-editor/Upload';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice';
+import { uploadImageToCanvas } from '../../model/image-editor/Upload';
 
 
 interface props{
   firstImage:boolean
   setFirstImage: React.Dispatch<React.SetStateAction<boolean>>
-  setImages: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
 }
 
-const DropzoneComp = ({firstImage, setFirstImage, setImages}:props) => {
+const DropzoneComp = ({firstImage, setFirstImage}:props) => {
   const dispatch = useAppDispatch();
 
   const onDrop:DragEventHandler<HTMLDivElement> = useCallback((acceptedFiles:FileList | null) => {
-    uploadImage(acceptedFiles, firstImage, setFirstImage, dispatch)
+    uploadImageToCanvas(acceptedFiles, firstImage, setFirstImage, dispatch)
   }, [])
   const onChange:ChangeEventHandler<HTMLInputElement> = useCallback((e:ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    uploadImage(e.target.files, firstImage, setFirstImage, setImages)
+    uploadImageToCanvas(e.target.files, firstImage, setFirstImage, dispatch)
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -28,7 +27,7 @@ const DropzoneComp = ({firstImage, setFirstImage, setImages}:props) => {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <label htmlFor="dropzone-file" className={`flex flex-col justify-center items-center w-full h-[90vh] bg-gray-800 bg-opacity-40 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer   hover:bg-gray-400 hover:opacity-50 ${isDragActive? 'bg-purple-500':''} transition-all duration-400`}>
+      <label htmlFor="dropzone-file" className={`flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-40 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer   hover:bg-gray-400 hover:opacity-50 ${isDragActive? 'bg-purple-500':''} transition-all duration-400`}>
         <div 
         {...getRootProps({
           className:"flex flex-col justify-center items-center pt-5 pb-6 h-full w-full" ,

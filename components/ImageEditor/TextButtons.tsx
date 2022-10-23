@@ -1,34 +1,36 @@
 import { InputAdornment, TextField } from '@mui/material'
-import React, { DOMAttributes, useState } from 'react'
+import React, { DOMAttributes, useEffect, useState } from 'react'
 import ShortTextIcon from '@mui/icons-material/ShortText';
-import { canvasElemSlice } from '../../features/canvas-elements/canvasElemSlice';
-import { useAppDispatch } from '../../Redux/hooks';
-import { uploadCanvasText } from '../../model/image-editor/Upload';
+import { canvasElemsCount, canvasElemSlice } from '../../features/canvas-elements/canvasElemSlice';
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
+
 import { Alert } from '@mui/material';
+import { uploadTextToCanvas } from '../../model/image-editor/Upload';
 interface props {
-  firstImage: boolean
 }
 
-const TextButtons = ({ firstImage }: props) => {
+const TextButtons = ({  }: props) => {
   const [alert, setAlert] = useState<null | string>(null)
   const dispatch = useAppDispatch()
+  const isTheCanvasEmpty = useAppSelector(canvasElemsCount).present.length === 0
+  useEffect(() => {
+    setAlert(null)
+  }, [useAppSelector(canvasElemsCount).present.length])
+  
+
+  //TODO
   let alertMessage: null | string = null
   const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if(!firstImage){
-      setAlert('Add an image to the canvas before adding text')
-    }
+    if(isTheCanvasEmpty) return setAlert('Add an image to the canvas before adding text')
     setAlert(null)
     switch (e.target.id) {
       case 'big-text-button':
-        uploadCanvasText(dispatch, undefined, undefined, undefined, 32)
-        break
+        return uploadTextToCanvas(dispatch, undefined, undefined, undefined, 32)
       case 'medium-text-button':
-        uploadCanvasText(dispatch, undefined, undefined, undefined, 16)
-        break
+        uploadTextToCanvas(dispatch, undefined, undefined, undefined,16)
       case 'small-text-button':
-        uploadCanvasText(dispatch, undefined, undefined, undefined, 12)
-        break
+        return uploadTextToCanvas(dispatch, undefined, undefined, undefined, 12)
     }
   }
   return (
@@ -41,53 +43,6 @@ const TextButtons = ({ firstImage }: props) => {
       </button>
       {alert !== null? <Alert severity='error'>{alert}</Alert> : <></>}
     </section>
-
-
-    // <form className='flex flex-col'>
-    //   <TextField
-    //     className='mx-4 mt-2 bg-gradient-to-r from-fuchsia-300 to-blue-300 font-bold '
-    //     label='Text'
-    //     variant='filled'
-    //     id='canvas text input'
-    //     type='text'
-    //     InputProps={{
-    //       startAdornment: (
-    //         <InputAdornment position="start">
-    //           <ShortTextIcon />
-    //         </InputAdornment>
-    //       )
-    //     }}
-    //   />
-    //   <TextField
-    //     className='mx-4 bg-gradient-to-r from-fuchsia-300 to-blue-300 font-bold '
-    //     type='number'
-    //     label='Font Size'
-    //     variant='filled'
-    //     defaultValue="12"
-    //     InputProps={{
-    //       startAdornment: (
-    //         <InputAdornment position="start">
-    //           <MdFormatSize />
-    //         </InputAdornment>
-    //       )
-    //     }}
-    //   />
-    //   <TextField
-    //     className='mx-4 bg-gradient-to-r from-fuchsia-300 to-blue-300 font-bold '
-    //     select
-    //     label='Font Family'
-    //     variant='filled'
-    //     defaultValue="Calibri"
-    //     InputProps={{
-    //       startAdornment: (
-    //         <InputAdornment position="start">
-    //           <MdFontDownload />
-    //         </InputAdornment>
-    //       )
-    //     }}
-    //   />
-    //   <Button text={'Insert Text'} handleOnClick={(e) => handleSubmit(e)} type='submit' />
-    // </form>
 
   )
 }
