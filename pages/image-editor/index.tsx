@@ -3,18 +3,21 @@ import React, { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { FaIcons } from 'react-icons/fa'
-import { BiText, BiCrop } from 'react-icons/bi'
+import { BiText, BiCrop, BiPalette } from 'react-icons/bi'
 import { IoColorFilterSharp } from 'react-icons/io5'
 MdOutlineDraw
-import { MdOutlineDraw } from 'react-icons/md'
+import { MdFormatShapes, MdOutlineDraw } from 'react-icons/md'
 import { SidebarIcon, UploadButtons, StickersButtons, TextButtons, CropButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore } from '../../components/ImageEditor/index'
 
-import { filter } from '../../constants/image-editor/filters'
+import { filter } from '../../constants/image-editor/imageFilters'
 import { ShowLess } from '../../components/ImageEditor/Sidebar'
 import dynamic from 'next/dynamic'
 import { useAppSelector } from '../../Redux/hooks'
-import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice'
+import { canvasElement, canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice'
+import { StylizeButtons } from '../../components/ImageEditor'
 
+import { CSSTransition, TransitionGroup } from "react-transition-group"
+import CSSTransitionComp from '../../components/ImageEditor/CSSTransitionComp'
 const Canvas = dynamic(
   () => import('../../components/ImageEditor/Canvas'),
   { ssr: false }
@@ -26,6 +29,7 @@ interface activeSidebarType {
   | 'upload'
   | 'Stickers'
   | 'Text'
+  | 'Stylize'
   | 'Crop'
   | 'Filters'
   | 'Draw'
@@ -34,7 +38,9 @@ interface activeSidebarType {
 const Index = () => {
 
   //canvas  related code
-  const [firstImage, setFirstImage] = useState(false);
+  const firstImage =  useAppSelector(canvasElemsCount).present.elements.find((element: canvasElement) => element.elementType === 'image')
+  
+  
   const canvasElems = useAppSelector(canvasElemsCount)
   type options = Array<filter>;
 
@@ -68,6 +74,12 @@ const Index = () => {
             Text='Text'
             showMore={showMore} />
 
+          <SidebarIcon Icon={<BiPalette className='w-[32px] h-[32px]' />}
+            setActiveSidebar={setActiveSidebar}
+            activeSidebar={activeSidebar}
+            Text='Stylize'
+            showMore={showMore} />
+
           <ShowMore
             showMore={showMore}
             setShowMore={setShowMore}
@@ -77,11 +89,6 @@ const Index = () => {
             setActiveSidebar={setActiveSidebar}
             activeSidebar={activeSidebar}
             Text='Crop'
-            showMore={showMore} />
-          <SidebarIcon Icon={<IoColorFilterSharp className='w-[32px] h-[32px]' />}
-            setActiveSidebar={setActiveSidebar}
-            activeSidebar={activeSidebar}
-            Text='Filters'
             showMore={showMore} />
           <SidebarIcon Icon={<MdOutlineDraw className='w-[32px] h-[32px]' />}
             setActiveSidebar={setActiveSidebar}
@@ -94,27 +101,72 @@ const Index = () => {
             setShowMore={setShowMore}
           />
         </section>
-        <div className={`h-[100vh] min-w-[300px] bg-gray-800 `}>
-          {activeSidebar === 'Upload' ? <UploadButtons
+        <TransitionGroup>
+          <div className={`h-[100vh]  `}>
+            {activeSidebar === 'Upload' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+              sidebarButtons={
+                <UploadButtons
+                  firstImage={firstImage}
+                  setActiveSidebar={setActiveSidebar}
+                />
+              } />
+              : ''}
+            {activeSidebar === 'Stickers' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+              
+              sidebarButtons={
+                <StickersButtons />
+              } /> : ''}
+            {activeSidebar === 'Text' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+               sidebarButtons={
+                <TextButtons
+                  firstImage={firstImage}
+                  setActiveSidebar={setActiveSidebar}
+                />
+              } /> : ''}
+            {activeSidebar === 'Stylize' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+               sidebarButtons={
+                <StylizeButtons />
+              } /> : ''}
+            {activeSidebar === 'Crop' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+               sidebarButtons={
+                <CropButtons />
+              } /> : ''}
+            {activeSidebar === 'Filters' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+               sidebarButtons={
+                <FiltersButtons />
+              } /> : ''}
+            {activeSidebar === 'Draw' ?
+              <CSSTransitionComp
+              activeSidebar={activeSidebar}
+               sidebarButtons={
+                <DrawButtons
+                firstImage={firstImage}
+                setActiveSidebar={setActiveSidebar}
+              />
+              } /> : ''}
+
+          </div>
+        </TransitionGroup>
+
+        {
+          firstImage && canvasElems.past.length > 0 ? <Canvas /> : <DropzoneComp
             firstImage={firstImage}
-            setFirstImage={setFirstImage}
-          /> : ''}
-          {activeSidebar === 'Stickers' ? <StickersButtons /> : ''}
-          {activeSidebar === 'Text' ? <TextButtons
-            firstImage={firstImage}
-          /> : ''}
-          {activeSidebar === 'Crop' ? <CropButtons /> : ''}
-          {activeSidebar === 'Filters' ? <FiltersButtons
-          /> : ''}
-          {activeSidebar === 'Draw' ? <DrawButtons
-          firstImage={firstImage}
-          /> : ''}
-        </div>
-        {firstImage && canvasElems.past.length > 0 ? <Canvas /> : <DropzoneComp
-          firstImage={firstImage}
-          setFirstImage={setFirstImage}
-        />}
-      </div>
+            setActiveSidebar={setActiveSidebar}
+          />
+        }
+      </div >
 
     </>
   )

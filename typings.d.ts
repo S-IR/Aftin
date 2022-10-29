@@ -43,4 +43,6 @@ export interface image_products {
     | 'Arts'
 }
 
-export type color = "black"| "white"| "gray"| "silver"| "maroon"| "red"| "purple"| "fushsia"| "green"| "lime"| "olive"| "yellow"| "navy"| "blue"| "teal"| "aqua"
+export type color = "black"| "white"| "gray"| "silver"| "maroon"| "red"| "purple"| "fuchsia"| "green"| "lime"| "olive"| "yellow"| "navy"| "blue"| "teal"| "aqua"
+
+export type HTMLHexColor = `#${string}`

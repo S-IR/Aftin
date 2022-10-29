@@ -1,4 +1,4 @@
-import React, { ChangeEvent, DragEventHandler, useCallback, useEffect } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, DragEventHandler, useCallback, useEffect } from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useDropzone } from 'react-dropzone';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
@@ -8,18 +8,22 @@ import { uploadImageToCanvas } from '../../model/image-editor/Upload';
 
 interface props{
   firstImage:boolean
-  setFirstImage: React.Dispatch<React.SetStateAction<boolean>>
+  setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DropzoneComp = ({firstImage, setFirstImage}:props) => {
+const DropzoneComp = ({firstImage, setActiveSidebar}:props) => {
   const dispatch = useAppDispatch();
+  const elementsLength = useAppSelector(canvasElemsCount).present.elements.length
+
 
   const onDrop:DragEventHandler<HTMLDivElement> = useCallback((acceptedFiles:FileList | null) => {
-    uploadImageToCanvas(acceptedFiles, firstImage, setFirstImage, dispatch)
+    uploadImageToCanvas(acceptedFiles, elementsLength, dispatch)
+    setActiveSidebar('Stylize')
   }, [])
   const onChange:ChangeEventHandler<HTMLInputElement> = useCallback((e:ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    uploadImageToCanvas(e.target.files, firstImage, setFirstImage, dispatch)
+    uploadImageToCanvas(e.target.files, elementsLength, dispatch)
+    setActiveSidebar('Stylize')
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})

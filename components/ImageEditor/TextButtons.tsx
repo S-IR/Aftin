@@ -7,12 +7,14 @@ import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { Alert } from '@mui/material';
 import { uploadTextToCanvas } from '../../model/image-editor/Upload';
 interface props {
+  setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TextButtons = ({  }: props) => {
+const TextButtons = ({ setActiveSidebar }: props) => {
   const [alert, setAlert] = useState<null | string>(null)
   const dispatch = useAppDispatch()
-  const isTheCanvasEmpty = useAppSelector(canvasElemsCount).present.length === 0
+  const isTheCanvasEmpty = useAppSelector(canvasElemsCount).present.elements.length === 0
+  
   useEffect(() => {
     setAlert(null)
   }, [useAppSelector(canvasElemsCount).present.length])
@@ -26,15 +28,18 @@ const TextButtons = ({  }: props) => {
     setAlert(null)
     switch (e.target.id) {
       case 'big-text-button':
-        return uploadTextToCanvas(dispatch, undefined, undefined, undefined, 32)
+        uploadTextToCanvas(dispatch, {fontSize: 32})
+        return setActiveSidebar('Stylize')
       case 'medium-text-button':
-        uploadTextToCanvas(dispatch, undefined, undefined, undefined,16)
+        uploadTextToCanvas(dispatch, {fontSize: 16})
+        return setActiveSidebar('Stylize')
       case 'small-text-button':
-        return uploadTextToCanvas(dispatch, undefined, undefined, undefined, 12)
+         uploadTextToCanvas(dispatch, {fontSize: 12})
+        return setActiveSidebar('Stylize')
     }
   }
   return (
-    <section className='flex flex-col items-center'>
+    <section className='flex flex-col items-center h-[100vh] w-64 bg-gradient-to-br from-red-900/80 via-black/80 to-red-900/80'>
       <button id='big-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-lg">Add a Heading!
       </button>
       <button id='medium-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-md">Add a medium-sized text

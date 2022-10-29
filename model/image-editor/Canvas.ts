@@ -1,6 +1,6 @@
 import { Stage } from "konva/lib/Stage"
 import { KonvaNodeComponent, StageProps } from "react-konva"
-import { DEFAULT_OPTIONS, filter } from "../../constants/image-editor/filters"
+import { DEFAULT_OPTIONS, filter } from "../../constants/image-editor/imageFilters"
 
 export const canvasFilters = (filters: filter[]) => {
   const filtersString = filters.map((filter) => {

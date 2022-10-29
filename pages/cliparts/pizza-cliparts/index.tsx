@@ -10,8 +10,6 @@ function index() {
 
   let pizza_cliparts_ARRAY:Array<String> = [];
 
-  
-  
   return (
     <>
     <Head>

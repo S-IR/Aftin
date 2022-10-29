@@ -1,19 +1,25 @@
+import { RGB } from 'konva/lib/filters/RGB'
 import React, { useRef } from 'react'
 import { Text as KonvaText, Transformer } from 'react-konva'
+import { textFilter } from '../../../features/canvas-elements/filtersSlice'
 import { textData } from '../../../features/canvas-elements/textHandlingReducer'
 import { handleMovePosition, handleSelect } from '../../../model/image-editor/CanvasElements'
 import { useAppDispatch } from '../../../Redux/hooks'
+import TransformerComp from './TransformerComp'
 
 interface props {
   data: textData
   id: number
-  isSelected: boolean
+  selectedElement: number | null
+  textFilter : textFilter
 }
 
-const CanvasText = ({ data, id, isSelected }: props) => {
+const CanvasText = ({ data, id, selectedElement, textFilter }: props) => {
   // properties related to the HTML element
-  const textRef = useRef<React.LegacyRef<Text> | undefined>()
 
+  const textRef = useRef<React.LegacyRef<Text> | undefined>()
+  
+  const isSelected = selectedElement === id
   const dispatch = useAppDispatch()
 
   return (
@@ -21,6 +27,7 @@ const CanvasText = ({ data, id, isSelected }: props) => {
       <KonvaText
         onClick={() => handleSelect(id, dispatch)}
         onTap={() => handleSelect(id, dispatch)}
+        fill={textFilter.filter.fill}
         ref={textRef}
         x={data.x}
         y={data.y}
@@ -30,15 +37,17 @@ const CanvasText = ({ data, id, isSelected }: props) => {
         fontVariant={data.fontVariant}
         align={data.align}
         verticalAlign={data.verticalAlign}
-        stroke={data.stroke}
-        textDecoration={isSelected? 'underline' : ''}
-        strokeWidth={data.strokeWidth}
-        fillPatternImage={data.fillPatternImage} //stupid TS not seeing that NULL IS UNDEFINED
+        stroke={textFilter.filter.stroke}
+        textDecoration={isSelected ? 'underline' : ''}
+        strokeWidth={Number(data.strokeWidth)}
         rotation={data.rotation}
-
         draggable
         onDragEnd={(e) => handleMovePosition(e, id, dispatch)}
       />
+      {isSelected && (
+        <TransformerComp isSelected={isSelected} elementRef={textRef}
+        />
+      )}
     </>
 
   )

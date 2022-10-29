@@ -10,6 +10,8 @@ export { default as DropzoneComp } from './DropzoneComp';
 //Sidebar
 export { default as SidebarIcon } from './Sidebar/SidebarIcon';
 export { default as ShowMore } from './Sidebar/ShowMore';
+export { default as StylizeButtons } from './StylizeButtons';
+
 
 
 

@@ -7,13 +7,8 @@ export interface imageData {
   height: number
   scaleX: number
   scaleY: number
-  filters: {
-    brightness: number
-    contrast: number
-    blur: number
-    borderWidth: number
-    borderColor: string
-  }
+  borderWidth: number
+  borderColor: string
   x: number
   y: number
   rotate: number
@@ -21,9 +16,6 @@ export interface imageData {
 
 export const addImage: CaseReducer<WritableDraft<canvasState>, PayloadAction<imageData>> = (state, action) => {
   const data: imageData = action.payload
-  if (!state) return
-  state=  state.map((element:canvasElement, index: number) =>{
-    return {...element, selected: false}
-  })
-  return [...state, { elementType: 'image', selected: true, data: data }]
+  state.elements.push({ elementType: 'image', data: data })
+  state.selected = state.elements.length - 1
 }

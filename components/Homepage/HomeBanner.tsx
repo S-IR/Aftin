@@ -5,7 +5,7 @@ import homeImageInPhone from '../../public/frontend-used-images/homeImageInPhone
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import styles from '../../styles/Home.module.css'
 
-import {filtersCount } from '../../features/image-editor/filtersSlice' 
+import {filtersCount } from '../../features/canvas-elements/filtersSlice' 
 
 
 function HomeBanner() {
