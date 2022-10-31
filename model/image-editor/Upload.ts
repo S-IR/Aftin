@@ -31,6 +31,13 @@ export const uploadImageToCanvas = (
       x: 0,
       y: 0,
       rotate: 0,
+      crop: false,
+      cropRectangle: {
+        x :undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
+      }
     }))
     const { ADD_IMAGE_FILTER } = filtersActions
     // the elements length will be +1 from the last element's index. That means that if we add a new element, the index of that element will be the previous length of the array, so we don't need to add +1 to elementsLength

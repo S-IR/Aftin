@@ -8,7 +8,7 @@ export const handleResetFilters = (
 ) => {
   const {RESET_IMAGE_FILTER} = filtersActions
   dispatch(RESET_IMAGE_FILTER({
-    id: id
+    id
   }))
 }
 export const handleRemovePattern = (
@@ -17,6 +17,15 @@ export const handleRemovePattern = (
 ) => {
   const {REMOVE_SHAPE_PATTERN_IMAGE} = canvasElemsActions
   dispatch(REMOVE_SHAPE_PATTERN_IMAGE({
-    id: id
+    id
+  }))
+}
+export const handleCrop = (
+  id: number,
+  dispatch: AppDispatch
+) => {
+  const {SET_CROP} = canvasElemsActions
+  dispatch(SET_CROP({
+    id
   }))
 }

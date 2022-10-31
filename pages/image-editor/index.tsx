@@ -7,7 +7,7 @@ import { BiText, BiCrop, BiPalette } from 'react-icons/bi'
 import { IoColorFilterSharp } from 'react-icons/io5'
 MdOutlineDraw
 import { MdFormatShapes, MdOutlineDraw } from 'react-icons/md'
-import { SidebarIcon, UploadButtons, StickersButtons, TextButtons, CropButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore } from '../../components/ImageEditor/index'
+import { SidebarIcon, UploadButtons, StickersButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore } from '../../components/ImageEditor/index'
 
 import { filter } from '../../constants/image-editor/imageFilters'
 import { ShowLess } from '../../components/ImageEditor/Sidebar'

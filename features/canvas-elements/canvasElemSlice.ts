@@ -1,7 +1,7 @@
 import { Action, CaseReducer, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit"
 import undoable from "redux-undo"
 import { RootState } from "../../Redux/store"
-import { addImage, imageData } from "./imageHandlingReducer"
+import { addImage, imageData, SET_CROP, SET_CROP_RECTANGLE_DATA } from "./imageHandlingReducer"
 import { addText, textData, CHANGE_FONT_FAMILY, CHANGE_FONT_SIZE, CHANGE_FONT_VARIANT, CHANGE_TEXT } from "./textHandlingReducer"
 import { addShape, shapeData, ADD_SHAPE_PATTERN_IMAGE, REMOVE_SHAPE_PATTERN_IMAGE, } from "./shapeHandlingReducer"
 
@@ -86,6 +86,8 @@ export const canvasElemSlice = createSlice({
     CHANGE_STROKE_WIDTH,
 
     addImage,
+    SET_CROP,
+    SET_CROP_RECTANGLE_DATA,
     
     addShape,
     REMOVE_SHAPE_PATTERN_IMAGE,

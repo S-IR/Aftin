@@ -32,3 +32,22 @@ export const changeStrokeWidth = (strokeWidth: number, id: number, dispatch: App
     strokeWidth: strokeWidth
   }))
 }
+export const handleCrop = (
+  id: number, 
+  dispatch: AppDispatch, 
+  x: number, 
+  y: number, 
+  width: number, 
+  height: number) => {
+  const {SET_CROP, SET_CROP_RECTANGLE_DATA } = canvasElemsActions
+  dispatch(SET_CROP_RECTANGLE_DATA({
+    id,
+    x,
+    y,
+    width,
+    height
+  }))
+  dispatch(SET_CROP({
+    id
+  }))
+  }

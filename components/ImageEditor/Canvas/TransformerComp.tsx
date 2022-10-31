@@ -23,7 +23,7 @@ const TransformerComp = ({isSelected, elementRef}: props) => {
   }, [isSelected])
 
   return (
-    <Transformer
+  <Transformer
     ref={trRef}
     boundBoxFunc={(oldBox, newBox) => {
       

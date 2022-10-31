@@ -9,6 +9,7 @@ import { filtersCount, imageFilter } from '../../../features/canvas-elements/fil
 import { handleMovePosition, handleScaling, handleSelect } from '../../../model/image-editor/CanvasElements'
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks'
 import TransformerComp from './TransformerComp'
+import CropComponent from './CropComponent'
 
 interface props {
   data: imageData
@@ -37,10 +38,14 @@ const CanvasImage = ({ data, id, selectedElement, imageFilter }: props) => {
   useEffect(() => {
     if (image && imageRef.current) {
       image.src = data.imageSRC
-
       imageRef.current.cache();
     }
   }, [image])
+
+  useEffect(() => {
+  
+  }, [imageRef.current])
+  
   return (
     <>
       <KonvaImage
@@ -64,10 +69,14 @@ const CanvasImage = ({ data, id, selectedElement, imageFilter }: props) => {
         onTransformEnd={(e) => {
           handleScaling(imageRef, id, dispatch)
         }}
+        crop={!data.crop? data.cropRectangle : {x: undefined, y: undefined, width: undefined, height: undefined}}
       />
-      {isSelected && (
+      {isSelected && !data.crop && (
         <TransformerComp isSelected={isSelected} elementRef={imageRef}
         />
+      )}
+      {data.crop && (
+        <CropComponent data={data} elementRef={imageRef} />
       )}
     </>
   )

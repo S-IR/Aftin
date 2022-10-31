@@ -1,4 +1,3 @@
-export { default as CropButtons } from './CropButtons';
 export { default as DrawButtons } from './DrawButtons';
 export { default as FiltersButtons } from './FiltersButtons';
 export { default as StickersButtons } from './StickersButtons';

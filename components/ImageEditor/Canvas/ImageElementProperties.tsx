@@ -10,7 +10,7 @@ import { AppDispatch } from '../../../Redux/store'
 import Button from '../../Button'
 import SelectComp from '../../SelectComp'
 import Filter from '../Filter'
-import { handleResetFilters } from '../../../model/image-editor/EditCanvasImage'
+import { handleCrop, handleResetFilters } from '../../../model/image-editor/EditCanvasImage'
 
 interface props {
   imageData: imageData
@@ -27,7 +27,14 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
   const contrast = imageFilter?.filter.contrast
   const blur = imageFilter?.filter.blur
 
+  if(imageData.crop){
+    return(
+      <button className='mt-10 my-2 font-serif justify-center bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group' onClick={() => handleCrop(id, dispatch)}>
+        Save Crop
+      </button>
 
+    )
+  }
 
   return (
     <>
@@ -39,14 +46,15 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
       <div className='flex items-center w-full justify-center'>
         <Button className='m-5' text='Reset Filters' handleOnClick={() => handleResetFilters(id, dispatch)} />
       </div>
-      <button className='my-2 font-serif justify-center  bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group'>
-        <MdTune className='w-8 h-8 group-hover:-translate-x-1 transition-all duration-300' />
-        Filters
-      </button>
-      <button className='my-2 font-serif justify-center bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group'>
+
+
+      {/* Crop button */}
+      <button className='my-2 font-serif justify-center bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group' onClick={() => handleCrop(id, dispatch)}>
         <BiCrop className='w-8 h-8 group-hover:-translate-x-1 transition-all duration-300' />
         Crop
       </button>
+
+
       <button className='bg-blue-500 bg-opacity-70 rounded-full h-10 m-1 flex align-middle hover:bg-blue-900 transition-all duration-300 w-full justify-center hover:text-lg items-center '>
         <div className='flex align-middle items-center font-bold justify-center'>
           <MdFindReplace className='w-5 h-5 m-2' />
@@ -59,7 +67,10 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
         <MdRotateRight className='w-5 h-5 m-2' />
         <p>{imageData.rotate}</p>
       </div>
+      <div className=' flex justify-center'>
       <Button className='m-5' text='Delete Component' handleOnClick={(e) => handleDelete(id, dispatch)} />
+      </div>
+
 
     </>
   )
