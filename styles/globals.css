@@ -21,7 +21,9 @@
 @tailwind components;
 @tailwind utilities;
 
-  
+  .bg-general-gradient{
+    @apply bg-gradient-to-r from-fuchsia-800 to-gray-700
+  }
   .general-buttons{
     @apply
     md:w-32 text-white font-medium rounded-lg text-sm text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-4 md:px-2 md:h-10 p-2 
@@ -82,7 +84,6 @@
   .input {
     @apply w-full rounded bg-fuchsia-800 px-5 py-3.5 placeholder-gray-200 outline-none focus:bg-[#494545] transition-all duration-300
      ;
-    
   }
 
   .signIn{
@@ -97,6 +98,8 @@
     animation-delay:4s;
   }
 }
+
+/* React Transition Group properties */
 
 .transitionSlide-enter{
   opacity: 0;
@@ -117,8 +120,32 @@
 .transitionSlide-exit.transitionSlide-exit-active{
   opacity: 0;
   transform: scale(0.97) translateY(5px);
-  transition: opacity 150ms linear, transform 150ms ease-out
+  transition: opacity scale 150ms linear, transform 150ms
 }
 .transitionSlide-exit-done{
   opacity: 0;
+}
+/* Navbar dropdown effets */
+.navbarDropdown-enter{
+  opacity: 0;
+  max-height: 0px ;
+
+}
+.navbarDropdown-enter.navbarDropdown-enter-active{
+  opacity: 1;
+  transform: scale(1);
+  max-height: 500px;
+  transition: all 300ms ;
+}
+.navbarDropdown-exit{
+  opacity: 1;
+  max-height: 500px;
+  transform: scale(1) ;
+
+}
+.navbarDropdown-exit-done{
+  opacity: 0;
+  max-height: 0;
+  transform: scale(0.7) ;
+  transition: all 300ms ;
 }

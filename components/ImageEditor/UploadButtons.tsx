@@ -4,12 +4,16 @@ import { uploadImageToCanvas } from '../../model/image-editor/Upload'
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks'
 
 interface props{
-  firstImage:boolean
+
+
+
+
+
   setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
 }
 
 
-const UploadButtons = ({firstImage, setActiveSidebar}:props) => {
+const UploadButtons = ({ setActiveSidebar}:props) => {
   const elementsLength = useAppSelector(canvasElemsCount).present.elements.length
   const handleUpload =  (e: React.ChangeEvent<HTMLInputElement>) =>{
     uploadImageToCanvas(e.target.files, elementsLength, dispatch)

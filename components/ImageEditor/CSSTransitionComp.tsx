@@ -10,7 +10,7 @@ interface props {
 const CSSTransitionComp = ({activeSidebar, sidebarButtons }: props) => {
   return (
     <CSSTransition
-      in={true}
+      in={activeSidebar}
       appear={true}
       timeout={500}
       classNames="transitionSlide"

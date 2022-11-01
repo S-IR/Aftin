@@ -12,7 +12,6 @@ function index() {
         <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
         <title>Cliparts</title>
       </Head>
-      <Navbar />
       <main className='pt-[95px]'>
         <h1 className='text-white text-center font-serif font-bold text-4xl md:text-6xl'>Which type of clipart would you like?</h1>
         <div className='grid grid-cols-4 gap-1 w-auto items-center pb-[160px]'>

@@ -3,11 +3,9 @@ import React, { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { FaIcons } from 'react-icons/fa'
-import { BiText, BiCrop, BiPalette } from 'react-icons/bi'
-import { IoColorFilterSharp } from 'react-icons/io5'
-MdOutlineDraw
+import { BiText, BiPalette } from 'react-icons/bi'
 import { MdFormatShapes, MdOutlineDraw } from 'react-icons/md'
-import { SidebarIcon, UploadButtons, StickersButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore } from '../../components/ImageEditor/index'
+import { SidebarIcon, UploadButtons, StickersButtons, DrawButtons, FiltersButtons, DropzoneComp, ShowMore, TextButtons } from '../../components/ImageEditor/index'
 
 import { filter } from '../../constants/image-editor/imageFilters'
 import { ShowLess } from '../../components/ImageEditor/Sidebar'
@@ -30,7 +28,6 @@ interface activeSidebarType {
   | 'Stickers'
   | 'Text'
   | 'Stylize'
-  | 'Crop'
   | 'Filters'
   | 'Draw'
 }
@@ -56,7 +53,6 @@ const Index = () => {
       <Head>
         <title>Food Image Editor</title>
       </Head>
-      <Navbar />
       <div className='flex w-full '>
         <section className='h-[100vh] bg-gradient-to-br from-[#4952bd] via-purple-900 to-[#4952bd]  w-[75px] items-center flex flex-col'>
           <SidebarIcon Icon={<AiOutlineCloudUpload className='w-[32px] h-[32px]' />} setActiveSidebar={setActiveSidebar}
@@ -85,11 +81,6 @@ const Index = () => {
             setShowMore={setShowMore}
           />
 
-          <SidebarIcon Icon={<BiCrop className='w-[32px] h-[32px]' />}
-            setActiveSidebar={setActiveSidebar}
-            activeSidebar={activeSidebar}
-            Text='Crop'
-            showMore={showMore} />
           <SidebarIcon Icon={<MdOutlineDraw className='w-[32px] h-[32px]' />}
             setActiveSidebar={setActiveSidebar}
             activeSidebar={activeSidebar}
@@ -108,7 +99,6 @@ const Index = () => {
               activeSidebar={activeSidebar}
               sidebarButtons={
                 <UploadButtons
-                  firstImage={firstImage}
                   setActiveSidebar={setActiveSidebar}
                 />
               } />
@@ -125,7 +115,6 @@ const Index = () => {
               activeSidebar={activeSidebar}
                sidebarButtons={
                 <TextButtons
-                  firstImage={firstImage}
                   setActiveSidebar={setActiveSidebar}
                 />
               } /> : ''}
@@ -135,12 +124,7 @@ const Index = () => {
                sidebarButtons={
                 <StylizeButtons />
               } /> : ''}
-            {activeSidebar === 'Crop' ?
-              <CSSTransitionComp
-              activeSidebar={activeSidebar}
-               sidebarButtons={
-                <CropButtons />
-              } /> : ''}
+
             {activeSidebar === 'Filters' ?
               <CSSTransitionComp
               activeSidebar={activeSidebar}
@@ -152,7 +136,6 @@ const Index = () => {
               activeSidebar={activeSidebar}
                sidebarButtons={
                 <DrawButtons
-                firstImage={firstImage}
                 setActiveSidebar={setActiveSidebar}
               />
               } /> : ''}

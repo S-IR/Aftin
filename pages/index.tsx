@@ -12,10 +12,8 @@ const Home: NextPage = () => {
   return (
     <>
     <Head>
-      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
       <title>Aftin</title>
     </Head>
-    <Navbar />
       <main className='website-theme-image'>
         <HomeBanner />
         <HomeIntro />

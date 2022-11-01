@@ -7,7 +7,13 @@ import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
 }
-const DrawButtons = ({ setActiveSidebar }: props) => {
+const 
+
+
+
+
+
+DrawButtons = ({ setActiveSidebar }: props) => {
   const isTheCanvasEmpty = useAppSelector(canvasElemsCount).present.elements.length === 0
 
   const [alert, setAlert] = useState<null | string>(null)

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import { useInView } from 'react-intersection-observer';
 import { StudiesList } from '../../constants/StudiesList';
@@ -13,7 +14,9 @@ function StudiesBox() {
       <figure className='grid font-serif  '>
         <div className='grid ml-3 md:ml-96  w-[400px] font-serif text-md md:text-xl space-y-4 md:space-y-6 border-l-2 border-gray-600 border-solid px-2  '>
           {StudiesList.map((study) =>(
-            <a key={study.href} className='links-general text-' href={study.href} >{study.text}</a>
+           <Link key={study.text} href={study.href}>
+           <a  className='links-general text-'  >{study.text}</a>
+           </Link> 
           ))}
         </div>
       </figure>

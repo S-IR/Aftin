@@ -16,7 +16,6 @@ function index() {
       <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
       <title>Pizza Cliparts</title>
     </Head>
-    <Navbar/>
     <main className='pt-[75px]'>
       <SiteGallery queryCollection="pizza cliparts"/>
     </main>
