@@ -6,7 +6,7 @@ const HomePricingComponent = () => {
       <>
       <div className='flex justify-center text-center space-y-4 '>
       <h2 className=' text-2xl md:text-6xl shadow-lg font-serif drop-shadow-xl'>
-          Portray your unique style to your audience <br></br> Either :
+          Make people talk about your food <br></br> Either :
       </h2>
       </div>
 
@@ -23,8 +23,8 @@ const HomePricingComponent = () => {
       </h2>
       </div>
 
-    <div className=' flex py-6 justify-center items-center'>
-      <button className={`${styles.homePricing} hover:bg-slate-700`} >
+    <div className=' flex flex-col md:flex-row py-6 justify-center items-center mt-20 md:mt-0 align-top w-auto h-auto'>
+      <button className={`${styles.homePricing}`} >
         <h2 className='font-bold text-lg py-2 text-red-600 '>
           Aftin Exquisite
         </h2>
@@ -33,7 +33,7 @@ const HomePricingComponent = () => {
         </p>
       </button>
 
-      <button className={`${styles.homePricing} hover:bg-slate-700`} >
+      <button className={`${styles.homePricing}`} >
         <h2 className='font-bold text-lg py-2 text-red-600 '>
           Aftin Premium
         </h2>
@@ -43,12 +43,12 @@ const HomePricingComponent = () => {
         </p>
       </button>
 
-      <button className={`${styles.homePricing} hover:bg-slate-700`} >
+      <button className={`${styles.homePricing} `} >
         <h2 className='font-bold text-lg py-2 text-red-600 '>
           Aftin Lite
         </h2>
         <p>
-          For individuals who need to get 
+          For individuals who need to get <br></br>
           appealing food images quick.
         </p>
       </button>

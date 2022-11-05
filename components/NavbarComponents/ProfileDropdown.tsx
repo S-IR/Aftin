@@ -13,17 +13,17 @@ function ProfileDropdown() {
 
         <div className='grid-rows-2 space-y-5'>
           <ProfileDropdownRow
-            Icon={<UserIcon width={16} height={16} />}
+            Icon={<UserIcon width={16} height={16} className="group-hover:w-[20px] h-[20" />}
             text={'Profile'}
             href={'/profile'}
           />
           <ProfileDropdownRow
-            Icon={<LogoutIcon width={16} height={16} />}
+            Icon={<LogoutIcon width={16} height={16} className="group-hover:w-[20px] h-[20" />}
             text={'Logout'}
             href={''}
           />
           <ProfileDropdownRow
-            Icon={<InformationCircleIcon onClick={logout} width={16} height={16} />}
+            Icon={<InformationCircleIcon onClick={logout} width={16} height={16} className="group-hover:w-[20px] h-[20" />}
             text={'About Us'}
             href={'/about-us'}
           />

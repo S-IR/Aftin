@@ -16,29 +16,68 @@ function Navbar() {
   const [activeSidebar, setActiveSidebar] = useState<null | 'ProfileDropdown' | 'ProductsDropdown' | 'ImagesDropdown' | 'GrDesignsDropdown'>(null)
   const [menuHeight, setMenuHeight] = useState<number | null>(null)
 
+  console.log(activeSidebar);
+
+
   function calcHeight(el: HTMLDivElement) {
     const height = el.offsetHeight
     setMenuHeight(height)
+  }
+  function NavbarHoverSwitch(target: typeof activeSidebar) {
+    switch (target) {
+      case ('ImagesDropdown'):
+        return (
+          <CSSTransition
+            in={activeSidebar === 'ImagesDropdown'}
+            unmountOnExit
+            timeout={500}
+            classNames={`navbarDropdown`}
+          >
+            <ImagesDropdown setActiveSidebar={setActiveSidebar} />
+          </CSSTransition>
+        )
+      case ('ProductsDropdown'):
+        return (
+          <CSSTransition
+            in={activeSidebar === 'ProductsDropdown'}
+            unmountOnExit
+            timeout={500}
+            classNames={`navbarDropdown`}
+          >
+            <ProductsDropdown setActiveSidebar={setActiveSidebar} />
+          </CSSTransition>
+        )
+      case ('GrDesignsDropdown'):
+        return (
+          <CSSTransition
+            in={activeSidebar === 'GrDesignsDropdown'}
+            unmountOnExit
+            timeout={500}
+            classNames={`navbarDropdown`}
+          >
+            <GrDesignsDropdown setActiveSidebar={setActiveSidebar} />
+          </CSSTransition>
+        )
+    }
   }
 
   const router = useRouter()
 
   return (
     <>
-      <nav className="w-full sticky top-0 z-[120] rounded-full ">
-        <div className={`h-[55px] flex items-center w-full navbar bg-gradient-to-r from-gray-900 via-fuchsia-900/30  to-gray-900 z-50 `}>
-          <ul className=" md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
+      <nav className="w-full sticky top-0 z-[120] rounded-full h-[50px]"      >
+        <div className={` flex items-center h-[50px] w-full navbar bg-gradient-to-r from-gray-900 via-fuchsia-900/30  to-gray-900 z-50 `}>
+          <ul className="h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
             {navLinks.map((nav) => (
               <li
                 key={nav.id}
-                className="flex flex-1 items-center space-x-1"
-              >
-                <button
-                  onClick={() =>
-                    activeSidebar === nav.DropdownState ?
-                      setActiveSidebar(null) : setActiveSidebar(nav.DropdownState)}
-                >{nav.title}</button>
-                <svg className="w-4 h-4 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>
+                className="flex flex-1 items-center space-x-1 h-[50px]"
+                onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
+                onMouseLeave={() => setActiveSidebar(null)}
+                ><>
+                    {nav.title}
+                    {NavbarHoverSwitch(nav.DropdownState)}
+                  </>
               </li>
             ))}
           </ul>
@@ -62,43 +101,6 @@ function Navbar() {
             >
               {<UserCircleIcon className=" w-8 h-8 cursor-pointer hover:bg-gray-500 bg-opacity-30 hover:rounded-full transition-all duration-300" />}
             </button>
-
-            {/* Dropdowns */}
-            <CSSTransition
-              in={activeSidebar === 'ProfileDropdown'}
-              unmountOnExit
-              timeout={200}
-              classNames={`navbarDropdown`}
-            >
-              <ProfileDropdown />
-            </CSSTransition>
-            <CSSTransition
-              in={activeSidebar === 'ProductsDropdown'}
-              unmountOnExit
-              timeout={200}
-              classNames={`navbarDropdown`}
-            >
-              <ProductsDropdown />
-            </CSSTransition>
-
-            <CSSTransition
-              in={activeSidebar === 'ImagesDropdown'}
-              unmountOnExit
-              timeout={200}
-              classNames={`navbarDropdown`}
-            >
-              <ImagesDropdown />
-            </CSSTransition>
-
-            <CSSTransition
-              in={activeSidebar === 'GrDesignsDropdown'}
-              unmountOnExit
-              timeout={200}
-              classNames={`navbarDropdown`}
-            >
-              <GrDesignsDropdown />
-            </CSSTransition>
-
           </div>
 
         </div>

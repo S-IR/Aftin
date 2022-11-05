@@ -21,7 +21,6 @@ const Home: NextPage = () => {
         <CreateWithUs/>
         <HomePricingComponent />
         <LinksToCategories/>
-        <Footer/>
       </main>
     </>
   )

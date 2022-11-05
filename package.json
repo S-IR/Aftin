@@ -38,6 +38,7 @@
     "react-konva": "^18.2.3",
     "react-redux": "^8.0.4",
     "react-social-icons": "^5.14.0",
+    "react-spring": "^9.5.5",
     "react-transition-group": "^4.4.5",
     "redux-undo": "^1.0.1",
     "yup": "^0.32.11"

@@ -1,5 +1,5 @@
 .CreateWithUsText{
-  @apply text-white text-base md:text-sm break-before-page mx-10 w-80 md:w-full
+  @apply text-white text-base md:text-sm break-before-page mx-10 w-48 m-0
 }
 
 .CreateWithUsNOTVisible{
@@ -16,7 +16,7 @@
 }
 
 .homePricing{
-  @apply mx-6 w-72 h-48 shadow-xl rounded-xl bg-gradient-to-r from-fuchsia-800 to-gray-700 text-white flex-col justify-center text-center hover:text-gray-500 transition-all duration-300 
+  @apply mx-6 hover:bg-slate-700 w-[250px] m-1  md:w-[300px]  h-[400px] flex items-center shadow-xl rounded-xl bg-gradient-to-r from-fuchsia-800 to-gray-700 text-white flex-col justify-center text-center hover:text-gray-500 transition-all duration-300 
 }
 .homeBannerBG{
   background-image: url('/frontend-used-images/homeBannerBackground.png');

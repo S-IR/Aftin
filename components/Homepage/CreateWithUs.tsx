@@ -58,7 +58,7 @@ function CreateWithUs() {
           <div ref={PhotoSection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[17.5rem] left-[6.5rem] ${PhotoSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
             <PhotographIcon className='w-48 h-48' />
           </div>
-          <div className={`absolute top-[30.5rem] md:top-[19.5rem]   md:left-[36.5rem] ${styles.CreateWithUsNOTVisible} ${PhotoSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+          <div className={` absolute top-[30.5rem] md:top-[19.5rem] right-[2.5rem]  md:right-[4.5rem]  ${styles.CreateWithUsNOTVisible} ${PhotoSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
             <p className={styles.CreateWithUsText}>
               Access our full library of stock photos<br></br>
               to display high resolution images that fit your needs. </p>
@@ -66,10 +66,10 @@ function CreateWithUs() {
         </div>
 
         {/* Artistic image section */}
-        <div ref={ArtisticSection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[42.5rem]  md:top-[50.5rem] right-[9rem] md:right-[4.5rem] ${ArtisticSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+        <div ref={ArtisticSection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[42.5rem] right-[5.5rem]  md:top-[50.5rem]  md:right-[4.5rem] ${ArtisticSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <CakeIcon className='w-48 h-48' />
         </div>
-        <div className={`absolute top-[56.5rem] md:top-[52.5rem]  md:left-[16.5rem] ${styles.CreateWithUsNOTVisible} ${ArtisticSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+        <div className={` absolute top-[56.5rem] md:top-[56.5rem] left-[3.5rem] md:left-[2.5rem] ${styles.CreateWithUsNOTVisible} ${ArtisticSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <p className={styles.CreateWithUsText}>
             Catch the eyes of your customers with our <br></br>
             artistically made banners, menus and general artworks.
@@ -81,7 +81,7 @@ function CreateWithUs() {
         <div ref={EditingSection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[74.5rem] left-[6.5rem] ${EditingSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <PencilIcon className='w-48 h-48' />
         </div>
-        <div className={`absolute top-[88.5rem] md:top-[76.5rem] right-[4.5rem] ${styles.CreateWithUsNOTVisible} ${EditingSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+        <div className={`absolute top-[88.5rem] md:top-[76.5rem] right-[3.5rem]  md:right-[4.5rem] ${styles.CreateWithUsNOTVisible} ${EditingSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <p className={styles.CreateWithUsText}>
             Utilize our built-in image editor to <br></br>
             enhance and perfect your images effortlessly. <br></br>
@@ -90,24 +90,22 @@ function CreateWithUs() {
         </div>
 
 
-        {/* Hire someone section */}
+        {/* Hire someone section  While we do not have the feature it is about smartmockups */}
         <div ref={HiringSection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[105.5rem] right-[4.5rem] ${HiringSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <DeviceMobileIcon className='w-48 h-48' />
         </div>
-        <div className={`absolute top-[107.5rem] left-[16.5rem] ${styles.CreateWithUsNOTVisible} ${HiringSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+        <div className={` absolute top-[120.5rem] md:top-[107.5rem] md:left-[16.5rem] left-[4rem] ${styles.CreateWithUsNOTVisible} ${HiringSectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <p className={styles.CreateWithUsText}>
             Preview your images in your desired environment using our <br></br>
             Smartmockup system to ensure that you are getting what you need
           </p>
         </div>
 
-
-
         {/* AI section */}
         <div ref={AISection} className={`${styles.CreateWithUsNOTVisible}  absolute top-[140.5rem] left-[6.5rem] ${AISectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <VariableIcon className='w-48 h-48' />
         </div>
-        <div className={`absolute top-[142.5rem] right-[16.5rem] ${styles.CreateWithUsNOTVisible} ${AISectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
+        <div className={` absolute top-[157.5rem] md:top-[145.5rem] right-[.5rem] md:right-[16.5rem] ${styles.CreateWithUsNOTVisible} ${AISectionVisible ? `${styles.CreateWithUsVisible}` : ''}`}>
           <p className={styles.CreateWithUsText}>
             Produce, scale and quality check images using our AI-built API's.
           </p>
