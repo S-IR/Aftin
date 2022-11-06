@@ -132,12 +132,12 @@
 
 .navbarDropdown-enter.navbarDropdown-enter-active{
   max-height: 80vw;
-  transition: all  500ms ;
+  transition: all  700ms ;
 }
 .navbarDropdown-exit{
   max-height: 80vh;
 }
 .navbarDropdown-exit.navbarDropdown-exit-active{
   max-height: 0;
-  transition: all 500ms ;
+  transition: all 700ms ;
 }

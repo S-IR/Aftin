@@ -1,6 +1,6 @@
 import cookie from "cookie";
 
-export default (req, res) => {
+export default (_req: any, res: { setHeader: (arg0: string, arg1: string) => void; json: (arg0: { success: boolean; }) => any; }) => {
   
   res.setHeader(
     "Set-Cookie",
@@ -12,6 +12,5 @@ export default (req, res) => {
       path: "/",
     })
   );
-  res.statusCode = 200;
-  res.json({ success: true });
+  return res.json({ success: true });
 };

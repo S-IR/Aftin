@@ -2,7 +2,7 @@ import React from 'react'
 
 interface props {
   text:string
-  handleOnClick:React.MouseEventHandler<HTMLButtonElement>
+  handleOnClick?:React.MouseEventHandler<HTMLButtonElement>
   type?: undefined | 'submit'
   className?: string
 }

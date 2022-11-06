@@ -1,0 +1,45 @@
+When a user enters an url (such as '/fastfoods/pizzas') he will need to send a request to the firestore database with the end portion of that url. Then firebase will send the proper images to show.
+The user will then first get a popup if he did not set his brand design (small, on the right side). That will make him go through a small amount of modal poppups where he will choose what kind of brand he is to better display what he needs\
+All of the firebase requests will contain this cookie. They will filter images based on that request and send the ones that are similar first.
+15 images will be shown at first. The user will have a button to show more. He will also have a general filter for those images, such as "pizzas on a beach, photos with mascots etc."
+
+
+Things to do :
+1. learn how getServerSideProps works, how you can get data from the url, how you can input things as data into the url and use that data to fetch.
+1.1 Do the filters tab
+the index sends an array of the needed filters with their options on null
+the filters do a boolean check to see what to display, if it finds a property to display it displays it. It has access to the state and to the set state of the sorting array. Each object has the name and optionally an icon next to it to be displayed.
+The image component only has access to the state of the sorting array. It does the filtering.
+FILTERS:
+colors :
+Not Specified
+
+"black", "white", "gray", "silver", "maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"
+
+restaurant type:
+Not Specified
+Fine dining
+Diner
+Bar
+Fast food
+Casual dining
+Cafes
+Pizzeria
+Family style
+Ethic : italian, japanese, french, indian, greek, thai, mexican, chinese, other, middle eastern
+
+Types of images : Hunger inducing, Artistic, Youthful, Professional, Classical, Exotic 
+
+
+
+2. Learn how firebase works with fetching, specifically how you fetch, how you filter and how you can send other data from cookies for it to read
+2.1 Make the modal popups to put the cookies in. :
+Types of colors he would like to see :
+  just let him choose 5 colors and use general templates    
+
+
+3.Get the sorted images that were requested back to the server.
+3.1 filter those images based on the clients decision
+4. make a loading screen while waiting for the images
+5. Display only 15 images. If the user clicks on more he will be shown more.
+7.

@@ -31,18 +31,7 @@ export interface Movie {
   vote_count: number
 }
 
-export interface image_products {
-  type:
-    | 'Logos'
-    | 'Menus'
-    | 'Flyers'
-    | 'Banners'
-    | 'Stickers'
-    | 'Cliparts'
-    | 'Photos'
-    | 'Arts'
-}
 
-export type color = "black"| "white"| "gray"| "silver"| "maroon"| "red"| "purple"| "fuchsia"| "green"| "lime"| "olive"| "yellow"| "navy"| "blue"| "teal"| "aqua"
 
+export type color = "black"| "white"| "gray"| "red"| "purple"| "fuchsia"| "green"| "lime"| "yellow"|  "blue"| "orange" | "indigo" | "violet" |"light red"| "light purple"| "light fuchsia"| "light green"| "light lime"| "light yellow"|  "light blue"| "light orange" | "light indigo" | "light violet" |"dark red"| "dark purple"| "dark fuchsia"| "dark green"| "dark lime"| "dark yellow"|  "dark blue"| "dark orange" | "dark indigo" | "dark violet" | `light gray` | `dark gray` | 'brown' | 'light brown' | 'dark brown'
 export type HTMLHexColor = `#${string}`

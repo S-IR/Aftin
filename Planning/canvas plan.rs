@@ -60,26 +60,7 @@ Element properties:
 
 2. do the handlers to change each of the properties of the elements
 
-3. implement the brand theme system:
-colors :
-Not Specified
 
-"black", "white", "gray", "silver", "maroon", "red", "purple", "fuchsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"
-
-restaurant type:
-Not Specified
-Fine dining
-Diner
-Bar
-Fast food
-Casual dining
-Cafes
-Pizzeria
-Family style
-Ethic : italian, japanese, french, indian, greek, thai, mexican, chinese, other, middle eastern
-Branding : Modern looking, classical looking, middle
-
-Types of images : Hunger inducing, Artistic, Youthful, Professional, Classical, Exotic 
 
 4. Put each image in these types of categories
 

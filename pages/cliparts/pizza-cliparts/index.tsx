@@ -1,14 +1,15 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../../components/Navbar'
 import SiteGallery from '../../../components/SiteGallery'
 import { getImageSize } from 'next/dist/server/image-optimizer'
+import SortingSidebar from '../../../components/SortingSidebar'
 
+interface props {
+  isBrandTailor: boolean
+}
 
-
-function index() {
-
-  let pizza_cliparts_ARRAY:Array<String> = [];
+const index = ({isBrandTailor}) => {
 
   return (
     <>
@@ -16,11 +17,21 @@ function index() {
       <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
       <title>Pizza Cliparts</title>
     </Head>
-    <main className='pt-[75px]'>
-      <SiteGallery queryCollection="pizza cliparts"/>
+    <div className='flex w-full'>
+    <SortingSidebar isBrandTailor={isBrandTailor}  />
+    <main className=''>
+      <div className='w-[1000px] h-[1080px] bg-black/60' ></div>
+      {/* <SiteGallery queryCollection="pizza cliparts"/> */}
     </main>
+    </div>
     </>
   )
 }
 
 export default index
+
+export async function getServerSideProps(context){
+  return{
+    props: { isBrandTailor: false }
+  }
+}
