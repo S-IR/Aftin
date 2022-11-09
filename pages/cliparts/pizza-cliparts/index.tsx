@@ -1,37 +1,38 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../../components/Navbar'
 import SiteGallery from '../../../components/SiteGallery'
 import { getImageSize } from 'next/dist/server/image-optimizer'
 import SortingSidebar from '../../../components/SortingSidebar'
+import { restaurantType } from '../../../constants/SortingSidebar/restaurantTypes'
+import { colorPallet } from '../../../constants/SortingSidebar/colorPallets'
+import { SidebarSorts } from '../../../typings/typings'
+import useFirestore from '../../../hooks/useFirestore'
 
 interface props {
-  isBrandTailor: boolean
+
 }
-
-const index = ({isBrandTailor}) => {
-
+const Index = ({  }: props) => {
+  const DEFAULT_SORT = { restaurantType: 'Not Specified', colorPallet: 'Not Specified'}
+  const [sorts, setSorts] = useState<SidebarSorts>(DEFAULT_SORT)
+  console.log(sorts)
+  
   return (
     <>
-    <Head>
-      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-      <title>Pizza Cliparts</title>
-    </Head>
-    <div className='flex w-full'>
-    <SortingSidebar isBrandTailor={isBrandTailor}  />
-    <main className=''>
-      <div className='w-[1000px] h-[1080px] bg-black/60' ></div>
-      {/* <SiteGallery queryCollection="pizza cliparts"/> */}
-    </main>
-    </div>
+      <Head>
+        <title>Pizza Cliparts</title>
+      </Head>
+      <div className='flex w-full'>
+        <SortingSidebar sorts={sorts} setSorts={setSorts} />
+        <main className=''>
+          <div className='w-[1000px] h-[1080px] bg-black/60' ></div>
+          {/* <SiteGallery queryCollection="pizza cliparts"/> */}
+        </main>
+      </div>
     </>
   )
 }
 
-export default index
+export default Index
 
-export async function getServerSideProps(context){
-  return{
-    props: { isBrandTailor: false }
-  }
-}
+

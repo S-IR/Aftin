@@ -1,0 +1,1 @@
+export type type_sweets_and_desserts = `baklava`|`cake`|`cheesecake`|`chocolate mousse`|`cookie`|`cookies`|`cream pies`|`creme brulée`|`halva`|`halva`|`ice creams`|`ice creams`|`pancakes`|`pies`|`puddings`|`tiramisu`|`waffle sweets`

@@ -1,6 +1,6 @@
 import { CaseReducer, combineReducers, PayloadAction } from "@reduxjs/toolkit"
 import { number, string } from "yup";
-import { color } from "../../typings";
+import { color } from "../../typings/typings";
 import { canvasElement, canvasState } from "./canvasElemSlice"
 import { textFilter } from "./filtersSlice";
 

@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit"
 import { type } from "os"
-import { color, HTMLHexColor } from "../../typings"
+import { color, HTMLHexColor } from "../../typings/typings"
 import { canvasElement, canvasState } from "./canvasElemSlice"
 import { shapeFilter } from "./filtersSlice"
 

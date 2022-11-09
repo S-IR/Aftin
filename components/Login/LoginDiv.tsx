@@ -11,8 +11,6 @@ interface Inputs {
   password: string
 }
 
-
-
 function LoginDiv() {
   const { signInWithGoogle } = useAuthThirdParty()
 

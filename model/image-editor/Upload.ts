@@ -5,7 +5,7 @@ import { shapeData } from "../../features/canvas-elements/shapeHandlingReducer";
 import { ADD_TEXT_FILTER, textData } from "../../features/canvas-elements/textHandlingReducer";
 import filtersSlice, { filtersActions } from "../../features/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
-import { color } from "../../typings";
+import { color } from "../../typings/typings";
 
 
 

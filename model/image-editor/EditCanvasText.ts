@@ -1,7 +1,7 @@
 import { canvasElemsActions, canvasElemSlice } from "../../features/canvas-elements/canvasElemSlice";
 import { filtersActions } from "../../features/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
-import { color } from "../../typings";
+import { color } from "../../typings/typings";
 
 
 

@@ -43,3 +43,155 @@ Types of colors he would like to see :
 4. make a loading screen while waiting for the images
 5. Display only 15 images. If the user clicks on more he will be shown more.
 7.
+
+
+WHAT NEEDS TO GO WHERE: 
+The filters need to know :
+which sort is selected
+how to change selection
+
+
+the image part needs to know:
+which sort is selected
+
+
+
+SORTING FOR IMAGES:
+GENERAL:
+Color scheme
+size
+
+SPECIFIC: 
+for Stock images {
+  surrounding environment
+  for main dishes{
+    type of dish{ 
+      check the dishes in that folder
+    }
+  }
+  for sweets{
+    type of sweet {
+
+      
+    }
+
+  }
+  for fast foods {
+    fries,
+    burgers,
+    tacos,
+    pizzas,
+    nuggets,
+    pretzel
+  }
+  for drinks{
+    beer
+    carbonated drinks
+    cocktails
+    coffee
+    hard alcohol
+    juices
+    tea
+    water
+    wine
+  }
+  for utensils{
+    baking tools
+    forks
+    knives
+    ladle
+    spatula
+    spoons
+    vessels
+    whisks
+  }
+  wooden? stainless steel
+  for ingredients{
+    for spices{
+      black pepper
+      cardamom
+      cinnamon
+      coriander
+     	masala
+      nutmeg
+      saffron
+      zaatar
+    }
+    for fruits{
+      mango
+      grapes
+      strawberry
+      pineapple
+      watermellon
+      apple
+      grapes
+      oranges
+      berries
+      nuts
+
+    }
+    for vegetables{
+      tomatoes
+      carrots
+      peas
+      cucumbers
+      cabbage
+      broccoli
+      beans
+      onion
+      garlic
+
+    }
+    flour
+    syrup
+
+}
+
+for graphic design{
+  mascots
+  for menus{
+    shape
+  }
+  banners (won't have sizes but will have):{
+    for facebook, on websites, outdoors (big sizes)
+
+  }
+  for logos (won't have mascots but will have) {
+    type {
+      text
+      food 
+      utensils & plates
+      mascots      
+    }
+  }
+  for artworks{
+    style{
+      eye catchy
+      hunger inducing
+      painting
+      cartoon
+      nostalgic
+      creative
+      unique
+    }
+  }
+  for stickers{
+    pizza
+    popcorn
+    bread
+    burger
+    cheese
+    taco
+    vetables
+    ice cream
+    hot dog
+    donut
+    milk
+  }
+  for brochures{
+    shape
+  }
+  for flyers{
+    same as brochures
+  }
+}

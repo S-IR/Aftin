@@ -10,7 +10,7 @@ const useFirestore = (queryCollection: string) => {
 
   useEffect( () => {
      const unsub = onSnapshot(query(collection(db, queryCollection), ), (snap) =>{
-      let documents:Array<String> = [];
+      let documents:Array<{id: string}> = [];
       snap.forEach(doc => {
         documents.push({...doc.data(), id:doc.id})
       });

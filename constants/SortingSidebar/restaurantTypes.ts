@@ -7,16 +7,15 @@ export const restaurantTypes: restaurantType[] = [
   {restaurantType: 'Bar & Nightclubs', imgSrc: '/frontend-used-images/SortingSidebar/Bar&Nightclubs'},
   {restaurantType: 'Hotel Restaurants', imgSrc: '/frontend-used-images/SortingSidebar/Hotel-Restaurants'},
   {restaurantType: 'Café', imgSrc: '/frontend-used-images/SortingSidebar/Café'},
-  {restaurantType: 'Fine dining', imgSrc: '/frontend-used-images/SortingSidebar/Fine dining'},
-  {restaurantType: 'Ethnic', Ethnic_Types:[
-    {name: 'Italian', imgSrc:'/frontend-used-images/SortingSidebar/Italian'},
-    {name: 'Mexican', imgSrc:'/frontend-used-images/SortingSidebar/Mexican'},
-    {name: 'Chinese', imgSrc:'/frontend-used-images/SortingSidebar/Chinese'},
-    {name: 'Thai', imgSrc:'/frontend-used-images/SortingSidebar/Thai'},
-    {name: 'Indian', imgSrc:'/frontend-used-images/SortingSidebar/Indian'},
-    {name: 'Korean', imgSrc:'/frontend-used-images/SortingSidebar/Korean'},
-    {name: 'Greek', imgSrc:'/frontend-used-images/SortingSidebar/Greek'},
-    {name: 'Other', imgSrc: null},
-  ]},
+  // {restaurantType: 'Ethnic', Ethnic_Types:[
+  //   {name: 'Italian', imgSrc:'/frontend-used-images/SortingSidebar/Italian'},
+  //   {name: 'Mexican', imgSrc:'/frontend-used-images/SortingSidebar/Mexican'},
+  //   {name: 'Chinese', imgSrc:'/frontend-used-images/SortingSidebar/Chinese'},
+  //   {name: 'Thai', imgSrc:'/frontend-used-images/SortingSidebar/Thai'},
+  //   {name: 'Indian', imgSrc:'/frontend-used-images/SortingSidebar/Indian'},
+  //   {name: 'Korean', imgSrc:'/frontend-used-images/SortingSidebar/Korean'},
+  //   {name: 'Greek', imgSrc:'/frontend-used-images/SortingSidebar/Greek'},
+  //   {name: 'Other', imgSrc: null},
+  // ]},
 
 ]

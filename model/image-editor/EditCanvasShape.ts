@@ -1,7 +1,7 @@
 import { canvasElemsActions } from "../../features/canvas-elements/canvasElemSlice";
 import { filtersActions } from "../../features/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
-import { HTMLHexColor } from "../../typings";
+import { HTMLHexColor } from "../../typings/typings";
 
 export const changeShapeFill = (
   fill: HTMLHexColor,

@@ -38,16 +38,15 @@ const createUserDoc = (uid: string, email: string, username: string, occupation:
     username: username,
   })
 }
-
-const createImageDoc = (name:string, alt_text:string , checkbox:boolean, collection_name: string, description: string, url: string) =>{
-  addDoc(collection(db, collection_name ), {
-    name: name,
-    alt_text: alt_text,
-    paid : checkbox,
-    description: description,
-    url: url,
-    views: 0
-  })
+// const createImageDoc = (name:string, alt_text:string , checkbox:boolean, collection_name: string, description: string, url: string) =>{
+//   addDoc(collection(db, collection_name ), {
+//     name: name,
+//     alt_text: alt_text,
+//     paid : checkbox,
+//     description: description,
+//     url: url,
+//     views: 0
+//   })
   
 }
 
