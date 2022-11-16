@@ -3,7 +3,7 @@ import { SearchIcon, BellIcon, UserCircleIcon } from '@heroicons/react/solid'
 import Link from "next/link"
 import aftinLogo from "../public/frontend-used-images/aftinLogoSvg.svg"
 import { useEffect, useState } from "react"
-import { navLinks } from "../constants/NavLinks"
+import { navLink, navLinks } from "../constants/NavLinks"
 import useAuth from "../hooks/useAuth"
 import Button from "./Button"
 import { useRouter } from "next/router"
@@ -17,11 +17,13 @@ function Navbar() {
   const [menuHeight, setMenuHeight] = useState<number | null>(null)
 
 
-
   function calcHeight(el: HTMLDivElement) {
     const height = el.offsetHeight
     setMenuHeight(height)
   }
+  //this state is meant to stop the setting of the state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's being exited. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
+  const [exitedDropdown, setExitedDropdown] = useState<null  | navLink["DropdownState"]>(null)
+
   function NavbarHoverSwitch(target: typeof activeSidebar) {
     switch (target) {
       case ('ImagesDropdown'):
@@ -31,8 +33,10 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
+            onExit={()=> setExitedDropdown(`ImagesDropdown`)}
+            onExited={()=> setExitedDropdown(null)}
           >
-            <ImagesDropdown setActiveSidebar={setActiveSidebar} />
+            <ImagesDropdown setActiveSidebar={setActiveSidebar}  />
           </CSSTransition>
         )
       case ('ProductsDropdown'):
@@ -42,6 +46,8 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
+            onExit={()=> setExitedDropdown(`ProductsDropdown`)}
+            onExited={()=> setExitedDropdown(null)}
           >
             <ProductsDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
@@ -53,6 +59,8 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
+            onExit={()=> setExitedDropdown(`GrDesignsDropdown`)}
+            onExited={()=> setExitedDropdown(null)}
           >
             <GrDesignsDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
@@ -70,9 +78,10 @@ function Navbar() {
             {navLinks.map((nav) => (
               <li
                 key={nav.id}
-                className="flex flex-1 items-center space-x-1 h-[50px]"
-                onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
+                className="flex flex-1 items-center space-x-1 h-[50px] cursor-pointer"
+                onMouseOver={() => {if(exitedDropdown !== nav.DropdownState) return setActiveSidebar(nav.DropdownState)}}
                 onMouseLeave={() => setActiveSidebar(null)}
+                onClick={()=>router.push(nav.url)}
                 ><>
                     {nav.title}
                     {NavbarHoverSwitch(nav.DropdownState)}

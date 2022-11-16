@@ -1,6 +1,7 @@
 export type navLink =
   {
     id: string,
+    url: `/${string}`
     title: string,
     DropdownState: "ProductsDropdown" | "ImagesDropdown" | "GrDesignsDropdown",
   }
@@ -9,12 +10,14 @@ export type navLink =
 
 export const navLinks: navLink[] = [
   {
-    id: "about-us",
+    id: "products",
+    url:`/products`,
     title: "Products",
     DropdownState: "ProductsDropdown",
   },
   {
-    id: "Home",
+    id: "stock-images",
+    url: `/restaurant-stock-images`,
     title: "Stock Images",
     DropdownState: "ImagesDropdown",
 
@@ -22,6 +25,7 @@ export const navLinks: navLink[] = [
   },
   {
     id: "graphic-designs",
+    url: `/restaurant-graphic-designs`,
     title: "Graphic Designs",
     DropdownState: "GrDesignsDropdown",
 

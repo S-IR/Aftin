@@ -8,11 +8,19 @@ import FreeImageModal from './freeImageModal'
 import PaidImageModal from './PaidImageModal'
 import PremiumIcon from './PremiumIcon'
 
-function SingleImage({ doc }) {
+interface props{
+  doc: object
+  w: number
+  h: number
+}
+
+function SingleImage({ doc, w, h }: props) {
+
 
   const [premiumText, setPremiumText] = useState(false)
   const [open, setOpen] = useState(false)
   const target = useRef(null)
+  
   const [{ x, y, rotateX, rotateY, rotateZ, zoom, scale }, api] = useSpring(
     () => ({
       rotateX: 0,
@@ -35,23 +43,25 @@ function SingleImage({ doc }) {
   useGesture(
     {
       onHover: ({ hovering }) =>
-        hovering ? api({ rotateX: 0, rotateY: 0, scale: 1.1 }) : api({ rotateX: 0, rotateY: 0, scale: 1 }),
+        !hovering && api({ rotateX: 0, rotateY: 0, scale: 1 }),
+
     },
     { target, eventOptions: { passive: false } }
   )
 
   return (
-    <div className='w-auto h-auto'>
+    <div className=''>
       {doc.paid ? <PaidImageModal open={open} setOpen={setOpen} /> : <FreeImageModal url={doc.url} open={open} setOpen={setOpen} />}
       <animated.div
         ref={target}
-        className="w-auto h-auto relative  border-gray-300 cursor-pointer shadow-md shadow-black hover:shadow-2xl hover:translate-y-1 transition ease-in-out duration-300 rounded-lg " onMouseEnter={() => {
+        className="w-auto h-auto relative border-gray-300 cursor-pointer shadow-[5px_10px_10px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0px_15px_30px_-10px_rgba(255,255,255,0.4)]  hover:translate-y-1 transition ease-in-out duration-300 rounded-lg " onMouseEnter={() => {
           setPremiumText(true)
         }} onMouseLeave={() => {
           setPremiumText(false)
         }
         } onClick={() => setOpen(true)}
         style={{
+          
           transform: 'perspective(600px)',
           x,
           y,
@@ -63,12 +73,12 @@ function SingleImage({ doc }) {
       >
 
         <Image
-          src={doc.url}
-          alt='pizza-cliparts'
-          width={512}
-          height={512}
-          objectFit='scale-down'
-          className='rounded-2xl overflow-hidden   '
+          src={doc.source}
+          alt={doc.description}
+          width={w}
+          height={h}
+          objectFit='cover'
+          className='rounded-2xl   '
         />
         {doc.paid && <PremiumIcon premiumText={premiumText} />}
 

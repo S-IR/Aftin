@@ -1,10 +1,19 @@
+import axios from "axios";
 import { addDoc, CollectionReference, DocumentData } from "firebase/firestore";
 import { getDownloadURL, StorageReference, uploadBytesResumable } from "firebase/storage";
+import { HTMLHexColor } from "../../typings/typings";
+import { buildRgb, ColorQuantization, rgbArrayToHex } from "./buildRGB";
 
 // Uploads an image to the firebase storage. Logs the progress and the potential errors
-export const uploadImageToStorage = async ( storageRef: StorageReference, files: React.FormEvent<HTMLInputElement>,doc: CollectionReference<DocumentData>, docFields: object)=> {
-  
-  const uploadTask = uploadBytesResumable(storageRef, files[0], )
+export const uploadImageToStorage = async (
+  storageRef: StorageReference,
+  file: any,
+  doc: CollectionReference<DocumentData>,
+  docFields: object,
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>) => {
+  if (!canvasRef.current) return console.log(`no canvas ref`)
+
+  const uploadTask = uploadBytesResumable(storageRef, file)
   const url = uploadTask.on('state_changed',
     (snapshot) => {
       // Observe state change events such as progress, pause, and resume
@@ -27,10 +36,28 @@ export const uploadImageToStorage = async ( storageRef: StorageReference, files:
       // Handle successful uploads on complete
       // For instance, get the download URL: https://firebasestorage.googleapis.com/...
       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        addDoc(doc, {
-          ...docFields, url
-        }) 
+        //Since we need to find the main colors of the image, we need to create a canvas and get the rgb data for each pixel. Then we do a median cut algorithm to find the colors that are most predominant. Now the value is hard coded at 3 (it's the second parameter of the ColorQuantization), which means it will return an array of 2. If it was 4 it would return 1, if it was 2 it would return 8 and so forth
+        const image = new Image()
+        const intermediateImgURL = URL.createObjectURL(file)
+        image.src = intermediateImgURL
+        image.onload = () => {
+          canvasRef.current.width = image.width
+          canvasRef.current.height = image.height
+          const width = image.width
+          const height = image.height
+          const ctx = canvasRef.current?.getContext(`2d`)
+          ctx.drawImage(image, 0, 0)
+          const imageData = ctx.getImageData(0, 0, width, height);
+          const rgbArray = buildRgb(imageData.data)
+          const MainColors = ColorQuantization(rgbArray, 3);
+          const hexArray = rgbArrayToHex(MainColors)
+          addDoc(doc, {
+            ...docFields, color_scheme: hexArray, url
+          })
+          console.log(`finished uploading the image`);
+          
+        }
       });
     }
   )
-  }
+}

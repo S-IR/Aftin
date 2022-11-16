@@ -1,56 +1,26 @@
-import { NextPage } from 'next'
 import React, { useState } from 'react'
-import PrivateUploadComponent from './PrivateUploadComponent'
-import Cookies from 'js-cookie';
-import { object } from 'yup';
-import Router from 'next/router';
+
 import { verify } from 'jsonwebtoken';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
-import { UploadMenus, UploadUtensilsAndPlates, UploadDrinks, UploadFastFoods, UploadMainDishes, UploadSweetsAndDesserts, UploadIngredients, UploadFlyers, UploadLogos, UploadArtworks, UploadStickersAndCliparts, UploadBrochures, UploadOther } from '../../components/UploadImage';
-import UploadBanners from '../../components/UploadImage/UploadBanners';
+import { GrahicDesignsOptions as GraphicDesignsOptions, GraphicDesignType, LARGE_CATEGORY_OF_IMG, StockImagesOptions, StockImageType } from '../../typings/image-types/ImageTypes';
+import UploadImageComp from '../../components/UploadImageComp';
 
 
-const imageCategories = ['Main Dishes', `Sweets & Desserts`, `Fast Foods`, `Drinks`, `Utensils & Plates`, `Ingredients`, `Menus`, `Banners`, `Flyers`, `Logos`, `Artworks`, `Stickers & Cliparts`, `Brochures`, `Other`]
+
+
 
 const Index = (LOGIN_DATA: Object) => {
 
-  const [typeOfImage, setTypeOfImage] = useState<null | typeof imageCategories[number]>(null)
+  const [largeCategory, setLargeCategory] = useState<null | LARGE_CATEGORY_OF_IMG>(null)
+  const [smallCategory, setSmallCategory] = useState<null | GraphicDesignType | StockImageType>(null)
 
-  const switchImages = () => {
-    switch (typeOfImage) {
-      case `Main Dishes`:
-        return <UploadMainDishes />
-      case `Sweets & Desserts`:
-        return <UploadSweetsAndDesserts />
-      case `Fast Foods`:
-        return <UploadFastFoods />
-      case `Drinks`:
-        return <UploadDrinks />
-      case `UtensilsAndPlates`:
-        return <UploadUtensilsAndPlates />
-      case `Ingredients`:
-        return <UploadIngredients />
-      case `Menus`:
-        return <UploadMenus />
-      case `Banners`:
-        return <UploadBanners />
-      case `Flyers`:
-        return <UploadFlyers />
-      case `Logos`:
-        return <UploadLogos />
-      case `Artworks`:
-        return <UploadArtworks />
-      case `Stickers & Cliparts`:
-        return <UploadStickersAndCliparts />
-      case `Brochures`:
-        return <UploadBrochures />
-      case `Other`:
-        return <UploadOther />
-    }
+  const handleLargeCategory = (e: SelectChangeEvent) => {
+    setLargeCategory(e.target.value as LARGE_CATEGORY_OF_IMG)
   }
-  const handleOptionChange = (e: SelectChangeEvent) => {
-    setTypeOfImage(e.target.value as string)
+
+  const handleSmallCategory = (e: SelectChangeEvent) => {
+    setSmallCategory(e.target.value as GraphicDesignType | StockImageType)
   }
 
   if (LOGIN_DATA === undefined || Object.values(LOGIN_DATA).toString() !== 'St1wYqtz7Hao1t3cDXwOCzzcc8m1') {
@@ -64,19 +34,47 @@ const Index = (LOGIN_DATA: Object) => {
       <>
         <Box sx={{ width: 1000, padding: 10, background: `white` }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Image Category</InputLabel>
+            <InputLabel id="demo-simple-select-label">Large Image Category</InputLabel>
             <Select
-              label="Image Category"
-              onChange={handleOptionChange}
+              label="Choose large category"
+              onChange={handleLargeCategory}
             >
-              {imageCategories.map((category) => (
-                <MenuItem key={category} value={category}>{category}</MenuItem>
-              ))}
-
+              <MenuItem key={'stock-images'} value={'stock-images'}>{`Stock Images`}
+              </MenuItem>
+              <MenuItem key={'graphic-designs'} value={'graphic-designs'}>{`Graphic Designs`}
+              </MenuItem>
             </Select >
           </FormControl>
+
+          {largeCategory === `stock-images` &&
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Small Image Category</InputLabel>
+              <Select
+                label="Choose stock image type"
+                onChange={handleSmallCategory}
+              >
+                {StockImagesOptions.map((StockImageOption: StockImageType) => (
+                  <MenuItem key={StockImageOption} value={StockImageOption}>{StockImageOption}</MenuItem>
+                ))}
+              </Select >
+            </FormControl>
+          }
+          {largeCategory === `graphic-designs` &&
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Image Category</InputLabel>
+              <Select
+                label="Choose stock image type"
+                onChange={handleSmallCategory}
+              >
+                {GraphicDesignsOptions.map((GraphicDesignOption: GraphicDesignType) => (
+                  <MenuItem key={GraphicDesignOption} value={GraphicDesignOption}>{GraphicDesignOption}</MenuItem>
+                ))}
+              </Select >
+            </FormControl>
+          }
+
         </Box>
-        {switchImages()}
+        {largeCategory !== null && smallCategory !== null && <UploadImageComp LARGE_CATEGORY_OF_IMG={largeCategory} SMALL_CATEGORY_OF_IMG={smallCategory} /> }
       </>
     )
   }

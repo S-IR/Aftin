@@ -48,6 +48,5 @@ const createUserDoc = (uid: string, email: string, username: string, occupation:
 //     views: 0
 //   })
   
-}
 
-export { auth, db, createUserDoc, createImageDoc }
+export { auth, db, createUserDoc }

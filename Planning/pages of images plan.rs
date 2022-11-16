@@ -59,7 +59,7 @@ which sort is selected
 SORTING FOR IMAGES:
 GENERAL:
 Color scheme
-size
+description
 
 SPECIFIC: 
 for Stock images {
@@ -154,7 +154,6 @@ for graphic design{
   }
   banners (won't have sizes but will have):{
     for facebook, on websites, outdoors (big sizes)
-
   }
   for logos (won't have mascots but will have) {
     type {
@@ -195,3 +194,21 @@ for graphic design{
     same as brochures
   }
 }
+
+what needs to go where: 
+the component needs to know which type of image you want to upload
+based on that it should add an input for each added category that should be uploaded
+
+some categories will be the same, which means that their input will be the same
+
+they will take the category and the subcategory's name and will upload the image there.
+then they will do the same for uploading a doc
+
+they will display the inputs based on what it has been sent down to them. An array will be sent down containing each category that will be required. The component will loop through each string in the array displaying an option based on that. If in the array there is an object it will take the object's values and make them options to be selected
+
+
+
+how the filter system will work :
+based on the category that the person chose, some filters will appear on the right side. Those will be the same as the fields which the uploaded images has, except description, url (and views at the start)
+When clicked they will insert in the upper side of the link their sort values.
+The component will have access to every single document of every single image that has been displayed. It will only filter them when the link changes. 
