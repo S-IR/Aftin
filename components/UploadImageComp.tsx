@@ -8,6 +8,7 @@ import { uploadImageToStorage } from '../model/f302b492-a403-4ac8-9745-c4db74105
 import { makeID } from '../model/GeneralFunctions'
 import { LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG } from '../typings/image-types/ImageTypes'
 import FirstDegreeInput from './UploadImage/FirstDegreeInput'
+import SecondDegreeInput from './UploadImage/SecondDegreeInput'
 
 
 
@@ -32,6 +33,7 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
     handleSubmit,
     watch,
     formState: { errors },
+    
   } = useForm<UploadImgInputs>()
 
 
@@ -46,7 +48,7 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
 
   const doc = collection(db, `${LARGE_CATEGORY_OF_IMG}/${SMALL_CATEGORY_OF_IMG}/Images`)
   const storage = getStorage()
-  const storageRef = ref(storage, `product-images/${LARGE_CATEGORY_OF_IMG}/${SMALL_CATEGORY_OF_IMG}/${makeID(16)}.png`)
+
   const views = 0
 
 
@@ -54,21 +56,24 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
   const [props, setProps] = useState([])
 
   // Based on the categories that are passed down , this array and switch statement will be our method of calculating what inputs need to appear on the screen
-
+  const [disableUpload, setDisableUpload] = useState(false)
 
   const onSubmit: SubmitHandler<UploadImgInputs> = async ({files, ...imgFields}) => {
-    Object.values(files).forEach((file) => {
-      console.log(canvasRef)
+    
+    Object.values(files).forEach((file, i) => {
+      const storageRef = ref(storage, `product-images/${LARGE_CATEGORY_OF_IMG}/${SMALL_CATEGORY_OF_IMG}/${makeID(16)}.png`)
+      setDisableUpload(true)
       const imgName = file.name.replace('.png', '')
       const description = `${LARGE_CATEGORY_OF_IMG} , ${SMALL_CATEGORY_OF_IMG}, ${imgName}`
       const docFields = { views, description, ...imgFields }
-      uploadImageToStorage(storageRef, file, doc, docFields, canvasRef)
+      uploadImageToStorage(storageRef, file, doc, docFields, canvasRef).then(()=>{ 
+        setDisableUpload(false)
+        alert(`finished uploading the ${i}th image`)
+      })
     }
     
     )
     
-    // const docFields = { views, ...inputFields }
-    // uploadImageToStorage(storageRef, files, doc, docFields)
   }
 
   if (!inputsArray) return <div>somehow this appeared without any inputs to show</div>
@@ -86,12 +91,15 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
           // if the field is not description or color scheme, make it appear on screen to be modified
           if (Object.keys(imgField)[0] === `color_scheme` ||
             (Object.keys(imgField)[0] === `description`)) return
-            return <FirstDegreeInput key={i} imgField={imgField} register={register} errors={errors} />
+        
+            //
+            const allowMultipleOptions = Object.keys(imgField)[0] !== `size` && Object.keys(imgField)[0] !== `surrounding_environment` && Object.keys(imgField)[0] !== `paid`
+            return <FirstDegreeInput key={i}  allowMultipleOptions={allowMultipleOptions} imgField={imgField} register={register} errors={errors} />
         }
 
         )}
         <div className='flex justify-center items-center'>
-          <button type='submit' className='general-buttons !m-0' >Upload</button>
+          <button type='submit' disabled={disableUpload} className='general-buttons !m-0' >Upload</button>
         </div>
       </form>
 

@@ -212,3 +212,6 @@ how the filter system will work :
 based on the category that the person chose, some filters will appear on the right side. Those will be the same as the fields which the uploaded images has, except description, url (and views at the start)
 When clicked they will insert in the upper side of the link their sort values.
 The component will have access to every single document of every single image that has been displayed. It will only filter them when the link changes. 
+
+
+We first need to request all of the documents from the server. The query should be based on what's sent down from the url. After the image array has been sent down they should be sorted server side. When they arrive on the frontend, they should be passed to the sorting component and it should determine what needs to appear on the left side. Also the data should be send on the other side, to the gallery section

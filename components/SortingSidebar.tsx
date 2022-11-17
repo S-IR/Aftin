@@ -7,25 +7,45 @@ import { BrandTailorModal } from './SortingSidebar/index'
 import { SidebarSorts } from '../typings/typings'
 import { restaurantType } from '../constants/SortingSidebar/restaurantTypes'
 import { colorPallet } from '../constants/SortingSidebar/colorPallets'
-import {ListItemButton, List, Tooltip, ListSubheader, ListItemIcon, ListItemText } from '@mui/material';
-import {SortRestaurantType, SortColorPallet} from './SortingSidebar/index'
+import { ListItemButton, List, Tooltip, ListSubheader, ListItemIcon, ListItemText } from '@mui/material';
+import { SortSurrEnv } from './SortingSidebar/For Stock Images'
+import { ImgFields } from '../typings/image-types/ImageTypes'
+import { SortStyle } from './SortingSidebar/For Graphic Designs'
+import { SortColorScheme } from './SortingSidebar/index'
 
 
 interface props {
-  sorts: SidebarSorts
-  setSorts: React.Dispatch<React.SetStateAction<SidebarSorts>>
+  sorts: ImgFields
 }
 
-const SortingSidebar = ({ sorts, setSorts }: props) => {
+const SortingSidebar = ({ sorts }: props) => {
   
+
   // These selected values also represent if the sort field exists. They are used as boolean checks
 
   const [show, toggleSidebar] = useState(true)
-  const selectedRestaurantType= sorts.restaurantType
-  const selectedColorPallet= sorts.colorPallet
 
+  // if these fields exist, then display their corresponding component which sends them the currently selected value for that field
 
-  
+  //These are the basic filters
+  const paidBool = sorts.paid
+  const size = sorts.size
+  const color_scheme = sorts.color_scheme
+
+  const surr_env = sorts.surrounding_environment
+  const dish_type = sorts.dish_type
+  const soup = sorts.soup
+  const food_type = sorts.food_type
+  const drink_type = sorts.drink_type
+  const utensils_type = sorts.utensil_type
+  const ingredients = sorts.ingredients
+  const style = sorts.style
+  const banner_type = sorts.banner_type
+  const artwork_style = sorts.artwork_style
+  const stickers_category = sorts.stickers_category
+  const logo_type = sorts.logo_type
+  const shape = sorts.shape
+
   return (
     <section className='sticky h-[150vh] w-auto scroll  '>
       {show ? <></> :
@@ -48,13 +68,16 @@ const SortingSidebar = ({ sorts, setSorts }: props) => {
           sx={{ width: '100%', maxWidth: 200 }}
           component="nav"
           aria-labelledby="Filter-Options"
-
         >
-          {sorts.hasOwnProperty('restaurantType') && 
-          // selectedRestaurantType cannot be undefined if it exists as a property in object. Ignore the compiler
-          <SortRestaurantType selectedRestaurantType={selectedRestaurantType} setSorts={setSorts} /> }
-          {sorts.hasOwnProperty('colorPallet') && 
-          <SortColorPallet selectedColorPallet={selectedColorPallet} setSorts={setSorts}/>
+          {/* Depending on if the sent sort has a property, display the sorting component for that property */}
+          {style &&
+            // selectedRestaurantType cannot be undefined if it exists as a property in object. Ignore the compiler
+            <SortStyle style={style} />}
+          {color_scheme &&
+            <SortColorScheme color_scheme={color_scheme} />
+          }
+          {surr_env &&
+            <SortSurrEnv surr_env={surr_env} />
           }
         </List>
       </animated.div>

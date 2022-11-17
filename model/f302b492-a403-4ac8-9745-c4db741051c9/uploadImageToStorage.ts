@@ -11,6 +11,7 @@ export const uploadImageToStorage = async (
   doc: CollectionReference<DocumentData>,
   docFields: object,
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>) => {
+    
   if (!canvasRef.current) return console.log(`no canvas ref`)
 
   const uploadTask = uploadBytesResumable(storageRef, file)
@@ -36,6 +37,7 @@ export const uploadImageToStorage = async (
       // Handle successful uploads on complete
       // For instance, get the download URL: https://firebasestorage.googleapis.com/...
       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+
         //Since we need to find the main colors of the image, we need to create a canvas and get the rgb data for each pixel. Then we do a median cut algorithm to find the colors that are most predominant. Now the value is hard coded at 3 (it's the second parameter of the ColorQuantization), which means it will return an array of 2. If it was 4 it would return 1, if it was 2 it would return 8 and so forth
         const image = new Image()
         const intermediateImgURL = URL.createObjectURL(file)

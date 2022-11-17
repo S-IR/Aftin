@@ -3,12 +3,13 @@ import { UseFormRegister } from 'react-hook-form'
 import { UploadImgInputs } from '../UploadImageComp'
 
 interface props {
-  imgField : string | object
+  imgField : string  | object
   register : UseFormRegister<UploadImgInputs>
   errors : FieldErrorsImpl<UploadImgInputs>
+  allowMultipleOptions: boolean
 }
 
-const FirstDegreeInput = ({imgField, register, errors}: props) => {
+const FirstDegreeInput = ({imgField, register, errors, allowMultipleOptions}: props) => {
   const inputName = Object.keys(imgField)
   
   if (Object.keys(imgField).length !==1) {
@@ -21,7 +22,7 @@ const FirstDegreeInput = ({imgField, register, errors}: props) => {
   return (
       <label key={inputName} className='inline-block w-full'>
         <p>{inputName}</p>
-        <select  {...register(`${inputName}`)} className='bg-black'>
+        <select  {...register(`${inputName}`)} className='bg-black' multiple={allowMultipleOptions}>
           {firstOptions.map((option: string) => (
             <option key={option} value={option}>{option}</option>
           ))}

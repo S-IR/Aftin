@@ -1,32 +1,47 @@
-import { collection, query } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { GetServerSideProps, NextPageContext } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
+import SortingSidebar from '../../components/SortingSidebar'
 import { db } from '../../firebase'
+import { ImgFields } from '../../typings/image-types/ImageTypes'
 
-interface props{
-  params: object
-  query: object
+interface props {
+  docsArray: ImgFields[]
 }
-const Index = ({params, query}: props) => {
-  console.log(params);
-  console.log(query)
+const Index = ({ docsArray }: props) => {
+  const router = useRouter()
+  const subCat = router.query.subCat
+  console.log(docsArray[0]);
   
 
-    
   return (
-    <div>hey</div>
+    <div>
+      <SortingSidebar sorts={docsArray[0]}/>
+    </div>
   )
 }
 
 export default Index
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  if(!context.params) return {props: {}}
-  const query = context.query
+  if (!context.params) return { props: {} }
+  const subCat = context.query.subCat
+  
+  const food_type = context.query.food_type
+  const subCatRef = collection(db, `/stock-images/${subCat}/Images`)
   
 
+  const q = query(subCatRef, where("food_type", "array-contains", food_type))
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot.docs);
+  
+  let docsArray = []
+  querySnapshot.docs.forEach((doc) =>
+    docsArray.push({ ...doc.data() })
+  )
+
   return {
-    props: {params, query}, // will be passed to the page component as props
+    props: { docsArray }, // will be passed to the page component as props
   }
 }

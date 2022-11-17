@@ -10,7 +10,6 @@ import ImgSubcatOption from '../../components/ImgLink'
 import ImgLink from '../../components/ImgLink'
 
 const Index = () => {
-  const [{ y, color }, set] = useSpring(() => ({ y: 100, color: "#fff" }));
 
   return (
     <div className='bg-black/40 w-screen h-[135vh] md:h-screen'>

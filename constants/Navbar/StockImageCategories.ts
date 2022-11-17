@@ -4,7 +4,7 @@ export const StockImageLinks: NavbarImageLink[] = [
 
   {
     name: 'Appetizers',
-    href: 'restaurant-stock-images/appetizers',
+    href: '/restaurant-stock-images/appetizers',
     source: "/frontend-used-images/Category-Images/appetizers.png",
     description: 'gyoza, ravioli, falafel and other foods meant to arouse the appetite  ',
     SlideImages: [
@@ -15,7 +15,7 @@ export const StockImageLinks: NavbarImageLink[] = [
 
   {
     name: 'Soups',
-    href: 'restaurant-stock-images/soups',
+    href: '/restaurant-stock-images/soups',
     source: "/frontend-used-images/Category-Images/soups.png",
     description: 'Soups that are served before the main dishes  ',
     SlideImages: [
@@ -25,7 +25,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Main Dishes',
-    href: 'restaurant-stock-images/dishes',
+    href: '/restaurant-stock-images/dishes',
     source: "/frontend-used-images/Category-Images/Dishes.png",
     description: 'Images of various restaurant dishes, country specific or not, meant to make people hungry',
     SlideImages: [
@@ -35,7 +35,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Sweets & Deserts',
-    href: 'restaurant-stock-images/deserts',
+    href: '/restaurant-stock-images/deserts',
     source: "/frontend-used-images/Category-Images/Sweets.png",
     description: 'Cakes, cookies, ice cream cups and other tasty foods.',
     SlideImages: [
@@ -45,7 +45,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Fast Foods',
-    href: 'restaurant-stock-images/fast-foods',
+    href: '/restaurant-stock-images/fast-foods',
     source: "/frontend-used-images/Category-Images/FastFoods.png",
     description: 'Pizzas, hamburgers, chicken nuggets, pretzels and so forth',
     SlideImages: [
@@ -56,7 +56,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Drinks',
-    href: 'restaurant-stock-images/drinks',
+    href: '/restaurant-stock-images/drinks',
     source: "/frontend-used-images/Category-Images/Drinks.png",
     description: 'Coffee, wine cups or cocktails for classic restaurants and coffee shops.',
     SlideImages: [
@@ -67,7 +67,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Utensils & Plates',
-    href: 'restaurant-stock-images/utensils-and-plates',
+    href: '/restaurant-stock-images/utensils-and-plates',
     source: "/frontend-used-images/Category-Images/Utensils.png",
     description: 'Plates, forks, knives etc. Designed for marketing',
     SlideImages: [
@@ -78,7 +78,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Ingredients',
-    href: 'restaurant-stock-images/ingredients',
+    href: '/restaurant-stock-images/ingredients',
     source: "/frontend-used-images/Category-Images/Ingredients.png",
     description: 'Fresh Vegetables, fruits, spices and other ingredients that are used in cooking ',
     SlideImages: [
