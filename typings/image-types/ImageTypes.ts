@@ -2,7 +2,15 @@ import { HTMLHexColor } from "../typings"
 
 export const tier_array = [`normal`, `unique`, `exquisite`]
 export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `stock-images`
+
+
 export type SMALL_CATEGORY_OF_IMG = `soups` | `appetizers` | `main-dishes` | `sweets-and-desserts` | `fast-foods` | `drinks` | `utensils-and-plates` | `ingredients` | `menus` | `banners` | `flyers` | `logos` | `artworks` | `stickers-and-cliparts` | `brochures` | `other`
+
+export const subCats_array: Array<SMALL_CATEGORY_OF_IMG>  = [`soups` , `appetizers` , `main-dishes` , `sweets-and-desserts` , `fast-foods` , `drinks` , `utensils-and-plates` , `ingredients` , `menus` , `banners` , `flyers` , `logos` , `artworks` , `stickers-and-cliparts` , `brochures` , `other`]
+
+interface Array<SMALL_CATEGORY_OF_IMG>{
+  includes(searchElement: any, fromIndex? : number): searchElement is SMALL_CATEGORY_OF_IMG
+}
 
 export type StockImageType = `soups` | `appetizers` | `main-dishes` | `sweets-and-desserts` | `fast-foods` | `drinks` | `utensils-and-plates` | `ingredients`
 export type GraphicDesignType = `menus` | `banners` | `flyers` | `logos` | `artworks` | `stickers-and-cliparts` | `brochures` | `other`
@@ -116,9 +124,9 @@ export const vegetables_array = [
 ]
 export const ingredients_array  = [...spices_array, ...vegetables_array, ...fruits_array]
 
-export const menu_size_array = [`Letter`, `Legal`, `Tabloid`, `Half Page`]
+export const menu_size_array = [`letter`, `legal`, `tabloid`, `half-page`]
 
-export const banner_type_array = [`Facebook Banner`, `Twitter Banner`, `Website Banner`, `Outdoor Banner`]
+export const banner_type_array = [`facebook-banner`, `twitter-banner`, `website-banner`, `outdoor-banner`]
 
 export const logo_type_array = [
   `text`,
@@ -164,7 +172,7 @@ export const gr_des_style_array = [
   `italian`, `japanese`, `french`, `indian`, `greek`, `thai`, `mexican`, `chinese`, `middle eastern` 
 ]
 // Cannot use the typeof the styles array because the nested object has an array, and ts will think that ethnic is an array and not a string
-
+export const valid_image_fields = [`paid`,`size`, `description`, `color_scheme`, `surrounding_environment`, `url`, `views`, `dish_type`, `soup`, `food_type`, `drink_type`,`utensil_type`, `material`, `ingredients`, `banner_type`, `style`, `logo_type`, `artwork_style`, `stickers_category`, `shape`]
 export type ImgFields = 
   {
     paid: typeof tier_array[number],

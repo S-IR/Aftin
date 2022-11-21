@@ -10,7 +10,7 @@ import { colorPallet } from '../constants/SortingSidebar/colorPallets'
 import { ListItemButton, List, Tooltip, ListSubheader, ListItemIcon, ListItemText } from '@mui/material';
 import { SortSurrEnv } from './SortingSidebar/For Stock Images'
 import { ImgFields } from '../typings/image-types/ImageTypes'
-import { SortStyle } from './SortingSidebar/For Graphic Designs'
+import { SortBannerType, SortStyle } from './SortingSidebar/For Graphic Designs'
 import { SortColorScheme } from './SortingSidebar/index'
 
 
@@ -19,6 +19,7 @@ interface props {
 }
 
 const SortingSidebar = ({ sorts }: props) => {
+  console.log(sorts)
   
 
   // These selected values also represent if the sort field exists. They are used as boolean checks
@@ -72,12 +73,15 @@ const SortingSidebar = ({ sorts }: props) => {
           {/* Depending on if the sent sort has a property, display the sorting component for that property */}
           {style &&
             // selectedRestaurantType cannot be undefined if it exists as a property in object. Ignore the compiler
-            <SortStyle style={style} />}
+            <SortStyle  />}
           {color_scheme &&
             <SortColorScheme color_scheme={color_scheme} />
           }
           {surr_env &&
             <SortSurrEnv surr_env={surr_env} />
+          }
+          {banner_type &&
+            <SortBannerType />
           }
         </List>
       </animated.div>

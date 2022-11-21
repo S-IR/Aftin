@@ -6,7 +6,7 @@ export type grDesStyleType = {name: string, imgSrc: `/${string}` | null , value 
 {name: string, imgSrc: `/${string}`, value: gr_des_styles_type}[] }
 
 export const grDesStyleOptions: grDesStyleType[] = [
-  {name: 'Not Specified', imgSrc: null, value: null},
+  {name: 'Not Specified', imgSrc: `/frontend-used-images/SortingSidebar/Graphic Design Styles/diner.png`, value: `null`},
   {name: 'Diners', imgSrc: '/frontend-used-images/SortingSidebar/Graphic Design Styles/diner.png', value: `diner`},
   {name: 'Fine Dining', imgSrc: '/frontend-used-images/SortingSidebar/Graphic Design Styles/fine-dining.png', value: `fine-dining`},
   {name: 'Bars', imgSrc: '/frontend-used-images/SortingSidebar/Graphic Design Styles/bar.png', value: `bar`},

@@ -7,23 +7,23 @@ import { restaurantType, restaurantTypes } from '../../../constants/SortingSideb
 import { useRouter } from 'next/router';
 import { gr_des_styles_type } from '../../../typings/image-types/ImageTypes';
 import { grDesStyleOptions, grDesStyleType } from '../../../constants/SortingSidebar/grDesStyles';
+import { handleOptionClick } from '../../../model/SortingSidebar/handleClick';
+import  useNextQuery  from '../../../hooks/useNextQuery';
 
 
 interface props {
-  style: gr_des_styles_type[]
 }
 
-const SortStyle = ({ style }: props) => {
+const SortStyle = ({  }: props) => {
   const router = useRouter()
-  const uri = router.route
-  console.log(uri);
-
+  const style = router.query.style
+  
   const [open, setOpen] = useState(false)
   const [ethnicOpen, setEthnicOpen] = useState(false)
   const handleClick = () => setOpen((open) => (!open))
   const handeEthnicityClick = () => setEthnicOpen((open) => (!open))
-  const handleOptionClick = (value: string) => console.log('hey')
 
+  
   return (
     <>
       <ListItemButton onClick={handleClick}
@@ -40,21 +40,22 @@ const SortStyle = ({ style }: props) => {
           //render each option.
           // if the value is an array, that means that the option is a nested list
           if (typeof (grDesStyleOption.value) !== `object`) {
-            const isChecked = style.includes(grDesStyleOption.value)
+            const isChecked = style? style.includes(grDesStyleOption.value): null
             return (
               <ListItemButton sx={{ pl: 4 }} key={grDesStyleOption.name}
                 id={`${grDesStyleOption.value}`}
-                onClick={() => handleOptionClick(grDesStyleOption.value as string)}
+                onClick={() => handleOptionClick(grDesStyleOption.value, `banner_type`, router)}
                 className={`${isChecked ? `bg-gray-700/40` : `bg-none`} transition-all duration-500`}
               >
                 <ListItemIcon>
                   <ListItemAvatar>
-                    <Avatar
+                    {/* if the img source is not null, display the avatar with it. */}
+                    {grDesStyleOption.imgSrc && <Avatar
                       alt={`template image for the ${grDesStyleOption.name} category`}
                       src={grDesStyleOption.imgSrc}
                       className={`${isChecked ? `border-4 border-white/40 shadow-lg shadow-blue-200/30` : `border-none shadow-none`} transition-all ease-in-out duration-300 `}
                       id={`${grDesStyleOption.name}`}
-                    />
+                    />}
                   </ListItemAvatar>
                 </ListItemIcon>
                 <ListItemText id={`${grDesStyleOption.name}`} primary={`${grDesStyleOption.name}`} />
@@ -73,13 +74,12 @@ const SortStyle = ({ style }: props) => {
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={ethnicOpen} timeout="auto" unmountOnExit  >
-                  {grDesStyleOption.value?.map((country) => {
+                  {grDesStyleOption.value?.map((country: gr_des_styles_type) => {
                     const isChecked = style.includes(country.value)
-
                     return (
                       <ListItemButton sx={{ pl: 4 }} key={country.name}
                         id={`${country.value}`}
-                        onClick={() => handleOptionClick(country.value as string)}
+                        onClick={() => handleOptionClick(country.value as string, `style`, router)}
                         className={`${isChecked ? `bg-gray-700/40` : `bg-none`} transition-all duration-500`}
                       >
                         <ListItemIcon>
