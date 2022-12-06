@@ -1,0 +1,1 @@
+export type SortOption = {name: string, imgSrc: `/${string}` | null , value : {name: string, imgSrc: `/${string}` | null , value : string | null }[] | string  }

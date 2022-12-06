@@ -61,9 +61,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       .then(async (userCredential) => {
         const uid = userCredential.user.uid
         axios.post('/api/login', { 'uid': uid })
-        router.push('/')
 
-      })
+      }).then(()=>router.push('/'))
       .catch((err) => alert(err.message)).finally(() => setLoading(false))
   }
 

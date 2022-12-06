@@ -1,6 +1,11 @@
 //this function determines the input fields that are going to be needed when uploading an image
 import { appetizers_array, artwork_styles_array, banner_type_array, drinks_array, fast_foods_array, fruits_array, gr_des_style_array, ingredients_array, LARGE_CATEGORY_OF_IMG, logo_type_array, main_dish_array, material_type, menu_size_array, shape_array, size_array, SMALL_CATEGORY_OF_IMG, soups_array, spices_array, stickers_and_cliparts_categories, surr_env_array, sweets_and_desserts_array, tier_array, utensils_and_plates_array, vegetables_array, } from "../../typings/image-types/ImageTypes";
-
+/**
+ * Determines the categories that can be chosen when an image is uploaded
+ * @param {LARGE_CATEGORY_OF_IMG}LARGE_CATEGORY_OF_IMG The large category of the image 
+ * @param {SMALL_CATEGORY_OF_IMG}SMALL_CATEGORY_OF_IMG The small category of the image
+ * @returns Array of objects with the possible categories
+ */
 export const determineInputs = (
   LARGE_CATEGORY_OF_IMG: LARGE_CATEGORY_OF_IMG,
   SMALL_CATEGORY_OF_IMG: SMALL_CATEGORY_OF_IMG) => {
@@ -14,13 +19,13 @@ export const determineInputs = (
       Array.push({ style: gr_des_style_array })
       break;
     case `stock-images`:
-      Array.push({ surrounding_environment: surr_env_array })
+      Array.push({ surr_env: surr_env_array })
       break
   }
   //check for each type of category and push the necessary objects 
   switch (SMALL_CATEGORY_OF_IMG) {
     case `appetizers`: 
-    Array.push({dish_type: appetizers_array})
+    Array.push({appetizer_type: appetizers_array})
     break;
     case `soups`:
       Array.push({soup: soups_array})
@@ -29,10 +34,10 @@ export const determineInputs = (
       Array.push({ dish_type: main_dish_array })
       break;
     case `sweets-and-desserts`:
-      Array.push({ food_type: sweets_and_desserts_array })
+      Array.push({ sweet_type: sweets_and_desserts_array })
       break;
     case `fast-foods`:
-      Array.push({ food_type: fast_foods_array })
+      Array.push({ fast_food_type: fast_foods_array })
       break;
     case `drinks`:
       Array.push({ drink_type: drinks_array })
@@ -44,7 +49,7 @@ export const determineInputs = (
     case `ingredients`: Array.push({ingredients:ingredients_array})
       break;
     case `menus`:
-      Array.push({ size: menu_size_array })
+      Array.push({ menu_size: menu_size_array })
       break;
     case `banners`:
       Array.push({ banner_type: banner_type_array })
@@ -56,7 +61,7 @@ export const determineInputs = (
       Array.push({ artwork_style: artwork_styles_array })
       break;
     case `stickers-and-cliparts`:
-      Array.push({ stickers_category: stickers_and_cliparts_categories })
+      Array.push({ sticker_category: stickers_and_cliparts_categories })
       break;
     case `brochures`:
       Array.push({ shape: shape_array })

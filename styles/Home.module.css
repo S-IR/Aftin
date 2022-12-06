@@ -16,8 +16,18 @@
 }
 
 .homePricing{
-  @apply mx-6 hover:bg-slate-700 w-[250px] m-1  md:w-[300px]  h-[400px] flex items-center shadow-xl rounded-xl bg-gradient-to-r from-fuchsia-800 to-gray-700 text-white flex-col justify-center text-center hover:text-gray-500 transition-all duration-300 
+  @apply mx-6 hover:bg-slate-700 w-[250px] m-1  md:w-[300px]  h-[400px] flex items-center shadow-xl rounded-xl bg-gradient-to-r from-orange-800 to-gray-700 text-white flex-col justify-center text-center hover:text-gray-500 transition-all duration-300 
 }
-.homeBannerBG{
-  background-image: url('/frontend-used-images/homeBannerBackground.png');
+
+.homeBannerHOne{
+  text-shadow: 
+  -0.0075em 0.0075em 0 mix(#fff, #e91e63, 94%),
+  0.005em 0.005em 0 mix(#fff, #e91e63, 60%),
+  0.01em 0.01em 0 mix(#fff, #e91e63, 62%), 
+  0.015em 0.015em mix(#fff, #e91e63, 64%), 
+  0.02em 0.02em 0 mix(#fff, #e91e63, 66%), 
+  0.025em 0.025em 0 mix(#fff, #e91e63, 68%),
+  0.03em 0.03em 0 mix(#fff, #e91e63, 70%),
+  0.035em 0.035em 0 mix(#fff, #e91e63, 72%);
+
 }

@@ -3,8 +3,8 @@
 
 @tailwind base;
   body{
-    background-image: url('/frontend-used-images/website-background.svg');
-    width: auto;
+    background-image: url('/frontend-used-images/website-background.png');
+    background-repeat: repeat;
     color:white;
   }
   input::-webkit-file-upload-button{
@@ -27,12 +27,12 @@
   .general-buttons{
     @apply
     md:w-32 text-white font-medium rounded-lg text-sm text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-4 md:px-2 md:h-10 p-2 
-    bg-gradient-to-r from-fuchsia-800 to-gray-700
+    bg-gradient-to-r from-orange-800 to-gray-700
     hover:shadow-md hover:shadow-blue-800 hover:text-white/80
     focus:outline-none 
     active:shadow-2xl
-    shadow-lg shadow-blue-500 
-    transition ease-in-out duration-500
+    shadow-sm shadow-blue-500 
+    transition ease-in-out duration-300
     disabled:opacity-25
   }
   .website-theme-settings{
@@ -42,11 +42,12 @@
     background-size: cover;
   }
   .website-theme-image{
-    background-image: url('/frontend-used-images/website-background.svg');
+    background-image: url('/frontend-used-images/website-background.png');
     width: auto;
+    background-repeat: repeat;
   }
   .navbar-background{
-    background-image: url('/frontend-used-images/navbar-background.svg');
+    background-image: url('/frontend-used-images/NavbarBG.svg');
     height: 75px;
     }
   .logo-svg{

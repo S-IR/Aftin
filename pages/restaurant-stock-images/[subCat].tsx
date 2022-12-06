@@ -1,47 +1,34 @@
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { GetServerSideProps, NextPageContext } from 'next'
+import { GetServerSideProps, NextPage, NextPageContext } from 'next'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SortingSidebar from '../../components/SortingSidebar'
-import { db } from '../../firebase'
-import { ImgFields } from '../../typings/image-types/ImageTypes'
+import { useQuery, QueryClient, dehydrate, DehydratedState, UseQueryResult, useInfiniteQuery } from 'react-query'
+import SiteGallery from '../../components/SiteGallery'
 
 interface props {
-  docsArray: ImgFields[]
 }
-const Index = ({ docsArray }: props) => {
-  const router = useRouter()
-  const subCat = router.query.subCat
-  console.log(docsArray[0]);
-  
+const Index: NextPage<props> = ({ }) => {
 
   return (
-    <div>
-      <SortingSidebar sorts={docsArray[0]}/>
+    <div className='flex w-full h-auto'>
+      <SortingSidebar />
+      <main className=' flex-grow'>
+        <SiteGallery  />
+      </main>
     </div>
   )
 }
 
 export default Index
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  if (!context.params) return { props: {} }
-  const subCat = context.query.subCat
-  
-  const food_type = context.query.food_type
-  const subCatRef = collection(db, `/stock-images/${subCat}/Images`)
-  
+// export const getServerSideProps: GetServerSideProps = async (context): Promise<{ props: { dehydratedState: DehydratedState } | {} }> => {
 
-  const q = query(subCatRef, where("food_type", "array-contains", food_type))
-  const querySnapshot = await getDocs(q);
-  console.log(querySnapshot.docs);
-  
-  let docsArray = []
-  querySnapshot.docs.forEach((doc) =>
-    docsArray.push({ ...doc.data() })
-  )
+//   if (context.params === undefined) return { props: {} }
 
-  return {
-    props: { docsArray }, // will be passed to the page component as props
-  }
-}
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient)
+//     }, // will be passed to the page component as props
+//   }
+// }

@@ -1,32 +1,39 @@
 import { Modal } from '@mui/material'
 import { Box } from '@mui/system'
 import { useGesture } from '@use-gesture/react'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSpring, animated, config, to } from 'react-spring'
-import FreeImageModal from './freeImageModal'
+import { ImgDoc } from '../typings/image-types/ImageTypes'
+import FreeImageModal from './FreeImageModal'
 import PaidImageModal from './PaidImageModal'
 import PremiumIcon from './PremiumIcon'
+import {isMobile} from 'react-device-detect';
 
-interface props{
-  doc: object
-  w: number
-  h: number
+interface props {
+  doc: ImgDoc
+
 }
 
-function SingleImage({ doc, w, h }: props) {
+function SingleImage({ doc }: props) {
 
-
+  // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false)
   const [open, setOpen] = useState(false)
+
+  // function to get the w and h of the image
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
+
+
   const target = useRef(null)
-  
+
   const [{ x, y, rotateX, rotateY, rotateZ, zoom, scale }, api] = useSpring(
     () => ({
       rotateX: 0,
       rotateY: 0,
       scale: 1,
-      config: { mass: 5, tension: 350, friction: 40, duration:0 },
+      config: { mass: 5, tension: 350, friction: 40, duration: 0 },
     })
   )
   useEffect(() => {
@@ -39,29 +46,43 @@ function SingleImage({ doc, w, h }: props) {
       document.removeEventListener('gesturechange', preventDefault)
     }
   }, [])
-
+  //get the image width and height 
+  useEffect(() => {
+    const img = new Image()
+    img.src = doc.url
+    img.onload = () =>{
+      setWidth(()=> {if(isMobile){ return img.width / 4} else {return img.width / 2}})
+      setHeight(()=> {if(isMobile){ return img.height / 4} else {return img.height / 2}})
+    }
+  }, [])
+  
+  
   useGesture(
     {
       onHover: ({ hovering }) =>
-        !hovering && api({ rotateX: 0, rotateY: 0, scale: 1 }),
+        !hovering && api({ rotateX: 0, rotateY: 0, scale: 1.1 }),
 
     },
     { target, eventOptions: { passive: false } }
   )
 
+  
+
   return (
-    <div className=''>
-      {doc.paid ? <PaidImageModal open={open} setOpen={setOpen} /> : <FreeImageModal url={doc.url} open={open} setOpen={setOpen} />}
+    <div className='relative w-max h-max flex align-middle justify-center rounded-md'>
+      {doc.paid === `true` ? 
+      <PaidImageModal open={open} setOpen={setOpen}  /> : 
+      <FreeImageModal url={doc.url} open={open} setOpen={setOpen} width={width} height={height} alt={doc.description}  />}
       <animated.div
         ref={target}
-        className="w-auto h-auto relative border-gray-300 cursor-pointer shadow-[5px_10px_10px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0px_15px_30px_-10px_rgba(255,255,255,0.4)]  hover:translate-y-1 transition ease-in-out duration-300 rounded-lg " onMouseEnter={() => {
+        className="w-auto h-auto relative shadow-white cursor-pointer shadow-none hover:shadow-sm hover:translate-y-1 transition ease-in-out duration-300 rounded-lg " onMouseEnter={() => {
           setPremiumText(true)
         }} onMouseLeave={() => {
           setPremiumText(false)
         }
         } onClick={() => setOpen(true)}
         style={{
-          
+
           transform: 'perspective(600px)',
           x,
           y,
@@ -72,15 +93,21 @@ function SingleImage({ doc, w, h }: props) {
         }}
       >
 
-        <Image
-          src={doc.source}
+        <NextImage
+          src={doc.url}
           alt={doc.description}
-          width={w}
-          height={h}
-          objectFit='cover'
-          className='rounded-2xl   '
+          width={width}
+          height={height}
+          onLoad={({ target }: { target: HTMLImageElement }) => {
+            
+            const { width, height } = target as HTMLImageElement
+            setWidth(width)
+            setHeight(height)
+          }}
+          objectFit={`scale-down`}
+          className='rounded-xl   '
         />
-        {doc.paid && <PremiumIcon premiumText={premiumText} />}
+        {doc.paid === true && <PremiumIcon premiumText={premiumText} />}
 
       </animated.div>
     </div>

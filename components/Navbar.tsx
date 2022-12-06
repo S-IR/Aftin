@@ -21,8 +21,8 @@ function Navbar() {
     const height = el.offsetHeight
     setMenuHeight(height)
   }
-  //this state is meant to stop the setting of the state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's being exited. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
-  const [exitedDropdown, setExitedDropdown] = useState<null  | navLink["DropdownState"]>(null)
+  //this exit state is meant to stop the setting of the hover state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's animating out. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
+  const [exitedDropdown, setExitedDropdown] = useState<null | navLink["DropdownState"]>(null)
 
   function NavbarHoverSwitch(target: typeof activeSidebar) {
     switch (target) {
@@ -33,10 +33,10 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
-            onExit={()=> setExitedDropdown(`ImagesDropdown`)}
-            onExited={()=> setExitedDropdown(null)}
+            onExit={() => setExitedDropdown(`ImagesDropdown`)}
+            onExited={() => setExitedDropdown(null)}
           >
-            <ImagesDropdown setActiveSidebar={setActiveSidebar}  />
+            <ImagesDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
         )
       case ('ProductsDropdown'):
@@ -46,8 +46,8 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
-            onExit={()=> setExitedDropdown(`ProductsDropdown`)}
-            onExited={()=> setExitedDropdown(null)}
+            onExit={() => setExitedDropdown(`ProductsDropdown`)}
+            onExited={() => setExitedDropdown(null)}
           >
             <ProductsDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
@@ -59,8 +59,8 @@ function Navbar() {
             unmountOnExit
             timeout={700}
             classNames={`navbarDropdown`}
-            onExit={()=> setExitedDropdown(`GrDesignsDropdown`)}
-            onExited={()=> setExitedDropdown(null)}
+            onExit={() => setExitedDropdown(`GrDesignsDropdown`)}
+            onExited={() => setExitedDropdown(null)}
           >
             <GrDesignsDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
@@ -72,37 +72,32 @@ function Navbar() {
 
   return (
     <>
-      <nav className="w-full sticky top-0 z-[120] rounded-full h-[50px]"      >
-        <div className={` flex items-center h-[50px] w-full navbar bg-gradient-to-r from-gray-900 via-fuchsia-900/30  to-gray-900 z-5 `}>
-          <ul className="h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
+      <nav className="navbar-background w-full sticky top-0 z-[120] flex items-center h-[75px]  navbar  z-5 "      >
+
+          <ul className="grow-1 h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
             {navLinks.map((nav) => (
               <li
                 key={nav.id}
                 className="flex flex-1 items-center space-x-1 h-[50px] cursor-pointer"
-                onMouseOver={() => {if(exitedDropdown !== nav.DropdownState) return setActiveSidebar(nav.DropdownState)}}
+                onMouseOver={() => { if (exitedDropdown !== nav.DropdownState) return setActiveSidebar(nav.DropdownState) }}
                 onMouseLeave={() => setActiveSidebar(null)}
-                onClick={()=>router.push(nav.url)}
-                ><>
-                    {nav.title}
-                    {NavbarHoverSwitch(nav.DropdownState)}
-                  </>
+                onClick={() => router.push(nav.url)}
+              ><>
+              <p className="text-md md:text-lg font-serif italic" >
+              {nav.title}
+
+              </p>
+                  {NavbarHoverSwitch(nav.DropdownState)}
+                </>
               </li>
             ))}
           </ul>
 
-          <div className="px-4 md:px-6 overflow-auto z-50 pt-[20px]">
-            <Image
-              src={aftinLogo}
-              width={65}
-              height={65}
-              alt="Aftin Logo"
-            />
-          </div>
 
-          <div className=" flex flex-1 space-x-4  items-center justify-center">
-            <input type="text" placeholder="Search for an image" className="hidden md:flex searchbox w-12 h-8 !ml-1"></input>
-            <Button className="mt-2" text={'Login'} handleOnClick={() => router.push('/login')} />
-            <Button className="mt-2" text={'Sign Up'} handleOnClick={() => router.push('/login')} />
+          <div className="grow-0 flex flex-1 space-x-2  items-center justify-center w-min">
+
+            <Button className="mt-1 !h-8" text={'Login'} handleOnClick={() => router.push('/login')} />
+            <Button className="mt-1 !h-8" text={'Sign Up'} handleOnClick={() => router.push('/login')} />
             <button
               onClick={() => activeSidebar === 'ProfileDropdown' ?
                 setActiveSidebar(null) : setActiveSidebar('ProfileDropdown')}
@@ -111,7 +106,6 @@ function Navbar() {
             </button>
           </div>
 
-        </div>
       </nav>
     </>
   )

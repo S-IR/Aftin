@@ -9,18 +9,19 @@ import SingleImage from '../../components/SingleImage'
 import ImgSubcatOption from '../../components/ImgLink'
 import ImgLink from '../../components/ImgLink'
 import { StockImageLinks } from '../../constants/Navbar/StockImageCategories'
+import Link from 'next/link'
 
 const Index = () => {
 
   return (
     <div className='bg-black/40 w-screen h-[135vh] md:h-screen'>
       <div className="absolute -z-10 w-screen h-screen invisible md:visible">
-      <Image
-        alt='restaurant graphic design image example'
-        src={`/frontend-used-images/grDesignsBanner.png`}
-        layout={'fill'}
-        objectFit={'cover'}
-      />
+        <Image
+          alt='restaurant graphic design image example'
+          src={`/frontend-used-images/grDesignsBanner.png`}
+          layout={'fill'}
+          objectFit={'cover'}
+        />
       </div>
 
       <div className='absolute z-0 w-screen h-screen flex flex-col items-center'>
@@ -33,7 +34,11 @@ const Index = () => {
             return (
               <div className='w-[125px] h-[125px] m-2 md:m-6 flex flex-col text-center' key={stockImage.name}>
                 <p >{stockImage.name}</p>
-                <ImgLink url={stockImage.source} alt={`example of ${stockImage.name} image`} w={125} h={125} />
+                <Link href={stockImage.href} >
+                  <a>
+                    <ImgLink url={stockImage.source} alt={`example of ${stockImage.name} image`} w={125} h={125} />
+                  </a>
+                </Link>
               </div>
             )
           })}

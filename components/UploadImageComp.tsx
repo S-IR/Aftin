@@ -36,7 +36,7 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
     
   } = useForm<UploadImgInputs>()
 
-
+//whenever the choosen categories change this function will run to recalculate the what categories to show
   useEffect(() => {
     const Array = determineInputs(LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG)
     setInputsArray(Array)
@@ -93,7 +93,7 @@ const UploadImageComp = ({ LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG }: props
             (Object.keys(imgField)[0] === `description`)) return
         
             //
-            const allowMultipleOptions = Object.keys(imgField)[0] !== `size` && Object.keys(imgField)[0] !== `surrounding_environment` && Object.keys(imgField)[0] !== `paid`
+            const allowMultipleOptions = Object.keys(imgField)[0] !== `size` && Object.keys(imgField)[0] !== `surr_env` && Object.keys(imgField)[0] !== `paid`
             return <FirstDegreeInput key={i}  allowMultipleOptions={allowMultipleOptions} imgField={imgField} register={register} errors={errors} />
         }
 

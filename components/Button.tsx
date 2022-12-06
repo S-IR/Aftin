@@ -10,7 +10,7 @@ interface props {
 const Button = ({text, handleOnClick, type=undefined, className=''}:props) => {
   return (
     <div className="relative">
-      <div className={`${className} absolute inset-0.5 bg-pink-600 rounded-lg md:w-32 md:h-10 w-20 h-8 blur-md opacity-75 group-hover:opacity-100 transition-all duration-200`} ></div>
+      <div className={`${className} absolute inset-0.5 bg-orange-600 rounded-lg md:w-32 md:h-10 w-20 h-8 blur-md opacity-75 group-hover:opacity-100 transition-all duration-200`} ></div>
       <button 
       type={undefined}
       className={`${className} relative general-buttons  group-hover:text-gray-200 hover:shadow-none`} onClick={(e)=>handleOnClick(e)}>{text}</button>

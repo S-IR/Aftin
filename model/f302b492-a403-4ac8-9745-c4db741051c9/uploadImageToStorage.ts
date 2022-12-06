@@ -52,9 +52,9 @@ export const uploadImageToStorage = async (
           const imageData = ctx.getImageData(0, 0, width, height);
           const rgbArray = buildRgb(imageData.data)
           const MainColors = ColorQuantization(rgbArray, 3);
-          const hexArray = rgbArrayToHex(MainColors)
+
           addDoc(doc, {
-            ...docFields, color_scheme: hexArray, url
+            ...docFields, color: MainColors, url
           })
           console.log(`finished uploading the image`);
           

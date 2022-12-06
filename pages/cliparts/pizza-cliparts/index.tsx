@@ -23,7 +23,7 @@ const Index = ({  }: props) => {
         <title>Pizza Cliparts</title>
       </Head>
       <div className='flex w-full'>
-        <SortingSidebar sorts={sorts} setSorts={setSorts} />
+        <SortingSidebar  />
         <main className=''>
           <div className='w-[1000px] h-[1080px] bg-black/60' ></div>
           {/* <SiteGallery queryCollection="pizza cliparts"/> */}

@@ -25,7 +25,7 @@ export const StockImageLinks: NavbarImageLink[] = [
   },
   {
     name: 'Main Dishes',
-    href: '/restaurant-stock-images/dishes',
+    href: '/restaurant-stock-images/main-dishes',
     source: "/frontend-used-images/Category-Images/Dishes.png",
     description: 'Images of various restaurant dishes, country specific or not, meant to make people hungry',
     SlideImages: [

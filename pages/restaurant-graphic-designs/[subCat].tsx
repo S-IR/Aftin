@@ -1,54 +1,49 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { GetServerSideProps, NextPage, NextPageContext } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import SortingSidebar from '../../components/SortingSidebar'
 import { db } from '../../firebase'
-import { ImgFields } from '../../typings/image-types/ImageTypes'
+import { ImgDoc, SMALL_CATEGORY_OF_IMG } from '../../typings/image-types/ImageTypes'
 import { useQuery, QueryClient, dehydrate, DehydratedState, UseQueryResult } from 'react-query'
 import Loading from '../../components/Loading'
 import { requestImageDocs } from '../../model/image-functions/requestImages'
 import { AppContext } from 'next/app'
+import SiteGallery from '../../components/SiteGallery'
 
 interface props {
 }
 const Index: NextPage<props> = ({ }) => {
-  const router = useRouter()
-  const subCat = router.query.subCat
-  const { isLoading, isError, error, data }: UseQueryResult<string | null, Error> = useQuery<string | null, Error>(`${subCat}`, () => requestImageDocs(router.query), {enabled: router.query !== undefined})
-  if(isLoading) {
-    return(
-      <Loading />
-    )
-  }
-  if (isError){
-    return(
-      <div>{error.message} </div>
-    )
-  }
-  console.log(data)
-  
+
   return (
-    <div>
-      hi
+    <div className='flex w-full h-auto'>
+      <SortingSidebar />
+      <main className=' flex-grow'>
+        <SiteGallery  />
+      </main>
     </div>
   )
 }
 
 export default Index
 
-export const getServerSideProps: GetServerSideProps = async (context): Promise<{ props: { dehydratedState: DehydratedState } | {} }> => {
-  if (context.params === undefined) return { props: {} }
-  const queryParams = context.params
-  const subCat = context.params.subCat
+// export const getServerSideProps: GetServerSideProps = async (context): Promise<{ props: { dehydratedState: DehydratedState } | {} }> => {
+  
+//   if (context.params === undefined) return { props: {} }
+  
+//   const {subCat, ...queryParams} = context.query
+ 
+  
+//   const queryClient = new QueryClient()
+//   if(subCat){
+//     await queryClient.prefetchQuery(`${subCat}`, () => requestImageDocs(`graphic-designs`, subCat as string, queryParams))
+  
+//   }
 
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(`${subCat}`, () => requestImageDocs(queryParams))
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient)
-    }, // will be passed to the page component as props
-  }
-}
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient)
+//     }, // will be passed to the page component as props
+//   }
+// }

@@ -1,17 +1,21 @@
 import { Box, Dialog, DialogTitle, Modal } from '@mui/material'
 import Image from 'next/image'
-import React from 'react'
+import React, { FC } from 'react'
 import { PhotographIcon, CakeIcon, PencilIcon, DeviceMobileIcon, VariableIcon } from '@heroicons/react/solid'
 import { AiFillEdit } from 'react-icons/ai';
 
 
+interface props {
+  open: boolean
+  setOpen: React.SetStateAction<boolean>
+}
 
-
-const PaidImageModal = ({ open, setOpen }) => {
+const PaidImageModal: FC<props> = ({ open, setOpen }) => {
   return (
     <Dialog
       open={open}
-      onClose={(_, reason) => reason === 'backdropClick' && setOpen(false)}
+      onClose={(_, reason) => {
+        if (reason === 'backdropClick') return setOpen(false) }}
       maxWidth="lg"
     >
       <div className='flex rounded-3xl p-4 '>

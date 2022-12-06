@@ -11,7 +11,7 @@ const HomePricingComponent = () => {
       </div>
 
     <div className='flex justify-center text-center'>
-      <button className=' w-80 h-80 bg-fuchsia-800 text-white rounded-full font-serif space-y-2 hover:bg-black hover:text- transition-all duration-300 hover:translate-y-1 shadow-xl  '>
+      <button className=' w-80 h-80 bg-orange-800 text-white rounded-full font-serif space-y-2 hover:bg-black hover:text- transition-all duration-300 hover:translate-y-1 shadow-xl  '>
        <h3 className=' font-bold'>Work with a professional designer </h3>
        <p>Ask a professional to design your desired website, banner, logo or any graphic design element through our partners</p>
       </button>

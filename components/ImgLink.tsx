@@ -42,10 +42,10 @@ const ImgLink = ({url, alt, w, h}: props) => {
     { target, eventOptions: { passive: false } }
   )
   return (
-    <div className={`w-${w*2} h-${h*2}`}>
+    <div className={`w-[${w*2}px] [h-${h*2}px]`}>
       <animated.div
         ref={target}
-        className="w-auto h-auto relative border-gray-300 cursor-pointer shadow-[5px_10px_10px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0px_15px_30px_-10px_rgba(255,255,255,0.4)]  hover:translate-y-1 transition ease-in-out duration-300 rounded-lg " 
+        className="w-auto h-auto relative  cursor-pointer  shadow-white   transition ease-in-out duration-300 rounded-sm before:border-inherit bg-inherit bg-clip-border hover:shadow-lg shadow-none hover:translate-x-1 " 
         style={{
 
           transform: 'perspective(600px)',
@@ -64,7 +64,7 @@ const ImgLink = ({url, alt, w, h}: props) => {
           width={w}
           height={h}
           objectFit='cover'
-          className='rounded-2xl   '
+          className='rounded-md   '
         />
 
       </animated.div>
