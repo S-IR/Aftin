@@ -8,7 +8,9 @@ import Link from 'next/link'
 import useAuth from '../hooks/useAuth'
 import LoginDiv from '../components/Login/LoginDiv'
 import SignUpDiv from '../components/Login/SignUpDiv'
-
+import Loading from '../components/Loading'
+import { CSSTransition } from 'react-transition-group'
+import styles from '../styles/Login.module.css'
 
 interface Inputs {
   email: string
@@ -28,6 +30,7 @@ function Login() {
     formState: { errors },
   } = useForm<Inputs>()
  
+  const {loading} = useAuth()
 
 
   return (
@@ -36,8 +39,8 @@ function Login() {
         <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
         <title>login</title>
       </Head>
-      <div className='relative flex flex-row  h-screen w-screen bg-black md:items-center md:justify-center md:bg-transparent py-10 items-center flex-wrap w-none sm:w-auto'>
-        <div className='absolute -z-10'>
+      <div className='relative flex flex-row  h-screen w-screen bg-black md:items-center md:justify-center md:bg-transparent py-10 items-center flex-wrap w-none sm:w-auto content-start'>
+        <div className='absolute -z-10 '>
           <Image
             src={loginBanner}
             alt='login-artwork'
@@ -45,20 +48,31 @@ function Login() {
             className='-z-10 bg-blend-hard-light !none sm:!inline'
           />
         </div>
-        <div className=' flex flex-col-reverse sm:flex-col'>
-          <Image
-            src={aftinLogo}
-            alt='login-artwork'
-            width={240}
-            height={135}
-            className='bg-blend-hard-light !hidden sm:!inline'
-          />
-          <div className='flex row-span-2 justify-center'>
-            <button className='flex justify-center items-center w-full signIn' onClick={() => (setLogin(true))}>Sign In</button>
-            <button className='flex justify-center items-center w-full signIn' onClick={() => setLogin(false)}>Sign Up</button>
+        <div className=' flex flex-col-reverse sm:flex-col '>
+          <div className='flex row-span-2 justify-center relative'>
+            <button className='flex justify-center items-center w-full signIn m-1' onClick={() => (setLogin(true))}>Sign In</button>
+            <button className='flex justify-center items-center w-full signIn m-1' onClick={() => setLogin(false)}>Sign Up</button>
           </div>
-          {login? <LoginDiv></LoginDiv> : <SignUpDiv></SignUpDiv>}
+          <div  className='grow-1 relative' >
+          <CSSTransition
+            in={login}
+            unmountOnExit
+            timeout={300}
+            classNames={`loginDiv`}
+          >
+            <LoginDiv />
+          </CSSTransition>
+          <CSSTransition
+            in={!login}
+            unmountOnExit
+            timeout={300}
+            classNames={`loginDiv`}
+          >
+            <SignUpDiv />
+          </CSSTransition>
+          </div>
 
+          {loading? <Loading /> : null}
 
 
 

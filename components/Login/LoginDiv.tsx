@@ -14,14 +14,13 @@ interface Inputs {
 function LoginDiv() {
   const { signInWithGoogle } = useAuthThirdParty()
 
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<Inputs>()
-  const { signIn, signUp } = useAuth()
+  const {signIn} = useAuth()
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     await signIn(email, password)
@@ -30,7 +29,7 @@ function LoginDiv() {
   return (
 
 
-    <form onSubmit={handleSubmit(onSubmit)} className='sm:w-auto z-50 bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900  rounded-3xl space-y-8 md:max-w-md md:px-14 flex-row row-span-1 justify-center items-center text-white  p-4 mx-5'>
+    <form onSubmit={handleSubmit(onSubmit)} className='sm:w-auto z-50 bg-gray-200 to-blue-900  rounded-3xl space-y-8 md:max-w-md md:px-14 flex-row row-span-1 justify-center items-center text-white p-4 mx-5 absolute top-0 left-0 '>
       <div className='space-y-4'>
         <label className='inline-block w-full'>
           <input type="email" placeholder='Email' className='input' {...register("email", {

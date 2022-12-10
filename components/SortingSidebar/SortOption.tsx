@@ -44,7 +44,6 @@ const SortOption = ({ optionsArray, title, queryName, Icon }: props) => {
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         {optionsArray.map((sortOption: SortOption) => {
-          console.log(`sortOption.imgSrc:`, sortOption.imgSrc);
 
           //render each option
           // if the value is an array, that means that the option is a nested list

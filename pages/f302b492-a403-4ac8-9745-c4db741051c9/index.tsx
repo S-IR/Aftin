@@ -5,6 +5,8 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@m
 import { Box } from '@mui/system';
 import { GrahicDesignsOptions as GraphicDesignsOptions, GraphicDesignType, LARGE_CATEGORY_OF_IMG, StockImagesOptions, StockImageType } from '../../typings/image-types/ImageTypes';
 import UploadImageComp from '../../components/UploadImageComp';
+import { GetServerSideProps } from 'next';
+import { getUserTier } from '../../firebaseAdmin';
 
 
 
@@ -23,76 +25,70 @@ const Index = (LOGIN_DATA: Object) => {
     setSmallCategory(e.target.value as GraphicDesignType | StockImageType)
   }
 
-  if (LOGIN_DATA === undefined || Object.values(LOGIN_DATA).toString() !== 'St1wYqtz7Hao1t3cDXwOCzzcc8m1') {
-    return (
-      <div>You don't have access here</div>
-    )
-  }
-  else {
 
-    return (
-      <>
-        <Box sx={{ width: 1000, padding: 10, background: `white` }}>
+  return (
+    <>
+      <Box sx={{ width: 1000, padding: 10, background: `white` }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Large Image Category</InputLabel>
+          <Select
+            label="Choose large category"
+            onChange={handleLargeCategory}
+          >
+            <MenuItem key={'stock-images'} value={'stock-images'}>{`Stock Images`}
+            </MenuItem>
+            <MenuItem key={'graphic-designs'} value={'graphic-designs'}>{`Graphic Designs`}
+            </MenuItem>
+          </Select >
+        </FormControl>
+
+        {largeCategory === `stock-images` &&
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Large Image Category</InputLabel>
+            <InputLabel id="demo-simple-select-label">Small Image Category</InputLabel>
             <Select
-              label="Choose large category"
-              onChange={handleLargeCategory}
+              label="Choose stock image type"
+              onChange={handleSmallCategory}
             >
-              <MenuItem key={'stock-images'} value={'stock-images'}>{`Stock Images`}
-              </MenuItem>
-              <MenuItem key={'graphic-designs'} value={'graphic-designs'}>{`Graphic Designs`}
-              </MenuItem>
+              {StockImagesOptions.map((StockImageOption: StockImageType) => (
+                <MenuItem key={StockImageOption} value={StockImageOption}>{StockImageOption}</MenuItem>
+              ))}
             </Select >
           </FormControl>
+        }
+        {largeCategory === `graphic-designs` &&
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Image Category</InputLabel>
+            <Select
+              label="Choose stock image type"
+              onChange={handleSmallCategory}
+            >
+              {GraphicDesignsOptions.map((GraphicDesignOption: GraphicDesignType) => (
+                <MenuItem key={GraphicDesignOption} value={GraphicDesignOption}>{GraphicDesignOption}</MenuItem>
+              ))}
+            </Select >
+          </FormControl>
+        }
 
-          {largeCategory === `stock-images` &&
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Small Image Category</InputLabel>
-              <Select
-                label="Choose stock image type"
-                onChange={handleSmallCategory}
-              >
-                {StockImagesOptions.map((StockImageOption: StockImageType) => (
-                  <MenuItem key={StockImageOption} value={StockImageOption}>{StockImageOption}</MenuItem>
-                ))}
-              </Select >
-            </FormControl>
-          }
-          {largeCategory === `graphic-designs` &&
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Image Category</InputLabel>
-              <Select
-                label="Choose stock image type"
-                onChange={handleSmallCategory}
-              >
-                {GraphicDesignsOptions.map((GraphicDesignOption: GraphicDesignType) => (
-                  <MenuItem key={GraphicDesignOption} value={GraphicDesignOption}>{GraphicDesignOption}</MenuItem>
-                ))}
-              </Select >
-            </FormControl>
-          }
-
-        </Box>
-        {largeCategory !== null && smallCategory !== null && <UploadImageComp LARGE_CATEGORY_OF_IMG={largeCategory} SMALL_CATEGORY_OF_IMG={smallCategory} /> }
-      </>
-    )
-  }
-
-
-
+      </Box>
+      {largeCategory !== null && smallCategory !== null && <UploadImageComp LARGE_CATEGORY_OF_IMG={largeCategory} SMALL_CATEGORY_OF_IMG={smallCategory} />}
+    </>
+  )
 }
+
+
+
+
 
 export default Index
 
-export function getServerSideProps({ req, res }) {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   if ('LOGIN_DATA' in req.cookies) {
 
-    const jwt = req.cookies.LOGIN_DATA;
-    const decoded = verify(jwt, process.env.JWT_SECRET);
+    const LOGIN_DATA = req.cookies.LOGIN_DATA;
+    const userTier = await getUserTier(LOGIN_DATA as string)
 
-    return { props: { LOGIN_DATA: decoded.LOGIN_DATA } };
+    return { props: { LOGIN_DATA: userTier } };
   }
   else {
     return { props: { LOGIN_DATA: '' } };

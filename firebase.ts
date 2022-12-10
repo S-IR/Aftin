@@ -12,13 +12,13 @@ import { getStorage, ref } from 'firebase/storage'
 const firebaseConfig = {
   apiKey: "AIzaSyC0nq95S2D0p52n1lb8F4eUiYW62JuP8rU",
   authDomain: "aftin-3516f.firebaseapp.com",
+  databaseURL: "https://aftin-3516f-default-rtdb.firebaseio.com",
   projectId: "aftin-3516f",
   storageBucket: "aftin-3516f.appspot.com",
   messagingSenderId: "553217579691",
   appId: "1:553217579691:web:6e1f95c70d1c1f6c5875ee",
   measurementId: "G-BTF883FE0C"
-};
-
+}
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 const db = getFirestore()

@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth"
 import Button from "./Button"
 import { useRouter } from "next/router"
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { GrDesignsDropdown, ImagesDropdown, ProductsDropdown, ProfileDropdown } from "./NavbarComponents"
+import { GrDesignsDropdown, StockImagesDropdown, ProductsDropdown, ProfileDropdown } from "./NavbarComponents"
 
 
 function Navbar() {
@@ -36,7 +36,7 @@ function Navbar() {
             onExit={() => setExitedDropdown(`ImagesDropdown`)}
             onExited={() => setExitedDropdown(null)}
           >
-            <ImagesDropdown setActiveSidebar={setActiveSidebar} />
+            <StockImagesDropdown setActiveSidebar={setActiveSidebar} />
           </CSSTransition>
         )
       case ('ProductsDropdown'):
@@ -83,7 +83,7 @@ function Navbar() {
                 onMouseLeave={() => setActiveSidebar(null)}
                 onClick={() => router.push(nav.url)}
               ><>
-              <p className="text-md md:text-lg font-serif italic" >
+              <p className="text-md md:text-lg font-serif" >
               {nav.title}
 
               </p>
@@ -104,6 +104,7 @@ function Navbar() {
             >
               {<UserCircleIcon className=" w-8 h-8 cursor-pointer hover:bg-gray-500 bg-opacity-30 hover:rounded-full transition-all duration-300" />}
             </button>
+            {activeSidebar === 'ProfileDropdown'? <ProfileDropdown setActiveSidebar={setActiveSidebar} />: null}
           </div>
 
       </nav>

@@ -1,5 +1,5 @@
 import { HTMLHexColor } from "../typings"
-export const tier_array= [`normal`, `artisan`, `exquisite`]
+export const tier_array= [`bronze`, `silver`, `gold`]
 export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `stock-images`
 
 

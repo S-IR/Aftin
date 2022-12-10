@@ -20,7 +20,7 @@ const Index: NextPage<props> = ({ }) => {
     <div className='flex w-full h-auto'>
       <SortingSidebar />
       <main className=' flex-grow'>
-        <SiteGallery  />
+        {/* <SiteGallery  /> */}
       </main>
     </div>
   )

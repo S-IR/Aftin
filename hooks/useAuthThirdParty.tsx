@@ -13,14 +13,21 @@ export default function useAuthThirdParty() {
     const auth = getAuth()
     const googleProvider = new GoogleAuthProvider()
     signInWithPopup(auth, googleProvider)
-      .then((userCredential) => {
+      .then(async(userCredential) => {
         const uid = userCredential.user.uid
-        const username = userCredential.user.displayName
-        const email: string = userCredential.user.email
+        const username = userCredential.user.displayName as string
+        const email = userCredential.user.email as string
         //creating the user document
         createUserDoc(userCredential.user.uid, email, username, 'Not Specified', 'Free')
         //sending the request to set cookie
-        axios.post('/api/login', { 'uid': uid })
+        const token = await userCredential.user.getIdToken()
+        //sending the request to set cookie
+        await fetch('/api/login', {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json', token
+          })
+        })
         router.push('/')
       })
 
@@ -32,16 +39,23 @@ export default function useAuthThirdParty() {
     signInWithPopup(auth, facebookProvider)
       .then((response) => {
         console.log(response); // WORK IN PROGRESS
-      })
+      }).then(() => router.push('/'))
   }
   const signInWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
     signInWithPopup(auth, googleProvider)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
+        const token = await userCredential.user.getIdToken()
+        
         //sending the request to set cookie
-        const uid = userCredential.user.uid
-        axios.post('/api/login', { 'uid': uid })
-      }).catch((error) => {
+        await fetch('/api/login', {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json', token
+          })
+        })
+      }).then(() => router.push('/'))
+      .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -49,6 +63,8 @@ export default function useAuthThirdParty() {
         const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(error)
+        
         // ...
       });
   }

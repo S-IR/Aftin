@@ -9,7 +9,7 @@ import NavbarImageCategory from './NavbarImageCategory'
 interface props {
   setActiveSidebar: Dispatch<SetStateAction<"ProfileDropdown" | "ProductsDropdown" | "ImagesDropdown" | "GrDesignsDropdown" | null>>
 }
-const ImagesDropdown = ({setActiveSidebar}: props) => {
+const StockImagesDropdown = ({setActiveSidebar}: props) => {
   return (
     <section className='bg-gradient-to-br from-orange-800 to-gray-900 p-2 absolute top-[50px] left-60  overflow-hidden z-50 rounded-lg w-auto h-auto shadow-md shadow-white  '
     onMouseLeave={() => setActiveSidebar(null)}
@@ -23,4 +23,4 @@ const ImagesDropdown = ({setActiveSidebar}: props) => {
   )
 }
 
-export default ImagesDropdown
+export default StockImagesDropdown
