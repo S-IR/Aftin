@@ -10,19 +10,15 @@ import { getUserTier, verifyUserTier } from '../../firebaseAdmin';
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.cookies.LOGIN_DATA)
-  
-  if (req.cookies.LOGIN_DATA) {
-    const LOGIN_DATA = req.cookies.LOGIN_DATA as string;
 
-    const userTier = await getUserTier(LOGIN_DATA as string)
-        
-    if(userTier === 'unauthorized'){
-      return res.status(403).send({loginStatus: 'unauthorized'})
-    }
-    return res.status(200).send({loginStatus: userTier})
+  if (typeof (req.body) === 'string') {
+    const token = req.body as string;
+
+    const userTier = await getUserTier(token as string)
+
+    return res.status(200).json({ status: userTier })
   }
   else {
-    res.status(200).send({loginStatus: 'not logged in'})
+    res.status(200).json({ status: 'not logged in' })
   }
 }

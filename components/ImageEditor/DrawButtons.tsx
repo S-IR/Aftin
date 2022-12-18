@@ -42,12 +42,12 @@ DrawButtons = ({ setActiveSidebar }: props) => {
 
 
   return (
-    <section className='flex flex-col items-center bg-gradient-to-br from-red-900/80 via-black/80 to-red-900/80 h-full w-52'>
-      <button id='circle-button' onClick={(e) => handleClick(e)} className="general-buttons !w-20 !h-20 bg-gray-500 hover:bg-gray-900 text-white !rounded-full shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-md">Add a circle
+    <section className='flex flex-col items-center bg-gradient-to-br bg-gray-400 h-full w-52 py-10 space-y-5'>
+      <button id=' circle-button' onClick={(e) => handleClick(e)} className="bg-gray-900 !w-20 !h-20  hover:bg-gray-700 text-white !rounded-full shadow-lg !shadow-gray-700 !hover:shadow-red-500 transition-all duration-300 !text-md ">Add a circle
       </button>
-      <button id='square-button' onClick={(e) => handleClick(e)} className="general-buttons !w-20 !h-20 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-md !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-md">Add a square
+      <button id=' square-button' onClick={(e) => handleClick(e)} className="bg-gray-900 !w-20 !h-20  hover:bg-gray-700 text-white rounded-sm shadow-lg !shadow-gray-700 !hover:shadow-red-500 transition-all duration-300 !text-md ">Add a square
       </button>
-      <button id='rectangle-button' onClick={(e) => handleClick(e)} className="general-buttons !w-32 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-md">Add rectangle
+      <button id=' rectangle-button' onClick={(e) => handleClick(e)} className="bg-gray-900 !w-32 !h-16  hover:bg-gray-700 text-white rounded-sm shadow-lg !shadow-gray-700 !hover:shadow-red-500 transition-all duration-300 !text-md ">Add rectangle
       </button>
       {alert !== null ? <Alert severity='error'>{alert}</Alert> : <></>}
     </section>

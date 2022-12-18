@@ -48,5 +48,11 @@ const createUserDoc = (uid: string, email: string, username: string, occupation:
 //     views: 0
 //   })
   
-
-export { auth, db, createUserDoc }
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+  } else {
+    // No user is signed in.
+  }
+});
+export { auth, db, createUserDoc, storage }

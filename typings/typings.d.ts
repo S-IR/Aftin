@@ -2,3 +2,4 @@ export type color = "black"| "white"| "gray"| "red"| "purple"| "fuchsia"| "green
 export type HTMLHexColor = `#${string}`
 
 export type SidebarSorts = {restaurantType?: string, colorPallet?: string, colorPallet: {colorPalletName: 'Custom', colors: []}?} 
+export type LoginStatus =  'not logged in' | 'unauthorized' | 'bronze' | 'silver' | 'gold'

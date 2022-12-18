@@ -1,9 +1,14 @@
 import React from 'react'
 import { PuffLoader } from 'react-spinners'
 
-const Loading = () => {
+interface props {
+  w? : number
+  h? :number
+}
+
+const Loading = ({w, h}: props) => {
   return (
-    <section className='w-full h-full bg-black/20 flex items-center justify-center'>
+    <section className={`${w? `w-[${w}]`: `w-max`}  ${h? `h-[${h}]` : `h-max`} bg-black/20 flex items-center justify-center z-[100]`}>
       <PuffLoader
       color={`purple`}
       aria-label="Loading Spinner"

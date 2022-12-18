@@ -72,7 +72,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="navbar-background w-full sticky top-0 z-[120] flex items-center h-[75px]  navbar  z-5 "      >
+      <nav className="bg-gray-900 shadow-lg shadow-black w-full sticky top-0 z-[120] flex items-center h-[75px]  navbar  z-5 "      >
 
           <ul className="grow-1 h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
             {navLinks.map((nav) => (
@@ -96,8 +96,12 @@ function Navbar() {
 
           <div className="grow-0 flex flex-1 space-x-2  items-center justify-center w-min">
 
-            <Button className="mt-1 !h-8" text={'Login'} handleOnClick={() => router.push('/login')} />
-            <Button className="mt-1 !h-8" text={'Sign Up'} handleOnClick={() => router.push('/login')} />
+            <button className="mt-1 !h-8 general-buttons"  onClick={() => router.push('/login')} >
+              Login
+            </button>
+            <button className="mt-1 !h-8 general-buttons"  onClick={() => router.push('/login')} >
+              Sign Up
+            </button>
             <button
               onClick={() => activeSidebar === 'ProfileDropdown' ?
                 setActiveSidebar(null) : setActiveSidebar('ProfileDropdown')}

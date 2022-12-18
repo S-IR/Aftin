@@ -6,13 +6,13 @@ import { canvasElemSlice } from "../../features/canvas-elements/canvasElemSlice"
 import { AppDispatch } from "../../Redux/store"
 
 
-const { changeElementPositon, changeElementScale, selectElement } = canvasElemSlice.actions
+const { CHANGE_ELEMENT_POSITION, CHANGE_ELEMENT_SCALE, SELECT_ELEMENT } = canvasElemSlice.actions
 
 export const handleMovePosition = (
   e: KonvaEventObject<DragEvent>, 
   id: number,  
   dispatch: AppDispatch) => {
-  dispatch(changeElementPositon({
+  dispatch(CHANGE_ELEMENT_POSITION({
     id: id,
     pageX: e.target.x(),
     pageY: e.target.y()
@@ -25,7 +25,7 @@ export const handleScaling = (
   if (!elementRef) return
   const node = elementRef.current;
   if (!node) return
-  dispatch(changeElementScale({
+  dispatch(CHANGE_ELEMENT_SCALE({
     id: id,
     scaleX: node.scaleX(),
     scaleY: node.scaleY()
@@ -33,7 +33,7 @@ export const handleScaling = (
 }
 
 export const handleSelect = (id: number, dispatch: AppDispatch) =>{
-  dispatch(selectElement({
+  dispatch(SELECT_ELEMENT({
     id: id
   }))
 }

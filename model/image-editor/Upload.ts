@@ -11,7 +11,6 @@ import { color } from "../../typings/typings";
 
 export const uploadImageToCanvas = (
   imagesArray: FileList | null,
-  elementsLength: number,
   dispatch: AppDispatch
 ) => {
   const image = new Image()
@@ -19,8 +18,8 @@ export const uploadImageToCanvas = (
   let selected = imagesArray[0];
   image.src = URL.createObjectURL(selected);
   image.onload = () => {
-    const { addImage } = canvasElemSlice.actions
-    dispatch(addImage({
+    const { ADD_IMAGE } = canvasElemSlice.actions
+    dispatch(ADD_IMAGE({
       imageSRC: image.src,
       width: image.width,
       height: image.height,
@@ -40,9 +39,7 @@ export const uploadImageToCanvas = (
       }
     }))
     const { ADD_IMAGE_FILTER } = filtersActions
-    // the elements length will be +1 from the last element's index. That means that if we add a new element, the index of that element will be the previous length of the array, so we don't need to add +1 to elementsLength
 
-    // I don't know why the compiler gets mad as default_options should be the type it wants
     dispatch(ADD_IMAGE_FILTER({ type: 'image', filter: DEFAULT_OPTIONS }))
   }
 }
@@ -51,10 +48,10 @@ export const uploadTextToCanvas = (
   dispatch: AppDispatch,
   textData: Partial<textData>,
 ) => {
-  const { addText } = canvasElemSlice.actions
+  const { ADD_TEXT } = canvasElemSlice.actions
   const { ADD_TEXT_FILTER } = filtersActions
 
-  dispatch(addText({
+  dispatch(ADD_TEXT({
     text: textData.text || "Your desired text",
     x: textData.x || 20,
     y: textData.y || 20,
@@ -80,9 +77,9 @@ export const uploadShapeToCanvas = (
   dispatch: AppDispatch,
   shapeData: Partial<shapeData>
 ) => {
-  const { addShape } = canvasElemSlice.actions
+  const { ADD_SHAPE } = canvasElemSlice.actions
   const { ADD_SHAPE_FILTER } = filtersActions
-  dispatch(addShape({
+  dispatch(ADD_SHAPE({
     shape: shapeData.shape || 'Circle',
     width: shapeData.width || 100,
     height: shapeData.height || 100,

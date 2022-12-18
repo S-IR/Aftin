@@ -13,7 +13,11 @@ export interface imageFilterProperties {
   'blur': CSSFilter
 }
 
-export const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS: {
+  'brightness'  : CSSFilter,
+  'contrast' : CSSFilter,
+  'blur' : CSSFilter
+} = {
   'brightness': {
     property: 'brightness',
     value: 0,

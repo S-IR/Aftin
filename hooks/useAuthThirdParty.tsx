@@ -18,7 +18,7 @@ export default function useAuthThirdParty() {
         const username = userCredential.user.displayName as string
         const email = userCredential.user.email as string
         //creating the user document
-        createUserDoc(userCredential.user.uid, email, username, 'Not Specified', 'Free')
+        createUserDoc(uid, email, username, 'Not Specified', 'Bronze')
         //sending the request to set cookie
         const token = await userCredential.user.getIdToken()
         //sending the request to set cookie
@@ -44,28 +44,11 @@ export default function useAuthThirdParty() {
   const signInWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
     signInWithPopup(auth, googleProvider)
-      .then(async (userCredential) => {
-        const token = await userCredential.user.getIdToken()
-        
-        //sending the request to set cookie
-        await fetch('/api/login', {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json', token
-          })
-        })
-      }).then(() => router.push('/'))
+      .then(() => router.push('/'))
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+
         console.log(error)
         
-        // ...
       });
   }
 

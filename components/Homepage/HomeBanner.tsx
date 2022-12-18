@@ -56,7 +56,7 @@ function HomeBanner() {
     <section >
       <div className={`relative max-w-full  h-[900px] border-b-4 border-gray-400 border-dotted`}  >
 
-        <a.h1 className={`absolute top-32 left-10 z-50 font-bold text-6xl md:text-8xl text-center text-orange-300/80 drop-shadow-sm opacity-70  border-t-4 border-b-4 rounded  border-white shadow-gray-200 ${styles.homeBannerHOne} `}
+        <a.h1 className={`absolute top-32 left-10 z-50 font-[600] text-6xl md:text-8xl text-center text-orange-300  opacity-70  border-t-4  rounded drop-shadow-lg shadow-black  border-white/80 ${styles.homeBannerHOne} `}
         ref={hOneRef}
         style={hOneStyles}
         >

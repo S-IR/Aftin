@@ -22,7 +22,7 @@ export interface imageData {
 
 }
 
-export const addImage: CaseReducer<WritableDraft<canvasState>, PayloadAction<imageData>> = (state, action) => {
+export const ADD_IMAGE: CaseReducer<WritableDraft<canvasState>, PayloadAction<imageData>> = (state, action) => {
   const data: imageData = action.payload
   state.elements.push({ elementType: 'image', data: data })
   state.selected = state.elements.length - 1

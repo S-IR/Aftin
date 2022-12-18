@@ -1,5 +1,5 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 @tailwind base;
   body{
@@ -18,20 +18,24 @@
     shadow-lg shadow-blue-800/50  
     transition ease-in-out duration-300
   }
+  h1, h2, h3{
+    font-family: 'Taviraj', serif;
+  }
 @tailwind components;
 @tailwind utilities;
 
   .bg-general-gradient{
     @apply  bg-gradient-to-r from-orange-500 to-[#9CAF88]
   }
+
   .general-buttons{
     @apply
-    md:w-32 text-white font-medium rounded-lg text-sm text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-4 md:px-2 md:h-10 p-2 
-    bg-gradient-to-r from-orange-800 to-gray-700
-    hover:shadow-md hover:shadow-blue-800 hover:text-white/80
+    md:w-32 text-white font-bold rounded-md text-sm text-center mr-2 mb-2 sm:w-24 sm:h-12 sm:text-xs px-4 md:px-2 md:h-10 p-2 shadow-lg shadow-black
+    bg-gradient-to-r from-orange-600 to-gray-700
+    hover:shadow-md hover:scale-105 hover:text-white/80
     focus:outline-none 
     active:shadow-2xl
-    shadow-sm shadow-blue-500 
+    drop-shadow-sm 
     transition ease-in-out duration-300
     disabled:opacity-25
   }
@@ -46,16 +50,16 @@
     width: auto;
     background-repeat: repeat;
   }
-  .navbar-background{
-    background-image: url('/frontend-used-images/NavbarBG.svg');
-    height: 75px;
-    }
+  .image-editor-menuSVG{
+    background-color: #090809;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.89' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  }
   .logo-svg{
     background-image: url('/frontend-used-images/aftin-logo-svg.svg');
   }
   .links-general{
     @apply text-fuchsia-600 hover:text-black transition ease-in-out duration-300 px-4
-    hover:translate-y-1
+    hover:translate-y-1 bg-orange-400 
   }
   @keyframes homepage-top-blob-1{
     from{
@@ -162,3 +166,23 @@
   opacity: 0;
   transition: all 300ms;
 }
+
+.scrollbar::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #3a3a3a;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg,
+  #533300 20%, transparent 20%,
+  transparent 40%, #533300 40%,
+  #533300 60%, transparent 60%,
+  transparent 80%, #533300 80%);
+  border-radius: 100vh;
+}
+

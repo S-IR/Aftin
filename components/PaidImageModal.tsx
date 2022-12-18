@@ -7,7 +7,7 @@ import { AiFillEdit } from 'react-icons/ai';
 
 interface props {
   open: boolean
-  setOpen: React.SetStateAction<boolean>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const PaidImageModal: FC<props> = ({ open, setOpen }) => {

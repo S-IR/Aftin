@@ -17,7 +17,7 @@ export interface shapeData {
   strokeWidth: number
 }
 
-export const addShape: CaseReducer<WritableDraft<canvasState>, PayloadAction<shapeData>> = (state, action) => {
+export const ADD_SHAPE: CaseReducer<WritableDraft<canvasState>, PayloadAction<shapeData>> = (state, action) => {
   const data: shapeData = action.payload
   state.elements.push({ elementType: 'shape', data: data })
   state.selected = state.elements.length - 1

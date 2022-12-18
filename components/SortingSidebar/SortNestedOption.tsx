@@ -4,18 +4,11 @@ import { ExpandLess, ExpandMore, Restaurant, RestaurantMenu, RestaurantMenuOutli
 import { useRouter } from 'next/router';
 import { queryField } from '../../typings/image-types/queryTypes';
 import { handleOptionClick } from '../../model/SortingSidebar/handleClick';
+import { SortNestedOptionType } from '../../typings/image-types/sortTypes';
 
 
 interface props {
-  sortNestedOption: {
-    name: string;
-    imgSrc: string | null;
-    value: {
-      name: string;
-      imgSrc: string | null;
-      value: string | null;
-    }[] | null;
-  }
+  sortNestedOption: SortNestedOptionType
   queryName: queryField
 }
 

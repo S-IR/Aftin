@@ -21,10 +21,10 @@ const UploadButtons = ({ setActiveSidebar}:props) => {
   }
   const dispatch = useAppDispatch();
   return (
-    <div className='text-white flex flex-col items-center h-[100vh] w-auto bg-gradient-to-br from-red-900/80 via-black/80 to-red-900/80'>
+    <div className='text-white flex flex-col pt-10 items-center h-[100vh] w-auto bg-gradient-to-br bg-white drop-shadow-xl shadow-white'>
       <label
       htmlFor="image_input"
-      className='block mb-2 text-sm text-white font-bold dark:text-gray-300 md:text-xl pt-2 '
+      className='block mb-2 text-4xl text-black font-serif font-[800] dark:text-gray-300 md:text-xl pt-2 '
       >
       Upload Image
       </label>

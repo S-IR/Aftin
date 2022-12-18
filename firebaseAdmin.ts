@@ -11,14 +11,12 @@ if (!admin.apps.length) {
   });
 }
 
-export const getUserTier = async (token: string): 'bronze' | 'silver' | 'gold' | 'unauthorized' => {
+export const getUserTier = async (token: string): Promise<'bronze' | 'silver' | 'gold' | 'unauthorized'> => {
   let userTier: 'bronze' | 'silver' | 'gold' | 'unauthorized' = 'bronze'
   await admin.auth().verifyIdToken(token).then(async (decodedIdToken) => {
     const docRef = doc(db, "users", decodedIdToken.uid);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log(`docSnap.data():`, docSnap.data());
-      
+    if (docSnap.exists()) {      
       userTier = docSnap.data().subscriptionLevel
     } else {
       // doc.data() will be undefined in this case
@@ -26,6 +24,8 @@ export const getUserTier = async (token: string): 'bronze' | 'silver' | 'gold' |
     }
   }).catch(error => {
     userTier = 'unauthorized'
+    console.log(`error while verifying token :`, error);
+    
   });
   return userTier
 }

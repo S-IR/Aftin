@@ -15,8 +15,8 @@ const StockImagesDropdown = ({setActiveSidebar}: props) => {
     onMouseLeave={() => setActiveSidebar(null)}
     >
       <div className='grid grid-cols-3'>
-        {StockImageLinks.map((StockImageCategory: NavbarImageLink) => (
-          <NavbarImageCategory Category={StockImageCategory} key={StockImageCategory.name} />
+        {StockImageLinks.map((StockImageLink: NavbarImageLink) => (
+          <NavbarImageCategory Category={StockImageLink} key={StockImageLink.name} />
         ))}
       </div>
     </section>

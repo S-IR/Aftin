@@ -3,20 +3,20 @@ export const tier_array= [`bronze`, `silver`, `gold`]
 export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `stock-images`
 
 
-export type SMALL_CATEGORY_OF_IMG = `soups` | `appetizers` | `main-dishes` | `sweets-and-desserts` | `fast-foods` | `drinks` | `utensils-and-plates` | `ingredients` | `menus` | `banners` | `flyers` | `logos` | `artworks` | `stickers-and-cliparts` | `brochures` | `other`
+export type SMALL_CATEGORY_OF_IMG = `soups` | `appetizers` | `main-dishes` | `sweets-and-desserts` | `fast-foods` | `drinks` | `utensils-and-plates` | `ingredients` | `menus` | `banners` | `flyers` |  `artworks` | `stickers-and-cliparts` | `brochures` | `other`
 
-export const subCats_array: SMALL_CATEGORY_OF_IMG[]  = [`soups` , `appetizers` , `main-dishes` , `sweets-and-desserts` , `fast-foods` , `drinks` , `utensils-and-plates` , `ingredients` , `menus` , `banners` , `flyers` , `logos` , `artworks` , `stickers-and-cliparts` , `brochures` , `other`]
+export const subCats_array: SMALL_CATEGORY_OF_IMG[]  = [`soups` , `appetizers` , `main-dishes` , `sweets-and-desserts` , `fast-foods` , `drinks` , `utensils-and-plates` , `ingredients` , `menus` , `banners` , `flyers` ,  `artworks` , `stickers-and-cliparts` , `brochures` , `other`]
 
 interface Array<SMALL_CATEGORY_OF_IMG>{
   includes(searchElement: any, fromIndex? : number): searchElement is SMALL_CATEGORY_OF_IMG
 }
 
 export type StockImageType = `soups` | `appetizers` | `main-dishes` | `sweets-and-desserts` | `fast-foods` | `drinks` | `utensils-and-plates` | `ingredients`
-export type GraphicDesignType = `menus` | `banners` | `flyers` | `logos` | `artworks` | `stickers-and-cliparts` | `brochures` | `other`
+export type GraphicDesignType = `menus` | `banners` | `flyers` | `artworks` | `stickers-and-cliparts` | `brochures` | `other`
 
 export const StockImagesOptions: StockImageType[] = [`appetizers`, `soups`, `main-dishes`, `sweets-and-desserts`, `fast-foods`, `drinks`, `utensils-and-plates`, `ingredients`]
 
-export const GrahicDesignsOptions: GraphicDesignType[] = [`menus`, `banners`, `flyers`, `logos`, `artworks`, `stickers-and-cliparts`, `brochures`, `other`]
+export const GrahicDesignsOptions: GraphicDesignType[] = [`menus`, `banners`, `flyers`,  `artworks`, `stickers-and-cliparts`, `brochures`, `other`]
 
 
 export const size_array = [
@@ -130,12 +130,7 @@ export const menu_size_array = [`letter`, `legal`, `tabloid`, `half-page`]
 
 export const banner_type_array = [`facebook-banner`, `twitter-banner`, `website-banner`, `outdoor-banner`]
 
-export const logo_type_array = [
-  `text`,
-  `food `,
-  `utensils-&-plates`,
-  `mascots`
-]
+
 export const artwork_styles_array = [
   `eye-catchy`,
   `hunger-inducing`,
@@ -175,9 +170,9 @@ export const gr_des_style_array = [
   `italian`, `japanese`, `french`, `indian`, `greek`, `thai`, `mexican`, `chinese`, `middle eastern` 
 ]
 // Cannot use the typeof the styles array because the nested object has an array, and ts will think that ethnic is an array and not a string
-export type Valid_image_fields = `paid`|`size`| `description`| `color_scheme`| `surr_env`| `url`| `views`| `dish_type`| `soup`| `food_type`| `drink_type`|`utensil_type`| `material`| `ingredients`| `banner_type`| `style`| `logo_type`| `artwork_style`| `stickers_category`| `shape`
+export type Valid_image_fields = `paid`|`size`| `description`| `color_scheme`| `surr_env`| `url`| `views`| `dish_type`| `soup`| `food_type`| `drink_type`|`utensil_type`| `material`| `ingredients`| `banner_type`| `style`| `artwork_style`| `stickers_category`| `shape`
 
-export const valid_image_fields = [`paid`,`color`,`size`, `description`, `color_scheme`, `surr_env`, `url`, `views`, `dish_type`, `soup`, `food_type`, `drink_type`,`utensil_type`, `material`, `ingredients`, `banner_type`, `style`, `logo_type`, `artwork_style`, `stickers_category`, `shape`]
+export const valid_image_fields = [`paid`,`color`,`size`, `description`, `color_scheme`, `surr_env`, `url`, `views`, `dish_type`, `soup`, `food_type`, `drink_type`,`utensil_type`, `material`, `ingredients`, `banner_type`, `style`, `artwork_style`, `stickers_category`, `shape`]
 export type ImgDoc = 
   {
     paid: typeof tier_array[number],
@@ -201,7 +196,6 @@ export type ImgDoc =
     menu_size? : typeof menu_size_array[number],
     banner_type?: typeof banner_type_array[number], 
     style: typeof gr_des_style_array[number], 
-    logo_type?: typeof logo_type_array[number], 
     artwork_style?: typeof artwork_styles_array[number], 
     sticker_category?: typeof stickers_and_cliparts_categories[number], 
     shape?: typeof shape_array[number]

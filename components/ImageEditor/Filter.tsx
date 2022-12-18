@@ -20,7 +20,7 @@ const Filter = ({ option, label, id }:props) => {
   
   return (
     <div  className={`${styles.toolbarItems}`}>
-      <label className="block font-bold text-lg font-serif text-purple-300 " htmlFor={option.property}>{label}</label>
+      <label className="block font-bold text-lg  text-gray-900 font-serif " htmlFor={option.property}>{label}</label>
       <input 
       className={`${styles.toolInput}`} 
       type="range" 

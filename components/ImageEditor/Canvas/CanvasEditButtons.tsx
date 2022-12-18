@@ -16,19 +16,19 @@ const CanvasEditButtons = ({stageRef, downloadRef}:props) => {
   const dispatch = useAppDispatch()
 
   return (
-    <div className=' absolute bottom-0 w-full h-[60px] bg-gradient-to-br from-[#4952bd] via-purple-900 to-[#4952bd] flex '>
-    <button className='general-buttons '
+    <div className=' absolute bottom-0 w-full h-[60px] bg-gradient-to-br bg-gray-600 flex space-x-20 p-5 justify-center align-middle items-center '>
+    <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
       ref={downloadRef}
       onClick={() => handleExport(stageRef)}
     >Download
     </button>
-    <button className='general-buttons '
+    <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
       ref={downloadRef}
       disabled={canvasElems.past.length === 0}
       onClick={() => dispatch(UndoActionCreators.undo())}
     >Undo
     </button>
-    <button className='general-buttons '
+    <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
       ref={downloadRef}
       disabled={canvasElems.future.length === 0}
       onClick={() => dispatch(UndoActionCreators.redo())}

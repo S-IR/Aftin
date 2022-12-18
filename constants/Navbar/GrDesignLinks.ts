@@ -31,13 +31,6 @@ export const GrDesignLinks: NavbarImageLink[] = [
     SlideImages: []
   },
   {
-    name: 'Logos',
-    href: '/restaurant-graphic-designs/logos',
-    source: "/frontend-used-images/Category-Images/Logos.png",
-    description: 'Logos of various kinds based on foods, restaurant objects or more   crafted for restaurants',
-    SlideImages: []
-  },
-  {
     name: 'Artworks',
     href: '/restaurant-graphic-designs/artworks',
     source: "/frontend-used-images/Category-Images/Artworks.png",

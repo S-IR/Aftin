@@ -39,12 +39,12 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     }
   }
   return (
-    <section className='flex flex-col items-center h-[100vh] w-64 bg-gradient-to-br from-red-900/80 via-black/80 to-red-900/80'>
-      <button id='big-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-lg">Add a Heading!
+    <section className='flex flex-col items-center h-[100vh] w-64 bg-gradient-to-br bg-white'>
+      <button id='big-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-gray-500 !hover:shadow-red-500 transition-all duration-300 !text-lg !my-10">Add a Heading!
       </button>
-      <button id='medium-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-md">Add a medium-sized text
+      <button id='medium-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-gray-500 !hover:shadow-red-500 transition-all duration-300 !text-md !my-10">Add a medium-sized text
       </button>
-      <button id='small-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-blue-500 !hover:shadow-red-500 transition-all duration-300 !text-sm">Add a small text
+      <button id='small-text-button' onClick={(e) => handleClick(e)} className="general-buttons !w-56 !h-16 bg-gray-500 hover:bg-gray-900 text-white rounded-xl shadow-lg !shadow-gray-500 !hover:shadow-red-500 transition-all duration-300 !text-sm !my-10">Add a small text
       </button>
       {alert !== null? <Alert severity='error'>{alert}</Alert> : <></>}
     </section>

@@ -1,6 +1,10 @@
 import { grDesStyleOptions } from "../../constants/SortingSidebar";
 import { GrahicDesignsOptions, SMALL_CATEGORY_OF_IMG, StockImagesOptions } from "../../typings/image-types/ImageTypes";
-
+/**
+ * Determines which sort options should be displayed
+ * @param subCat the subcategory that you want to determine which sorting parameters it should have
+ * @returns 
+ */
 export const determineSorts = (subCat: SMALL_CATEGORY_OF_IMG): {
   paid: boolean
   size: boolean

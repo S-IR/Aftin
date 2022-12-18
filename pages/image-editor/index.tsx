@@ -16,6 +16,7 @@ import { StylizeButtons } from '../../components/ImageEditor'
 
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import CSSTransitionComp from '../../components/ImageEditor/CSSTransitionComp'
+import { NextPage } from 'next'
 const Canvas = dynamic(
   () => import('../../components/ImageEditor/Canvas'),
   { ssr: false }
@@ -32,7 +33,7 @@ interface activeSidebarType {
   | 'Draw'
 }
 
-const Index = () => {
+const Index: NextPage = () => {
 
   //canvas  related code
   const firstImage =  useAppSelector(canvasElemsCount).present.elements.find((element: canvasElement) => element.elementType === 'image')
@@ -54,7 +55,7 @@ const Index = () => {
         <title>Food Image Editor</title>
       </Head>
       <div className='flex w-full '>
-        <section className='h-[100vh] bg-gradient-to-br from-[#4952bd] via-purple-900 to-[#4952bd]  w-[75px] items-center flex flex-col'>
+        <section className='h-[100vh] bg-gradient-to-br bg-gray-900  w-[75px] items-center flex flex-col'>
           <SidebarIcon Icon={<AiOutlineCloudUpload className='w-[32px] h-[32px]' />} setActiveSidebar={setActiveSidebar}
             activeSidebar={activeSidebar}
             Text='Upload'
@@ -145,7 +146,6 @@ const Index = () => {
 
         {
           firstImage && canvasElems.past.length > 0 ? <Canvas /> : <DropzoneComp
-            firstImage={firstImage}
             setActiveSidebar={setActiveSidebar}
           />
         }

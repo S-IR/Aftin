@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { Masonry } from '@mui/lab'
 import useFirestore from '../hooks/useFirestore'
 import { collection, getDocs, query } from 'firebase/firestore'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
 import Image from 'next/image'
 import PremiumIcon from './PremiumIcon'
 import SingleImage from './SingleImage'
@@ -14,19 +14,19 @@ import { handleOptionClick } from '../model/SortingSidebar/handleClick'
 import Loading from './Loading'
 import { requestImageDocs } from '../model/image-functions/requestImages'
 import { useInfiniteQuery } from 'react-query'
-import { getAuth } from 'firebase/auth'
-import { verify } from 'jsonwebtoken';
-import { GetServerSideProps, NextPageContext } from 'next';
-import { getLoginStatus } from '../model/GeneralFunctions'
-import { async } from '@firebase/util'
+import { useAuthState } from "react-firebase-hooks/auth"
+import { config, useSpring, animated } from 'react-spring'
+import { FirebaseError } from 'firebase/app'
 
 interface props {
+  showSidebar: boolean
 }
-const SiteGallery: FC<props> =  ({ }) => {
+const SiteGallery: FC<props> = ({ showSidebar }) => {
 
-  const [loginStatus, setLoginStatus] = useState<'not logged in'|'unauthorized'| 'bronze' | 'silver'| 'gold'>('not logged in')
-
+  // request image docs code
   const router = useRouter()
+
+  // find the big category name
   const { subCat, ...queryParams } = router.query
   let category: "stock-images" | "graphic-designs" = "graphic-designs"
   if (router.pathname.includes('stock-images')) {
@@ -34,8 +34,6 @@ const SiteGallery: FC<props> =  ({ }) => {
   } else if (router.pathname.includes(`graphic-designs`)) {
     category = 'graphic-designs'
   }
-
-  console.log(`loginStatus`, loginStatus)
 
   const { data, isLoading, error, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery<{ docsArray: ImgDoc[], hasNextPage: boolean }, Error>(
     `${subCat}`,
@@ -50,56 +48,65 @@ const SiteGallery: FC<props> =  ({ }) => {
   }
   );
 
-  //fetch the user's login status for each of the image components
-  useEffect( () => {
-    const fetchUserStatus = async () => {
-      const fetchRes = await fetch(`${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`).catch(err => console.log(err))
-  
-      const {loginStatus} = await fetchRes.json()
-      setLoginStatus(loginStatus)
-    }
-    fetchUserStatus()
-  }, [])
-
   //refetch if the query changes
   useEffect(() => {
     refetch()
-
-
   }, [router.query])
-  console.log(loginStatus);
-  
 
-  // if no query, display this text
+
+
+  const galleryMarginLeft = useSpring({
+    marginLeft: showSidebar ? 216 : 40,
+    config: { duration: 300 }
+  })
+
+  // login status code
+  const [user, userLoading] = useAuthState(auth);
+  const [loginStatus, setLoginStatus] = useState<null | 'not logged in' | 'unauthorized' | 'bronze' | 'silver' | 'gold'>(null)
+
+  //fetch the user's login status for each of the image components
+  useEffect(() => {
+
+    const fetchUserStatus = async () => {
+      if (!user) return setLoginStatus('not logged in')
+      const token = await user.getIdToken()
+      const fetchRes = await fetch(`${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`, { method: `POST`, body: token }).catch((err: FirebaseError) => console.log(err))
+
+      if (fetchRes === undefined) return console.log('response on fetching user status void');
+
+      const { status } = await fetchRes.json()
+
+      setLoginStatus(status)
+
+    }
+    fetchUserStatus()
+  }, [user])
+
+
+
+  // if there's no query display this text
   if (Object.keys(router.query).length === 0) {
     return (
       <h1 className='flex text-center text-white'>Please select which type of stock image you would like</h1>
     )
   }
-  if (isLoading) {
+  if (isLoading || userLoading || !data) {
     return (
       <Loading />
     )
   }
-
-
 
   if (error) {
     return (
       <div>{error.message} </div>
     )
   }
-  if (!data) {
-    console.log(`the data that's been sent is undefined`)
 
-    return (<div>hey</div>)
-  }
 
-  const columns = isMobile ? 1 : 4
   const handleDescriptionEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-
+    const target = e.target as HTMLInputElement
     if (e.key === `Enter`) {
-      handleOptionClick(e.target.value, `description`, router)
+      handleOptionClick(target.value, `description`, router)
     } else {
       return
     }
@@ -110,53 +117,50 @@ const SiteGallery: FC<props> =  ({ }) => {
     return page.docsArray.map((imgDoc => imgDocs.push(imgDoc)))
   })
 
-
-
-  
-
+  // description query variable
   const description = router.query.description
   return (
-    <section className='w-full '>
-      <div className='w-full flex items-center align-middle justify-center'>
-        <input type="text" onKeyDown={(e) => handleDescriptionEnter(e)} placeholder="Describe what you need " className="!w-48 md:!w-96 my-4 searchbox  h-8 !ml-1 !text-center" defaultValue={description} ></input>
-      </div>
+    <animated.section className={`w-full `} style={galleryMarginLeft} >
       <InfiniteScroll
         dataLength={data?.pages.length * 15}
         next={fetchNextPage}
         hasMore={hasNextPage as boolean}
         loader={<Loading />}
-        className={`flex-grow w-auto h-auto items-center justify-center`}
+        className={`flex-grow w-auto h-auto items-center justify-center max-w-6xl ml-5`}
         style={{ overflow: `hidden` }}
 
       >
+        <div className='w-full flex items-center align-middle justify-center'>
+          <input type="text" onKeyDown={(e) => handleDescriptionEnter(e)} placeholder="Describe what you need " className="!w-48 md:!w-96 my-10 searchbox  h-8 !ml-1  !text-center" defaultValue={description} ></input>
+        </div>
         <Masonry
           columns={4}
           spacing={2}
           defaultHeight={450}
           defaultColumns={4}
           defaultSpacing={2}
-          className={``}
+          className={"max-w-6xl"}
         >
 
-          {imgDocs.length !== 0 ?
+          {imgDocs.length !== 0 && loginStatus ?
             imgDocs.map((doc) => (
-              <SingleImage key={doc.url} doc={doc} />
+              <SingleImage key={doc.url} doc={doc} loginStatus={loginStatus} />
             )) :
             <div>No image fits your filters</div>
           }
 
         </Masonry>
-        <div className='flex items-center align-middle w-max'>
+        <div className='flex items-center align-middle justify-center w-full'>
+          <div className='w-full h-28 flex items-center justify-center align-middle'  >
+            {hasNextPage ?
+              <button className='w-[128px] h-[128px] rounded-full bg-black/40 bg-button-svg'>Load more images</button> :
+              <div className='mx-10 w-96 font-bold h-[32px] py-2   rounded bg-brown-800 shadow-md shadow-gray-900/60 text-gray-200  text-center text-xs justify-center' >No more images to load</div>
+            }
+          </div>
 
-          {hasNextPage ?
-            <div className='w-max h-16 bg-black/40'>Load more images</div> :
-            <div className='w-max h-16 bg-black/40' >No more images to load</div>
-          }
         </div>
-
       </InfiniteScroll>
-
-    </section >
+    </animated.section >
 
   )
 }

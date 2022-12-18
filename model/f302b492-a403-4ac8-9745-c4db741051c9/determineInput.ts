@@ -1,5 +1,5 @@
 //this function determines the input fields that are going to be needed when uploading an image
-import { appetizers_array, artwork_styles_array, banner_type_array, drinks_array, fast_foods_array, fruits_array, gr_des_style_array, ingredients_array, LARGE_CATEGORY_OF_IMG, logo_type_array, main_dish_array, material_type, menu_size_array, shape_array, size_array, SMALL_CATEGORY_OF_IMG, soups_array, spices_array, stickers_and_cliparts_categories, surr_env_array, sweets_and_desserts_array, tier_array, utensils_and_plates_array, vegetables_array, } from "../../typings/image-types/ImageTypes";
+import { appetizers_array, artwork_styles_array, banner_type_array, drinks_array, fast_foods_array, fruits_array, gr_des_style_array, ingredients_array, LARGE_CATEGORY_OF_IMG, main_dish_array, material_type, menu_size_array, shape_array, size_array, SMALL_CATEGORY_OF_IMG, soups_array, spices_array, stickers_and_cliparts_categories, surr_env_array, sweets_and_desserts_array, tier_array, utensils_and_plates_array, vegetables_array, } from "../../typings/image-types/ImageTypes";
 /**
  * Determines the categories that can be chosen when an image is uploaded
  * @param {LARGE_CATEGORY_OF_IMG}LARGE_CATEGORY_OF_IMG The large category of the image 
@@ -12,7 +12,7 @@ export const determineInputs = (
   //this array will be modified with each input that will need to be added
   const Array = []
   Array.push({color_scheme: ``}, {description: ``}, {paid: tier_array})
-  if (SMALL_CATEGORY_OF_IMG !== `logos` && SMALL_CATEGORY_OF_IMG !== `banners`) Array.push({ size: size_array })
+  if (fSMALL_CATEGORY_OF_IMG !== `banners`) Array.push({ size: size_array })
 
   switch (LARGE_CATEGORY_OF_IMG) {
     case `graphic-designs`:
@@ -53,9 +53,6 @@ export const determineInputs = (
       break;
     case `banners`:
       Array.push({ banner_type: banner_type_array })
-      break;
-    case `logos`:
-      Array.push({ logo_type: logo_type_array })
       break;
     case `artworks`:
       Array.push({ artwork_style: artwork_styles_array })

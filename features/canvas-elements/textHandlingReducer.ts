@@ -18,7 +18,7 @@ export interface textData {
 }
 
 
-export const addText: CaseReducer<WritableDraft<canvasState>, PayloadAction<textData>> = (state, action) => {
+export const ADD_TEXT: CaseReducer<WritableDraft<canvasState>, PayloadAction<textData>> = (state, action) => {
   const data: textData = action.payload
   state.elements.push({ elementType: 'text', data: data })
   state.selected = state.elements.length - 1

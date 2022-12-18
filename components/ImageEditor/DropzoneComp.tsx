@@ -7,22 +7,20 @@ import { uploadImageToCanvas } from '../../model/image-editor/Upload';
 
 
 interface props{
-  firstImage:boolean
   setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DropzoneComp = ({firstImage, setActiveSidebar}:props) => {
+const DropzoneComp = ({ setActiveSidebar}:props) => {
   const dispatch = useAppDispatch();
-  const elementsLength = useAppSelector(canvasElemsCount).present.elements.length
 
 
   const onDrop:DragEventHandler<HTMLDivElement> = useCallback((acceptedFiles:FileList | null) => {
-    uploadImageToCanvas(acceptedFiles, elementsLength, dispatch)
+    uploadImageToCanvas(acceptedFiles, dispatch)
     setActiveSidebar('Stylize')
   }, [])
   const onChange:ChangeEventHandler<HTMLInputElement> = useCallback((e:ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    uploadImageToCanvas(e.target.files, elementsLength, dispatch)
+    uploadImageToCanvas(e.target.files, dispatch)
     setActiveSidebar('Stylize')
   }, [])
 
@@ -31,7 +29,7 @@ const DropzoneComp = ({firstImage, setActiveSidebar}:props) => {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <label htmlFor="dropzone-file" className={`flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-40 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer   hover:bg-gray-400 hover:opacity-50 ${isDragActive? 'bg-purple-500':''} transition-all duration-400`}>
+      <label htmlFor="dropzone-file" className={`flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-40 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer  hover:bg-gray-400 hover:opacity-50 ${isDragActive? 'bg-purple-500':''} transition-all duration-400`}>
         <div 
         {...getRootProps({
           className:"flex flex-col justify-center items-center pt-5 pb-6 h-full w-full" ,

@@ -39,7 +39,7 @@ const StylizeButtons = () => {
     }
   }
   return (
-    <div className='h-[100vh] w-96 bg-gradient-to-br from-red-900/80 via-black/80 to-red-900/80'>
+    <div className='h-[100vh] w-96 bg-white shadow-inner  shadow-black'>
       {selected !== null ? 
         renderSwitch(selectedElement) :
         <div className='flex w-full items-center p-4 mt-6 justify-center align-middle bg-fuchsia-900 rounded-md shadow-md shadow-blue-300'>
