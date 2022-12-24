@@ -3,8 +3,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { NextRouter, Router } from "next/router";
 import { DEFAULT_OPTIONS } from "../../constants/image-editor/imageFilters";
 import { cachedImageActions } from "../../features/cachedImage/cachedImageSlice";
-import { canvasElemsActions, canvasElemSlice } from "../../features/canvas-elements/canvasElemSlice";
-import { filtersActions } from "../../features/canvas-elements/filtersSlice";
+import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice";
 import { storage } from "../../firebase";
 import { AppDispatch } from "../../Redux/store";
 import { LoginStatus } from "../../typings/typings";
@@ -55,9 +55,16 @@ export const handleSubCatDownload = (
 }
 
 
-export const handleSubCatEdit = (router: NextRouter, dispatch: AppDispatch, url: string, width: number, height: number) => {
-  const { ADD_IMAGE } = canvasElemsActions
-  dispatch(ADD_IMAGE({
+export const handleSubCatEdit = (
+  router: NextRouter, 
+  dispatch: AppDispatch, 
+  url: string, 
+  width: number, 
+  height: number) => {
+  const pageId = 1
+  const { ADD_IMAGE } = canvasPagesActions
+  dispatch(ADD_IMAGE({pageId, 
+  data: {
     imageSRC: url,
     width: width,
     height: height,
@@ -75,10 +82,10 @@ export const handleSubCatEdit = (router: NextRouter, dispatch: AppDispatch, url:
       width: undefined,
       height: undefined,
     }
-  }))
+  }}))
   const { ADD_IMAGE_FILTER } = filtersActions
 
-  dispatch(ADD_IMAGE_FILTER({ type: 'image', filter: DEFAULT_OPTIONS }))
+  dispatch(ADD_IMAGE_FILTER({pageId, data: { type: 'image', filter: DEFAULT_OPTIONS }}))
   router.push('/image-editor')
 
 

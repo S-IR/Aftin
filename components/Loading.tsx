@@ -8,7 +8,7 @@ interface props {
 
 const Loading = ({w, h}: props) => {
   return (
-    <section className={`${w? `w-[${w}]`: `w-max`}  ${h? `h-[${h}]` : `h-max`} bg-black/20 flex items-center justify-center z-[100]`}>
+    <section className={`${w? `w-[${w}]`: `w-full`}  ${h? `h-[${h}]` : `h-full`}  flex items-center justify-center z-[100]`}>
       <PuffLoader
       color={`purple`}
       aria-label="Loading Spinner"

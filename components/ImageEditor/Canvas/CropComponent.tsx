@@ -3,8 +3,8 @@ import { KonvaEventObject } from 'konva/lib/Node'
 import { Rect } from 'konva/lib/shapes/Rect'
 import React, { LegacyRef, useEffect, useRef, useState } from 'react'
 import { KonvaNodeComponent, Rect as KonvaRect, Transformer } from 'react-konva'
-import { canvasElemsActions, canvasElemsCount } from '../../../features/canvas-elements/canvasElemSlice'
-import { imageData } from '../../../features/canvas-elements/imageHandlingReducer'
+import { canvasPagesActions, canvasPagesCount } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
+import { imageData } from '../../../features/canvasPages/canvas-elements/imageHandlingReducer'
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks'
 
 interface props {
@@ -14,11 +14,11 @@ interface props {
 
 const CropComponent = ({ data, elementRef }: props) => {
 
-  const id = useAppSelector(canvasElemsCount).present.selected
+  const {page: pageId, element: elementId} = useAppSelector(canvasPagesCount).present.selected
 
 
   const dispatch = useAppDispatch()
-  const { SET_CROP_RECTANGLE_DATA } = canvasElemsActions
+  const { SET_CROP_RECTANGLE_DATA } = canvasPagesActions //CANVASELEMENTACTIONS
 
 
 
@@ -39,7 +39,11 @@ const CropComponent = ({ data, elementRef }: props) => {
   let posNow: { x: any; y: any; } | string = ""
   let mode: string = ""
 
-
+  if(pageId === null || elementId === null) {
+    console.log('there is no selected image or page for the filter component');
+    return<></>
+    
+  }
   const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
     // const target = e.target
     // const targetRect = e.target.getClientRect()
@@ -48,13 +52,14 @@ const CropComponent = ({ data, elementRef }: props) => {
   }
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
     dispatch(SET_CROP_RECTANGLE_DATA({
-      id,
+      pageId,
+      elementId,
       x: e.target.x(),
       y: e.target.y(),
     }))
 
   }
-  if (id === null) return <></>;
+
   return (
     <>
       <KonvaRect
@@ -81,7 +86,8 @@ const CropComponent = ({ data, elementRef }: props) => {
             return oldBox;
           }
           dispatch(SET_CROP_RECTANGLE_DATA({
-            id,
+            pageId,
+            elementId,
             x: newBox.x,
             y: newBox.y,
             width: newBox.width,

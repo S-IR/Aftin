@@ -1,51 +1,74 @@
-import { canvasElemsActions, canvasElemSlice } from "../../features/canvas-elements/canvasElemSlice";
-import { filtersActions } from "../../features/canvas-elements/filtersSlice";
+import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
 import { color } from "../../typings/typings";
 
 
 
-export const changeCanvasText = (text: string, id: number, dispatch: AppDispatch) => {
-  
-  const { CHANGE_TEXT} = canvasElemsActions
+export const changeCanvasText = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  text: string,
+) => {
+
+  const { CHANGE_TEXT } = canvasPagesActions
   return dispatch(CHANGE_TEXT({
-    id,
+    pageId,
+    elementId,
     text
   }))
 }
 
-export const changeFontFamily = (value: string, id: number, dispatch: AppDispatch) => {
-  
-  const { CHANGE_FONT_FAMILY} = canvasElemsActions
+export const changeFontFamily = (dispatch: AppDispatch, pageId: number, elementId: number, value: string) => {
+  const { CHANGE_FONT_FAMILY } = canvasPagesActions
   return dispatch(CHANGE_FONT_FAMILY({
-    id,
+    pageId,
+    elementId,
     fontFamily: value
   }))
 }
 
-export const changeFontSize = (value: number, id: number, dispatch: AppDispatch) => {
-  
-  const { CHANGE_FONT_SIZE} = canvasElemsActions
+export const changeFontSize = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  value: number,
+) => {
+
+  const { CHANGE_FONT_SIZE } = canvasPagesActions
   return dispatch(CHANGE_FONT_SIZE({
-    id,
+    pageId,
+    elementId,
     fontSize: value
   }))
 }
 
-export const changeFontVariant = (value: 'normal' | 'bold' | 'italic' | 'italic bold', id: number, dispatch: AppDispatch) => {
-  
-  const { CHANGE_FONT_VARIANT} = canvasElemSlice.actions
+export const changeFontVariant = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  value: 'normal' | 'bold' | 'italic' | 'italic bold') => {
+
+  const { CHANGE_FONT_VARIANT } = canvasPagesActions
   return dispatch(CHANGE_FONT_VARIANT({
-    id,
+    pageId,
+    elementId,
     fontVariant: value
   }))
 }
 
-export const changeFontColor = (value: `#${string}`, id: number, dispatch: AppDispatch) => {
-  
-  const { CHANGE_FONT_COLOR} = filtersActions
+export const changeFontColor = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  value: `#${string}`,
+) => {
+
+  const { CHANGE_FONT_COLOR } = filtersActions
   return dispatch(CHANGE_FONT_COLOR({
-    id,
+    pageId,
+    elementId,
     fill: value
   }))
 }

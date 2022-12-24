@@ -1,45 +1,51 @@
-import { canvasElemsActions } from "../../features/canvas-elements/canvasElemSlice";
-import { filtersActions } from "../../features/canvas-elements/filtersSlice";
+import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
 import { HTMLHexColor } from "../../typings/typings";
 
 export const changeShapeFill = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
   fill: HTMLHexColor,
-  id : number,
-  dispatch: AppDispatch
   ) =>{
     const {CHANGE_SHAPE_FILL} = filtersActions
     dispatch(CHANGE_SHAPE_FILL({
-      id,
+      pageId,
+      elementId,
       fill
     }))
   }
 
 
  export  const setStrokeWidth = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
   strokeWidth: number,
-  id : number,
-  dispatch: AppDispatch
   ) =>{
-    const {CHANGE_STROKE_WIDTH} = canvasElemsActions
+    const {CHANGE_STROKE_WIDTH} = canvasPagesActions
     dispatch(CHANGE_STROKE_WIDTH({
-      id,
+      pageId,
+      elementId,
       strokeWidth
     }))
   }
   export const fillWithPattern = (
+    dispatch: AppDispatch,
+    pageId : number,
+    elementId: number,
     imagesArray: FileList | null,
-    id: number,
-    dispatch: AppDispatch
   ) => {
     if(!imagesArray) return console.log('no image was provided')
     let image = new Image()
     const selected = imagesArray[0]
     image.src = URL.createObjectURL(selected)
     image.onload = () =>{
-      const {ADD_SHAPE_PATTERN_IMAGE} = canvasElemsActions
+      const {ADD_SHAPE_PATTERN_IMAGE} = canvasPagesActions
       dispatch(ADD_SHAPE_PATTERN_IMAGE({
-        id:id,
+        pageId,
+        elementId,
         fillPatternImageSRC: image.src
       }))
     }

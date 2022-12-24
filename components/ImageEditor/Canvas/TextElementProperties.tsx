@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MdFindReplace, MdFontDownload, MdOutlineFontDownload, MdRotateRight } from 'react-icons/md'
 import { fontFamilies } from '../../../constants/image-editor/fontFamilies'
-import { textData } from '../../../features/canvas-elements/textHandlingReducer'
+import { textData } from '../../../features/canvasPages/canvas-elements/textHandlingReducer'
 import { changeStrokeColor, changeStrokeWidth, handleDelete } from '../../../model/image-editor/EditCanvasElement'
 import { AppDispatch } from '../../../Redux/store'
 import Button from '../../Button'
@@ -15,33 +15,25 @@ import SelectComp from '../../SelectComp'
 import { color } from '../../../typings/typings'
 import { FaMarsStroke } from 'react-icons/fa'
 import { useAppSelector } from '../../../Redux/hooks'
-import { canvasElemsCount } from '../../../features/canvas-elements/canvasElemSlice'
 import { changeCanvasText, changeFontColor, changeFontFamily, changeFontSize, changeFontVariant } from '../../../model/image-editor/EditCanvasText'
-import { textFilter } from '../../../features/canvas-elements/filtersSlice'
+import { textFilter } from '../../../features/canvasPages/canvas-elements/filtersSlice'
+import { canvasSelected } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
 
 
 interface props {
   textData: textData
   dispatch: AppDispatch
-  id : number
-  textFilter : textFilter
+  selected: canvasSelected
+  textFilter: textFilter
 }
-const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) => {
-  if (!id){
-    console.log('this text element property somehow appeared without there being something selected');
-    return null
-  }
-  const setStrokeWidth = (e) => {
-    console.log(e)
-  }
-  const handleUpload = (e) => {
-    console.log(e)
+const TextElementProperties = ({ textData, dispatch, selected, textFilter }: props) => {
 
-  }
+  const { page: pageId, element: elementId } = selected
+
 
   return (
     <>
-      <Button className='m-3' text='Delete Component' handleOnClick={(e) => handleDelete(id, dispatch)} />
+      <Button className='m-3' text='Delete Component' handleOnClick={(e) => handleDelete(dispatch, pageId, elementId)} />
       {/* change text */}
       <TextField
         className='mt-2 bg-gradient-to-r from-red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-48 ml-2 hover:shadow-2xl transition-all duration-300 '
@@ -49,12 +41,12 @@ const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) =>
           className: `text-white flex items-center justify-center align-middle`,
         }}
         id="select-text" label="Change Text" defaultValue={textData.text} variant="outlined" onKeyDown={(e) => {
-          if(e.key === 'Enter') {
-            changeCanvasText(e.target.value, id, dispatch)
+          if (e.key === 'Enter') {
+            changeCanvasText(dispatch, pageId, elementId, e.target.value)
           } else {
             return
           }
-        } } />
+        }} />
 
       {/* Font family selector */}
       <Box
@@ -87,7 +79,7 @@ const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) =>
 
             label={'Font Family'}
             value={textData.fontFamily}
-            onChange={(e) => { changeFontFamily(e.target.value, id, dispatch) }}
+            onChange={(e) => { changeFontFamily(dispatch, pageId, elementId, e.target.value) }}
           >
             <h3 className='font-bold pl-2'>Most common fonts</h3>
             <div className='bg-purple-400/80'>
@@ -112,7 +104,7 @@ const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) =>
       <SelectComp
         label='Font Size'
         Icon={<BiFontSize className='w-4 h-4 mb-4' />}
-        onChangeFunction={(e) => { changeFontSize(Number(e.target.value), id, dispatch) }}
+        onChangeFunction={(e) => { changeFontSize(dispatch, pageId, elementId, Number(e.target.value),) }}
         value={textData.fontSize}
         options={
           fontSizes.map((size: number) => (
@@ -125,7 +117,7 @@ const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) =>
       <SelectComp
         label='Font Variant'
         Icon={<BiFontSize className='w-4 h-4 mb-4' />}
-        onChangeFunction={(e) => changeFontVariant(e.target.value, id, dispatch)}
+        onChangeFunction={(e) => changeFontVariant(dispatch, pageId, elementId, e.target.value)}
         value={textData.fontVariant}
         options={
           [<MenuItem key={'normal'} value={'normal'} ><p>{'normal'}</p></MenuItem>,
@@ -143,23 +135,23 @@ const TextElementProperties = ({ textData, dispatch,id,  textFilter }: props) =>
         InputLabelProps={{
           className: `text-white flex items-center justify-center align-middle`,
         }}
-        id="select-color" label="Color" value={textFilter.fill} variant="outlined" onChange={(e) => changeFontColor(e.target.value, id, dispatch)} />
+        id="select-color" label="Color" value={textFilter.fill} variant="outlined" onChange={(e) => changeFontColor(dispatch, pageId, elementId, e.target.value as `#${string}`)} />
 
-        {/* stroke width */}
+      {/* stroke width */}
       <TextField
         className='mt-2 bg-gradient-to-r from-red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-48 ml-2 hover:shadow-2xl transition-all duration-300 '
         InputLabelProps={{
           className: `text-white flex items-center justify-center align-middle`,
         }}
-        id="select-stroke-width" label="Stroke Width" defaultValue={textData.strokeWidth} variant="outlined" onChange={(e) => changeStrokeWidth(Number(e.target.value), id, dispatch)} />
+        id="select-stroke-width" label="Stroke Width" defaultValue={textData.strokeWidth} variant="outlined" onChange={(e) => changeStrokeWidth(dispatch, pageId, elementId, Number(e.target.value))} />
 
-        {/* stroke color */}
+      {/* stroke color */}
       <TextField
         className='mt-2 bg-gradient-to-r from-red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-48 ml-2 hover:shadow-2xl transition-all duration-300 cursor-pointer ' type={'color'}
         InputLabelProps={{
           className: `text-white flex items-center justify-center align-middle`,
         }}
-        id="select-stroke-color" label="Stroke Color" value={textFilter.filter.stroke} variant="outlined" onChange={(e) => changeStrokeColor(e.target.value, id, dispatch)} />
+        id="select-stroke-color" label="Stroke Color" value={textFilter.filter.stroke} variant="outlined" onChange={(e) => changeStrokeColor(dispatch, pageId, elementId, e.target.value as `#${string}`)} />
 
       <button className='bg-blue-500 bg-opacity-70 rounded-full w-32 h-10 m-1 flex align-middle hover:bg-blue-900 transition-all duration-300 '>
         <div className='flex align-middle items-center font-bold justify-center'>

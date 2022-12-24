@@ -1,23 +1,30 @@
 import { InputAdornment, TextField } from '@mui/material'
 import React, { DOMAttributes, useEffect, useState } from 'react'
 import ShortTextIcon from '@mui/icons-material/ShortText';
-import { canvasElemsCount, canvasElemSlice } from '../../features/canvas-elements/canvasElemSlice';
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 
 import { Alert } from '@mui/material';
-import { uploadTextToCanvas } from '../../model/image-editor/Upload';
+import { useAppDispatch, useAppSelector } from '../../../Redux/hooks';
+import { uploadTextToCanvas } from '../../../model/image-editor/Upload';
+import { canvasPagesCount } from '../../../features/canvasPages/canvas-elements/canvasPageSlice';
+import { activeSidebarType } from '../../../pages/image-editor';
 interface props {
-  setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
+  setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>
 }
 
 const TextButtons = ({ setActiveSidebar }: props) => {
   const [alert, setAlert] = useState<null | string>(null)
   const dispatch = useAppDispatch()
-  const isTheCanvasEmpty = useAppSelector(canvasElemsCount).present.elements.length === 0
+  const {pages, selected} = useAppSelector(canvasPagesCount).present
+  const isTheCanvasEmpty = pages.length === 1 && pages[0].length < 1
   
+  console.log('pagesLen:', pages.length, 'pages[0]Len:', pages[0].length);
+  
+  
+  const selectedPage = selected?.page as number
+
   useEffect(() => {
     setAlert(null)
-  }, [useAppSelector(canvasElemsCount).present.length])
+  }, [useAppSelector(canvasPagesCount).present.pages[0].length])
   
 
   //TODO
@@ -28,13 +35,13 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     setAlert(null)
     switch (e.target.id) {
       case 'big-text-button':
-        uploadTextToCanvas(dispatch, {fontSize: 32})
+        uploadTextToCanvas(dispatch,  selectedPage, {fontSize: 32})
         return setActiveSidebar('Stylize')
       case 'medium-text-button':
-        uploadTextToCanvas(dispatch, {fontSize: 16})
+        uploadTextToCanvas(dispatch, selectedPage,  {fontSize: 16})
         return setActiveSidebar('Stylize')
       case 'small-text-button':
-         uploadTextToCanvas(dispatch, {fontSize: 12})
+         uploadTextToCanvas(dispatch, selectedPage,  {fontSize: 12})
         return setActiveSidebar('Stylize')
     }
   }

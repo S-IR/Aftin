@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 import Button from '../../components/Button'
-import { GrDesignLinks } from '../../constants/Navbar/GrDesignLinks'
+import { GrDesignLinks } from '../../constants/imageCategories'
 import { handleRequestDesigner } from '../../model/handleRequestDesigner'
 import { useSpring, animated, config, to } from 'react-spring'
 import { useGesture } from '@use-gesture/react'

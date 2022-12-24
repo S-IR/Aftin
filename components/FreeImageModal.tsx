@@ -13,8 +13,8 @@ import Loading from './Loading'
 
 interface props {
   url: string
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  openDialog: boolean
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
   w: number
   h: number
   alt: string
@@ -22,15 +22,15 @@ interface props {
 }
 
 
-const FreeImageModal: FC<props> = ({ url, open, setOpen, w, h, alt, loginStatus }) => {
+const FreeImageModal: FC<props> = ({ url, openDialog, setOpenDialog, w, h, alt, loginStatus }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   
 
   return (
     <Modal
-      open={open}
-      onClose={() => setOpen(false)}
+      open={openDialog}
+      onClose={() => setOpenDialog(false)}
       sx={{
         display: `flex`,
         justifyContent: `center`,
@@ -46,7 +46,7 @@ const FreeImageModal: FC<props> = ({ url, open, setOpen, w, h, alt, loginStatus 
           height: `auto`
         }}
       >
-        <button className='general-buttons  !p-0 justify-center' onClick={() => setOpen(false)}>Close</button>
+        <button className='general-buttons  !p-0 justify-center' onClick={() => setOpenDialog(false)}>Close</button>
         <Image
           id='modal-modal-description'
           src={url}
@@ -58,7 +58,7 @@ const FreeImageModal: FC<props> = ({ url, open, setOpen, w, h, alt, loginStatus 
         />
         <div className='flex flex-col ml-4'>
           <Button className=' !p-0' handleOnClick={() => handleSubCatEdit(router, dispatch, url, w, h)} text={`Edit Picture`}></Button>
-          <Button className=' !p-0' handleOnClick={() => setOpen(false)} text={`Preview`}></Button>
+          <Button className=' !p-0' handleOnClick={() => setOpenDialog(false)} text={`Preview`}></Button>
           <Button className=' !p-0' handleOnClick={()=>handleSubCatDownload(loginStatus, router, url, w, h ,dispatch)} text={`Download`}></Button>
 
         </div>

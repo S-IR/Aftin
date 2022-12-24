@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { Dispatch, SetStateAction } from 'react'
-import { NavbarImageLink } from '../../constants/Navbar/GrDesignLinks'
-import { StockImageLinks } from '../../constants/Navbar/StockImageCategories'
+import { NavbarImageLink, StockImageLinks } from '../../constants/imageCategories'
 import NavbarImageCategory from './NavbarImageCategory'
 
 

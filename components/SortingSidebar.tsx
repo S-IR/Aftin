@@ -8,9 +8,7 @@ import { SidebarSorts } from '../typings/typings'
 import { restaurantType } from '../constants/SortingSidebar/restaurantTypes'
 import { colorPallet } from '../constants/SortingSidebar/colorPallets'
 import { ListItemButton, List, Tooltip, ListSubheader, ListItemIcon, ListItemText } from '@mui/material';
-import { SortDrinkType, SortFastFoodType, SortIngredients, SortMainDishType, SortSoupType, SortSurrEnv, SortSweetsType, SortUtensilsType } from './SortingSidebar/For Stock Images'
 import { fast_foods_array, ImgDoc, SMALL_CATEGORY_OF_IMG } from '../typings/image-types/ImageTypes'
-import { SortArtworkStyle, SortBannerType, SortLogoType, SortMenuSize, SortShape, SortStickersType, SortStyle } from './SortingSidebar/For Graphic Designs'
 import { SortColor, SortSize, SortOption } from './SortingSidebar/index'
 import { AspectRatio, Cake, Dashboard, DinnerDining, Fastfood, Flatware, LocalBar, MenuBook, OutdoorGrill, Palette, RamenDining, Restaurant, SoupKitchen, StickyNote2, Straighten, Tapas, Wallpaper } from '@mui/icons-material'
 import { useRouter } from 'next/router'
@@ -65,6 +63,9 @@ const SortingSidebar = ({showSidebar, toggleSidebar }: props) => {
           {/* The actual sorting components*/}
           {style &&
             <SortOption optionsArray={grDesStyleOptions} queryName={`style`} title={`Stylized For`} Icon={<Restaurant style={{ color: `red` }} />} />
+          }
+          {color_scheme &&
+            <SortColor  />
           }
           {surr_env &&
             <SortOption optionsArray={surrEnvOptions} queryName={`surr_env`} title={`Surrounding Environment`} Icon={<OutdoorGrill style={{ color: `yellow` }} />} />

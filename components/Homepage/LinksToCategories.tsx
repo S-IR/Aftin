@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { CategoryList } from '../../constants/CategoryList'
-import { GrDesignLinks } from '../../constants/Navbar/GrDesignLinks'
+import { GrDesignLinks } from '../../constants/imageCategories'
 
 
 

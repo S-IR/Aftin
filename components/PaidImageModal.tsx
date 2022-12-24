@@ -6,20 +6,20 @@ import { AiFillEdit } from 'react-icons/ai';
 
 
 interface props {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  openDialog: boolean
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const PaidImageModal: FC<props> = ({ open, setOpen }) => {
+const PaidImageModal: FC<props> = ({ openDialog, setOpenDialog }) => {
   return (
     <Dialog
-      open={open}
+      open={openDialog}
       onClose={(_, reason) => {
-        if (reason === 'backdropClick') return setOpen(false) }}
+        if (reason === 'backdropClick') return setOpenDialog(false) }}
       maxWidth="lg"
     >
       <div className='flex rounded-3xl p-4 '>
-        <div className='flex flex-col w-full text-center w-[300px]'>
+        <div className='flex flex-col  text-center w-[300px]'>
           <h2 className='my-2 mx-2 bold text-3xl text-fuchsia-800'>Try Aftin Premium for <span className='underline'>Free</span></h2>
           <p>
             Get this image alongside our exquisite collection of images, banners, logos and more

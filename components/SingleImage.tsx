@@ -19,7 +19,7 @@ function SingleImage({ doc, loginStatus }: props) {
 
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
 
   // function to get the w and h of the image
   const [w, setWidth] = useState(0)
@@ -44,8 +44,8 @@ function SingleImage({ doc, loginStatus }: props) {
   return (
     <div className='relative w-max h-max flex align-middle justify-center rounded-md'>
       {doc.paid === `silver` || doc.paid === 'gold' ? 
-      <PaidImageModal open={open} setOpen={setOpen}  /> : 
-      <FreeImageModal url={doc.url} open={open} setOpen={setOpen} w={w} h={h} alt={doc.description} loginStatus={loginStatus}  />}
+      <PaidImageModal openDialog={openDialog} setOpenDialog={setOpenDialog}  /> : 
+      <FreeImageModal url={doc.url} openDialog={openDialog} setOpenDialog={setOpenDialog} w={w} h={h} alt={doc.description} loginStatus={loginStatus}  />}
       <animated.div
         ref={target}
         className="w-auto h-auto relative  cursor-pointer   hover:scale-105 transition ease-in-out duration-300 rounded-lg " onMouseEnter={() => {
@@ -53,7 +53,7 @@ function SingleImage({ doc, loginStatus }: props) {
         }} onMouseLeave={() => {
           setPremiumText(false)
         }
-        } onClick={() => setOpen(true)}
+        } onClick={() => setOpenDialog(true)}
 
       >
 

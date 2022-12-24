@@ -34,7 +34,7 @@ const SortColor = ({  }: props) => {
         <ListItemText primary="Predominant colors " />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto" unmountOnExit sx={{marginLeft: '10px'}}>
         <CirclePicker color={color}
         width={196}
         circleSize={34}

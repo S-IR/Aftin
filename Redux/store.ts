@@ -1,13 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import undoableCanvasElemSlice from '../features/canvas-elements/canvasElemSlice';
-import filtersReducer from '../features/canvas-elements/filtersSlice';
+import undoableCanvasPagesSlice from '../features/canvasPages/canvas-elements/canvasPageSlice';
+import filtersReducer from '../features/canvasPages/canvas-elements/filtersSlice';
 import  cachedImageReducer  from '../features/cachedImage/cachedImageSlice';
 
 
 export const store = configureStore({
   reducer: {
     filters: filtersReducer,
-    canvasElems: undoableCanvasElemSlice,
+    canvasPageElems: undoableCanvasPagesSlice,
     cachedImage : cachedImageReducer
   },
 });

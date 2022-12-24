@@ -1,18 +1,25 @@
 import React from 'react'
-import { filter, filterProperties } from '../../constants/image-editor/imageFilters'
-import { changeFilter, CHANGE_IMAGE_FILTER, filtersActions, filtersCount } from '../../features/canvas-elements/filtersSlice'
-import { useAppDispatch, useAppSelector } from '../../Redux/hooks'
-import styles from '../../styles/image-editor/filters-button.module.css'
+import { CSSFilter, imageFilterProperties } from '../../../constants/image-editor/imageFilters'
+import { filtersActions } from '../../../features/canvasPages/canvas-elements/filtersSlice'
+import { useAppDispatch } from '../../../Redux/hooks'
+import styles from '../../../styles/image-editor/filters-button.module.css'
+
+
 interface props{
-  option:filterProperties
+  pageId: number
+  elementId :number
+  option:CSSFilter
   label: string
 }
 
-const Filter = ({ option, label, id }:props) => {
+const Filter = ({pageId, elementId, option, label }:props) => {
   const dispatch = useAppDispatch();
+
+  
   function handleSliderChange(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(filtersActions.CHANGE_IMAGE_FILTER({
-      id: id,
+      pageId,
+      elementId,
       property : option.property,
       value :  parseFloat(e.target.value) 
     }))

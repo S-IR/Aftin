@@ -1,53 +1,72 @@
-import { canvasElemsActions, canvasElemSlice } from "../../features/canvas-elements/canvasElemSlice"
-import { filtersActions } from "../../features/canvas-elements/filtersSlice"
+import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice"
+import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice"
 import { AppDispatch } from "../../Redux/store"
 
 export const handleDelete = async (
-  id: number,
-  dispatch: AppDispatch) => {
-  const { DELETE_ELEMENT } = canvasElemSlice.actions
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number
+) => {
+  const { DELETE_ELEMENT } = canvasPagesActions
   await dispatch(DELETE_ELEMENT({
-    id: id
+    pageId,
+    elementId
   }))
 
   const { DELETE_FILTER } = filtersActions
   await dispatch(DELETE_FILTER({
-    id: id
+    pageId,
+    elementId
   }))
 
 }
 
-export const changeStrokeColor = (value: `#${string}`, id: number, dispatch: AppDispatch) => {
+export const changeStrokeColor = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  value: `#${string}`,
+ ) => {
   const { CHANGE_STROKE_COLOR } = filtersActions
-  return dispatch(CHANGE_STROKE_COLOR ({
-    id,
+  return dispatch(CHANGE_STROKE_COLOR({
+    pageId,
+    elementId,
     stroke: value
   }))
 }
 
-export const changeStrokeWidth = (strokeWidth: number, id: number, dispatch: AppDispatch) => {
-  const { CHANGE_STROKE_WIDTH } = canvasElemsActions
-  return dispatch(CHANGE_STROKE_WIDTH ({
-    id,
+export const changeStrokeWidth = (
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId : number,
+  strokeWidth: number, 
+) => {
+  const { CHANGE_STROKE_WIDTH } = canvasPagesActions
+  return dispatch(CHANGE_STROKE_WIDTH({
+    pageId,
+    elementId,
     strokeWidth: strokeWidth
   }))
 }
 export const handleCrop = (
-  id: number, 
-  dispatch: AppDispatch, 
-  x: number, 
-  y: number, 
-  width: number, 
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
+  x: number,
+  y: number,
+  width: number,
   height: number) => {
-  const {SET_CROP, SET_CROP_RECTANGLE_DATA } = canvasElemsActions
+  const { SET_CROP, SET_CROP_RECTANGLE_DATA } = canvasPagesActions
   dispatch(SET_CROP_RECTANGLE_DATA({
-    id,
+    pageId,
+    elementId,
     x,
     y,
     width,
     height
   }))
   dispatch(SET_CROP({
-    id
+    pageId,
+    elementId
   }))
-  }
+}

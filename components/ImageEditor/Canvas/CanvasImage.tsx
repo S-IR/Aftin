@@ -4,29 +4,30 @@ import { TransformerConfig } from 'konva/lib/shapes/Transformer'
 import React, { LegacyRef, useEffect, useRef } from 'react'
 import { Image as KonvaImage, KonvaNodeComponent, Transformer } from 'react-konva'
 import { filter } from '../../../constants/image-editor/imageFilters'
-import { imageData } from '../../../features/canvas-elements/imageHandlingReducer'
-import { filtersCount, imageFilter } from '../../../features/canvas-elements/filtersSlice'
+import { imageData } from '../../../features/canvasPages/canvas-elements/imageHandlingReducer'
+import { filtersCount, imageFilter } from '../../../features/canvasPages/canvas-elements/filtersSlice'
 import { handleMovePosition, handleScaling, handleSelect } from '../../../model/image-editor/CanvasElements'
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks'
 import TransformerComp from './TransformerComp'
 import CropComponent from './CropComponent'
+import { canvasSelected } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
 
 interface props {
   data: imageData
-  id: number
-  selectedElement: number | null
+  pageId: number,
+  elementId: number
+  selected: canvasSelected
   imageFilter: imageFilter
 }
 
-const CanvasImage = ({ data, id, selectedElement, imageFilter }: props) => {
+const CanvasImage = ({ data, pageId, elementId, selected, imageFilter }: props) => {
   // properties related to the HTML element
   const image = new Image()
-
   const imageRef = useRef<LegacyRef<KonvaNodeComponent<Image, ImageConfig>>>();
 
 
 
-  const isSelected = selectedElement === id
+  const isSelected = selected?.page === pageId && selected.element === elementId
   //filters, to be removed from here maybe
   const brightness = imageFilter?.filter.brightness
   const contrast = imageFilter?.filter.contrast
@@ -49,8 +50,8 @@ const CanvasImage = ({ data, id, selectedElement, imageFilter }: props) => {
   return (
     <>
       <KonvaImage
-        onClick={() => handleSelect(id, dispatch)}
-        onTap={() => handleSelect(id, dispatch)}
+        onClick={() => handleSelect(pageId, elementId, dispatch)}
+        onTap={() => handleSelect(pageId, elementId, dispatch)}
         ref={imageRef}
         x={data.x}
         y={data.y}
@@ -65,9 +66,9 @@ const CanvasImage = ({ data, id, selectedElement, imageFilter }: props) => {
         blurRadius={blur ? blur.value : 0}
         //ROTATION TODO
         draggable
-        onDragEnd={(e) => { handleMovePosition(e, id, dispatch) }}
+        onDragEnd={(e) => { handleMovePosition(e, pageId, elementId, dispatch) }}
         onTransformEnd={(e) => {
-          handleScaling(imageRef, id, dispatch)
+          handleScaling(imageRef, pageId, elementId, dispatch)
         }}
         crop={!data.crop? data.cropRectangle : {x: undefined, y: undefined, width: undefined, height: undefined}}
       />

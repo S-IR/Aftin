@@ -1,31 +1,37 @@
-import { canvasElemsActions } from "../../features/canvas-elements/canvasElemSlice";
-import { filtersActions } from "../../features/canvas-elements/filtersSlice";
+import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice";
 import { AppDispatch } from "../../Redux/store";
 
 export const handleResetFilters = (
-  id: number,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
 ) => {
   const {RESET_IMAGE_FILTER} = filtersActions
   dispatch(RESET_IMAGE_FILTER({
-    id
+    pageId,
+    elementId
   }))
 }
 export const handleRemovePattern = (
-  id: number,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
 ) => {
-  const {REMOVE_SHAPE_PATTERN_IMAGE} = canvasElemsActions
+  const {REMOVE_SHAPE_PATTERN_IMAGE} = canvasPagesActions
   dispatch(REMOVE_SHAPE_PATTERN_IMAGE({
-    id
+    pageId,
+    elementId
   }))
 }
 export const handleCrop = (
-  id: number,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  pageId: number,
+  elementId: number,
 ) => {
-  const {SET_CROP} = canvasElemsActions
+  const {SET_CROP} = canvasPagesActions
   dispatch(SET_CROP({
-    id
+    pageId,
+    elementId
   }))
 }

@@ -64,16 +64,14 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const [user, userLoading] = useAuthState(auth);
   const [loginStatus, setLoginStatus] = useState<null | 'not logged in' | 'unauthorized' | 'bronze' | 'silver' | 'gold'>(null)
 
-  //fetch the user's login status for each of the image components
+  //fetch the user's login status to be sent to each of the image components
   useEffect(() => {
 
     const fetchUserStatus = async () => {
       if (!user) return setLoginStatus('not logged in')
       const token = await user.getIdToken()
       const fetchRes = await fetch(`${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`, { method: `POST`, body: token }).catch((err: FirebaseError) => console.log(err))
-
       if (fetchRes === undefined) return console.log('response on fetching user status void');
-
       const { status } = await fetchRes.json()
 
       setLoginStatus(status)

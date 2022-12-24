@@ -67,8 +67,10 @@ const determineQuery = (data: ImgDoc[], queries: queryType) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   
+  
   // get all of the image docs of that subcategory
   const { category, subCat, rowRequested, ...queryParams } = req.query
+  console.log(`category`, category, 'subCat:', subCat)
   
   //save them in an array
   const firebaseAPIResponse = await fetch(`${process.env.NEXT_PUBLIC_server}/api/getFirebaseImageDocs?${new URLSearchParams({

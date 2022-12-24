@@ -1,28 +1,28 @@
 import React from 'react'
 import { BiCrop, BiFilter } from 'react-icons/bi'
 import { MdFindReplace, MdRotateRight, MdTune } from 'react-icons/md'
-import { canvasElemsCount } from '../../../features/canvas-elements/canvasElemSlice'
-import { imageData } from '../../../features/canvas-elements/imageHandlingReducer'
-import { filtersCount, imageFilter } from '../../../features/canvas-elements/filtersSlice'
+import { imageData } from '../../../features/canvasPages/canvas-elements/imageHandlingReducer'
+import { filtersCount, imageFilter } from '../../../features/canvasPages/canvas-elements/filtersSlice'
 import { handleDelete } from '../../../model/image-editor/EditCanvasElement'
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks'
 import { AppDispatch } from '../../../Redux/store'
 import Button from '../../Button'
 import SelectComp from '../../SelectComp'
-import Filter from '../Filter'
 import { handleCrop, handleResetFilters } from '../../../model/image-editor/EditCanvasImage'
 import { Delete } from '@mui/icons-material'
+import { Filter } from '../Sidebar'
+import { canvasSelected } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
 
 interface props {
   imageData: imageData
   dispatch: AppDispatch
-  id: number
+  selected: canvasSelected
   imageFilter: imageFilter
-
 }
 
 
-const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props) => {
+const ImageElementProperties = ({ imageData, dispatch, selected, imageFilter }: props) => {
+  const {page : pageId , element: elementId} = selected
 
   const brightness = imageFilter?.filter.brightness
   const contrast = imageFilter?.filter.contrast
@@ -30,21 +30,26 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
 
   if (imageData.crop) {
     return (
-      <button className='mt-10 my-2 font-serif justify-center bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group' onClick={() => handleCrop(id, dispatch)}>
+      <button className='mt-10 my-2 font-serif justify-center bg-gradient-to-r from--red-900/80 via-blue-800 to-red-900/80 shadow-lg shadow-black w-full font-bold hover:bg-fuchsia-900  p-2 hover:shadow-2xl hover:text-lg transition-all duration-300 flex items-center group' onClick={() => handleCrop(dispatch, pageId as number, elementId as number)}>
         Save Crop
       </button>
 
     )
   }
+  if(pageId === null || elementId === null) {
+    console.log('there is no selected image or page for the filter component');
+    return<></>
+    
+  }
 
   return (
     <>
-      <div className='mt-4 border-b-4 border-gray-200 py-5'>
-        <Filter key={'brightness'} option={brightness} label={'brightness'} id={id} />
-        <Filter key={'contrast'} option={contrast} label={'contrast'} id={id} />
-        <Filter key={'blur'} option={blur} label={'blur'} id={id} />
+      <div className='mt-4 border-b-4 border-gray-200 py-5 w-full'>
+        <Filter key={'brightness'} option={brightness} label={'brightness'} pageId={pageId} elementId={elementId}/>
+        <Filter key={'contrast'} option={contrast} label={'contrast'} pageId={pageId} elementId={elementId}/>
+        <Filter key={'blur'} option={blur} label={'blur'} pageId={pageId} elementId={elementId}/>
         <div className='flex items-center w-full justify-center'>
-          <button className='bg-orange-500 my-6 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={() => handleResetFilters(id, dispatch)} >Reset Filters</button>
+          <button className='bg-orange-500 my-6 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={() => handleResetFilters(dispatch, pageId , elementId )} >Reset Filters</button>
         </div>
 
       </div>
@@ -52,7 +57,7 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
 
       {/* Edit buttons div */}
       <div className='w-full flex items-center justify-center align-middle flex-col space-y-6 mt-6'>
-        <button className=' bg-brown-900 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={() => handleCrop(id, dispatch)}>
+        <button className=' bg-brown-900 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={() => handleCrop(dispatch, pageId , elementId )}>
           <BiCrop className='w-8 h-8 group-hover:-translate-x-1 transition-all duration-300' />
           Crop
         </button>
@@ -63,7 +68,7 @@ const ImageElementProperties = ({ imageData, dispatch, id, imageFilter }: props)
           </div>
         </button>
         <div className=' flex justify-center'>
-          <button className=' bg-brown-900 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={(e) => handleDelete(id, dispatch)} >
+          <button className=' bg-brown-900 bg-opacity-70  h-12  flex align-middle hover:bg-gray-400 transition-all duration-300 w-56 justify-center hover:text-lg items-center drop-shadow-lg shadow-gray-200' onClick={(e) => handleDelete(dispatch, pageId , elementId )} >
             <Delete className='w-8 h-8 m-2' />
             Delete Component</button>
         </div>

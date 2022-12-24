@@ -2,15 +2,16 @@ import React, { ChangeEvent, ChangeEventHandler, DragEventHandler, useCallback, 
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useDropzone } from 'react-dropzone';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
-import { canvasElemsCount } from '../../features/canvas-elements/canvasElemSlice';
 import { uploadImageToCanvas } from '../../model/image-editor/Upload';
+import { activeSidebarType } from '../../pages/image-editor';
 
 
 interface props{
-  setActiveSidebar: React.Dispatch<React.SetStateAction<string>>
+  setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>
+  showSidebar : boolean
 }
 
-const DropzoneComp = ({ setActiveSidebar}:props) => {
+const DropzoneComp = ({ setActiveSidebar, showSidebar}:props) => {
   const dispatch = useAppDispatch();
 
 
@@ -28,7 +29,7 @@ const DropzoneComp = ({ setActiveSidebar}:props) => {
 
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className={`${showSidebar? `ml-[520px]`:  'ml-20'} flex justify-center items-center w-full h-full mt-4 transition-all duration-300 `}>
       <label htmlFor="dropzone-file" className={`flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-40 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer  hover:bg-gray-400 hover:opacity-50 ${isDragActive? 'bg-purple-500':''} transition-all duration-400`}>
         <div 
         {...getRootProps({

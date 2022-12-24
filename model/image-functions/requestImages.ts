@@ -11,10 +11,10 @@ import { GrahicDesignsOptions, GraphicDesignType, ImgDoc, SMALL_CATEGORY_OF_IMG,
  * @param {ParsedUrlQuery} queryData The query parameters that are sent down
  * @returns {ImgDoc[] | string } 
  */
-export const requestImageDocs = async (rowRequested: number = 0, category: `graphic-designs` | `stock-images`, subCat: string ,queryData: ParsedUrlQuery) => {
+export const requestImageDocs = async (rowRequested: number = 0, category: `graphic-designs` | `stock-images` | null, subCat: string | undefined ,queryData: ParsedUrlQuery) => {
   
   //check if the queried data is one that can actually be found in the image docs, thus being valid
-  
+  if(!category) return
   if(!subCat || !subCats_array.includes(subCat)) return null
   const isValidQuery = Object.keys(queryData).every((param) => {
     return valid_image_fields.includes(param)

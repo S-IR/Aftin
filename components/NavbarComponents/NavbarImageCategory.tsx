@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import React, { CSSProperties, useEffect, useMemo, useState } from 'react'
-import { NavbarImageLink } from '../../constants/Navbar/GrDesignLinks'
+import { NavbarImageLink } from '../../constants/imageCategories'
 import Tooltip from '@mui/material/Tooltip';
-import useInteval from 'react-useinter'
 import { useTransition, animated, config, AnimatedProps, useSpringRef } from 'react-spring';
 import Image from 'next/image';
 

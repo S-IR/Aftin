@@ -1,23 +1,25 @@
 import { CircleConfig } from 'konva/lib/shapes/Circle'
 import { RectConfig } from 'konva/lib/shapes/Rect'
 import React, { LegacyRef, useEffect, useRef } from 'react'
-import { Circle, KonvaNodeComponent, Rect } from 'react-konva'
-import { shapeFilter } from '../../../features/canvas-elements/filtersSlice'
-import { shapeData } from '../../../features/canvas-elements/shapeHandlingReducer'
+import { Circle, KonvaNodeComponent, Rect, Ring } from 'react-konva'
+import { canvasSelected } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
+import { shapeFilter } from '../../../features/canvasPages/canvas-elements/filtersSlice'
+import { shapeData } from '../../../features/canvasPages/canvas-elements/shapeHandlingReducer'
 import { handleMovePosition, handleScaling, handleSelect } from '../../../model/image-editor/CanvasElements'
 import { useAppDispatch } from '../../../Redux/hooks'
 import TransformerComp from './TransformerComp'
 
 interface props {
   data: shapeData
-  id: number
-  selectedElement: number | null
+  pageId: number,
+  elementId: number
+  selected: canvasSelected
   shapeFilter: shapeFilter
 }
-const CanvasShape = ({ data, id, selectedElement, shapeFilter }: props) => {
+const CanvasShape = ({ data, pageId, elementId, selected, shapeFilter }: props) => {
   const dispatch = useAppDispatch()
   const shapeRef = useRef<LegacyRef<KonvaNodeComponent<CircleConfig, RectConfig>>>(null)
-  const isSelected = selectedElement === id
+  const isSelected = selected?.page === pageId && selected.element === elementId
   const fillPatternImage = new Image()
   if (data.fillGradientDirection) {
     const grandientDirrectionArray = data.fillGradientDirection.split('-')
@@ -25,9 +27,9 @@ const CanvasShape = ({ data, id, selectedElement, shapeFilter }: props) => {
     const gradientEnd = grandientDirrectionArray[1]
 
   }
-  console.log(fillPatternImage.src);
 
 
+  
 
   useEffect(() => {
     if (fillPatternImage && shapeRef.current) {
@@ -39,23 +41,48 @@ const CanvasShape = ({ data, id, selectedElement, shapeFilter }: props) => {
   }, [fillPatternImage])
 
   switch (data.shape) {
+    case 'Ring':      
+      return(
+        <>
+          <Ring
+            ref={shapeRef}
+            onClick={() => handleSelect(pageId, elementId, dispatch)}
+            onTap={() => handleSelect(pageId, elementId, dispatch)}
+            width={data.width}
+            height={data.height}
+            x={data.x}
+            y={data.y}
+            fill={fillPatternImage.src.length !== 0? undefined : shapeFilter.filter.fill}
+            fillPatternImage={fillPatternImage}
+            stroke={shapeFilter.filter.stroke}
+            strokeWidth={data.strokeWidth }
+            draggable
+            onDragEnd={(e) => handleMovePosition(e, pageId, elementId, dispatch)}
+            innerRadius={data.innerRadius as number}
+            outerRadius={data.outerRadius as number}
+            
+          />
+          {isSelected && <TransformerComp isSelected={isSelected} elementRef={shapeRef} />}
+
+        </>
+      )
     case 'Circle':
       return (
         <>
           <Circle
             ref={shapeRef}
-            onClick={() => handleSelect(id, dispatch)}
-            onTap={() => handleSelect(id, dispatch)}
+            onClick={() => handleSelect(pageId, elementId, dispatch)}
+            onTap={() => handleSelect(pageId, elementId, dispatch)}
             width={data.width}
             height={data.height}
             x={data.x}
             y={data.y}
-            fill={fillPatternImage.src?  `` :  undefined}
+            fill={fillPatternImage.src.length !== 0? undefined : shapeFilter.filter.fill}
             fillPatternImage={fillPatternImage}
             stroke={shapeFilter.filter.stroke}
             strokeWidth={data.strokeWidth}
             draggable
-            onDragEnd={(e) => handleMovePosition(e, id, dispatch)}
+            onDragEnd={(e) => handleMovePosition(e, pageId, elementId, dispatch)}
           />
           {isSelected &&
             <TransformerComp
@@ -68,8 +95,8 @@ const CanvasShape = ({ data, id, selectedElement, shapeFilter }: props) => {
         <>
           <Rect
             ref={shapeRef}
-            onClick={() => handleSelect(id, dispatch)}
-            onTap={() => handleSelect(id, dispatch)}
+            onClick={() => handleSelect(pageId, elementId, dispatch)}
+            onTap={() => handleSelect(pageId, elementId, dispatch)}
             width={data.width}
             height={data.height}
             x={data.x}
@@ -79,8 +106,8 @@ const CanvasShape = ({ data, id, selectedElement, shapeFilter }: props) => {
             stroke={shapeFilter.filter.stroke}
             strokeWidth={data.strokeWidth}
             draggable
-            onDragEnd={(e) => { handleMovePosition(e, id, dispatch) }}
-            onTransformEnd={() => { handleScaling(shapeRef, id, dispatch) }}
+            onDragEnd={(e) => { handleMovePosition(e, pageId, elementId, dispatch) }}
+            onTransformEnd={() => { handleScaling(shapeRef, pageId, elementId, dispatch) }}
           />
           {isSelected && <TransformerComp isSelected={isSelected} elementRef={shapeRef} />}
         </>

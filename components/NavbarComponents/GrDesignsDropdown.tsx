@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { Dispatch, SetStateAction } from 'react'
-import { NavbarImageLink, GrDesignLinks } from '../../constants/Navbar/GrDesignLinks'
+import { NavbarImageLink, GrDesignLinks } from '../../constants/imageCategories'
 import NavbarImageCategory from './NavbarImageCategory'
 
 interface props {

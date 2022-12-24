@@ -1,32 +1,34 @@
 import { RGB } from 'konva/lib/filters/RGB'
 import React, { useRef } from 'react'
 import { Text as KonvaText, Transformer } from 'react-konva'
-import { textFilter } from '../../../features/canvas-elements/filtersSlice'
-import { textData } from '../../../features/canvas-elements/textHandlingReducer'
+import { canvasSelected } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
+import { textFilter } from '../../../features/canvasPages/canvas-elements/filtersSlice'
+import { textData } from '../../../features/canvasPages/canvas-elements/textHandlingReducer'
 import { handleMovePosition, handleSelect } from '../../../model/image-editor/CanvasElements'
 import { useAppDispatch } from '../../../Redux/hooks'
 import TransformerComp from './TransformerComp'
 
 interface props {
   data: textData
-  id: number
-  selectedElement: number | null
+  pageId: number,
+  elementId: number
+  selected: canvasSelected
   textFilter : textFilter
 }
 
-const CanvasText = ({ data, id, selectedElement, textFilter }: props) => {
+const CanvasText = ({ data, pageId, elementId, selected, textFilter }: props) => {
   // properties related to the HTML element
 
   const textRef = useRef<React.LegacyRef<Text> | undefined>()
   
-  const isSelected = selectedElement === id
+  const isSelected = selected?.page === pageId && selected.element === elementId
   const dispatch = useAppDispatch()
 
   return (
     <>
       <KonvaText
-        onClick={() => handleSelect(id, dispatch)}
-        onTap={() => handleSelect(id, dispatch)}
+        onClick={() => handleSelect(pageId, elementId,dispatch)}
+        onTap={() => handleSelect(pageId, elementId,dispatch)}
         fill={textFilter.filter.fill}
         ref={textRef}
         x={data.x}
@@ -42,7 +44,7 @@ const CanvasText = ({ data, id, selectedElement, textFilter }: props) => {
         strokeWidth={Number(data.strokeWidth)}
         rotation={data.rotation}
         draggable
-        onDragEnd={(e) => handleMovePosition(e, id, dispatch)}
+        onDragEnd={(e) => handleMovePosition(e, pageId, elementId, dispatch)}
       />
       {isSelected && (
         <TransformerComp isSelected={isSelected} elementRef={textRef}
