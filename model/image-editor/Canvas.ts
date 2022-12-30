@@ -1,8 +1,10 @@
 import { Stage } from "konva/lib/Stage"
+import { NextRouter } from "next/router"
 import { KonvaNodeComponent, StageProps } from "react-konva"
 import { DEFAULT_OPTIONS, filter } from "../../constants/image-editor/imageFilters"
 import { canvasPagesActions } from "../../features/canvasPages/canvas-elements/canvasPageSlice"
 import { filtersActions } from "../../features/canvasPages/canvas-elements/filtersSlice"
+import { previewActions } from "../../features/previews/previewsSlice"
 import { AppDispatch } from "../../Redux/store"
 
 export const canvasFilters = (filters: filter[]) => {
@@ -21,12 +23,13 @@ export function downloadURI(uri: string) {
   link.click();
   document.body.removeChild(link);
 }
-export const handleExport = (stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[], pageToDownload: number | 'all') => {
+export const handleExport = (dispatch: AppDispatch, stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[], pageToDownload: number | 'all') => {
+  const { SELECT_ELEMENT } = canvasPagesActions
+  dispatch(SELECT_ELEMENT({pageId: null, elementId: null}) )
   console.log('pageToDownload: ', pageToDownload, 'stageRefs:', stageRefs );
   
   if (pageToDownload === 'all') {
     stageRefs.forEach((stageRef) => {
-      console.log('arrived at this export moment');
       if (!stageRef.current) return
       const uri = stageRef.current.toDataURL();
       return downloadURI(uri);
@@ -59,3 +62,18 @@ export const changeCanvasSize = (dispatch: AppDispatch, w: number, h: number) =>
   dispatch(CHANGE_PAGE_SIZE({ w, h }))
 }
 
+export const handlePreview = async (router: NextRouter, dispatch: AppDispatch, stageRef: React.RefObject<KonvaNodeComponent<Stage>>) => {
+  const { SELECT_ELEMENT } = canvasPagesActions
+  dispatch(SELECT_ELEMENT({pageId: null, elementId: null}) )
+  if (!stageRef.current) return
+  const { SET_PREVIEW_IMAGE } = previewActions
+  let img = stageRef.current.toDataURL()
+
+  dispatch(SET_PREVIEW_IMAGE(img))
+  
+  
+
+  return router.push(`/previews`)
+
+  
+}

@@ -49,8 +49,8 @@ interface changeElementScale {
   scaleY: number
 }
 interface selectElement {
-  pageId: number
-  elementId: number
+  pageId: number | null
+  elementId: number | null
 }
 interface deleteElement {
   pageId: number

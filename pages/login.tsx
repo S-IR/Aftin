@@ -23,14 +23,14 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(true)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>()
- 
-  const {loading} = useAuth()
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   formState: { errors },
+  // } = useForm<Inputs>()
+
+  const { loading } = useAuth()
 
 
   return (
@@ -48,31 +48,31 @@ function Login() {
             className='-z-10 bg-blend-hard-light !none sm:!inline'
           />
         </div>
-        <div className=' flex flex-col-reverse sm:flex-col '>
-          <div className='flex row-span-2 justify-center relative'>
-            <button className='flex justify-center items-center w-full signIn m-1' onClick={() => (setLogin(true))}>Sign In</button>
-            <button className='flex justify-center items-center w-full signIn m-1' onClick={() => setLogin(false)}>Sign Up</button>
+        <div className=' flex flex-col-reverse sm:flex-col w-96 '>
+          <div className='flex row-span-2 justify-center relative w-full overflow-hidden'>
+            <button className='flex justify-center items-center bg-gray-500 rounded-md w-48 h-10  hover:bg-gray-500 transition-all duration-300 shadow-lg shadow-black m-1' onClick={() => (setLogin(true))}>Sign In</button>
+            <button className='flex justify-center items-center bg-gray-500 rounded-md w-48 h-10  hover:bg-gray-500 transition-all duration-300 shadow-lg shadow-black signIn m-1' onClick={() => setLogin(false)}>Sign Up</button>
           </div>
-          <div  className='grow-1 relative' >
-          <CSSTransition
-            in={login}
-            unmountOnExit
-            timeout={300}
-            classNames={`loginDiv`}
-          >
-            <LoginDiv />
-          </CSSTransition>
-          <CSSTransition
-            in={!login}
-            unmountOnExit
-            timeout={300}
-            classNames={`loginDiv`}
-          >
-            <SignUpDiv />
-          </CSSTransition>
+          <div className='grow-1 relative' >
+            <CSSTransition
+              in={login}
+              unmountOnExit
+              timeout={300}
+              classNames={`loginDiv`}
+            >
+              <LoginDiv />
+            </CSSTransition>
+            <CSSTransition
+              in={!login}
+              unmountOnExit
+              timeout={300}
+              classNames={`loginDiv`}
+            >
+              <SignUpDiv />
+            </CSSTransition>
           </div>
 
-          {loading? <Loading /> : null}
+          {loading ? <Loading /> : null}
 
 
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../Redux/hooks'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { handleAddPage, handleExport, handleSelectPage } from '../../../model/image-editor/Canvas'
+import { handleAddPage, handleExport, handlePreview, handleSelectPage } from '../../../model/image-editor/Canvas'
 import { KonvaNodeComponent, StageProps } from 'react-konva'
 import { Stage } from 'konva/lib/Stage'
 import { canvasPagesCount } from '../../../features/canvasPages/canvas-elements/canvasPageSlice'
 import { InputLabel, MenuItem, Select } from '@mui/material'
+import { useRouter } from 'next/router'
 
 interface props {
   stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[]
@@ -13,6 +14,7 @@ interface props {
 
 }
 const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
+  const router = useRouter()
   const canvasPages = useAppSelector(canvasPagesCount)
   const dispatch = useAppDispatch()
   const pageId = useAppSelector(canvasPagesCount).present.selected?.page
@@ -56,7 +58,7 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
 
         <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:bg-gray-500 hover:underline hover:  transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
           ref={downloadRef}
-          onClick={() => handleExport(stageRefs, 'all')}
+          onClick={() => handleExport(dispatch, stageRefs, 'all')}
         >Download
         </button>
         <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:bg-gray-500 hover:underline hover:  transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
@@ -68,6 +70,12 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
           disabled={canvasPages.future.length === 0}
           onClick={() => dispatch(UndoActionCreators.redo())}
         >Redo
+        </button>
+
+
+        <button className='bg-gray-800 p-2 rounded-sm w-32 shadow-md font-serif hover:bg-gray-500 hover:underline hover:  transition-all duration-300 ease-in-out disabled:bg-gray-200/80 disabled:text-black/40  shadow-black active:shadow-none '
+          onClick={() => handlePreview(router, dispatch, stageRefs[0])}
+        >Preview
         </button>
       </div>
     </section>

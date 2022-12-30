@@ -24,3 +24,40 @@
   Add a button to add and remove page
   ON THE LAYOUT COMP : 
   add buttons to delete a layer, add a layer, choose an aspect ratio  and make an image a default bg for every layer
+
+  Make a canvasPage redux state around canvasElems that will include all of the elemnts of that redux page. Then loop through each canvasPage and render a new canvas based on the elements that it has in it. MAKE SURE THE UNDO BUTTON WORKS. 
+
+  // {
+  //   pages : [
+  //     0 : [{type : 'image', url: 'potato', size: 'tomato}, {type: 'text', font: 'potato', underline:' tomato'}, {type: 'shape', w: '150', h: '150'}],
+  //     1 : [{type : 'image', url: 'potato', size: 'tomato}, {type: 'text', font: 'potato', underline:' tomato'}, {type: 'shape', w: '150', h: '150'}],
+  //     2 : [{type : 'image', url: 'potato', size: 'tomato}, {type: 'text', font: 'potato', underline:' tomato'}, {type: 'shape', w: '150', h: '150'}],
+
+  //   ]
+  //   selected : {page: 0, element: 2}
+  // }
+
+
+  
+
+  SMART PREVIEWS
+    Where would someone need to see their restaurant photos:
+    On phones, on a website, on a facebook banner / twitter banner / insta post / "website" 
+    if it's a menu, in the hands of someone, on a table, evening and morning environments. 
+    if it's an image / banner, on a wall, outside a restaurant entrance / evening / morning
+
+    Changes based on size
+    
+    the person could use a contrast checker
+
+
+    Device Screen Section :
+      Phone
+      fb, twi, insta
+      Website
+    Physical Section: 
+      Inside and Outside section:
+      In hand
+      On a restaurant table,
+      On a wall
+      on an entrance 

@@ -9,12 +9,15 @@ import Button from "./Button"
 import { useRouter } from "next/router"
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { GrDesignsDropdown, StockImagesDropdown, ProductsDropdown, ProfileDropdown } from "./NavbarComponents"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { auth } from "../firebase"
 
 
 function Navbar() {
 
   const [activeSidebar, setActiveSidebar] = useState<null | 'ProfileDropdown' | 'ProductsDropdown' | 'ImagesDropdown' | 'GrDesignsDropdown'>(null)
   const [menuHeight, setMenuHeight] = useState<number | null>(null)
+  const [user, userLoading] = useAuthState(auth)
 
 
   function calcHeight(el: HTMLDivElement) {
@@ -72,44 +75,51 @@ function Navbar() {
 
   return (
     <>
-      <nav className="bg-gray-900 shadow-lg shadow-black w-full sticky top-0 z-[120] flex items-center h-[75px]  navbar  z-5 "      >
+      <nav className="bg-gray-900 shadow-lg shadow-black w-full sticky top-0 z-[120] flex items-center h-[75px]  navbar z-5 "      >
 
-          <ul className="grow-1 h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
-            {navLinks.map((nav) => (
-              <li
-                key={nav.id}
-                className="flex flex-1 items-center space-x-1 h-[50px] cursor-pointer"
-                onMouseOver={() => { if (exitedDropdown !== nav.DropdownState) return setActiveSidebar(nav.DropdownState) }}
-                onMouseLeave={() => setActiveSidebar(null)}
-                onClick={() => router.push(nav.url)}
-              ><>
-              <p className="text-md md:text-lg font-serif" >
-              {nav.title}
-
-              </p>
-                  {NavbarHoverSwitch(nav.DropdownState)}
-                </>
-              </li>
-            ))}
-          </ul>
-
-
-          <div className="grow-0 flex flex-1 space-x-2  items-center justify-center w-min">
-
-            <button className="mt-1 !h-8 general-buttons"  onClick={() => router.push('/login')} >
-              Login
-            </button>
-            <button className="mt-1 !h-8 general-buttons"  onClick={() => router.push('/login')} >
-              Sign Up
-            </button>
-            <button
-              onClick={() => activeSidebar === 'ProfileDropdown' ?
-                setActiveSidebar(null) : setActiveSidebar('ProfileDropdown')}
+        <ul className="grow-1 h-max md:flex flex-1 font-bold space-x-10 md:space-x-6 px-4 md:px-8 hidden ">
+          {navLinks.map((nav) => (
+            <li
+              key={nav.id}
+              className="flex flex-1 items-center space-x-1 h-[50px] cursor-pointer"
+              onMouseOver={() => { if (exitedDropdown !== nav.DropdownState) return setActiveSidebar(nav.DropdownState) }}
+              onMouseLeave={() => setActiveSidebar(null)}
+              onClick={() => router.push(nav.url)}
             >
-              {<UserCircleIcon className=" w-8 h-8 cursor-pointer hover:bg-gray-500 bg-opacity-30 hover:rounded-full transition-all duration-300" />}
-            </button>
-            {activeSidebar === 'ProfileDropdown'? <ProfileDropdown setActiveSidebar={setActiveSidebar} />: null}
-          </div>
+              <>
+                <p className="text-md md:text-lg font-serif" >
+                  {nav.title}
+                </p>
+                {NavbarHoverSwitch(nav.DropdownState)}
+              </>
+            </li>
+          ))}
+        </ul>
+
+
+        <div className="grow-0 flex flex-1 space-x-2  items-center justify-center w-min mx-4">
+
+          <button className="mt-1 !h-8 general-buttons" onClick={() => router.push('/login')} >
+            Login
+          </button>
+          <button className="mt-1 !h-8 general-buttons" onClick={() => router.push('/login')} >
+            Sign Up
+          </button>
+          <button className=""
+            onClick={() => activeSidebar === 'ProfileDropdown' ?
+              setActiveSidebar(null) : setActiveSidebar('ProfileDropdown')}
+          >
+            {user && user.photoURL && <Image
+              src={user.photoURL}
+              width={48}
+              height={48}
+              alt={'user profile picture'}
+              className={'rounded-full   '}
+
+            />}
+          </button>
+          {activeSidebar === 'ProfileDropdown' ? <ProfileDropdown setActiveSidebar={setActiveSidebar} /> : null}
+        </div>
 
       </nav>
     </>

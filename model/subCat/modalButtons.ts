@@ -61,7 +61,7 @@ export const handleSubCatEdit = (
   url: string, 
   width: number, 
   height: number) => {
-  const pageId = 1
+  const pageId = 0
   const { ADD_IMAGE } = canvasPagesActions
   dispatch(ADD_IMAGE({pageId, 
   data: {
