@@ -6,11 +6,11 @@ import aftinLogo from '../public/frontend-used-images/aftinLogoSvg.svg'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Link from 'next/link'
 import useAuth from '../hooks/useAuth'
-import LoginDiv from '../components/Login/LoginDiv'
-import SignUpDiv from '../components/Login/SignUpDiv'
-import Loading from '../components/Loading'
+import LoginDiv from '../components/login/LoginDiv'
+import SignUpDiv from '../components/login/SignUpDiv'
 import { CSSTransition } from 'react-transition-group'
 import styles from '../styles/Login.module.css'
+import Loading from '../components/general/Loading'
 
 interface Inputs {
   email: string
@@ -48,28 +48,14 @@ function Login() {
             className='-z-10 bg-blend-hard-light !none sm:!inline'
           />
         </div>
-        <div className=' flex flex-col-reverse sm:flex-col w-96 '>
-          <div className='flex row-span-2 justify-center relative w-full overflow-hidden'>
-            <button className='flex justify-center items-center bg-gray-500 rounded-md w-48 h-10  hover:bg-gray-500 transition-all duration-300 shadow-lg shadow-black m-1' onClick={() => (setLogin(true))}>Sign In</button>
-            <button className='flex justify-center items-center bg-gray-500 rounded-md w-48 h-10  hover:bg-gray-500 transition-all duration-300 shadow-lg shadow-black signIn m-1' onClick={() => setLogin(false)}>Sign Up</button>
+        <div className=' flex flex-col-reverse sm:flex-col w-1/2 h-full  bg-gray-300 drop-shadow-xl rounded-md  '>
+          <div className='flex row-span-2 justify-center relative w-full overflow-hidden my-2'>
+            <button className='flex justify-center items-center bg-gradient-to-b from-gray-500 to-gray-700 rounded-sm w-48 h-10 filter-none  hover:filter brightness-90  transition-all duration-300  m-1' onClick={() => (setLogin(true))}>Sign In</button>
+            <button className='flex justify-center items-center bg-gradient-to-b from-gray-500 to-gray-700 rounded-sm w-48 h-10 filter-none  hover:filter brightness-90  transition-all duration-300  m-1' onClick={() => setLogin(false)}>Sign Up</button>
           </div>
-          <div className='grow-1 relative' >
-            <CSSTransition
-              in={login}
-              unmountOnExit
-              timeout={300}
-              classNames={`loginDiv`}
-            >
-              <LoginDiv />
-            </CSSTransition>
-            <CSSTransition
-              in={!login}
-              unmountOnExit
-              timeout={300}
-              classNames={`loginDiv`}
-            >
-              <SignUpDiv />
-            </CSSTransition>
+          <div className=' relative h-auto ' >
+            {login? <LoginDiv /> : <SignUpDiv/>}
+
           </div>
 
           {loading ? <Loading /> : null}

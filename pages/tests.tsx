@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useRef } from 'react'
-import { buildRgb, ColorQuantization, rgbArrayToHex } from '../model/f302b492-a403-4ac8-9745-c4db741051c9/buildRGB'
+import { buildRgb, ColorQuantization, rgbArrayToHex } from '../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/buildRGB'
 
 const tests = () => {
   const canvasRef = useRef<React.MutableRefObject<HTMLCanvasElement | null>>(null)

@@ -10,7 +10,7 @@ interface sourcedImgPlacement extends sentImgPlacement{
 
 interface props {
   data: previewBG | sourcedImgPlacement
-  layerRef : React.MutableRefObject<KonvaNodeComponent<Layer, LayerConfig> | null>
+  layerRef : Layer |  LayerConfig |  null
 }
 
 
@@ -21,8 +21,9 @@ const PreviewElement = ({data, layerRef}: props) => {
 
   image.onload = () => {
     image.src = data.src
+    if(!imageRef || !imageRef.current || !layerRef || layerRef.current) return
+
     imageRef.current.cache();
-    if(!layerRef || layerRef.current) return
     layerRef.current?.draw()
   }
   const imageRef = useRef<LegacyRef<KonvaNodeComponent<Image, ImageConfig>>>();
@@ -34,14 +35,6 @@ const PreviewElement = ({data, layerRef}: props) => {
     }
   }, [])
 
-
-  useEffect(() => { 
-    console.log(`image.src:`, image.src);
-    console.log('image:', image);
-    
-  
-
-  }, [image.src, image])
 
 
   return (

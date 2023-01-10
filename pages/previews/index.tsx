@@ -2,12 +2,12 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { previewCategoryValue } from '../../constants/previews/previewCategories';
-import  ChoosePreview  from '../../components/Previews/ChoosePreview';
+import  ChoosePreview  from '../../components/previews/ChoosePreview';
 import dynamic from 'next/dynamic';
 
 
 const PreviewCanvas = dynamic(
-  () => import('../../components/Previews/PreviewCanvas'),
+  () => import('../../components/previews/PreviewCanvas'),
   { ssr: false }
 );
 

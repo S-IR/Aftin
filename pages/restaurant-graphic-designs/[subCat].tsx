@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage, NextPageContext } from 'next'
 import React, { useState } from 'react'
-import SiteGallery from '../../components/SiteGallery'
-import SortingSidebar from '../../components/SortingSidebar'
+import SiteGallery from '../../components/general/SiteGallery'
+import SortingSidebar from '../../components/general/SortingSidebar'
 
 interface props {
 }

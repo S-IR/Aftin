@@ -1,31 +1,30 @@
 import Head from 'next/head'
 import React, { useState } from 'react'
-import Navbar from '../../components/Navbar'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { FaAngleDoubleLeft, FaIcons } from 'react-icons/fa'
 import { BiText, BiPalette } from 'react-icons/bi'
 import { MdOutlineDoubleArrow, MdOutlineDraw } from 'react-icons/md'
-import { CSSTransitionComp, DrawButtons, ImagesButtons, ShowLess, ShowMore, TextButtons, UploadButtons } from '../../components/ImageEditor/Sidebar'
+import { CSSTransitionComp, DrawButtons, ImagesButtons, ShowLess, ShowMore, TextButtons, UploadButtons } from '../../components/image-editor/Sidebar'
 import dynamic from 'next/dynamic'
 import { useAppSelector } from '../../Redux/hooks'
-import { SidebarIcon, StylizeButtons } from '../../components/ImageEditor/Sidebar'
+import { SidebarIcon, StylizeButtons } from '../../components/image-editor/Sidebar'
 
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { NextPage } from 'next'
 import { Layers, Panorama } from '@mui/icons-material'
-import { DropzoneComp } from '../../components/ImageEditor'
+import { DropzoneComp } from '../../components/image-editor'
 import { useSpring, animated, config } from 'react-spring'
 
-import LayoutButtons from '../../components/ImageEditor/Sidebar/LayoutButtons'
+import LayoutButtons from '../../components/image-editor/Sidebar/LayoutButtons'
 import { canvasElement, canvasPagesCount } from '../../features/canvasPages/canvas-elements/canvasPageSlice'
 import { Tooltip } from '@mui/material'
 const Canvas = dynamic(
-  () => import('../../components/ImageEditor/Canvas'),
+  () => import('../../components/image-editor/Canvas'),
   { ssr: false }
 );
-// import Canvas from '../../components/ImageEditor/Canvas'
+// import Canvas from '../../components/image-editor/Canvas'
 
-export type activeSidebarType = 'Upload' | 'Layout' | 'Images' | 'Text' | 'Stylize' | 'Filters' | 'Draw'
+type activeSidebarType = 'Upload' | 'Layout' | 'Images' | 'Text' | 'Stylize' | 'Filters' | 'Draw'
 
 
 const Index: NextPage = () => {
@@ -61,51 +60,46 @@ const Index: NextPage = () => {
               </button>
             </Tooltip>
           }
-          <animated.section className={`h-[100vh] bg-gradient-to-br bg-gray-900  w-[75px] items-center flex flex-col  `}>
-            <SidebarIcon Icon={<AiOutlineCloudUpload className='w-[32px] h-[32px]' />} setActiveSidebar={setActiveSidebar}
+          <animated.section className={`h-[90vh] bg-gradient-to-br bg-gray-900  w-[7vw] items-center flex flex-col  `}>
+            <SidebarIcon Icon={<AiOutlineCloudUpload className='w-[5vw] h-[5vh]' />} 
+              setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Upload'
-              showMore={showMore} />
-            <SidebarIcon Icon={<Panorama className='w-[32px] h-[32px]' />}
+               />
+            <SidebarIcon Icon={<Panorama className='w-[5vw] h-[5vh]' />}
               setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Images'
-              showMore={showMore} />
-            <SidebarIcon Icon={<Layers className='w-[32px] h-[32px]' />}
+               />
+            <SidebarIcon Icon={<Layers className='w-[5vw] h-[5vh]' />}
               setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Layout'
-              showMore={showMore} />
-            <SidebarIcon Icon={<BiText className='w-[32px] h-[32px]' />}
+               />
+            <SidebarIcon Icon={<BiText className='w-[5vw] h-[5vh]' />}
               setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Text'
-              showMore={showMore} />
+               />
 
-            <SidebarIcon Icon={<BiPalette className='w-[32px] h-[32px]' />}
+            <SidebarIcon Icon={<BiPalette className='w-[5vw] h-[5vh]' />}
               setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Stylize'
-              showMore={showMore} />
+               />
 
-            <ShowMore
-              showMore={showMore}
-              setShowMore={setShowMore}
-            />
 
-            <SidebarIcon Icon={<MdOutlineDraw className='w-[32px] h-[32px]' />}
+
+            <SidebarIcon Icon={<MdOutlineDraw className='w-[5vw] h-[5vh]' />}
               setActiveSidebar={setActiveSidebar}
               activeSidebar={activeSidebar}
               Text='Draw'
-              showMore={showMore} />
+               />
 
-            <ShowLess
-              showMore={showMore}
-              setShowMore={setShowMore}
-            />
+
           </animated.section>
           <TransitionGroup>
-            <animated.div className={`h-[100vh] ${showSidebar ? `left-0 opacity-1 w-auto` : `-left-52 opacity-0 w-[0px]`}  `}>
+            <animated.div className={`h-[90vh] ${showSidebar ? `left-0 opacity-1 w-auto ` : `-left-52 opacity-0 w-[0px]`}  `}>
               {activeSidebar === 'Upload' ?
                 <CSSTransitionComp
                   activeSidebar={activeSidebar}

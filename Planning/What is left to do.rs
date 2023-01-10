@@ -61,3 +61,32 @@
       On a restaurant table,
       On a wall
       on an entrance 
+
+      for the preview image section: 
+      For each category there will be a background image guaranteed. The position of the image that will be previewed will be dynamic. Some elements will have other images ONTOP with DYNAMIC POSITIONS.
+      Some images will have custom CSS
+
+      1. Based on the currently selected value pull a specific template (object) and make it as the 'selected template'.
+      2. Send this object to the previewImg component. Based on it the image will know where to place the previewed image alongside the other images that are in the background. They should all have a set w , h, x, and y alongside any necessary css
+
+
+      PUT A LOGO IN THE PREVIEW TAB
+
+
+
+
+
+de adaugat butonul de reset password
+de adaugat butonul de crop
+de pus bg-ul la sortingSidebar
+
+
+      stylize la image editor 
+
+
+      butonul de request custom design 
+      bg la ruta graphic design si stock images
+      de scos de la products request web design 
+      bg la login 
+      bg la reset password
+      imagine atunci cand nu sunt rezultate

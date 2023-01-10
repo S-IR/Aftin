@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../../components/Navbar'
+import Navbar from '../../../components/WebsiteNavbar'
 import SiteGallery from '../../../components/SiteGallery'
 import { getImageSize } from 'next/dist/server/image-optimizer'
 import SortingSidebar from '../../../components/SortingSidebar'

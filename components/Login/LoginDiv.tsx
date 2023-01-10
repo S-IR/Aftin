@@ -34,7 +34,7 @@ function LoginDiv() {
   return (
 
 
-    <form onSubmit={handleSubmit(onSubmit)} className='sm:w-auto z-50 bg-gray-200 to-blue-900  rounded-md space-y-8 md:max-w-md md:px-14 flex-row row-span-1 justify-center items-center text-white p-4 mx-5 absolute top-0 left-0 w-52'>
+    <form onSubmit={handleSubmit(onSubmit)} className='sm:w-auto z-50 bg-gray-200 to-blue-900  rounded-md space-y-8   md:px-14 flex-row row-span-1 justify-center items-center text-white p-4 mx-auto'>
       <div className='space-y-4 w-full'>
         <label className='inline-block w-full'>
           <input type="email" placeholder='Email' className='input' {...register("email", {

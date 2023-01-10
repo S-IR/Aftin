@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   User,
@@ -11,6 +12,7 @@ import axios from "axios";
 import { Router, useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { auth, createUserDoc, db } from '../firebase'
+import { verifyEmail } from '../model/server-side/sendEmail';
 
 
 
@@ -19,11 +21,16 @@ const useAuth = () => {
   const router = useRouter()
   const signUp = async (email: string, password: string, username: string) => {
     setLoading(true)
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
-        createUserDoc(userCredential.user.uid, email, username, 'Not Specified', 'Free')
-      }).then(() => router.push('/'))
-      .catch((err) => alert(err.message)).finally(() => setLoading(false))
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const resBody = await verifyEmail(userCredential.user.email as string)
+      createUserDoc(userCredential.user.uid, email, username, 'Not Specified', 'Free')
+      return resBody
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false)
+    }
   }
   const signIn = async (email: string, password: string) => {
     setLoading(true)

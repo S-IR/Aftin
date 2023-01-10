@@ -34,11 +34,7 @@ const PreviewCanvas = ({ selectedCategory }: props) => {
   const stageRef = useRef<KonvaNodeComponent<Stage, StageProps>>(null)
   const canvasBGRef = useRef<null | KonvaNodeComponent<Rect, RectConfig>>(null)
   const layerRef = useRef<null | KonvaNodeComponent<Layer, LayerConfig>>(null)
-  useEffect(() => {
-    console.log(placementData);
 
-
-  }, [placementData])
 
   if (placementData === null) return <div>placement data is null</div>
   placementData.sentImgPlacement.src = src

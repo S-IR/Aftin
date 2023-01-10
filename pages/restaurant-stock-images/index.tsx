@@ -1,15 +1,13 @@
 import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
-import Button from '../../components/Button'
-import { GrDesignLinks } from '../../constants/imageCategories'
+import Button from '../../components/general/Button'
+import { GrDesignLinks, StockImageLinks } from '../../constants/imageCategories'
 import { handleRequestDesigner } from '../../model/handleRequestDesigner'
 import { useSpring, animated, config, to } from 'react-spring'
 import { useGesture } from '@use-gesture/react'
-import SingleImage from '../../components/SingleImage'
-import ImgSubcatOption from '../../components/ImgLink'
-import ImgLink from '../../components/ImgLink'
-import { StockImageLinks } from '../../constants/Navbar/StockImageCategories'
+
 import Link from 'next/link'
+import ImgLink from '../../components/general/ImgLink'
 
 const Index = () => {
 

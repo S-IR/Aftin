@@ -1,15 +1,14 @@
 import { React, useEffect, useRef, useState } from 'react'
 import { getCookie, getCookies } from 'cookies-next';
 import { SubmitHandler, useForm } from 'react-hook-form'
-import ProgressBar from '../../components/UploadImages/ProgressBar';
 import { text } from 'stream/consumers';
 import { collection } from 'firebase/firestore';
 
 
 function PrivateUploadComponent() {
   const [file, setFile] = useState<null | FormDataEntryValue>(null);
-  const [error, setError] = useState(null);
-  const [props, setProps] = useState([])
+  const [error, setError] = useState<null | string>(null);
+  const [props, setProps] = useState({})
 
   const types = ['image/png', 'image/jpeg']
 
@@ -88,7 +87,7 @@ function PrivateUploadComponent() {
       <div>
         {error && <div>{error} </div>}
         {file && <div> {file.name}</div>}
-        {file && <ProgressBar {...props} setFile={setFile} />}
+        {/* {file && <ProgressBar {...props} setFile={setFile} />} */}
 
       </div>
     </div>

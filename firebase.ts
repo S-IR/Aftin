@@ -3,6 +3,7 @@ import { initializeApp, getApp, getApps } from 'firebase/app'
 import { addDoc, collection, doc, getFirestore, setDoc } from 'firebase/firestore'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { getStorage, ref } from 'firebase/storage'
+import { getAnalytics } from "firebase/analytics";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,8 +18,10 @@ const firebaseConfig = {
   storageBucket: "aftin-3516f.appspot.com",
   messagingSenderId: "553217579691",
   appId: "1:553217579691:web:6e1f95c70d1c1f6c5875ee",
-  measurementId: "G-BTF883FE0C"
+  measurementId: "G-BTF883FE0C",
+  
 }
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 const db = getFirestore()
@@ -38,6 +41,8 @@ const createUserDoc = (uid: string, email: string, username: string, occupation:
     username: username,
   })
 }
+
+
 // const createImageDoc = (name:string, alt_text:string , checkbox:boolean, collection_name: string, description: string, url: string) =>{
 //   addDoc(collection(db, collection_name ), {
 //     name: name,

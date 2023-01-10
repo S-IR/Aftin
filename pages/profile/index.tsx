@@ -33,7 +33,7 @@ const Index: NextPage = () => {
     <div className=' flex h-[90vh]'>
       <section className='w-1/4 h-[90vh] bg-gradient-to-b bg-gray-700/40 flex items-center align justify-center'>
         <div className=' w-auto h-auto p-4 rounded-full border-2 border-white/20 '>
-          {user ? <Image
+          {user && user.photoURL ? <Image
             src={user.photoURL}
             width={125}
             height={125}

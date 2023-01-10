@@ -77,55 +77,63 @@ const initialState: canvasState = { pages: [[]], selected: {page: null, element:
 
 
 
-const ADD_PAGE: CaseReducer<WritableDraft<canvasState>, PayloadAction> = (state, action) => {
+const ADD_PAGE: CaseReducer<canvasState, PayloadAction> = (state, action) => {
    state.pages.push([])
 }
 
-const DELETE_PAGE : CaseReducer<WritableDraft<canvasState>, PayloadAction<deletePage>> = (state, action) => {
+const DELETE_PAGE : CaseReducer<canvasState, PayloadAction<deletePage>> = (state, action) => {
   const {pageId} = action.payload
   state.pages.splice(pageId, 1)
 }
 
-const SELECT_PAGE: CaseReducer<WritableDraft<canvasState>, PayloadAction<selectPage>> = (state, action) => {
+const SELECT_PAGE: CaseReducer<canvasState, PayloadAction<selectPage>> = (state, action) => {
   const {pageId} = action.payload
   state.selected.page = pageId
   state.selected.element = null
 }
-const CHANGE_PAGE_SIZE: CaseReducer<WritableDraft<canvasState>, PayloadAction<changePageSize>> = (state, action) => {
+const CHANGE_PAGE_SIZE: CaseReducer<canvasState, PayloadAction<changePageSize>> = (state, action) => {
   const {w, h} = action.payload
   if(w) state.w = w
   if(h) state.h = h
 }
 
-const CHANGE_ELEMENT_POSITION: CaseReducer<WritableDraft<canvasState>, PayloadAction<changeElementPosition>> = (state, action) => {
+const CHANGE_ELEMENT_POSITION: CaseReducer<canvasState, PayloadAction<changeElementPosition>> = (state, action) => {
   const {pageId, elementId, pageX, pageY} = action.payload
   state.pages[pageId][elementId].data.x = pageX
   state.pages[pageId][elementId].data.y = pageY
 }
 
-const CHANGE_STROKE_WIDTH: CaseReducer<WritableDraft<canvasState>, PayloadAction<changeStrokeWidth>> = (state, action) => {
+const CHANGE_STROKE_WIDTH: CaseReducer<canvasState, PayloadAction<changeStrokeWidth>> = (state, action) => {
   const {pageId, elementId, strokeWidth}  = action.payload
   const selectedElement:textData | shapeData = state.pages[pageId][elementId].data
   selectedElement.strokeWidth = strokeWidth
 }
 
-const CHANGE_ELEMENT_SCALE: CaseReducer<WritableDraft<canvasState>, PayloadAction<changeElementScale>> = (state, action) => {
+const CHANGE_ELEMENT_SCALE: CaseReducer<canvasState, PayloadAction<changeElementScale>> = (state, action) => {
   const {pageId, elementId, scaleX, scaleY} = action.payload
   state.pages[pageId][elementId].data.scaleX = scaleX
   state.pages[pageId][elementId].data.scaleY = scaleY
 }
-const SELECT_ELEMENT: CaseReducer<WritableDraft<canvasState>, PayloadAction<selectElement>> = (state, action) => {
+const SELECT_ELEMENT: CaseReducer<canvasState, PayloadAction<selectElement>> = (state, action) => {
   state.selected.page = action.payload.pageId
   state.selected.element = action.payload.elementId
 
 }
-const DELETE_ELEMENT: CaseReducer<WritableDraft<canvasState>, PayloadAction<deleteElement>> = (state, action) => {
+const DELETE_ELEMENT: CaseReducer<canvasState, PayloadAction<deleteElement>> = (state, action) => {
   const { pageId, elementId } = action.payload
   state.pages[pageId].splice(elementId, 1)
-  if (elementId === 0 && state.pages.length < 2) {
-    state.selected = null
-  } else {
+  // boolean to determine if there is any element in THAT PAGE's ARRAY left after splicing 
+  const isElementInPage = state.pages[pageId].length > 0
+  // boolean to determine if there is any element in ANY PAGE ARRAY left after splicing 
+  const isElementInCanvas = state.pages.some((page)=> page.length > 0)
+  if(isElementInPage){
     state.selected.element = 0
+  } else if(isElementInCanvas){
+    state.selected.page = 0
+    state.selected.element = 0
+  } else {
+    state.selected.page = null
+    state.selected.element = null
   }
 }
 
