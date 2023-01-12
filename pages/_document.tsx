@@ -40,19 +40,6 @@ export default function Document() {
           `,
           }}
         />
-        {/* {isConsent &&
-          <Script
-            id="gtag-update"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-gtag('consent', 'update', {
-  'ad_storage': ${ad_storage_consent},
-  'analytics_storage': ${analytics_storage_consent}
-});
-        `,
-            }}
-          /> */}
 
 
       </Head>

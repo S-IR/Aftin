@@ -1,10 +1,11 @@
+import { UpdateCookiesObj } from "../../lib/gtag"
 
 
 
 interface cookiesConsentOption  {
   name: string,
   description : string, 
-  id: string
+  id: keyof UpdateCookiesObj
 }
 export const cookiesConsentOptions: cookiesConsentOption[] = [
   {name: 'Functionality Cookies',
