@@ -16,7 +16,7 @@ function WebsiteNavbar() {
 
   const [activeSidebar, setActiveSidebar] = useState<null | 'ProfileDropdown' | 'ProductsDropdown' | 'ImagesDropdown' | 'GrDesignsDropdown'>(null)
   const [user, userLoading] = useAuthState(auth)
-
+  
 
   //this exit state is meant to stop the setting of the hover state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's animating out. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
   const [exitedDropdown, setExitedDropdown] = useState<null | navLink["DropdownState"]>(null)

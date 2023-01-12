@@ -1,10 +1,10 @@
 export async function verifyEmail(userEmail: string): Promise<Response>{
   
-  const res = await fetch('http://localhost:3000/api/emailVerification', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_server}/api/emailVerification`, {
     method: 'POST',
     body: JSON.stringify({
       userEmail,
-      redirectUrl: 'http://localhost:3000'
+      redirectUrl: `${process.env.NEXT_PUBLIC_server}`
     }),
     headers: {
       'Accept': 'application/json',
@@ -20,11 +20,11 @@ export async function verifyEmail(userEmail: string): Promise<Response>{
  * @returns Promise<Response> that describes if the sending was successful or not
  */
 export async function resetPassword(userEmail: string): Promise<Response> {
-  const res = await fetch('http://localhost:3000/api/passwordReset', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_server}/api/passwordReset`, {
     method: 'POST',
     body: JSON.stringify({
       userEmail,
-      redirectUrl: 'http://localhost:3000/profile'
+      redirectUrl: `${process.env.NEXT_PUBLIC_server}/profile`
     }),
     headers: {
       'Accept': 'application/json',

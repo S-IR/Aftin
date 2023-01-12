@@ -12,23 +12,23 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-
+import * as gtag from '../lib/gtag'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
+  
   useEffect(() => {
-    const handleRouteChange = (url:string) => {
-      gtag.pageview(url);
-    };
-
-    router.events.on("routeChangeComplete", handleRouteChange);
-
+    const handleRouteChange = (url: string) => {
+     gtag.pageview(url)
+    }
+    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on('hashChangeComplete', handleRouteChange)
     return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, [router.events]);
-
+      router.events.off('routeChangeComplete', handleRouteChange)
+      router.events.off('hashChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
 
 
   const [queryClient] = useState(
@@ -46,21 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
 
-      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-S080YZKD48" />
-      <Script
-        id='google-analytics'
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-S080YZKD48', {
-            page_path: window.location.pathname,
-          });
-        `,
-        }}
-      />
+
 
       {/* react query code */}
       <QueryClientProvider client={queryClient}>

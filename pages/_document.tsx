@@ -1,48 +1,66 @@
+import Cookies from 'js-cookie'
 import { Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
-import { useEffect } from 'react'
-import TagManager, { TagManagerArgs } from 'react-gtm-module';
+import { useEffect, useState } from 'react'
+import * as gtag from '../lib/gtag'
 
 export default function Document() {
 
-  const tagManagerArgs: TagManagerArgs = {
-    gtmId: 'GTM-KGH696Z',
 
 
-
-  }
-
-  useEffect(() => {
-    TagManager.initialize(tagManagerArgs)
+  const ad_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('ad_storage_consent')
+  const analytics_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('analytics_storage_consent')
 
 
-  }, [])
+  const isConsent = ad_storage_consent !== undefined && analytics_storage_consent !== undefined
 
 
   return (
     <Html>
       <Head>
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-S080YZKD48');
-        `}
-        </Script>
         <Script
-          src="https://www.google-analytics.com/analytics.js"
           strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
         />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gtag.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'analytics_storage': 'denied'
+            });
+          `,
+          }}
+        />
+        {/* {isConsent &&
+          <Script
+            id="gtag-update"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+gtag('consent', 'update', {
+  'ad_storage': ${ad_storage_consent},
+  'analytics_storage': ${analytics_storage_consent}
+});
+        `,
+            }}
+          /> */}
+
 
       </Head>
       <body>
-        {/* <noscript dangerouslySetInnerHTML={{
-          __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGH696Z"
-          height="0" width="0" style="display:none;visibility:hidden"></iframe>`}}></noscript> */}
+
         <Main />
         <NextScript />
+
       </body>
     </Html >
   )
