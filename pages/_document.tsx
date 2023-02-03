@@ -1,20 +1,10 @@
-import Cookies from 'js-cookie'
-import { Html, Head, Main, NextScript } from 'next/document'
-import Script from 'next/script'
-import { useEffect, useState } from 'react'
-import * as gtag from '../lib/gtag'
+import Cookies from "js-cookie";
+import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
+import { useEffect, useState } from "react";
+import * as gtag from "../lib/gtag";
 
 export default function Document() {
-
-
-
-  const ad_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('ad_storage_consent')
-  const analytics_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('analytics_storage_consent')
-
-
-  const isConsent = ad_storage_consent !== undefined && analytics_storage_consent !== undefined
-
-
   return (
     <Html>
       <Head>
@@ -40,15 +30,11 @@ export default function Document() {
           `,
           }}
         />
-
-
       </Head>
       <body>
-
         <Main />
         <NextScript />
-
       </body>
-    </Html >
-  )
+    </Html>
+  );
 }

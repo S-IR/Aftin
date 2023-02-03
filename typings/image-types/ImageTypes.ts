@@ -64,10 +64,8 @@ export const main_dish_array = [
   `baby-back-ribs`, 
   `beignets`, 
   `bibimbap`, 
-  `cannoli`, 
   `carrot-cake`, 
   `chicken-curry`, 
-  `chicken-wings`, 
   `churros`, 
   `dumplings`,
   `eggs-benedict`, 
@@ -93,6 +91,7 @@ export const main_dish_array = [
 
 export const sweets_and_desserts_array = [
   `bread-pudding`,
+  `cannoli`, 
   `cheesecake`,
   `chocolate-cake`,
   `creme-brulée`,
@@ -111,6 +110,7 @@ export const sweets_and_desserts_array = [
 ]
 export const fast_foods_array = [
   `burgers`,
+  `chicken-wings`, 
   `fries`,
   `hot-dogs`,
   `nachos`,

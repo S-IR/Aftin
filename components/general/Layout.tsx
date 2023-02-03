@@ -8,13 +8,16 @@ import WebsiteNavbar from './WebsiteNavbar'
 const Layout = ({ children }: React.PropsWithChildren) => {
 
 
-  const ad_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('ad_storage_consent')
-  const analytics_storage_consent: undefined | 'granted' | 'denied' | string = Cookies.get('analytics_storage_consent')
+  const ad_storage: undefined | 'granted' | 'denied' | string = Cookies.get('ad_storage')
+  const analytics_storage: undefined | 'granted' | 'denied' | string = Cookies.get('analytics_storage')
+  const functionality_storage: undefined | 'granted' | 'denied' | string = Cookies.get('functionality_storage')
+  const security_storage : undefined | 'granted' | 'denied' | string = Cookies.get('security_storage')
+
 
   const [cookiesConsentOpen, setCookiesConsent] = useState(false)
 
   useEffect(() => {
-    setCookiesConsent(ad_storage_consent === undefined && analytics_storage_consent === undefined)
+    setCookiesConsent(ad_storage === undefined || analytics_storage === undefined || functionality_storage === undefined || security_storage === undefined)
   }, [])
   
   return (

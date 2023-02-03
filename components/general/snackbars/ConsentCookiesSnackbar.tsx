@@ -3,11 +3,11 @@ import { Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Menu
 import { Done } from '@mui/icons-material'
 import Cookies from 'js-cookie'
 import * as gtag from '../../../lib/gtag'
-import { SubmitHandler, useForm, Controller } from 'react-hook-form'
 import { cookiesConsentOptions } from '../../../constants/general/cookiesConsentOptions'
 import FormGroup from '@mui/material/FormGroup/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel'
 import Switch from '@mui/material/Switch/Switch'
+import CustomCookieConsent from '../../policies/privacy/CustomCookieConsent'
 
 
 interface props {
@@ -22,6 +22,10 @@ interface customInputs {
   'personalization_storage'?: boolean,
   'security_storage'?: boolean
 }
+
+
+
+
 const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
 
   const [openCustom, setOpenCustom] = useState(false)
@@ -32,12 +36,9 @@ const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
   };
 
 
-  const handleClosenCustom = () => {
-    setOpenCustom(false)
-  };
 
   const handleClose = () => {
-    console.log('WORK IN PROGRESS');
+    setOpenCustom(false)
   }
   const acceptAllCookies = () => {
     gtag.acceptAllCookies()
@@ -49,19 +50,6 @@ const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
     setCookiesConsent(false)
   }
 
-  const {
-    control,
-    setValue,
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<customInputs>()
-
-  const onCustomSubmit = (e) => {
-    console.log(`e:`, e);
-
-  }
 
   return (
     <Snackbar
@@ -86,52 +74,7 @@ const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
               <button onClick={rejectAllCookies} className='font-bold shadow-sm shadow-black  drop-shadow-xl w-32  p-2 border-orange-900 border-2  text-white filter-none hover:filter hover:shadow-none brightness-125 transition-all duration-300 '>Reject</button>
               <button onClick={handleOpenCustom} className='font-bold shadow-sm shadow-black   w-32  p-2 bg-orange-900/10 filter-none hover:filter hover:shadow-none brightness-125 transition-all duration-300  '>Customize</button>
             </div>
-            <Dialog
-              open={openCustom}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-
-            >
-
-              <DialogTitle id="alert-dialog-title" sx={{ fontFamily: 'serif', marginX: 'auto', fontSize: 32 }} >
-                {"Customize your cookie settings"}
-              </DialogTitle>
-              <DialogContent>
-                <form onSubmit={handleSubmit(onCustomSubmit)} className='sm:w-auto z-50 bg-gray-900  rounded-md space-y-8 drop-shadow-xl   md:px-14 flex-row row-span-1 justify-center items-center text-white p-4 mx-auto'>
-                  <div className='space-y-4 w-full'>
-                    {cookiesConsentOptions.map((option) => (
-                      <div key={option.id} className='flex w-full h-auto items-center shadow-md border-y-2 border-gray-500 '>
-                        <Controller
-                          control={control}
-                          name={`${option.id}`}
-                          defaultValue={false}
-                          render={({ field }) => {
-                            return (
-                              <Switch
-                              {...field}
-
-                              />
-                            );
-                          }}
-                          rules={{ required: false }}
-                        />
-                        <p>{option.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                  {/* <div className='flex'>
-                  <button className='border-2 border-gray-500 grow  mt-2' >Accept All
-                  </button> */}
-                  <button type='submit' className='general-buttons !mt-2'  >Set Cookies
-                  </button>
-                  {/* <button className='border-2 border-gray-500 grow  mt-2' >Reject All
-                  </button>
-                  </div> */}
-                </form>
-              </DialogContent>
-
-            </Dialog>
+            <CustomCookieConsent open={openCustom} handleClose={handleClose}></CustomCookieConsent>
             <button className='font-serif mt-5 hover:underline transition-all duration-300'> Our full privacy policy</button>
           </div>
         }

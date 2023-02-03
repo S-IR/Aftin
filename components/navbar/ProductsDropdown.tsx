@@ -1,60 +1,88 @@
-import { ShareIcon } from '@heroicons/react/solid'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { Dispatch, SetStateAction } from 'react'
-import { BiPalette } from 'react-icons/bi'
-import { MdBlurOff, MdDesignServices, MdHighQuality, MdWeb } from 'react-icons/md'
+import { ShareIcon } from "@heroicons/react/solid";
+import Image from "next/image";
+import Link from "next/link";
+import React, { Dispatch, SetStateAction } from "react";
+import { BiPalette } from "react-icons/bi";
+import {
+  MdBlurOff,
+  MdDesignServices,
+  MdHighQuality,
+  MdWeb,
+} from "react-icons/md";
 
 interface props {
-  setActiveSidebar: Dispatch<SetStateAction<"ProfileDropdown" | "ProductsDropdown" | "ImagesDropdown" | "GrDesignsDropdown" | null>>
+  setActiveSidebar: Dispatch<
+    SetStateAction<
+      | "ProfileDropdown"
+      | "ProductsDropdown"
+      | "ImagesDropdown"
+      | "GrDesignsDropdown"
+      | null
+    >
+  >;
 }
 
 const ProductsDropdown = ({ setActiveSidebar }: props) => {
   return (
-    <section className='bg-gradient-to-br from-orange-800 to-gray-900 p-2 absolute top-[50px] left-0 overflow-hidden  z-50 rounded-lg w-max h-auto shadow-md shadow-gray-800 flex flex-col '
+    <section
+      className="z-50 flex h-auto  w-max flex-col overflow-hidden rounded-sm bg-gray-900 p-2 shadow-md shadow-gray-800 "
       onMouseLeave={() => setActiveSidebar(null)}
     >
-      <div className=' flex flex-col w-72 mx-1 items-center border-b-2 border-gray-800'>
-        <p className='text-lg font-serif m-2 '>Enhance your images</p>
+      <div className=" mx-1 flex w-72 flex-col items-center border-b-2 border-gray-800">
+        <p className="m-2 font-serif text-lg ">Enhance your images</p>
         {/* Edit images */}
-        <Link href='/image-editor'>
-          <a className='bg-black/30 w-full h-12 flex items-center rounded-lg group cursor-pointer hover:bg-black/50 transition-all duration-300 m-1'>
-            <BiPalette className='w-[32px] h-[32px] group-hover:w-[40px] group-hover:h-[40px] transition-all duration-300' />
-            <p className='w-auto m-2 flex-nowrap text-gray-300 font-serif font-bold   group-hover:translate-x-1 transition-all duration-300'> Edit images</p>
+        <Link href="/image-editor">
+          <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
+            <BiPalette className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
+            <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300   transition-all duration-300 group-hover:translate-x-1">
+              {" "}
+              Edit images
+            </p>
           </a>
         </Link>
         {/* Increase image resolution */}
-        <Link href='/image-scaler'>
-          <a className='bg-black/30 w-full h-12 flex items-center rounded-lg group cursor-pointer hover:bg-black/50 transition-all duration-300 m-1'>
-            <MdHighQuality className='w-[32px] h-[32px] group-hover:w-[40px] group-hover:h-[40px] transition-all duration-300' />
-            <p className='w-auto m-2 flex-nowrap text-gray-300 font-serif font-bold   group-hover:translate-x-1 transition-all duration-300'> Increase image resolution</p>
+        <Link href="/image-scaler">
+          <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
+            <MdHighQuality className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
+            <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300   transition-all duration-300 group-hover:translate-x-1">
+              {" "}
+              Increase image resolution
+            </p>
           </a>
         </Link>
         {/* AI based image enhancer */}
-        <Link href='/image-enhancer'>
-          <a className='bg-black/30 w-full h-12 flex items-center rounded-lg group cursor-pointer hover:bg-black/50 transition-all duration-300 m-1'>
-            <MdBlurOff className='w-[32px] h-[32px] group-hover:w-[40px] group-hover:h-[40px] transition-all duration-300' />
-            <p className='w-auto m-2 flex-nowrap text-gray-300 font-serif font-bold   group-hover:translate-x-1 transition-all duration-300'>Fix images</p>
+        <Link href="/image-enhancer">
+          <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
+            <MdBlurOff className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
+            <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300   transition-all duration-300 group-hover:translate-x-1">
+              Fix images
+            </p>
           </a>
         </Link>
       </div>
       {/* Hire a professional */}
-      <div className=' flex flex-col w-72 drop-shadow-2xl mx-1 items-center'>
-        <p className='text-lg font-serif m-2 '>Hire a professional</p>
+      <div className=" mx-1 flex w-72 flex-col items-center drop-shadow-2xl">
+        <p className="m-2 font-serif text-lg ">Hire a professional</p>
         {/* Request a graphic design */}
-        <a className='bg-black/30 w-full h-12 flex items-center rounded-lg group cursor-pointer hover:bg-black/50 transition-all duration-300 m-1'>
-          <MdDesignServices className='w-[32px] h-[32px] group-hover:w-[40px] group-hover:h-[40px] transition-all duration-300' />
-          <p className='w-auto m-2 flex-nowrap text-gray-300 font-serif font-bold   group-hover:translate-x-1 transition-all duration-300'> Request a graphic design</p>
+        <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
+          <MdDesignServices className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
+          <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300   transition-all duration-300 group-hover:translate-x-1">
+            {" "}
+            Request a graphic design
+          </p>
         </a>
 
         {/* Manage social media */}
-        <a className='bg-black/30 w-full h-12 flex items-center rounded-lg group cursor-pointer hover:bg-black/50 transition-all duration-300 m-1'>
-          <ShareIcon className='w-[32px] h-[32px] group-hover:w-[40px] group-hover:h-[40px] transition-all duration-300' />
-          <p className='w-auto m-2 flex-nowrap text-gray-300 font-serif font-bold  group-hover:translate-x-1 transition-all duration-300'> Manage social media</p>
+        <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
+          <ShareIcon className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
+          <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300  transition-all duration-300 group-hover:translate-x-1">
+            {" "}
+            Manage social media
+          </p>
         </a>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ProductsDropdown
+export default ProductsDropdown;

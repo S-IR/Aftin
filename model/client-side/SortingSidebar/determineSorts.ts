@@ -66,9 +66,6 @@ export const determineSorts = (subCat: SMALL_CATEGORY_OF_IMG): {
     case `banners`:
       banner_type = true
       break;
-    case `logos`:
-      logo_type = true
-      break;
     case `artworks`:
       artwork_style = true
       break;

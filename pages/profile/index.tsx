@@ -1,4 +1,4 @@
-import { Restaurant } from '@mui/icons-material';
+import { Cookie, Restaurant } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { FirebaseError } from 'firebase-admin';
 import { NextPage } from 'next'
@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
+import CustomCookieConsent from '../../components/policies/privacy/CustomCookieConsent';
 import { auth } from '../../firebase';
 
 const Index: NextPage = () => {
@@ -16,9 +17,9 @@ const Index: NextPage = () => {
   useEffect(() => {
 
     const fetchUserStatus = async () => {
-      if (!user) return setLoginStatus('not logged in')
+      if(userLoading) return
+      if (user === null) return router.push('/login')
       const token = await user.getIdToken()
-      console.log('user', user);
 
       const fetchRes = await fetch(`${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`, { method: `POST`, body: token }).catch((err: FirebaseError) => console.log(err))
       if (fetchRes === undefined) return console.log('response on fetching user status void');
@@ -26,8 +27,9 @@ const Index: NextPage = () => {
       setLoginStatus(status)
     }
     fetchUserStatus()
-    }, [user])
-   
+  }, [user])
+
+  const [cookieConsent, setCookiesConsent] = useState(false)
 
   return (
     <div className=' flex h-[90vh]'>
@@ -56,7 +58,7 @@ const Index: NextPage = () => {
           <p className='font-serif text-lg text-orange-800 last: '>Username</p>
           <div className='flex  p-2  '>
             <p className='text-orange-700 font-serif'>{user?.displayName}</p>
-            <button className='ml-auto text-orange-700 font-serif hover:text-orange-500 transition-all duration-300 '>Modify Username</button>
+            <button className='ml-auto text-orange-700 font-serif hover:text-orange-500 transition-all duration-300 '>{user && user.displayName ? <p>Modify Username</p> : <p>Set Username</p>}</button>
           </div>
         </div>
 
@@ -77,7 +79,7 @@ const Index: NextPage = () => {
           <p className='font-serif text-lg text-orange-800 last: '>Password</p>
           <div className='flex  p-2  '>
             <button className=' text-orange-700 font-serif hover:text-orange-500 transition-all duration-300 '
-            onClick={()=>router.push('/reset')}
+              onClick={() => router.push('/reset')}
             >
               Reset Password
             </button>
@@ -94,7 +96,7 @@ const Index: NextPage = () => {
               loginStatus !== 'gold' ?
                 `Upgrade Account` :
                 `Modify Subscription Level`
-                }
+            }
             </button>
 
           </div>
@@ -111,7 +113,12 @@ const Index: NextPage = () => {
             <button className=' text-orange-700 font-serif hover:text-orange-500 transition-all duration-300 '>Help us improve your experience by completing this survey
             </button>
 
+
           </Tooltip>
+          <Cookie className='w-12 h-12' />
+          <button onClick={() => setCookiesConsent(true)} className=' text-orange-700 font-serif hover:text-orange-500 transition-all duration-300 '>Modify your cookie policy
+          </button>
+          <CustomCookieConsent open={cookieConsent} handleClose={() => setCookiesConsent(false)} />
 
         </div>
 
