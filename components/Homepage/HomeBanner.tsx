@@ -56,20 +56,18 @@ function HomeBanner() {
     transRef.start();
   }, [index]);
   return (
-    <section>
-      <div
-        className={`relative h-[900px]  max-w-full border-b-4 border-dotted border-gray-400`}
-      >
+    <section className="h-screen">
+      <div className={`relative h-[900px] max-w-full `}>
         <a.h1
           className={`absolute top-32 left-10
-         z-50 flex  flex-col rounded  border-white/80 p-2 text-center font-['Amita'] text-4xl
+         z-50 flex  flex-col rounded  border-white/80 p-2 text-center font-Handwriting
         font-thin tracking-wider text-orange-300  opacity-70  shadow-black   drop-shadow-lg  md:text-7xl ${styles.homeBannerHOne}  `}
           ref={hOneRef}
           style={hOneStyles}
         >
-          <span className="p-2 ">The graphic persuader</span>
-          <span>of the</span>
-          <span> food industry</span>
+          <span className="p-2 text-6xl ">The graphic persuader</span>
+          <span className=" text-6xl">of the</span>
+          <span className=" text-6xl"> food industry</span>
         </a.h1>
 
         {/* <figure className='invisible md:visible absolute md:top-32 md:right-2 rounded-2xl border-gray-200 border-8 md:h-[533px] md:w-[264px] shadow-md shadow-gray-500/50 -rotate-[15deg] bg-gray-300 transition-opacity overflow-hidden'>

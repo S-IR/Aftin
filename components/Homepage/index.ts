@@ -2,14 +2,18 @@ import CreateWithUs from "./CreateWithUs";
 import HomeBanner from "./HomeBanner";
 import HomeIntro from "./HomeIntro";
 import StudiesBox from "./StudiesBox";
-import LinksToCategories from "./LinksToCategories";
-import HomePricingComponent from "./HomePricingComponent";
+import HomepageHireProfessional from "./HomepageHireProfessional";
+import OurFeatures from "./OurFeatures";
+import HomepageTiers from "./HomepageTiers";
+import HomepageGallery from "./HomepageGallery";
 
 export {
   CreateWithUs,
   HomeBanner,
   HomeIntro,
   StudiesBox,
-  LinksToCategories,
-  HomePricingComponent
+  HomepageHireProfessional,
+  OurFeatures,
+  HomepageTiers,
+  HomepageGallery,
 };

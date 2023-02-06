@@ -9,6 +9,7 @@ import {
   MdHighQuality,
   MdWeb,
 } from "react-icons/md";
+import { useSpring, animated } from "react-spring";
 
 interface props {
   setActiveSidebar: Dispatch<
@@ -23,13 +24,18 @@ interface props {
 }
 
 const ProductsDropdown = ({ setActiveSidebar }: props) => {
+  const style = useSpring({
+    from: { opacity: 0, translateX: 0 },
+    to: { opacity: 1, translateX: 20 },
+    config: { duration: 300 },
+  });
   return (
-    <section
-      className="z-50 flex h-auto  w-max flex-col overflow-hidden rounded-sm bg-gray-900 p-2 shadow-md shadow-gray-800 "
-      onMouseLeave={() => setActiveSidebar(null)}
+    <animated.div
+      style={style}
+      className="z-50 flex h-auto  w-max  overflow-hidden rounded-sm bg-gray-900 p-2  "
     >
-      <div className=" mx-1 flex w-72 flex-col items-center border-b-2 border-gray-800">
-        <p className="m-2 font-serif text-lg ">Enhance your images</p>
+      <div className=" 0 mx-1 flex w-72 flex-col items-center">
+        <p className=" font-serif text-2xl">Enhance your images</p>
         {/* Edit images */}
         <Link href="/image-editor">
           <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
@@ -55,14 +61,14 @@ const ProductsDropdown = ({ setActiveSidebar }: props) => {
           <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
             <MdBlurOff className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
             <p className="m-2 w-auto flex-nowrap font-serif font-bold text-gray-300   transition-all duration-300 group-hover:translate-x-1">
-              Fix images
+              Unblur images
             </p>
           </a>
         </Link>
       </div>
       {/* Hire a professional */}
-      <div className=" mx-1 flex w-72 flex-col items-center drop-shadow-2xl">
-        <p className="m-2 font-serif text-lg ">Hire a professional</p>
+      <div className=" mx-1 flex w-72 flex-col items-center ">
+        <p className=" font-serif text-2xl ">Hire a professional</p>
         {/* Request a graphic design */}
         <a className="group m-1 flex h-12 w-full cursor-pointer items-center rounded-lg bg-black/30 transition-all duration-300 hover:bg-black/50">
           <MdDesignServices className="h-[32px] w-[32px] transition-all duration-300 group-hover:h-[40px] group-hover:w-[40px]" />
@@ -81,7 +87,7 @@ const ProductsDropdown = ({ setActiveSidebar }: props) => {
           </p>
         </a>
       </div>
-    </section>
+    </animated.div>
   );
 };
 

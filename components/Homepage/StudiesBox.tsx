@@ -1,29 +1,49 @@
-import Link from 'next/link';
-import React from 'react'
-import { useInView } from 'react-intersection-observer';
-import { StudiesList } from '../../constants/StudiesList';
+import Link from "next/link";
+import React from "react";
+import { useInView } from "react-intersection-observer";
+import { StudiesList } from "../../constants/StudiesList";
 
 function StudiesBox() {
-
-  const { ref : animatedDOM, inView : animatedDOMVisible} = useInView();
+  const { ref: animatedDOM, inView: animatedDOMVisible } = useInView();
 
   return (
-    <section className='relative'>
-      <p ref={animatedDOM} className={`opacity-0 text-4xl md:text-6xl  my-10 ml-4 md:ml-10 font-serif text-orange-300 font-bold ${animatedDOMVisible? 'opacity-100' : ''}`}>
-        Your brand image <span className='text-purple-800'> determines </span> <br></br> your number of clients as never before </p>
-      <figure className='grid font-serif  '>
-        <div className='grid ml-3  md:ml-96  w-[200px] md:w-[400px] font-serif text-md md:text-xl space-y-4 md:space-y-6 border-l-2 border-gray-600 border-solid px-2  '>
-          {StudiesList.map((study) =>(
-           <Link key={study.text} href={study.href}>
-           <a  className='w-[200px]'  ><p className='text-wrap h-[100px] w-[200px] break-words mr-4'>{study.text}</p></a>
-           </Link> 
+    <section className="relative">
+      <div className="ml-[15vw] mt-[25vh] flex flex-col">
+        <p
+          ref={animatedDOM}
+          className={`my-10   font-Handwriting text-4xl font-bold text-orange-300 opacity-0 md:text-8xl ${
+            animatedDOMVisible ? "opacity-100" : ""
+          }`}
+        >
+          Beauty Sells
+        </p>
+        <p className="ml-4 font-serif text-lg font-light">
+          People judge a restaurant by its images. <br></br>
+          Is essential therefore to be able to display your branding personality
+          through every image that your potential clients might see
+        </p>
+      </div>
+
+      <figure className="grid font-serif  ">
+        <div className="text-md mt-40  mb-28 ml-3 flex  w-screen justify-center space-x-4 px-2 font-serif ">
+          {StudiesList.map((study) => (
+            <div
+              key={study.text}
+              className={`duration-300align-middle flex h-72 w-72 items-center justify-center rounded-sm  bg-brown-900/30 drop-shadow-xl transition-all hover:bg-brown-900`}
+            >
+              <Link href={study.href}>
+                <a className="w-[200px]">
+                  <p className="text-wrap mr-4  break-words font-Handwriting font-light transition-all duration-300 hover:text-gray-300 hover:underline ">
+                    {study.text}
+                  </p>
+                </a>
+              </Link>
+            </div>
           ))}
         </div>
       </figure>
-
-
     </section>
-  )
+  );
 }
 
-export default StudiesBox
+export default StudiesBox;

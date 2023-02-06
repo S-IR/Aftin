@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Kaushan: ["Kahushan Script"],
+        Handwriting: [`"Amita"`],
       },
       animation: {
         blob: "blob 4s infinite",

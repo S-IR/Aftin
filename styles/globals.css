@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Amita:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 @tailwind base;
 body {
   background-image: url("/frontend-used-images/website-background.png");
   background-repeat: repeat;
   color: white;
-  font-family: "Josephine";
+  font-family: "Taviraj";
 }
 input::-webkit-file-upload-button {
   @apply h-auto w-auto cursor-pointer rounded-md border-none bg-gradient-to-b from-yellow-500 to-yellow-700
@@ -26,7 +27,7 @@ h3 {
 /* Each componenet might be separated into 3 higherarchical states, the 1st being the design when that element needs to be the most important on the screen, the second when it needs to be lesser and the 3rd when it needs to be the least important  */
 @tailwind components;
 .buttons-1 {
-  @apply h-full w-fit bg-gradient-to-b from-yellow-500 to-yellow-700 p-2 text-center text-white brightness-[90%] drop-shadow-xl filter-none transition-all duration-300;
+  @apply flex h-auto w-auto items-center justify-center rounded-sm bg-gradient-to-b  from-yellow-500 to-yellow-700 text-center align-middle text-white drop-shadow-lg filter-none transition-all duration-500 hover:drop-shadow-none hover:sepia-[80%] hover:filter sm:p-2 md:p-4;
 }
 
 .buttons-2 {
@@ -37,10 +38,6 @@ h3 {
 }
 
 @tailwind utilities;
-
-.bg-general-gradient {
-  @apply bg-gradient-to-r from-orange-500 to-[#9CAF88];
-}
 
 .general-buttons {
   @apply rounded-sm  bg-gradient-to-b from-yellow-500 to-yellow-700  text-center text-sm text-white shadow-white brightness-[90%] drop-shadow-xl filter-none transition-all duration-300
@@ -131,22 +128,7 @@ h3 {
 .transitionSlide-exit-done {
   opacity: 0;
 }
-/* Navbar dropdown effets */
-.navbarDropdown-enter {
-  max-height: 0px;
-}
 
-.navbarDropdown-enter.navbarDropdown-enter-active {
-  max-height: 80vw;
-  transition: all 700ms;
-}
-.navbarDropdown-exit {
-  max-height: 80vh;
-}
-.navbarDropdown-exit.navbarDropdown-exit-active {
-  max-height: 0;
-  transition: all 700ms;
-}
 /* login divs transition effects */
 
 .loginDiv-enter {
@@ -168,26 +150,11 @@ h3 {
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 15px;
-  height: 15px;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  border-radius: 100vh;
-  background: #3a3a3a;
+  width: 12px;
+  height: 24px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    45deg,
-    #835408 20%,
-    transparent 20%,
-    transparent 40%,
-    #835408 40%,
-    #835408 60%,
-    transparent 60%,
-    transparent 80%,
-    #835408 80%
-  );
+  background: linear-gradient(45deg, #383838, #090809);
   border-radius: 100vh;
 }

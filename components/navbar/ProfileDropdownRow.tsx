@@ -1,44 +1,37 @@
-import React, { ReactComponentElement } from 'react'
-import useAuth from '../../hooks/useAuth'
-import Link from "next/link"
-
+import React, { ReactComponentElement } from "react";
+import useAuth from "../../hooks/useAuth";
+import Link from "next/link";
+import { Url } from "url";
 
 interface props {
-  Icon: JSX.Element|  JSX.Element[]
-  text: string
-  href: `/${string}`
+  text: string;
+  href?: Url;
 }
-const ProfileDropdownRow = ({ Icon, text, href }: props) => {
-  const { logout } = useAuth()
+const ProfileDropdownRow = ({ text, href }: props) => {
+  const { logout } = useAuth();
 
-  if (text === 'Logout') {
+  if (text === "Logout") {
     return (
-      <div className='flex items-center space-x-2 hover:translate-x-1 transition-all duration-300'>
-        {Icon}
+      <div className="it my-2 flex w-full cursor-pointer items-center justify-center space-x-2 rounded-sm  border-y-2 border-gray-400/20 p-2 transition-all duration-300 hover:bg-gray-900 hover:text-gray-300">
         <button
           onClick={logout}
-          className="cursor-pointer hover:text-purple-300 transition-all duration-300 ">
+          className="cursor-pointer font-sans text-xl transition-all duration-300  hover:text-gray-300"
+        >
           {text}
         </button>
       </div>
-    )
+    );
   } else {
     return (
-      <Link href={href} >
-
-      <div className='flex items-center space-x-2 hover:translate-x-1 transition-all duration-300 group '>
-        {Icon}
-        <a
-          className="cursor-pointer hover:text-purple-300 transition-all duration-300 ">
-          {text}
-        </a> 
-
-      </div>
+      <Link href={href as Url}>
+        <div className="it group my-2 flex w-full cursor-pointer items-center justify-center space-x-2 rounded-sm  border-y-2 border-gray-400/20 p-2 transition-all duration-300 hover:bg-gray-900 hover:text-gray-300">
+          <a className="cursor-pointer font-sans text-xl transition-all duration-300  hover:text-gray-300">
+            {text}
+          </a>
+        </div>
       </Link>
-
-    )
+    );
   }
+};
 
-}
-
-export default ProfileDropdownRow
+export default ProfileDropdownRow;
