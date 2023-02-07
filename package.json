@@ -34,6 +34,7 @@
     "next": "12.3.0",
     "react": "18.2.0",
     "react-color": "^2.19.3",
+    "react-country-region-selector": "^3.6.1",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",

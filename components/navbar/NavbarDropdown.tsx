@@ -28,10 +28,6 @@ interface props {
 const NavbarDropdown = ({ activeSidebar, setActiveSidebar }: props) => {
   const isVisible = activeSidebar !== null;
 
-  useEffect(() => {
-    console.log(`isVisible`, isVisible);
-  }, [isVisible]);
-
   const transition = useTransition(isVisible, {
     from: { opacity: 0, translateY: -20 },
     enter: { opacity: 1, translateY: 0 },
@@ -42,38 +38,11 @@ const NavbarDropdown = ({ activeSidebar, setActiveSidebar }: props) => {
   function NavbarHoverSwitch(target: typeof activeSidebar) {
     switch (target) {
       case "ImagesDropdown":
-        return (
-          <CSSTransition
-            in={activeSidebar === "ImagesDropdown"}
-            unmountOnExit
-            timeout={300}
-            classNames={`navbarDropdown`}
-          >
-            <StockImagesDropdown setActiveSidebar={setActiveSidebar} />
-          </CSSTransition>
-        );
+        return <StockImagesDropdown setActiveSidebar={setActiveSidebar} />;
       case "ProductsDropdown":
-        return (
-          <CSSTransition
-            in={activeSidebar === "ProductsDropdown"}
-            unmountOnExit
-            timeout={300}
-            classNames={`navbarDropdown`}
-          >
-            <ProductsDropdown setActiveSidebar={setActiveSidebar} />
-          </CSSTransition>
-        );
+        return <ProductsDropdown setActiveSidebar={setActiveSidebar} />;
       case "GrDesignsDropdown":
-        return (
-          <CSSTransition
-            in={activeSidebar === "GrDesignsDropdown"}
-            unmountOnExit
-            timeout={700}
-            classNames={`navbarDropdown`}
-          >
-            <GrDesignsDropdown setActiveSidebar={setActiveSidebar} />
-          </CSSTransition>
-        );
+        return <GrDesignsDropdown setActiveSidebar={setActiveSidebar} />;
       default:
         return;
     }

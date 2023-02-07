@@ -27,7 +27,7 @@ h3 {
 /* Each componenet might be separated into 3 higherarchical states, the 1st being the design when that element needs to be the most important on the screen, the second when it needs to be lesser and the 3rd when it needs to be the least important  */
 @tailwind components;
 .buttons-1 {
-  @apply flex h-auto w-auto items-center justify-center rounded-sm bg-gradient-to-b  from-yellow-500 to-yellow-700 text-center align-middle text-white drop-shadow-lg filter-none transition-all duration-500 hover:drop-shadow-none hover:sepia-[80%] hover:filter sm:p-2 md:p-4;
+  @apply flex h-auto w-auto items-center justify-center rounded-sm bg-gradient-to-b  from-yellow-500 to-yellow-700 text-center align-middle text-white drop-shadow-lg filter-none transition-all duration-500 hover:drop-shadow-none hover:sepia-[80%] hover:filter disabled:bg-none sm:p-2 md:p-4;
 }
 
 .buttons-2 {
