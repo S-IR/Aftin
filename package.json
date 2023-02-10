@@ -1,6 +1,6 @@
 {
   "name": "aftin.net",
-  "version": "0.5.0",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -54,7 +54,7 @@
     "react-transition-group": "^4.4.5",
     "redux-undo": "^1.0.1",
     "yup": "^0.32.11",
-    "zod": "^3.20.2"
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",

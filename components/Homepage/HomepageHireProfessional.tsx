@@ -1,18 +1,36 @@
 import Link from "next/link";
 import React from "react";
 import styles from "../../styles/Home.module.css";
+import { useTrail, animated as a, useSpring } from "react-spring";
+import { useInView } from "react-intersection-observer";
 
 const HomepageHireProfessional = () => {
+  const { ref: hTwoRef, inView: hTwoVisible } = useInView({
+    triggerOnce: true,
+  });
+  const hTwoStyles = useSpring({
+    opacity: hTwoVisible ? 1 : 0,
+    transform: `translateX(${hTwoVisible ? 0 : 20}%)`,
+  });
+
+  const hFourStyle = useSpring({
+    opacity: hTwoVisible ? 1 : 0,
+  });
+
   return (
     <section className="relative flex min-h-screen justify-center space-y-4 text-center ">
       <div className="absolute top-40 right-28 flex flex-col items-center">
-        <h2 className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-2xl text-transparent shadow-lg drop-shadow-xl md:text-8xl">
+        <a.h2
+          className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-2xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"
+          ref={hTwoRef}
+          style={hTwoStyles}
+        >
           Hire <br></br> a professional
-        </h2>
-        <p className=" mb-10 font-serif text-lg">
+        </a.h2>
+        <a.h3 className=" mb-10 font-serif text-lg" style={hFourStyle}>
           To design your desired website, banner, logo or any graphic design
           element
-        </p>
+        </a.h3>
         <Link href={"/request-design"}>
           <a className="buttons-3 font-Handwriting text-2xl font-thin text-red-300 transition-all duration-300 hover:text-white">
             learn more

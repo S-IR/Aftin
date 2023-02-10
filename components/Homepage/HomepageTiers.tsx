@@ -1,18 +1,32 @@
 import { Check } from "@mui/icons-material";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useSpring, animated } from "react-spring";
 import { tierBenefits } from "../../constants/homepage/tierBenefits";
+import { useTrail, animated as a, useSpring } from "react-spring";
+import { useInView } from "react-intersection-observer";
 
 const HomepageTiers = () => {
   const [subscriptionPeriod, setSubscriptionPeriod] = useState<
     "Yearly" | "Monthly"
   >("Yearly");
+
+  const { ref: hTwoRef, inView: hTwoVisible } = useInView({
+    triggerOnce: true,
+  });
+  const hTwoStyles = useSpring({
+    opacity: hTwoVisible ? 1 : 0,
+    transform: `translateX(${hTwoVisible ? 0 : 20}%)`,
+  });
+
   return (
     <section className="flex h-auto min-h-[70vh] w-screen flex-col items-center bg-white/10 py-10">
-      <h2 className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text font-Handwriting text-8xl text-transparent">
+      <a.h2
+        className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text font-Handwriting text-8xl text-transparent"
+        ref={hTwoRef}
+        style={hTwoStyles}
+      >
         Our subscription tier list
-      </h2>
+      </a.h2>
       <div className="mt-10 flex h-10 space-x-14">
         <button
           onClick={() => setSubscriptionPeriod("Monthly")}

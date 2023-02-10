@@ -69,13 +69,6 @@ function HomeBanner() {
           <span className=" text-6xl">of the</span>
           <span className=" text-6xl"> food industry</span>
         </a.h1>
-
-        {/* <figure className='invisible md:visible absolute md:top-32 md:right-2 rounded-2xl border-gray-200 border-8 md:h-[533px] md:w-[264px] shadow-md shadow-gray-500/50 -rotate-[15deg] bg-gray-300 transition-opacity overflow-hidden'>
-          {transitions((style, i) => {
-            const Page = pages[i]
-            return <Page style={style} />
-          })}
-        </figure> */}
       </div>
     </section>
   );

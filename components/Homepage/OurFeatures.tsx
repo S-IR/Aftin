@@ -1,17 +1,34 @@
 import Link from "next/link";
 import React from "react";
 import { homepageFeaturesList } from "../../constants/homepage/homepageFeaturesList";
+import { useTrail, animated as a, useSpring } from "react-spring";
+import { useInView } from "react-intersection-observer";
 
 const OurFeatures = () => {
+  const { ref: hTwoRef, inView: hTwoVisible } = useInView({
+    triggerOnce: true,
+  });
+  const hTwoStyles = useSpring({
+    opacity: hTwoVisible ? 1 : 0,
+    transform: `translateX(${hTwoVisible ? 0 : 20}%)`,
+  });
+
   return (
     <div className="flex h-auto min-h-[75vh] w-screen flex-col items-center bg-white/10">
-      <h2 className="mt-20 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-8xl  text-transparent text-white">
+      <a.h2
+        className="mt-20 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-8xl  text-transparent text-white"
+        ref={hTwoRef}
+        style={hTwoStyles}
+      >
         We are at your disposal
-      </h2>
-      <h3 className="text-serif text-lg">
+      </a.h2>
+      <a.h4
+        className="text-serif text-lg transition-all duration-300"
+        style={hTwoStyles}
+      >
         We are here to achieve your desired aesthetic and attract the most
         amount of customers{" "}
-      </h3>
+      </a.h4>
       <div className=" m-4 grid grid-cols-2 ">
         {homepageFeaturesList.map((feature) => {
           return (
