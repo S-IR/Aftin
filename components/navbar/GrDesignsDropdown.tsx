@@ -10,30 +10,11 @@ import {
 } from "../../constants/imageCategories";
 import NavbarImageCategory from "./NavbarImageCategory";
 
-interface props {
-  setActiveSidebar: Dispatch<
-    SetStateAction<
-      | "ProfileDropdown"
-      | "ProductsDropdown"
-      | "ImagesDropdown"
-      | "GrDesignsDropdown"
-      | null
-    >
-  >;
-}
+interface props {}
 
-const GrDesignsDropdown = ({ setActiveSidebar }: props) => {
-  const style = useSpring({
-    from: { opacity: 0, translateX: -20 },
-    to: { opacity: 1, translateX: 0 },
-    config: { duration: 300 },
-  });
-
+const GrDesignsDropdown = ({}: props) => {
   return (
-    <animated.div
-      style={style}
-      className=" z-50 h-max  w-max overflow-hidden rounded-sm  bg-gray-900 p-2 shadow-md shadow-gray-800 "
-    >
+    <animated.div className=" z-50 h-max  w-max overflow-hidden rounded-sm  bg-gray-900 p-2 shadow-md shadow-gray-800 ">
       <div className="grid grid-cols-3">
         {GrDesignLinks.map((GrDesignLink: NavbarImageLink) => (
           <NavbarImageCategory

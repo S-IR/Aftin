@@ -86,11 +86,11 @@ function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
         <p className="absolute top-[30%]  text-center font-Handwriting text-4xl text-yellow-300 transition-all duration-300 group-hover:text-red-300">
           {tier.name}
           <br></br>
-          <animated.span className="text-2xl text-red-300">
+          <a.span className="text-2xl text-red-300">
             {subscriptionPeriod === `Monthly`
               ? tier.monthPrice
               : tier.yearlyPerMonthPrice}
-          </animated.span>
+          </a.span>
           <br></br>
           {subscriptionPeriod === "Yearly" && tier.monthPrice !== "Free" && (
             <span className="!m-0 !p-0 text-xl">Per month</span>

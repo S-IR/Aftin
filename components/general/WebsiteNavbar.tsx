@@ -8,20 +8,15 @@ import { auth } from "../../firebase";
 import {
   GrDesignsDropdown,
   NavbarDropdown,
-  ProductsDropdown,
+  MoreDropdown,
   ProfileDropdown,
   StockImagesDropdown,
 } from "../navbar";
 import styles from "../../styles/WebsiteNavbar.module.css";
 
 function WebsiteNavbar() {
-  const [activeSidebar, setActiveSidebar] = useState<
-    | null
-    | "ProfileDropdown"
-    | "ProductsDropdown"
-    | "ImagesDropdown"
-    | "GrDesignsDropdown"
-  >(null);
+  const [activeSidebar, setActiveSidebar] =
+    useState<navLink["DropdownState"]>(null);
   const [user, userLoading] = useAuthState(auth);
 
   //this exit state is meant to stop the setting of the hover state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's animating out. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
@@ -30,7 +25,7 @@ function WebsiteNavbar() {
 
   return (
     <>
-      <nav className=" z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center bg-none hover:bg-gray-900 transition-all duration-300  ">
+      <nav className=" z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center bg-none transition-all duration-300 hover:bg-gray-900  ">
         <ul className="grow-1 hidden h-max flex-1 space-x-10 px-4 font-bold md:flex md:space-x-6 md:px-8 ">
           {navLinks.map((nav) => (
             <li
@@ -40,7 +35,7 @@ function WebsiteNavbar() {
             >
               <>
                 <p
-                  className={`text-md font-serif font-thin  md:text-lg ${styles.linkUnderline} cursor-pointer `}
+                  className={`text-md textUnderline cursor-pointer  font-serif font-thin md:text-lg `}
                   onClick={() => router.push(nav.url)}
                   onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
                 >

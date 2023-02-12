@@ -39,6 +39,26 @@ h3 {
 
 @tailwind utilities;
 
+.textUnderline {
+  border-bottom-width: 0;
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#fff, #fff);
+  background-size: 0 3px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease-in-out;
+}
+
+.textUnderline-black {
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#f2c, #f2c);
+}
+
+.textUnderline:hover {
+  background-size: 100% 3px;
+  background-position: 0 100%;
+}
+
 .general-buttons {
   @apply rounded-sm  bg-gradient-to-b from-yellow-500 to-yellow-700  text-center text-sm text-white shadow-white brightness-[90%] drop-shadow-xl filter-none transition-all duration-300
     ease-in-out hover:filter focus:outline-none
