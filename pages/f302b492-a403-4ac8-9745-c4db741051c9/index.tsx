@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { verify } from "jsonwebtoken";
 import {
   FormControl,
   InputLabel,

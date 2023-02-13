@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
 import useAuth from "../../hooks/useAuth";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import GoogleButton from "react-google-button";
 import useAuthThirdParty from "../../hooks/useAuthThirdParty";
-import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -16,6 +11,7 @@ import Loading from "../general/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
+import { FacebookButton, GoogleButton } from ".";
 
 function SignUpDiv() {
   const signUpSchema = z.object({
@@ -24,13 +20,6 @@ function SignUpDiv() {
     confirmPassword: z.string().min(8),
 
     email: z.string().email(),
-    occupation: z.enum([
-      "Graphic Designer",
-      "Business Owner",
-      "Hobbyist",
-      "Student",
-      "Not Specified",
-    ]),
   });
 
   type Inputs = z.infer<typeof signUpSchema>;
@@ -44,7 +33,7 @@ function SignUpDiv() {
   });
 
   const { signUp, loading } = useAuth();
-  const { signUpWithGoogle } = useAuthThirdParty();
+  const { signUpWithGoogle, signUpWithFacebook } = useAuthThirdParty();
 
   const [userMail, setUserMail] = useState<string>("");
   const [openEmail, setOpenEmail] = useState<boolean>(false);
@@ -61,26 +50,18 @@ function SignUpDiv() {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="z-50 row-span-1 mx-auto flex-row  items-center justify-center space-y-8 rounded-md bg-gray-200 to-blue-900 p-4 text-white sm:w-auto "
-      >
-        <div className="flex flex-col space-y-4 text-center">
-          <div className="flex flex-col items-center text-center align-middle">
-            <GoogleButton
-              label="Sign Up  with Google"
-              onClick={signUpWithGoogle}
-            />
-            <button onClick={signUpWithGoogle}>
-              {" "}
-              FUTURE FACEBOOK LOGIN BUTTON
-            </button>
-          </div>
+      <section className="flex h-full w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-1/2 flex-col items-center justify-center space-y-4  border-red-900 pl-10 text-center align-top   "
+        >
+          <h2 className="mb-8 mt-4  text-center text-2xl">Email Sign Up</h2>
+
           <label className="inline-block w-full">
             <input
               type="text"
               placeholder="Username"
-              className="input"
+              className=" h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none  "
               {...register("username")}
             />
             {errors.username && (
@@ -93,7 +74,7 @@ function SignUpDiv() {
             <input
               type="email"
               placeholder="Email"
-              className="input"
+              className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
               {...register("email")}
             />
             {errors.email && (
@@ -106,7 +87,7 @@ function SignUpDiv() {
             <input
               type="password"
               placeholder="Password"
-              className="input"
+              className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
               {...register("password")}
             />
             {errors.password && (
@@ -119,7 +100,7 @@ function SignUpDiv() {
             <input
               type="password"
               placeholder="Confirm Password"
-              className="input"
+              className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
               {...register("confirmPassword")}
             />
             {errors.confirmPassword && (
@@ -128,27 +109,30 @@ function SignUpDiv() {
               </p>
             )}
           </label>
-          <p className="justify-center text-black">
-            Optional : Tell us your occupation
-          </p>
-          <label className="inline-block w-full">
-            <select className="input" {...register("occupation")}>
-              <option value="Graphic Designer">Graphic Designe</option>
-              <option value="Business Owner">Business Owner</option>
-              <option value="Hobbyist">Hobbyist</option>
-              <option value="Student">Student</option>
-              <option value="Not Specified" selected>
-                Not Specified
-              </option>
-            </select>
-          </label>
-        </div>
-        <div className="flex items-center justify-center">
-          <button type="submit" className="general-buttons !m-0">
+          <button
+            type="submit"
+            className="!mt-16  h-10 w-80 bg-orange-900 transition-all duration-300 hover:bg-orange-800"
+          >
             Sign Up
           </button>
+        </form>
+        <div className="items-top w-1/2 flex-col justify-center space-y-6 pl-10 text-center align-middle ">
+          <h2 className="mb-8 mt-4  text-2xl">3rd Party Sign Up</h2>
+          <div className="flex h-[60%] w-full grow flex-col items-center justify-center space-y-8  align-middle">
+            <GoogleButton
+              text={"Sign up with Google"}
+              onClick={signUpWithGoogle}
+              w={"lg"}
+            />
+            <FacebookButton
+              text={"Sign up with Facebook"}
+              onClick={signUpWithFacebook}
+              w={"lg"}
+            />
+          </div>
         </div>
-      </form>
+      </section>
+
       {loading && (
         <div className="absolute h-screen w-screen">
           <Loading />

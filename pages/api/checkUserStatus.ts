@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import { doc, getDoc } from 'firebase/firestore';
-import { verify } from 'jsonwebtoken';
 
 
 import { NextApiRequest, NextApiResponse } from "next";

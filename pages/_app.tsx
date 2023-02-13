@@ -1,57 +1,51 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Head from 'next/head'
-import Link from 'next/link'
-import Layout from '../components/general/Layout'
-import Script from "next/script"
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import Link from "next/link";
+import Layout from "../components/general/Layout";
+import Script from "next/script";
 
-import { Provider } from 'react-redux'
-import { store } from '../Redux/store'
-import { Hydrate, QueryClient, QueryClientProvider, } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
-
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import * as gtag from '../lib/gtag'
+import { Provider } from "react-redux";
+import { store } from "../Redux/store";
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+// import TagManager, { TagManagerArgs } from "react-gtm-module";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter()
+  // const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "";
+  // const tagManagersArgs: TagManagerArgs = {
+  //   gtmId,
+  // };
 
-  
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-     gtag.pageview(url)
-    }
-    router.events.on('routeChangeComplete', handleRouteChange)
-    router.events.on('hashChangeComplete', handleRouteChange)
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-      router.events.off('hashChangeComplete', handleRouteChange)
-    }
-  }, [router.events])
-
+  // useEffect(() => {
+  //   TagManager.initialize(tagManagersArgs);
+  //   gtag("consent", "default", {
+  //     functionality_storage: "granted",
+  //     ad_storage: "granted",
+  //     analytics_storage: "granted",
+  //     security_storage: "granted",
+  //   });
+  // }, []);
 
   const [queryClient] = useState(
-    () => new QueryClient({
-      defaultOptions: {
-        queries: {
-          staleTime: 20 * 1000
-        }
-      }
-    })
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 20 * 1000,
+          },
+        },
+      })
   );
-
-
 
   return (
     <>
-
-
-
       {/* react query code */}
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Provider store={store} >
+          <Provider store={store}>
             <Layout>
               <ReactQueryDevtools initialIsOpen={false} />
               <Component {...pageProps} />
@@ -60,6 +54,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Hydrate>
       </QueryClientProvider>
     </>
-  )
+  );
 }
-export default MyApp
+export default MyApp;

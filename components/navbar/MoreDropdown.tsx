@@ -1,27 +1,14 @@
-import { ShareIcon } from "@heroicons/react/solid";
-import Image from "next/image";
-import Link from "next/link";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { BiPalette } from "react-icons/bi";
-import {
-  MdBlurOff,
-  MdDesignServices,
-  MdHighQuality,
-  MdWeb,
-} from "react-icons/md";
-import { navLink } from "../../constants/NavLinks";
+
 import { useSpring, animated, useTransition, SpringValue } from "react-spring";
-import NavbarAboutUs from "./NavbarAboutUs";
-import NavbarEditImages from "./NavbarEditImages";
-import NavbarHireProfessional from "./NavbarHireProfessional";
 import { useRouter } from "next/router";
 import Modal from "@mui/material/Modal";
-import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import Fade from "../../constants/general/Fade";
-import * as gtag from "../../lib/gtag";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
+import * as gtag from "../../lib/gtag";
+import { Box } from "@mui/material";
 
 interface props {}
 
@@ -76,10 +63,8 @@ const MoreDropdown = ({}: props) => {
       <div className=" flex w-auto flex-col items-center space-y-2">
         <p className=" mb-6 text-xl text-orange-300 ">Professional Designers</p>
         <button
-          id={"GTAG-request-custom-design"}
           onClick={() => {
-            dataLayer.push({
-              event: "request-custom-design-click",
+            window.gtag(`event`, `request_custom_design_clicked`, {
               userId: user ? user.uid : "not logged in",
             });
             setModalText(
@@ -90,7 +75,7 @@ const MoreDropdown = ({}: props) => {
               </p>
             );
           }}
-          className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
+          className=" GA-request-custom-design font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Request Custom Design
         </button>

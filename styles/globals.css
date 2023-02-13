@@ -27,14 +27,14 @@ h3 {
 /* Each componenet might be separated into 3 higherarchical states, the 1st being the design when that element needs to be the most important on the screen, the second when it needs to be lesser and the 3rd when it needs to be the least important  */
 @tailwind components;
 .buttons-1 {
-  @apply flex h-auto w-auto items-center justify-center rounded-sm bg-gradient-to-b  from-yellow-500 to-yellow-700 text-center align-middle text-white drop-shadow-lg filter-none transition-all duration-500 hover:drop-shadow-none hover:sepia-[80%] hover:filter disabled:bg-none sm:p-2 md:p-4;
+  @apply flex h-auto w-auto items-center justify-center rounded-sm bg-brown-700 text-center align-middle text-white drop-shadow-lg filter-none transition-all duration-500 hover:drop-shadow-none hover:sepia-[80%] hover:filter disabled:bg-none sm:p-2 md:p-4;
 }
 
 .buttons-2 {
-  @apply flex h-full w-fit items-center  justify-center border-2 border-yellow-500 p-2 text-center align-middle text-white brightness-[90%] drop-shadow-xl filter-none transition-all duration-300;
+  @apply flex h-full w-fit items-center  justify-center border-2 border-brown-500 p-2 text-center align-middle text-white brightness-[90%] drop-shadow-xl filter-none transition-all duration-300;
 }
 .buttons-3 {
-  @apply flex h-full w-fit items-center justify-center  p-2 text-center align-middle text-white underline decoration-yellow-500 underline-offset-4 brightness-[90%] drop-shadow-xl filter-none transition-all duration-300  hover:decoration-white;
+  @apply flex h-full w-fit items-center justify-center  p-2 text-center align-middle text-white underline decoration-brown-500 underline-offset-4 brightness-[90%] drop-shadow-xl filter-none transition-all duration-300  hover:decoration-white;
 }
 
 @tailwind utilities;
