@@ -1,8 +1,9 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import {
   UserIcon,
   LogoutIcon,
   InformationCircleIcon,
+  UserCircleIcon,
 } from "@heroicons/react/solid";
 import useAuth from "../../hooks/useAuth";
 import ProfileDropdownRow from "./ProfileDropdownRow";
@@ -21,6 +22,10 @@ interface props {
 }
 
 function ProfileDropdown({ user, activeSidebar }: props) {
+  useEffect(() => {
+    console.log(`user`, user);
+  }, [user]);
+
   const style = useSpring({
     from: { opacity: 0, rotateY: 10, translateX: 2 },
     to: {
@@ -38,13 +43,17 @@ function ProfileDropdown({ user, activeSidebar }: props) {
     >
       <div className=" mb-10  flex h-auto flex-col items-center justify-center border-b-2 border-gray-200/40 p-8   align-middle shadow-gray-700 ">
         <div className="mt-2 mb-2 h-[75px] w-[75px]">
-          <Image
-            width={75}
-            height={75}
-            alt={"user profile picture"}
-            src={user.photoURL}
-            className={"rounded-full"}
-          />
+          {user.photoURL ? (
+            <Image
+              width={75}
+              height={75}
+              alt={"user profile picture"}
+              src={user.photoURL}
+              className={"rounded-full"}
+            />
+          ) : (
+            <UserCircleIcon className="w-[75px h-[75px] rounded-full" />
+          )}
         </div>
 
         <p className="text-lg text-gray-200">{user.email}</p>

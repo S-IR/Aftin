@@ -5,13 +5,7 @@ import { navLink, navLinks } from "../../constants/NavLinks";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
-import {
-  GrDesignsDropdown,
-  NavbarDropdown,
-  MoreDropdown,
-  ProfileDropdown,
-  StockImagesDropdown,
-} from "../navbar";
+import { NavbarDropdown, ProfileDropdown } from "../navbar";
 import styles from "../../styles/WebsiteNavbar.module.css";
 
 function WebsiteNavbar() {
@@ -35,7 +29,7 @@ function WebsiteNavbar() {
             >
               <>
                 <p
-                  className={`text-md textUnderline cursor-pointer  font-serif font-thin md:text-lg `}
+                  className={`textUnderline cursor-pointer font-serif  text-sm font-thin  `}
                   onClick={() => router.push(nav.url)}
                   onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
                 >
@@ -89,7 +83,9 @@ function WebsiteNavbar() {
           </button>
           {activeSidebar === "ProfileDropdown" && user ? (
             <ProfileDropdown user={user} activeSidebar={activeSidebar} />
-          ) : null}
+          ) : (
+            <></>
+          )}
         </div>
       </nav>
     </>

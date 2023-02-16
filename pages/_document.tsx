@@ -4,6 +4,7 @@ import Script from "next/script";
 
 export default function Document() {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+
   return (
     <Html>
       <Head>
@@ -20,12 +21,11 @@ export default function Document() {
           gtag('config', '${GTM_ID}', {
             page_path: window.location.pathname,
           });
-
           gtag('consent', 'default', {
-            functionality_storage: "denied",
-            ad_storage: "denied",
-            analytics_storage: "denied",
-            security_storage: "denied",
+            functionality_storage: 'denied',
+            ad_storage: 'denied',
+            analytics_storage: 'denied',
+            security_storage: 'denied'
           });
 
         `}

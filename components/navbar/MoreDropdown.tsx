@@ -9,12 +9,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import * as gtag from "../../lib/gtag";
 import { Box } from "@mui/material";
+import MissingFeatureDialog from "../general/dialog-boxes/MissingFeatureDialog";
 
 interface props {}
 
 const MoreDropdown = ({}: props) => {
   const router = useRouter();
-  const [modalText, setModalText] = useState<null | JSX.Element>(null);
+  const [missingFeatureText, setMissingFeatureText] =
+    useState<JSX.Element | null>(null);
 
   const [user, userLoading] = useAuthState(auth);
 
@@ -66,12 +68,13 @@ const MoreDropdown = ({}: props) => {
           onClick={() => {
             window.gtag(`event`, `request_custom_design_clicked`, {
               userId: user ? user.uid : "not logged in",
+              name: "not-known",
             });
-            setModalText(
+            setMissingFeatureText(
               <p>
-                We are not currently available to allow the requesting of custom
-                graphic designs.<br></br>
-                We are sorry for the inconvenience
+                We cannot currently offer custom graphic designs images at
+                special request.<br></br>
+                We are sorry for the inconvenience.
               </p>
             );
           }}
@@ -80,29 +83,34 @@ const MoreDropdown = ({}: props) => {
           Request Custom Design
         </button>
         <button
-          onClick={() =>
-            setModalText(
+          onClick={() => {
+            window.gtag(`event`, `request_custom_website_clicked`, {
+              userId: user ? user.uid : "not logged in",
+            });
+            setMissingFeatureText(
               <p>
-                We are not currently available to allow the requests for custom
-                website designs.<br></br>
-                We are sorry for the inconvenience
+                We cannot currently offer website design services at request.
+                <br></br>
+                We are sorry for the inconvenience.
               </p>
-            )
-          }
+            );
+          }}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Request Custom Website Design
         </button>
         <button
-          onClick={() =>
-            setModalText(
+          onClick={() => {
+            window.gtag(`event`, `request_custom_images_clicked`, {
+              userId: user ? user.uid : "not logged in",
+            });
+            setMissingFeatureText(
               <p>
-                We are not currently available to give sell particular images at
-                request.<br></br>
-                We are sorry for the inconvenience
+                We cannot currently offer custom images at request.<br></br>
+                We are sorry for the inconvenience.
               </p>
-            )
-          }
+            );
+          }}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Request Custom Images
@@ -128,34 +136,10 @@ const MoreDropdown = ({}: props) => {
         </button>
       </div>
 
-      <Modal
-        aria-labelledby="spring-modal-title"
-        aria-describedby="spring-modal-description"
-        open={modalText !== null}
-        onClose={() => setModalText(null)}
-        closeAfterTransition
-      >
-        <Fade in={modalText !== null}>
-          <Box
-            // sx={...style}
-            className={
-              "flex flex-col items-center justify-center rounded-sm text-center align-top "
-            }
-          >
-            <Typography
-              id="spring-modal-title"
-              variant="h6"
-              component="h2"
-              className="text-4xl text-orange-300"
-            >
-              Feature not yet available
-            </Typography>
-            <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-              {modalText}
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal>
+      <MissingFeatureDialog
+        text={missingFeatureText}
+        setModalText={setMissingFeatureText}
+      />
     </animated.div>
   );
 };

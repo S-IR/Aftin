@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
-  let tm = '\u2122'
+  let tm = "\u2122";
   return (
-    <footer className='border-t-2 border-black mt-52'>
-      <div className='flex text-center justify-center'>
-        <p className='text-white text-sm'>Aftin{tm} 2023</p>
+    <footer className="border-t-2 border-black ">
+      <div className="flex justify-center text-center">
+        <p className="text-sm text-white">Aftin{tm} 2023</p>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

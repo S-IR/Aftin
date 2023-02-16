@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useInfiniteQuery } from 'react-query';
 import { requestImageDocs } from '../../../../model/client-side/image-functions/requestImages';
 import { useAppDispatch } from '../../../../Redux/hooks';
-import { GrahicDesignsOptions, ImgDoc, SMALL_CATEGORY_OF_IMG, StockImagesOptions } from '../../../../typings/image-types/ImageTypes';
+import { GrahicDesignsOptions, ImgDoc, SMALL_CATEGORY_OF_IMG, AdvertImagesOptions } from '../../../../typings/image-types/ImageTypes';
 import { useSpring, animated, config, to, AnimatedComponent } from 'react-spring'
 import Loading from '../../../general/Loading';
 import PremiumIcon from '../../../general/PremiumIcon';
@@ -60,8 +60,8 @@ const ImageButtonImages = ({ selectedCategory }: props) => {
 
 
   const category = useMemo(() => {
-    if (StockImagesOptions.includes(selectedCategory?.value)) {
-      return 'stock-images'
+    if (AdvertImagesOptions.includes(selectedCategory?.value)) {
+      return 'advertisement-images'
     } else if (GrahicDesignsOptions.includes(selectedCategory?.value)) {
       return 'graphic-designs'
     } else {

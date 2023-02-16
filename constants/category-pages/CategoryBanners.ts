@@ -3,15 +3,15 @@ import {
   SMALL_CATEGORY_OF_IMG,
 } from "../../typings/image-types/ImageTypes";
 
-export interface homepageGallery {
+export type CategoryPageImageObj = {
   name: string;
   catName: LARGE_CATEGORY_OF_IMG;
   subCatName: SMALL_CATEGORY_OF_IMG;
   w: number;
   h: number;
-}
+};
 
-export const homepageGalleryList: (homepageGallery | string)[] = [
+export const CategoryPageAdvertImages: (CategoryPageImageObj | string)[] = [
   {
     name: "Appetizers",
     catName: "advertisement-images",
@@ -40,7 +40,7 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     w: 512,
     h: 512,
   },
-
+  "What advertisement image do you need?",
   {
     name: "Fast Foods",
     catName: "advertisement-images",
@@ -55,7 +55,6 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     w: 1536,
     h: 1024,
   },
-  "Browse our Images",
 
   {
     name: "Cutlery & Plates",
@@ -64,7 +63,9 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     w: 1536,
     h: 1024,
   },
+];
 
+export const CategoryPageGraphicImages: (CategoryPageImageObj | string)[] = [
   {
     name: "Menus",
     catName: "graphic-designs",
@@ -93,6 +94,7 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     w: 1536,
     h: 1024,
   },
+  "What graphic designs do you need?",
   {
     name: "Stickers & Cliparts",
     catName: "graphic-designs",

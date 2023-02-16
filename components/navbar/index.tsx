@@ -1,4 +1,4 @@
-export { default as StockImagesDropdown } from "./StockImagesDropdown";
+export { default as AdvertImagesDropdown } from "./AdvertImagesDropdown";
 export { default as MoreDropdown } from "./MoreDropdown";
 export { default as ProfileDropdown } from "./ProfileDropdown";
 export { default as GrDesignsDropdown } from "./GrDesignsDropdown";

@@ -1,42 +1,47 @@
-import Link from 'next/link'
-import React, { CSSProperties, useEffect, useMemo, useState } from 'react'
-import { NavbarImageLink } from '../../constants/imageCategories'
-import Tooltip from '@mui/material/Tooltip';
-import { useTransition, animated, config, AnimatedProps, useSpringRef } from 'react-spring';
-import Image from 'next/image';
+import Link from "next/link";
+import React, { CSSProperties, useEffect, useMemo, useState } from "react";
+import { NavbarImageLink } from "../../constants/imageCategories";
+import Tooltip from "@mui/material/Tooltip";
+import {
+  useTransition,
+  animated,
+  config,
+  AnimatedProps,
+  useSpringRef,
+} from "react-spring";
+import Image from "next/image";
 
 interface props {
-  Category: NavbarImageLink
+  Category: NavbarImageLink;
 }
 
-
 const NavbarImageCategory = ({ Category }: props) => {
-
   return (
-    <Link href={Category.href}  >
-      <div className='flex align-middle justify-center'>
-        <p className=' w-24 flex text-center justify-center align-middle font-bold text-white rounded-2xl font-serif mt-12'>{Category.name} </p>
+    <Link href={`/restaurant-${Category.catName}/${Category.subCatName}`}>
+      <div className="flex justify-center align-middle">
+        <p className=" mt-12 flex w-24 justify-center rounded-2xl text-center align-middle font-serif font-bold text-white">
+          {Category.name}{" "}
+        </p>
         <Tooltip
           title={
-            <figure className=' overflow-hidden w-[188px] h[200px] '>
+            <figure className=" h[200px] w-[188px] overflow-hidden ">
               <p>{Category.description}</p>
             </figure>
           }
           arrow
-          placement='bottom-start'
+          placement="bottom-start"
         >
-          <div className='w-[128px] h-[128px] m-1 relative   cursor-pointer filter-none hover:filter brightness-75 shadow-sm hover:shadow-md  shadow-white rounded-sm  transition ease-in-out duration-300 '>
+          <div className="relative m-1 h-[128px] w-[128px]   cursor-pointer rounded-sm shadow-sm shadow-white brightness-75 filter-none  transition duration-300  ease-in-out hover:shadow-md hover:filter ">
             <Image
-              src={Category.source}
+              src={`/frontend-used-images/category-images/${Category.catName}/${Category.subCatName}.png`}
               alt={`Food ${Category.name}`}
-              layout='fill'
+              layout="fill"
             />
           </div>
         </Tooltip>
-
       </div>
-    </Link >
-  )
-}
+    </Link>
+  );
+};
 
-export default NavbarImageCategory
+export default NavbarImageCategory;

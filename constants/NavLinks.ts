@@ -18,9 +18,9 @@ export const navLinks: navLink[] = [
     DropdownState: "MoreDropdown",
   },
   {
-    id: "stock-images",
-    url: `/restaurant-stock-images`,
-    title: "Stock Images",
+    id: "advertisement-images",
+    url: `/restaurant-advertisement-images`,
+    title: "Advertisement Images",
     DropdownState: "ImagesDropdown",
   },
   {

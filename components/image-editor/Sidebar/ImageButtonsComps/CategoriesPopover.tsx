@@ -1,7 +1,7 @@
 import { Popover } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
-import { GrDesignLinks, StockImageLinks } from '../../../../constants/imageCategories'
+import { GrDesignLinks, AdvertImagesLinks } from '../../../../constants/imageCategories'
 import { SMALL_CATEGORY_OF_IMG } from '../../../../typings/image-types/ImageTypes'
 
 interface props {
@@ -31,8 +31,8 @@ const CategoriesPopover = ({ open, selectedCategory, setSelectedCategory, anchor
     >
       <div className='w-[440px] h-[620px] bg-black text-black shadow-lg shadow-gray-900 m-2 flex space-x-1'>
         <div className='flex flex-col flex-grow border-r-2 border-white items-center ' >
-          <p className='font-bold italic text-white font-serif text-xl my-2'>Stock Images</p>
-          {StockImageLinks.map((category) => {
+          <p className='font-bold italic text-white font-serif text-xl my-2'>Advertisement Images</p>
+          {AdvertImagesLinks.map((category) => {
             const isSelected = selectedCategory.name === category.name
             return (
               <button className={`${isSelected ? `bg-gray-500` : `bg-none`}  flex flex-row w-[196px] ml-4 my-3 items-center align-middle shadow-sm shadow-gray-500 rounded-l-full hover:shadow-gray-200 transition-all duration-300`} key={category.name}

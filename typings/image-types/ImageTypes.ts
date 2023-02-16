@@ -1,6 +1,6 @@
 import { HTMLHexColor } from "../typings";
 export const tier_array = [`bronze`, `silver`, `gold`] as const;
-export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `stock-images`;
+export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `advertisement-images`;
 
 export type SMALL_CATEGORY_OF_IMG =
   | `soups`
@@ -44,7 +44,7 @@ interface Array<SMALL_CATEGORY_OF_IMG> {
   ): searchElement is SMALL_CATEGORY_OF_IMG;
 }
 
-export type StockImageType =
+export type AdvertImageType =
   | `soups`
   | `appetizers`
   | `main-dishes`
@@ -62,7 +62,7 @@ export type GraphicDesignType =
   | `brochures`
   | `other`;
 
-export const StockImagesOptions: StockImageType[] = [
+export const AdvertImagesOptions: AdvertImageType[] = [
   `appetizers`,
   `soups`,
   `main-dishes`,

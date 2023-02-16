@@ -1,8 +1,14 @@
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
+import Button from "../../components/general/Button";
+import { handleRequestDesigner } from "../../model/handleRequestDesigner";
+import { useSpring, animated, config, to } from "react-spring";
+import { useGesture } from "@use-gesture/react";
 
+import Link from "next/link";
+import ImgLink from "../../components/general/ImgLink";
 import { Masonry } from "@mui/lab";
-import { CategoryPageGraphicImages } from "../../constants/category-pages/CategoryBanners";
+import { CategoryPageAdvertImages } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
 
 const Index = () => {
@@ -18,7 +24,7 @@ const Index = () => {
         defaultSpacing={2}
         className={"mx-auto  flex max-w-6xl"}
       >
-        {CategoryPageGraphicImages.map((list) => {
+        {CategoryPageAdvertImages.map((list) => {
           if (typeof list !== "string") {
             return (
               <div
@@ -50,17 +56,11 @@ const Index = () => {
             );
           } else {
             return (
-              <div
-                key={list}
-                className="flex h-min w-auto flex-col items-center justify-center align-middle"
-              >
-                <h3 className="m-8  max-w-md bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-6xl text-transparent drop-shadow-xl">
+              <>
+                <h3 className="m-16 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-4xl text-transparent drop-shadow-xl">
                   {list}
                 </h3>
-                <button className="buttons-3 h-min ">
-                  Request a custom design
-                </button>
-              </div>
+              </>
             );
           }
         })}

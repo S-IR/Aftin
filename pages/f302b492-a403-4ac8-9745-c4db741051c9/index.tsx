@@ -12,8 +12,8 @@ import {
   GrahicDesignsOptions as GraphicDesignsOptions,
   GraphicDesignType,
   LARGE_CATEGORY_OF_IMG,
-  StockImagesOptions,
-  StockImageType,
+  AdvertImagesOptions,
+  AdvertImageType,
 } from "../../typings/image-types/ImageTypes";
 import { GetServerSideProps } from "next";
 import { getUserTier } from "../../firebaseAdmin";
@@ -23,7 +23,7 @@ const Index = (LOGIN_DATA: Object) => {
   const [largeCategory, setLargeCategory] =
     useState<null | LARGE_CATEGORY_OF_IMG>(null);
   const [smallCategory, setSmallCategory] = useState<
-    null | GraphicDesignType | StockImageType
+    null | GraphicDesignType | AdvertImageType
   >(null);
 
   const handleLargeCategory = (e: SelectChangeEvent) => {
@@ -31,7 +31,7 @@ const Index = (LOGIN_DATA: Object) => {
   };
 
   const handleSmallCategory = (e: SelectChangeEvent) => {
-    setSmallCategory(e.target.value as GraphicDesignType | StockImageType);
+    setSmallCategory(e.target.value as GraphicDesignType | AdvertImageType);
   };
 
   return (
@@ -42,8 +42,11 @@ const Index = (LOGIN_DATA: Object) => {
             Large Image Category
           </InputLabel>
           <Select label="Choose large category" onChange={handleLargeCategory}>
-            <MenuItem key={"stock-images"} value={"stock-images"}>
-              {`Stock Images`}
+            <MenuItem
+              key={"advertisement-images"}
+              value={"advertisement-images"}
+            >
+              {`Advertisement Images`}
             </MenuItem>
             <MenuItem key={"graphic-designs"} value={"graphic-designs"}>
               {`Graphic Designs`}
@@ -51,7 +54,7 @@ const Index = (LOGIN_DATA: Object) => {
           </Select>
         </FormControl>
 
-        {largeCategory === `stock-images` && (
+        {largeCategory === `advertisement-images` && (
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
               Small Image Category
@@ -60,9 +63,9 @@ const Index = (LOGIN_DATA: Object) => {
               label="Choose stock image type"
               onChange={handleSmallCategory}
             >
-              {StockImagesOptions.map((StockImageOption: StockImageType) => (
-                <MenuItem key={StockImageOption} value={StockImageOption}>
-                  {StockImageOption}
+              {AdvertImagesOptions.map((AdvertImageOption: AdvertImageType) => (
+                <MenuItem key={AdvertImageOption} value={AdvertImageOption}>
+                  {AdvertImageOption}
                 </MenuItem>
               ))}
             </Select>

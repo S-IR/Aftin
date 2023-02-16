@@ -11,23 +11,13 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { initializeCookieConsent } from "../model/client-side/general/CookiesFunctions";
 // import TagManager, { TagManagerArgs } from "react-gtm-module";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "";
-  // const tagManagersArgs: TagManagerArgs = {
-  //   gtmId,
-  // };
-
-  // useEffect(() => {
-  //   TagManager.initialize(tagManagersArgs);
-  //   gtag("consent", "default", {
-  //     functionality_storage: "granted",
-  //     ad_storage: "granted",
-  //     analytics_storage: "granted",
-  //     security_storage: "granted",
-  //   });
-  // }, []);
+  useEffect(() => {
+    initializeCookieConsent();
+  }, []);
 
   const [queryClient] = useState(
     () =>

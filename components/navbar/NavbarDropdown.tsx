@@ -3,7 +3,7 @@ import { NavbarImageLink } from "../../constants/imageCategories";
 import GrDesignsDropdown from "./GrDesignsDropdown";
 import NavbarImageCategory from "./NavbarImageCategory";
 import MoreDropdown from "./MoreDropdown";
-import StockImagesDropdown from "./StockImagesDropdown";
+import AdvertImagesDropdown from "./AdvertImagesDropdown";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { navLink } from "../../constants/NavLinks";
 import { useSpring, animated, useTransition } from "react-spring";
@@ -23,7 +23,7 @@ const NavbarDropdown = ({ activeSidebar, setActiveSidebar }: props) => {
   function NavbarHoverSwitch(target: typeof activeSidebar) {
     switch (target) {
       case "ImagesDropdown":
-        return <StockImagesDropdown />;
+        return <AdvertImagesDropdown />;
       case "MoreDropdown":
         return <MoreDropdown />;
       case "GrDesignsDropdown":

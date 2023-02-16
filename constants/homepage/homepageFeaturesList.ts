@@ -7,7 +7,7 @@ interface homepageFeature {
 
 export const homepageFeaturesList: homepageFeature[] = [
   {
-    title: `Find fitting Stock Images`,
+    title: `Find fitting Advertisement Images`,
     description: ` Access our full library of stock photos to display high resolution images that fit your needs.`,
     href: `/`,
     imgSrc: ``,

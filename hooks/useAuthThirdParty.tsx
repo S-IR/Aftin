@@ -4,26 +4,29 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  UserCredential,
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import React from "react";
+import { authResponseType } from "../constants/login/types";
 import { auth, createUserDoc } from "../firebase";
 
 export default function useAuthThirdParty() {
   const router = useRouter();
 
-  const signUpWithGoogle = () => {
+  const signUpWithGoogle = async (): Promise<authResponseType> => {
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
-    signInWithPopup(auth, googleProvider).then(async (userCredential) => {
-      const uid = userCredential.user.uid;
-      const username = userCredential.user.displayName as string;
-      const email = userCredential.user.email as string;
+    try {
+      const user = await signInWithPopup(auth, googleProvider);
+      if (user.code) return { status: "error", error: user.code };
+      const uid = user.user.uid;
+      const username = user.user.displayName as string;
+      const email = user.user.email as string;
       //creating the user document
       createUserDoc(uid, email, username, "Not Specified", "Bronze");
       //sending the request to set cookie
-      const token = await userCredential.user.getIdToken();
-      //sending the request to set cookie
+      const token = await user.user.getIdToken();
       await fetch("/api/login", {
         method: "POST",
         headers: new Headers({
@@ -31,31 +34,51 @@ export default function useAuthThirdParty() {
           token,
         }),
       });
-      router.push("/");
-    });
+      window.gtag(`event`, `sign_up`, {
+        method: "Google",
+      });
+      return { status: "success", user };
+    } catch (error) {
+      return { status: "error", error };
+    }
   };
 
-  const signUpWithFacebook = () => {
+  const signUpWithFacebook = async (): Promise<authResponseType> => {
     //TODO
     const auth = getAuth();
     const facebookProvider = new FacebookAuthProvider();
-    signInWithPopup(auth, facebookProvider)
-      .then((response) => {
-        console.log(response); // WORK IN PROGRESS
-      })
-      .then(() => router.push("/"));
-  };
-  const signInWithGoogle = () => {
-    const googleProvider = new GoogleAuthProvider();
-    signInWithPopup(auth, googleProvider)
-      .then(() => router.push("/"))
-      .catch((error) => {
-        console.log(error);
+    try {
+      //TODO
+      const user = await signInWithPopup(auth, facebookProvider);
+      if (user.code) return { status: "error", error: user.code };
+      window.gtag(`event`, `sign_up`, {
+        method: "Facebook",
       });
+      return { status: "success", user };
+    } catch (error) {
+      return { status: "error", error };
+    }
   };
 
-  const signInWithFacebook = () => {
+  const signInWithGoogle = async (): Promise<authResponseType> => {
+    const googleProvider = new GoogleAuthProvider();
+    try {
+      const user = await signInWithPopup(auth, googleProvider);
+      if (user.code) return { status: "error", error: user.code };
+      window.gtag(`event`, `login`, {
+        method: "Google",
+      });
+      return { status: "success", user };
+    } catch (error) {
+      return { status: "error", error };
+    }
+  };
+
+  const signInWithFacebook = async (): Promise<authResponseType> => {
     alert("WORK IN PROGRESS");
+    window.gtag(`event`, `login`, {
+      method: "Facebook",
+    });
   };
 
   return {
