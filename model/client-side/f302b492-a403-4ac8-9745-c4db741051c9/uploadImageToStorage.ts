@@ -61,6 +61,8 @@ export const uploadImageToStorage = async (
             ...docFields,
             color: MainColors,
             url,
+            width,
+            height,
           });
           console.log(`finished uploading the image`);
         };

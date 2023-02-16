@@ -1,48 +1,65 @@
-import React, { useState } from 'react'
-import { HTMLHexColor, SidebarSorts } from '../../../typings/typings'
-import { ListItemButton, List, Tooltip, ListSubheader, ListItemIcon, ListItemText, Collapse, Checkbox, ListItemAvatar, Avatar } from '@mui/material';
-import { ColorLens } from '@mui/icons-material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { colorPallet, colorPallets } from '../../../constants/SortingSidebar/colorPallets';
-import { CirclePicker, Color, HuePicker, SliderPicker } from 'react-color'
-import { useRouter } from 'next/router';
-import { handleOptionClick } from '../../../model/client-side/SortingSidebar/handleClick';
+import React, { useState } from "react";
+import { HTMLHexColor, SidebarSorts } from "../../../typings/typings";
+import {
+  ListItemButton,
+  List,
+  Tooltip,
+  ListSubheader,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Checkbox,
+  ListItemAvatar,
+  Avatar,
+} from "@mui/material";
+import { ColorLens } from "@mui/icons-material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import {
+  colorPallet,
+  colorPallets,
+} from "../../../constants/SortingSidebar/colorPallets";
+import { CirclePicker, Color, HuePicker, SliderPicker } from "react-color";
+import { useRouter } from "next/router";
+import { handleOptionClick } from "../../../model/client-side/SortingSidebar/handleClick";
 
+interface props {}
 
+const SortColor = ({}: props) => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen((open) => !open);
+  const color: string = router.query.color;
 
-interface props {
-}
-
-const SortColor = ({  }: props) => {
-
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const handleClick = () => setOpen((open) => (!open))
-  const color: string = router.query.color
-
-
-  
   return (
     <>
-      <ListItemButton onClick={handleClick}
-        className={'opacity-80 hover:opacity-100 hover:translate-x-1 !transition-all !duration-300 rounded-lg'}
+      <ListItemButton
+        onClick={handleClick}
+        className={
+          "rounded-lg opacity-80  !transition-all !duration-300 hover:opacity-100"
+        }
       >
         <ListItemIcon>
-          <ColorLens style={{ color: 'gold', width: 32, height: 32 }}
-          />
+          <ColorLens style={{ color: "gold", width: 32, height: 32 }} />
         </ListItemIcon>
         <ListItemText primary="Predominant colors " />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit sx={{marginLeft: '10px'}}>
-        <CirclePicker color={color}
-        width={196}
-        circleSize={34}
-        onChangeComplete={(color)=>{
-          const value = `${color.rgb.r}-${color.rgb.g}-${color.rgb.b}`
-          
-          return handleOptionClick(value, `color`, router)
-          }} />
+      <Collapse
+        in={open}
+        timeout="auto"
+        unmountOnExit
+        sx={{ marginLeft: "10px" }}
+      >
+        <CirclePicker
+          color={color}
+          width={196}
+          circleSize={34}
+          onChangeComplete={(color) => {
+            const value = `${color.rgb.r}-${color.rgb.g}-${color.rgb.b}`;
+
+            return handleOptionClick(value, `color`, router);
+          }}
+        />
 
         {/* {colorPallets.map((colorPallet: colorPallet) => {
           //render each option.
@@ -62,7 +79,7 @@ const SortColor = ({  }: props) => {
               <ListItemIcon>
                 <ListItemAvatar>
                   {/* These are the colors to be shown on the side of the category */}
-                  {/* {colorPallet.colorPallet !== undefined &&
+        {/* {colorPallet.colorPallet !== undefined &&
                     <Avatar
                       alt={`color pallet for food called${colorPallet.colorPalletName}`}
                       src={colorPallet.imgSrc}
@@ -77,10 +94,9 @@ const SortColor = ({  }: props) => {
           )
         }
         )} } */}
-      </Collapse >
-
+      </Collapse>
     </>
-  )
-}
+  );
+};
 
-export default SortColor
+export default SortColor;

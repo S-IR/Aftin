@@ -95,7 +95,7 @@ const UploadImageComp = ({
     <div className="w-full bg-gray-500">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="z-50 row-span-1 mx-5 flex-row items-center justify-center  space-y-8 rounded-3xl bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 p-4 text-white sm:w-auto  md:max-w-md md:px-14"
+        className="z-50 row-span-1 mx-5 flex-row items-center justify-center  space-y-8 rounded-sm bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 p-4 text-white sm:w-auto  md:max-w-md md:px-14"
       >
         <label className="inline-block w-full">
           <input

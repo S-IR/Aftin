@@ -131,7 +131,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
             type="text"
             onKeyDown={(e) => handleDescriptionEnter(e)}
             placeholder="Describe what you need "
-            className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  md:!w-96"
+            className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  md:!w-1/2"
             defaultValue={description}
           ></input>
         </div>
@@ -139,10 +139,10 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
           <Masonry
             columns={4}
             spacing={2}
-            defaultHeight={450}
+            defaultHeight={isMobile ? 256 : 768}
             defaultColumns={4}
-            defaultSpacing={2}
-            className={"max-w-6xl"}
+            defaultSpacing={1}
+            className={"min-w-[80vw w-full"}
           >
             {imgDocs.map((doc) => (
               <SingleImage key={doc.url} doc={doc} loginStatus={loginStatus} />

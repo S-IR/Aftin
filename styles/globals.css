@@ -100,7 +100,7 @@ h3 {
   }
 }
 .searchbox {
-  @apply w-32 rounded-md  border-none bg-gray-900 px-4 py-3 text-sm drop-shadow-xl focus:border-purple-400 focus:outline-none md:w-64;
+  @apply w-32 rounded-sm  border-none bg-gray-900 px-4 py-3 text-sm drop-shadow-xl focus:border-purple-400 focus:outline-none md:w-64;
 }
 .image-shadows {
   border-radius: 50%;

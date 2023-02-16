@@ -351,6 +351,8 @@ export type ImgDoc = {
   surr_env?: (typeof surr_env_array)[number];
   url: string;
   views: number;
+  width: number;
+  height: number;
   appetizer_type?: (typeof appetizers_array)[number];
   dish_type?: (typeof main_dish_array)[number];
   soup?: (typeof soups_array)[number];
