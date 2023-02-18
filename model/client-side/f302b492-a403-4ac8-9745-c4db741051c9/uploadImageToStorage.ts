@@ -75,17 +75,11 @@ export const getTagsFromTitle = (
   title: string
 ): Array<(typeof tagsArray)[number]> => {
   console.log(`title`, title);
-  const imageTags: Array<(typeof tagsArray)[number]> = [];
+  const imageTags: (typeof tagsArray)[number][] = [];
   tagsArray.forEach((tag) => {
     const lowercaseTag = tag.toLowerCase();
-    console.log(`lowercaseTag:`, lowercaseTag);
-    console.log(`includes flag:`, title.includes(`flag`));
-    console.log(`includes cold:`, title.includes(`cold`));
-    console.log(`includes cute:`, title.includes(`cute`));
-    console.log(`includes kitchen:`, title.includes(`kitchen`));
 
     if (title.includes(lowercaseTag)) {
-      console.log(`this tag is in the title:`, lowercaseTag);
       imageTags.push(tag);
     }
   });

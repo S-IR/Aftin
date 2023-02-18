@@ -1,37 +1,36 @@
 import { Dialog, DialogContent, Modal } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import { Box } from "@mui/system";
 import { getDownloadURL, ref } from "firebase/storage";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { FC, useEffect } from "react";
+import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 import {
   handleSubCatDownload,
   handleSubCatEdit,
 } from "../../model/client-side/subCat/modalButtons";
 import { useAppDispatch } from "../../Redux/hooks";
+import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
 
 import Button from "./Button";
 import Loading from "./Loading";
 
 interface props {
-  url: string;
+  doc: ImgDoc;
   openDialog: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  w: number;
-  h: number;
-  alt: string;
   loginStatus: LoginStatus;
+  isMobile: boolean;
 }
 
 const FreeImageModal: FC<props> = ({
-  url,
+  doc,
   openDialog,
   setOpenDialog,
-  w,
-  h,
-  alt,
   loginStatus,
+  isMobile,
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -53,46 +52,104 @@ const FreeImageModal: FC<props> = ({
     >
       <DialogContent
         className={
-          "flex h-[75vh] w-[75vw] items-center justify-center   p-10 align-middle"
+          "flex h-[75vh] w-[75vw] items-center justify-center rounded-lg border-4 border-gray-500/40  !p-0 align-middle"
         }
       >
-        <div className="flex h-full w-full grow-[3] flex-col items-center justify-center bg-white/80 align-middle ">
+        <div className=" flex h-full w-full basis-4/5   bg-gradient-to-r from-brown-300 to-brown-600 py-4 align-middle shadow-lg shadow-gray-200 ">
+          <div
+            className={
+              " mx-10 my-8 flex flex-col space-y-10 p-2  shadow-inner shadow-gray-300 "
+            }
+          >
+            <p className="text-center text-lg">
+              <span className="text-gray-500">Resolution:</span> <br></br>
+              {`${doc.width} x ${doc.height}`}
+            </p>
+            <p className="text-center text-lg">
+              <span className="text-gray-500">Tags:</span> <br></br>
+              {doc.tags.length === 0 ? (
+                <p>No tags</p>
+              ) : (
+                doc.tags.map((tag) => (
+                  <Tooltip
+                    key={tag}
+                    title={
+                      <figure className=" h[200px] w-[188px] overflow-hidden ">
+                        <p>
+                          Click here in order to search for images with a
+                          similar tag
+                        </p>
+                      </figure>
+                    }
+                    arrow
+                    placement="bottom-start"
+                  >
+                    <button
+                      className="rounded-sm  bg-yellow-700 p-1 text-xs text-white transition-all duration-300 hover:bg-yellow-500"
+                      onClick={() => {
+                        handleOptionClick(tag.toLowerCase(), "tags", router);
+                        return setOpenDialog(false);
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  </Tooltip>
+                ))
+              )}
+            </p>
+
+            <button className=" rounded-sm bg-yellow-700 p-2 text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-yellow-500 hover:shadow-none">
+              Upscale Image
+            </button>
+          </div>
           <Image
             id="modal-modal-description"
-            src={url}
-            width={w}
-            height={h}
-            objectFit={`cover`}
+            src={doc.url}
+            width={
+              isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
+            }
+            height={
+              isMobile ? Math.min(doc.height, 256) : Math.min(doc.height, 384)
+            }
+            objectFit={`scale-down`}
             className="overflow-hidden rounded-sm "
-            alt={alt}
+            alt={doc.description}
           />
-          <div className={"flex"}></div>
         </div>
 
-        <div className="flex h-full  grow-[1] flex-col space-y-2 bg-black/80">
+        <div className="flex h-full basis-1/5  flex-col items-center justify-center space-y-16 bg-brown-700 py-10  align-middle ">
           <button
-            className=" buttons-1 w-32 "
-            onClick={() => handleSubCatEdit(router, dispatch, url, w, h)}
+            className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
+            onClick={() =>
+              handleSubCatEdit(router, dispatch, doc.url, doc.width, doc.height)
+            }
           >
             Edit Picture
           </button>
           <button
-            className=" buttons-1 w-32 "
+            className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
             onClick={() => setOpenDialog(false)}
           >
             Preview
           </button>
           <button
-            className=" buttons-1 w-32 "
+            className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
             onClick={() =>
-              handleSubCatDownload(loginStatus, router, url, w, h, dispatch)
+              handleSubCatDownload(
+                loginStatus,
+                router,
+                doc.url,
+                doc.width,
+                doc.height,
+                dispatch
+              )
             }
           >
             Download
           </button>
 
           <button
-            className="buttons-1 w-32   justify-center"
+            className=" h-12 w-36 justify-center bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500  hover:shadow-none"
             onClick={() => setOpenDialog(false)}
           >
             Close

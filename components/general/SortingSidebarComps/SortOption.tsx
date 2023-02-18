@@ -41,6 +41,7 @@ interface props {
 const SortOption = ({ optionsArray, title, queryName, Icon }: props) => {
   const router = useRouter();
   const currentlySelected = router.query[queryName];
+
   const [open, setOpen] = useState(false);
 
   const handleClick = () => setOpen((open) => !open);
@@ -60,9 +61,7 @@ const SortOption = ({ optionsArray, title, queryName, Icon }: props) => {
           //render each option
           // if the value is an array, that means that the option is a nested list
           if (typeof sortOption.value === `string`) {
-            const isChecked = Array.isArray(currentlySelected)
-              ? currentlySelected.includes(sortOption.value)
-              : currentlySelected === sortOption.value;
+            const isChecked = currentlySelected?.includes(sortOption.value);
 
             return (
               <ListItemButton

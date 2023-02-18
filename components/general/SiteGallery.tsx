@@ -117,62 +117,72 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   // description query variable
   const description = router.query.description;
   return (
-    <animated.section className={`w-full `} style={galleryMarginLeft}>
-      <InfiniteScroll
+    <animated.section
+      className={`flex h-auto w-auto flex-col items-center  justify-center align-middle `}
+      style={galleryMarginLeft}
+    >
+      {/* <InfiniteScroll
         dataLength={data?.pages.length * 15}
         next={fetchNextPage}
         hasMore={hasNextPage as boolean}
         loader={<Loading />}
         className={`ml-5 h-auto w-auto max-w-6xl flex-grow items-center justify-center`}
         style={{ overflow: `hidden` }}
-      >
-        <div className="flex w-full items-center justify-center align-middle">
-          <input
-            type="text"
-            onKeyDown={(e) => handleDescriptionEnter(e)}
-            placeholder="Describe what you need "
-            className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  md:!w-1/2"
-            defaultValue={description}
-          ></input>
+      > */}
+      <div className="!flex w-full flex-col items-center justify-center align-middle ">
+        <input
+          type="text"
+          onKeyDown={(e) => handleDescriptionEnter(e)}
+          placeholder="Describe what you need "
+          className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  md:!w-1/2"
+          defaultValue={description}
+        />
+      </div>
+      {imgDocs.length !== 0 && loginStatus ? (
+        <Masonry
+          // columns={4}
+          spacing={2}
+          defaultColumns={8}
+          defaultSpacing={1}
+          className={" w-full max-w-[80vw]"}
+        >
+          {imgDocs.map((doc) => (
+            <SingleImage
+              key={doc.url}
+              doc={doc}
+              loginStatus={loginStatus}
+              isMobile={isMobile}
+            />
+          ))}
+        </Masonry>
+      ) : (
+        <div className="w-full text-center font-serif text-4xl  ">
+          No image fits your applied search filters
         </div>
-        {imgDocs.length !== 0 && loginStatus ? (
-          <Masonry
-            columns={4}
-            spacing={2}
-            defaultHeight={isMobile ? 256 : 768}
-            defaultColumns={4}
-            defaultSpacing={1}
-            className={"min-w-[80vw w-full"}
-          >
-            {imgDocs.map((doc) => (
-              <SingleImage key={doc.url} doc={doc} loginStatus={loginStatus} />
-            ))}
-          </Masonry>
-        ) : (
-          <div className="w-full text-center font-serif text-4xl  ">
-            No image fits your applied search filters
-          </div>
-        )}
+      )}
 
-        <div className="flex w-full items-center justify-center align-middle">
-          <div className="flex h-28 w-full items-center justify-center align-middle">
-            {/* if there are no images sent don not render any of the following 2 components  */}
-            {data.pages[0] ? (
-              hasNextPage ? (
-                <button className="bg-button-svg h-[128px] w-[128px] rounded-full bg-black/40">
-                  Load more images
-                </button>
-              ) : (
-                <div className="mx-10 h-[32px] w-96 justify-center rounded   bg-brown-800 py-2 text-center text-xs font-bold  text-gray-200 shadow-md shadow-gray-900/60">
-                  No more images to load
-                </div>
-              )
+      <div className="flex w-full items-center justify-center align-middle">
+        <div className="flex h-28 w-full items-center justify-center align-middle">
+          {/* if there are no images sent don not render any of the following 2 components  */}
+          {data.pages[0] ? (
+            hasNextPage ? (
+              <button
+                className="mx-10 h-10 w-[20vw] justify-center rounded-sm  bg-brown-800 py-2  text-center font-serif    text-white"
+                onClick={fetchNextPage}
+              >
+                Load more images
+              </button>
             ) : (
-              <></>
-            )}
-          </div>
+              <div className="mx-10 h-10 w-[15vw] justify-center rounded-sm  bg-brown-900/70 py-2  text-center font-serif  text-white/30  text-gray-200 ">
+                No more images to load
+              </div>
+            )
+          ) : (
+            <></>
+          )}
         </div>
-      </InfiniteScroll>
+      </div>
+      {/* </InfiniteScroll> */}
     </animated.section>
   );
 };

@@ -1,6 +1,7 @@
 import { HTMLHexColor } from "../typings";
 export const tier_array = [`bronze`, `silver`, `gold`] as const;
 export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `advertisement-images`;
+import { tagsArray } from "../../constants/upload-image/Tags";
 
 export type SMALL_CATEGORY_OF_IMG =
   | `soups`
@@ -309,7 +310,7 @@ export type Valid_image_fields =
   | `views`
   | `dish_type`
   | `soup`
-  | `food_type`
+  | `fast_food_type`
   | `drink_type`
   | `utensil_type`
   | `material`
@@ -341,6 +342,7 @@ export const valid_image_fields = [
   `artwork_style`,
   `stickers_category`,
   `shape`,
+  "tags",
 ];
 export type ImgDoc = {
   paid: (typeof tier_array)[number];
@@ -353,6 +355,7 @@ export type ImgDoc = {
   views: number;
   width: number;
   height: number;
+  tags: (typeof tagsArray)[number][];
   appetizer_type?: (typeof appetizers_array)[number];
   dish_type?: (typeof main_dish_array)[number];
   soup?: (typeof soups_array)[number];

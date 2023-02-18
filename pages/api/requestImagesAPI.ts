@@ -64,38 +64,52 @@ const determineQuery = (data: ImgDoc[], queries: queryType) => {
       ));
     }
 
-    // FILTER = STRING  & DATA OF FILTER = STRING , compare strings
-    if (
-      typeof queries[filter] === `string` &&
-      typeof data[0][filter] === `string`
-    ) {
+    const paramsArr = queries[filter].toLowerCase().split(";");
+    if (typeof data[0][filter] === `string`) {
       return (filteredData = data.filter(
-        (imgField) => imgField[filter] === queries[filter]
+        (imgFied) => imgFied[filter] === paramsArr[0]
+      ));
+    } else if (Array.isArray(data[0][filter])) {
+      console.log("paramsArr", paramsArr);
+
+      return (filteredData = data.filter((imgFied) =>
+        paramsArr.every((arrElem) => imgFied[filter].includes(arrElem))
       ));
     }
+    // FILTER = STRING  & DATA OF FILTER = STRING , compare strings
+    //   if (
+    //     typeof queries[filter] === `string` &&
+    //     typeof data[0][filter] === `string`
+    //   ) {
+    //     return (filteredData = data.filter(
+    //       (imgField) => imgField[filter] === queries[filter]
+    //     ));
+    //   }
 
-    // if FILTER = ARRAY & DATA OF FILTER = STRING, check if the filter array includes the DATA string
-    if (
-      Array.isArray(queries[filter]) &&
-      typeof (data[0][filter] === `string`)
-    ) {
-      return (filteredData = data.filter((imgField) =>
-        queries[filter]?.includes(imgField[filter])
-      ));
-    }
+    //   // if FILTER = ARRAY & DATA OF FILTER = STRING, check if the filter array includes the DATA string
+    //   if (
+    //     Array.isArray(queries[filter]) &&
+    //     typeof (data[0][filter] === `string`)
+    //   ) {
+    //     return (filteredData = data.filter((imgField) =>
+    //       queries[filter]?.includes(imgField[filter])
+    //     ));
+    //   }
 
-    // if FILTER = STRING & DATA OF FILTER = ARRAY, check if data array INCLUDES the filter string
-    if (typeof queries[filter] === `string` && Array.isArray(data[0][filter])) {
-      filteredData = data.filter((imgField) =>
-        imgField[filter]?.includes(queries[filter])
-      );
-      return filteredData;
-    }
+    //   // if FILTER = STRING & DATA OF FILTER = ARRAY, check if data array INCLUDES the filter string
+    //   if (typeof queries[filter] === `string` && Array.isArray(data[0][filter])) {
+    //     filteredData = data.filter((imgField) =>
+    //       imgField[filter]?.includes(queries[filter])
+    //     );
+    //     return filteredData;
+    //   }
 
-    // if BOTH ARE ARRAYS, check if the data array is a subset of the filter array
-    return (filteredData = data.filter((imgField) =>
-      imgField[filter].every((val: string) => queries[filter]?.includes(val))
-    ));
+    //   // if BOTH ARE ARRAYS, check if the data array is a subset of the filter array
+    //   return (filteredData = data.filter((imgField) =>
+    //     imgField[filter].every((val: string) => queries[filter]?.includes(val))
+    //   ));
+    // });
+    return filteredData;
   });
   return filteredData;
 };
@@ -106,7 +120,6 @@ export default async function handler(
 ) {
   // get all of the image docs of that subcategory
   const { category, subCat, rowRequested, ...queryParams } = req.query;
-  console.log(`category`, category, "subCat:", subCat);
 
   //save them in an array
   const firebaseAPIResponse = await fetch(

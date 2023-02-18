@@ -15,6 +15,7 @@ import {
 import {
   AspectRatio,
   Cake,
+  Close,
   Dashboard,
   DinnerDining,
   DoubleArrowSharp,
@@ -59,6 +60,8 @@ import { isMobile } from "react-device-detect";
 import { SortColor, SortOption } from "./SortingSidebarComps";
 import { determineSorts } from "../../model/client-side/SortingSidebar/determineSorts";
 import { SMALL_CATEGORY_OF_IMG } from "../../typings/image-types/ImageTypes";
+import { tagsArray } from "../../constants/upload-image/Tags";
+import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 
 interface props {
   showSidebar: boolean;
@@ -68,8 +71,11 @@ interface props {
 const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
   const router = useRouter();
   const subCat = router.query.subCat as SMALL_CATEGORY_OF_IMG;
-
+  const tags = router.query.tags as string | undefined;
   // These selected values also represent if the sort field exists. They are used as boolean checks
+  let tagsArr: (typeof tagsArray)[number][] = [];
+  if (tags !== undefined)
+    tagsArr = tags.split(";") as (typeof tagsArray)[number][];
 
   const {
     paid,
@@ -283,6 +289,24 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
             />
           )}
         </List>
+        {tags && (
+          <>
+            <p className="mt-10 font-serif text-2xl">Searched tags</p>
+            <div>
+              {tagsArr.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => handleOptionClick(tag, "tags", router)}
+                  className={
+                    "relative h-6 w-auto p-1  font-serif text-xs  underline transition-all duration-300 hover:text-red-300 hover:opacity-70"
+                  }
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </animated.div>
     </section>
   );

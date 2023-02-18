@@ -13,40 +13,36 @@ import {
 import FreeImageModal from "./FreeImageModal";
 import PaidImageModal from "./PaidImageModal";
 import PremiumIcon from "./PremiumIcon";
-import { isMobile } from "react-device-detect";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 
 interface props {
   doc: ImgDoc;
   loginStatus: "not logged in" | "unauthorized" | "bronze" | "silver" | "gold";
+  isMobile: boolean;
 }
 
-function SingleImage({ doc, loginStatus }: props) {
+function SingleImage({ doc, loginStatus, isMobile }: props) {
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
   // function to get the w and h of the image
-  const [w, setWidth] = useState(0);
-  const [h, setHeight] = useState(0);
 
   const target = useRef<null | HTMLDivElement>(null);
 
   //get the image width and height
 
   return (
-    <div className="relative flex h-max w-max justify-center rounded-md align-middle brightness-75 filter-none transition-all duration-300 hover:filter">
+    <div className="relative flex h-auto w-auto justify-center rounded-md align-middle brightness-75 filter-none transition-all duration-300 hover:filter">
       {doc.paid === `silver` || doc.paid === "gold" ? (
         <PaidImageModal openDialog={openDialog} setOpenDialog={setOpenDialog} />
       ) : (
         <FreeImageModal
-          url={doc.url}
+          doc={doc}
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
-          w={w}
-          h={h}
-          alt={doc.description}
           loginStatus={loginStatus}
+          isMobile={isMobile}
         />
       )}
       <animated.div
@@ -63,10 +59,8 @@ function SingleImage({ doc, loginStatus }: props) {
         <NextImage
           src={doc.url}
           alt={doc.description}
-          width={isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)}
-          height={
-            isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
-          }
+          width={280}
+          height={doc.height / 4}
           objectFit={`scale-down`}
           className="rounded-md   "
         />

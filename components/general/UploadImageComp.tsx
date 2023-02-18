@@ -77,7 +77,11 @@ const UploadImageComp = ({
       );
       setDisableUpload(true);
       const imgName = file.name.replace(".png", "");
-      const description = `${LARGE_CATEGORY_OF_IMG} , ${SMALL_CATEGORY_OF_IMG}, ${imgName}`;
+      const description =
+        `${LARGE_CATEGORY_OF_IMG} , ${SMALL_CATEGORY_OF_IMG}, ${imgName}`.replace(
+          "_",
+          " "
+        );
       const tags = getTagsFromTitle(description);
       const docFields = { views, tags, description, ...imgFields };
       uploadImageToStorage(storageRef, file, doc, docFields, canvasRef).then(
