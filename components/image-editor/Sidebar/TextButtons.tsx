@@ -46,7 +46,7 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     }
   };
   return (
-    <section className="flex h-[100vh] w-64 flex-col items-center bg-white bg-gradient-to-br">
+    <section className="flex h-[100vh] w-64 flex-col items-center bg-red-300 bg-gradient-to-br">
       <button
         id="big-text-button"
         onClick={(e) => handleClick(e)}
