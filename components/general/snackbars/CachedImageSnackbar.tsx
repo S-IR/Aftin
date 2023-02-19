@@ -1,56 +1,98 @@
-import { LockClosedIcon, XIcon } from '@heroicons/react/solid'
-import { IconButton, Snackbar, SnackbarContent, Tooltip } from '@mui/material'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import { MdOutlineImage } from 'react-icons/md'
-import { cachedImage, cachedImageActions } from '../../../features/cachedImage/cachedImageSlice'
-import { useAppDispatch } from '../../../Redux/hooks'
-import Button from '../Button'
+import { LockClosedIcon, XIcon } from "@heroicons/react/solid";
+import { IconButton, Snackbar, SnackbarContent, Tooltip } from "@mui/material";
+import { User } from "firebase/auth";
+import Image from "next/image";
+import React, { useMemo, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { MdOutlineImage } from "react-icons/md";
+import { useQuery } from "react-query";
+import {
+  cachedImage,
+  cachedImageActions,
+} from "../../../features/cachedImage/cachedImageSlice";
+import { auth } from "../../../firebase";
+import { fetchUserStatus } from "../../../model/client-side/general/fetches";
+import { useAppDispatch } from "../../../Redux/hooks";
+import { ImgDoc } from "../../../typings/image-types/ImageTypes";
+import Button from "../Button";
 
 interface props {
-  cachedImage: cachedImage | null
+  cachedImage: ImgDoc | null;
 }
 
 const CachedImageSnackbar = ({ cachedImage }: props) => {
-  const [previewImage, setPreviewImage] = useState(false)
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const [user, userLoading] = useAuthState(auth);
+
+  const { data: loginStatus } = useQuery(
+    "getUserStatus",
+    () => fetchUserStatus(user),
+    {
+      notifyOnChangeProps: user,
+    }
+  );
 
   const onClose = () => {
-    const {CLEAR_CACHED_IMAGE} = cachedImageActions
-    dispatch(CLEAR_CACHED_IMAGE())
-  }
+    const { CLEAR_CACHED_IMAGE } = cachedImageActions;
+    dispatch(CLEAR_CACHED_IMAGE());
+  };
   return (
-    <Snackbar
-      open={!!cachedImage}
-    >
+    <Snackbar open={!!cachedImage}>
       <SnackbarContent
         message={
-          <div className='flex relative flex-col' >
-            <div className='flex items-center justify-center align-middle space-x-2'>
-              <span className=' text-lg font-sans text-red-500 '>Do you still want to use the image that you clicked on before logging in?</span>
+          <div className="relative flex flex-col items-center justify-center align-middle">
+            <div className="flex items-center justify-center space-x-2 align-middle">
+              <span className=" font-sans text-lg text-red-500 ">
+                Do you still want to use the image that you clicked on before
+                logging in?
+              </span>
             </div>
 
-            <div className='flex'>
+            <div className="flex">
               <Tooltip
-                placement='top-end'
+                placement="top-end"
                 title={
-                  <div className='w-auto h-auto'>
+                  <div className="h-auto w-auto">
                     <Image
                       src={cachedImage?.url as string}
-                      width={cachedImage?.w}
-                      height={cachedImage?.h}
+                      width={cachedImage?.width}
+                      height={cachedImage?.height}
                       alt={`preview of an image`}
                     />
                   </div>
                 }
               >
-                <button className='bg-gradient-to-br from-orange-400 via-red-300 to-orange-400 rounded w-32 h-8'>
-                  See image again</button>
+                <button className="h-8 w-32 rounded bg-gradient-to-br from-orange-400 via-red-300 to-orange-400">
+                  See image again
+                </button>
+                <div className="flex items-center justify-center align-middle">
+                  <button
+                    onClick={() => {
+                      const passedChecks = checkModalButtonClick(
+                        loginStatus,
+                        doc.paid,
+                        setDialog,
+                        setOpenLogin
+                      );
+                      if (passedChecks)
+                        return handleSubCatDownload(
+                          loginStatus,
+                          router,
+                          doc.url,
+                          doc.width,
+                          doc.height,
+                          dispatch
+                        );
+                    }}
+                    className="buttons-1"
+                  >
+                    Download Image
+                  </button>
+                  <button className="buttons-1">Edit Image</button>
+                  <button className="buttons-1">Preview Image</button>
+                </div>
               </Tooltip>
-
             </div>
-
-
           </div>
         }
         action={[
@@ -60,14 +102,12 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
             color="inherit"
             onClick={onClose}
           >
-            <XIcon color='red' width={32} height={32} />
-          </IconButton>
+            <XIcon color="red" width={32} height={32} />
+          </IconButton>,
         ]}
-
-
       />
     </Snackbar>
-  )
-}
+  );
+};
 
-export default CachedImageSnackbar
+export default CachedImageSnackbar;

@@ -46,8 +46,8 @@ const SignUpDiv = ({ user, userLoading }: props) => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const { signUp, loading } = useAuth();
-  const { signUpWithGoogle, signUpWithFacebook } = useAuthThirdParty();
+  const { signUp, loading, logout } = useAuth();
+  const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
 
   const [userMail, setUserMail] = useState<string>("");
   const [openEmail, setOpenEmail] = useState<boolean>(false);
@@ -78,9 +78,9 @@ const SignUpDiv = ({ user, userLoading }: props) => {
     let res: authResponseType;
     switch (name) {
       case "Google":
-        res = await signUpWithGoogle();
+        res = await authWithGoogle();
       case "Facebook":
-        res = await signUpWithFacebook();
+        res = await authWithFacebook();
     }
     if (res.status === "success") {
       router.push("/");

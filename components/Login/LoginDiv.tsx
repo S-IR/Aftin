@@ -37,7 +37,7 @@ const LoginDiv = ({ user, userLoading }: props) => {
     content: string | JSX.Element;
   }>(null);
 
-  const { signInWithGoogle, signInWithFacebook } = useAuthThirdParty();
+  const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
   const router = useRouter();
   const {
     register,
@@ -65,14 +65,14 @@ const LoginDiv = ({ user, userLoading }: props) => {
     let res: authResponseType;
     switch (name) {
       case "Google":
-        res = await signInWithGoogle();
+        res = await authWithGoogle();
         if (res.status === "success") {
           return router.push("/");
         } else {
           return determineDialogError(res.error, setDialogError);
         }
       case "Facebook":
-        res = await signInWithFacebook();
+        res = await authWithFacebook();
         if (res.status === "success") {
           return router.push("/");
         } else {

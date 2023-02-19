@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import { Masonry } from "@mui/lab";
 import { collection, getDocs, query } from "firebase/firestore";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { isMobile } from "react-device-detect";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { config, useSpring, animated } from "react-spring";
 import { FirebaseError } from "firebase/app";
@@ -16,6 +16,9 @@ import { requestImageDocs } from "../../model/client-side/image-functions/reques
 import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { auth } from "../../firebase";
+import { fetchUserStatus } from "../../model/client-side/general/fetches";
+import { User } from "firebase/auth";
+import useUserStatus from "../../hooks/useUserStatus";
 
 interface props {
   showSidebar: boolean;
@@ -23,6 +26,7 @@ interface props {
 const SiteGallery: FC<props> = ({ showSidebar }) => {
   // request image docs code
   const router = useRouter();
+  const [user, userLoading] = useAuthState(auth);
 
   // find the big category name
   const { subCat, ...queryParams } = router.query;
@@ -61,30 +65,15 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   });
 
   // login status code
-  const [user, userLoading] = useAuthState(auth);
-  const [loginStatus, setLoginStatus] = useState<
-    null | "not logged in" | "unauthorized" | "bronze" | "silver" | "gold"
-  >(null);
 
-  //fetch the user's login status to be sent to each of the image components
-  useEffect(() => {
-    const fetchUserStatus = async () => {
-      if (!user) return setLoginStatus("not logged in");
-      const token = await user.getIdToken();
-      const fetchRes = await fetch(
-        `${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`,
-        { method: `POST`, body: token }
-      ).catch((err: FirebaseError) => console.log(err));
-      if (fetchRes === undefined)
-        return console.log("response on fetching user status void");
-      const { status } = await fetchRes.json();
+  const { data: loginStatus } = useQuery(
+    "getUserStatus",
+    () => fetchUserStatus(user),
+    {
+      notifyOnChangeProps: user,
+    }
+  );
 
-      setLoginStatus(status);
-    };
-    fetchUserStatus();
-  }, [user]);
-
-  // if there's no query display this text
   if (Object.keys(router.query).length === 0) {
     return (
       <h1 className="flex text-center text-white">
@@ -92,7 +81,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       </h1>
     );
   }
-  if (isLoading || userLoading || !data) {
+  if (isLoading || isLoading || !data) {
     return <Loading />;
   }
 
@@ -168,7 +157,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
             hasNextPage ? (
               <button
                 className="mx-10 h-10 w-[20vw] justify-center rounded-sm  bg-brown-800 py-2  text-center font-serif    text-white"
-                onClick={fetchNextPage}
+                onClick={() => fetchNextPage()}
               >
                 Load more images
               </button>

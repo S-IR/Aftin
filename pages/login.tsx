@@ -15,6 +15,7 @@ import { useSpring, animated, useTransition } from "react-spring";
 import { NextPage } from "next";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
+import { useRouter } from "next/router";
 
 interface Inputs {
   email: string;
@@ -23,11 +24,16 @@ interface Inputs {
 
 function Login() {
   const [user, userLoading] = useAuthState(auth);
+  const router = useRouter();
 
-  const [displayedForm, setDisplayedForm] = useState<`login` | `signUp`>(
-    "login"
-  );
-  const transition = useTransition(displayedForm, {
+  let { form } = router.query;
+  const notProperForm =
+    form === undefined || (form !== "login" && form !== "sign-up");
+  if (notProperForm) form = "login";
+
+  const pathname = router.pathname;
+
+  const transition = useTransition(form, {
     from: { opacity: 0, translateY: -20 },
     enter: { opacity: 1, translateY: 0 },
     leave: { opacity: 0, translateY: 20 },
@@ -56,7 +62,11 @@ function Login() {
               style={style}
               className={` absolute top-0 left-0 h-full w-full`}
             >
-              {item === "login" ? <LoginDiv /> : <SignUpDiv />}
+              {item === "login" ? (
+                <LoginDiv user={user} userLoading={userLoading} />
+              ) : (
+                <SignUpDiv user={user} userLoading={userLoading} />
+              )}
             </animated.section>
           ))}
           {loading ? <Loading /> : null}
@@ -64,17 +74,31 @@ function Login() {
         <div className="relative row-span-2 my-2 flex w-full justify-center overflow-hidden">
           <button
             className={`m-1 flex h-10 w-48  items-center justify-center rounded-sm text-xl  brightness-90 filter-none  transition-all duration-300  hover:filter ${
-              displayedForm === "login" ? `text-red-200` : `text-white`
+              form === "login" ? `text-red-200` : `text-white`
             }`}
-            onClick={() => setDisplayedForm("login")}
+            onClick={() =>
+              router.replace({
+                pathname,
+                query: {
+                  form: "login",
+                },
+              })
+            }
           >
             Sign In
           </button>
           <button
             className={`m-1 flex h-10 w-48  items-center justify-center rounded-sm text-xl  brightness-90 filter-none  transition-all duration-300  hover:filter ${
-              displayedForm === "signUp" ? `text-red-200` : `text-white`
+              form === "sign-up" ? `text-red-200` : `text-white`
             }`}
-            onClick={() => setDisplayedForm("signUp")}
+            onClick={() =>
+              router.replace({
+                pathname,
+                query: {
+                  form: "sign-up",
+                },
+              })
+            }
           >
             Sign Up
           </button>
