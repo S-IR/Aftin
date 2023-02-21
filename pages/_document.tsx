@@ -5,6 +5,8 @@ import Script from "next/script";
 export default function Document() {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
+  console.log('GTM_ID', GTM_ID)
+
   return (
     <Html>
       <Head>

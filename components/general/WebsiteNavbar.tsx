@@ -47,7 +47,7 @@ function WebsiteNavbar() {
           {!user && !userLoading && (
             <button
               className="buttons-3 !h-8 !w-24 text-lg"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/login?form=login")}
             >
               Login
             </button>
@@ -55,7 +55,7 @@ function WebsiteNavbar() {
           {!user && !userLoading && (
             <button
               className="buttons-3 !h-8 !w-24 whitespace-nowrap text-lg"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/login?form=signUp")}
             >
               Sign Up
             </button>

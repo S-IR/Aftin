@@ -22,10 +22,6 @@ interface props {
 }
 
 function ProfileDropdown({ user, activeSidebar }: props) {
-  useEffect(() => {
-    console.log(`user`, user);
-  }, [user]);
-
   const style = useSpring({
     from: { opacity: 0, rotateY: 10, translateX: 2 },
     to: {

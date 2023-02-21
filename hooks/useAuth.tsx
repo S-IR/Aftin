@@ -16,7 +16,16 @@ import { verifyEmail } from "../model/server-side/sendEmail";
 import { FirebaseError } from "firebase-admin";
 import { authResponseType } from "../constants/login/types";
 
-const useAuth = () => {
+const useAuth = (): [
+  (
+    email: string,
+    password: string,
+    username: string
+  ) => Promise<authResponseType>,
+  (email: string, password: string) => Promise<authResponseType>,
+  () => Promise<void>,
+  boolean
+] => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const signUp = async (
@@ -37,7 +46,7 @@ const useAuth = () => {
         email,
         username,
         "Not Specified",
-        "Free"
+        "bronze"
       );
       if (resBody.status === 200) {
         window.gtag(`event`, `sign_up`, {
@@ -86,6 +95,6 @@ const useAuth = () => {
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
-  return { signUp, signIn, logout, loading };
+  return [signUp, signIn, logout, loading];
 };
 export default useAuth;

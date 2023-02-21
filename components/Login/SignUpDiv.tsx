@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import Loading from "../general/Loading";
+import LoadingComp from "../general/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
@@ -46,10 +46,10 @@ const SignUpDiv = ({ user, userLoading }: props) => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const { signUp, loading, logout } = useAuth();
+  const [signUp, signIn, logout, loading] = useAuth();
   const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
 
-  const [userMail, setUserMail] = useState<string>("");
+  const [userMail, setUserMail] = useState<string>("your email");
   const [openEmail, setOpenEmail] = useState<boolean>(false);
 
   const [dialogError, setDialogError] = useState<null | {
@@ -72,22 +72,46 @@ const SignUpDiv = ({ user, userLoading }: props) => {
     }
   };
 
-  const handleThirdPartySubmit = async (
-    name: z.infer<typeof ThirdPartiesSchema>
-  ) => {
-    let res: authResponseType;
-    switch (name) {
-      case "Google":
-        res = await authWithGoogle();
-      case "Facebook":
-        res = await authWithFacebook();
-    }
-    if (res.status === "success") {
-      router.push("/");
-    } else {
-      determineDialogError(res.error, setDialogError);
+  const handleGoogleSubmit = async () => {
+    const res = await authWithGoogle();
+    if (res.status === "success" && res.isNewUser === true) {
+      console.log("we are here");
+      setUserMail(res.user.email as string);
+      setOpenEmail(true);
+    } else if (res.status === "success" && res.isNewUser === false) {
+      return router.push("/");
+    } else if (res.status === "error") {
+      return determineDialogError(res.error, setDialogError);
     }
   };
+  const handleFacebookSubmit = async () => {
+    const res = await authWithFacebook();
+    if (res.status === "success") {
+    } else {
+      return determineDialogError(res.error, setDialogError);
+    }
+  };
+  if (loading) {
+    return <LoadingComp />;
+  }
+  if (openEmail) {
+    return (
+      <div className="bg-red-200">
+        <h2 className="my-4  border-b-2 border-black text-center font-serif !text-6xl text-black">
+          <p className="font-Handwriting">{"Verify your email"}</p>
+        </h2>
+        <div className="my-4 text-black ">
+          <h4 id="alert-dialog-slide-description">
+            <p className="text-center text-black">
+              {` A verification email has been set to ${userMail}  `}
+              <br></br>
+              {`check your email box and click the verification link that has been sent in order to verify your account. That link will send you to the homepage`}
+            </p>
+          </h4>
+        </div>
+      </div>
+    );
+  }
   if (user === undefined || (user === null && !userLoading)) {
     return (
       <>
@@ -162,25 +186,19 @@ const SignUpDiv = ({ user, userLoading }: props) => {
             <div className="flex h-[60%] w-full grow flex-col items-center justify-center space-y-8  align-middle">
               <GoogleButton
                 text={"Sign up with Google"}
-                onClick={() => handleThirdPartySubmit("Google")}
+                onClick={() => handleGoogleSubmit()}
                 w={"lg"}
               />
               <FacebookButton
                 text={"Sign up with Facebook"}
-                onClick={() => handleThirdPartySubmit("Facebook")}
+                onClick={() => handleFacebookSubmit()}
                 w={"lg"}
               />
             </div>
           </div>
         </section>
 
-        {loading && (
-          <div className="absolute h-screen w-screen">
-            <Loading />
-          </div>
-        )}
-
-        <Dialog
+        {/* <Dialog
           open={openEmail}
           keepMounted
           onClose={() => setOpenEmail(false)}
@@ -202,7 +220,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
             </DialogContent>
             <DialogActions></DialogActions>
           </Box>
-        </Dialog>
+        </Dialog> */}
         {dialogError !== null && (
           <AuthErrorDialogue
             dialogError={dialogError}

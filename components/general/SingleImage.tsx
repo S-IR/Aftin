@@ -15,6 +15,7 @@ import PaidImageModal from "./PaidImageModal";
 import PremiumIcon from "./PremiumIcon";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
+import Loading from "./Loading";
 
 interface props {
   doc: ImgDoc;
@@ -27,6 +28,8 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
   const [premiumText, setPremiumText] = useState(false);
   const [dialog, setDialog] = useState<null | "free" | "paid">(null);
 
+  const [loading, setLoading] = useState(true);
+
   // function to get the w and h of the image
 
   const target = useRef<null | HTMLDivElement>(null);
@@ -34,43 +37,56 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
   //get the image width and height
 
   return (
-    <div className="relative flex h-auto w-auto justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter">
-      <FreeImageModal
-        doc={doc}
-        dialog={dialog}
-        setDialog={setDialog}
-        loginStatus={loginStatus}
-        isMobile={isMobile}
-      />
-      <PaidImageModal
-        dialog={dialog}
-        setDialog={setDialog}
-        loginStatus={loginStatus}
-      />
+    <>
+      {loading && (
+        <div className={`  ${loading ? "block" : "hidden"}`}>
+          <Loading />
+        </div>
+      )}
 
-      <animated.div
-        ref={target}
-        className="relative h-auto w-auto cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
-        onMouseEnter={() => {
-          setPremiumText(true);
-        }}
-        onMouseLeave={() => {
-          setPremiumText(false);
-        }}
-        onClick={() => setDialog("free")}
+      <div
+        className={`relative flex h-auto w-auto justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
+          loading ? "hidden" : "block"
+        }`}
       >
-        <NextImage
-          src={doc.url}
-          alt={doc.description}
-          width={280}
-          height={doc.height / 4}
-          objectFit={`scale-down`}
-          className="rounded-md   "
+        <FreeImageModal
+          doc={doc}
+          dialog={dialog}
+          setDialog={setDialog}
+          loginStatus={loginStatus}
+          isMobile={isMobile}
         />
-        {doc.paid === `silver` ||
-          (doc.paid === "gold" && <PremiumIcon premiumText={premiumText} />)}
-      </animated.div>
-    </div>
+        <PaidImageModal
+          dialog={dialog}
+          setDialog={setDialog}
+          loginStatus={loginStatus}
+        />
+
+        <animated.div
+          ref={target}
+          className="relative h-auto w-auto cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
+          onMouseEnter={() => {
+            setPremiumText(true);
+          }}
+          onMouseLeave={() => {
+            setPremiumText(false);
+          }}
+          onClick={() => setDialog("free")}
+        >
+          <NextImage
+            src={doc.url}
+            alt={doc.description}
+            width={280}
+            height={doc.height / 4}
+            objectFit={`scale-down`}
+            className="rounded-md   "
+            onLoad={() => setLoading(false)}
+          />
+          {doc.paid === `silver` ||
+            (doc.paid === "gold" && <PremiumIcon premiumText={premiumText} />)}
+        </animated.div>
+      </div>
+    </>
   );
 }
 

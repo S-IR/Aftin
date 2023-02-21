@@ -12,8 +12,10 @@ export const fetchUserStatus = async (
       `${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`,
       { method: `POST`, body: token }
     );
-    if (fetchRes === undefined) return "unknown";
-    console.log("error at fetching user. No server response");
+    if (fetchRes === undefined) {
+      console.log("error at fetching user. No server response");
+      return "unknown";
+    }
 
     const { status } = await fetchRes.json();
     return status;

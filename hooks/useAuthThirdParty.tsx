@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   FacebookAuthProvider,
+  getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
@@ -10,6 +11,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { authResponseType } from "../constants/login/types";
 import { auth, createUserDoc } from "../firebase";
+import { verifyEmail } from "../model/server-side/sendEmail";
 
 export default function useAuthThirdParty() {
   const authWithGoogle = async (): Promise<authResponseType> => {
@@ -17,20 +19,23 @@ export default function useAuthThirdParty() {
     const googleProvider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      console.log("result.operationType", result.operationType);
       if (result.code) return { status: "error", error: result.code };
+      const isNewUser = getAdditionalUserInfo(result)?.isNewUser || false;
       //IF THE USER LOGS IN THE CODE WILL STILL WORK, IT WILL JUST RETURN EARLIER
-      if (result.operationType === "signIn") {
+      if (!isNewUser) {
         window.gtag(`event`, `login`, {
           method: "Google",
         });
-        return { status: "success", user: result.user };
+        return { status: "success", user: result.user, isNewUser: false };
       }
-      console.log(`result`, result);
+      const resBody = await verifyEmail(result.user.email as string);
+
       const uid = result.user.uid;
       const username = result.user.displayName as string;
       const email = result.user.email as string;
       //creating the user document
-      createUserDoc(uid, email, username, "Not Specified", "Bronze");
+      createUserDoc(uid, email, username, "Not Specified", "bronze");
       //sending the request to set cookie
       const token = await result.user.getIdToken();
       await fetch("/api/login", {
@@ -43,7 +48,7 @@ export default function useAuthThirdParty() {
       window.gtag(`event`, `sign_up`, {
         method: "Google",
       });
-      return { status: "success", user: result.user };
+      return { status: "success", user: result.user, isNewUser: true };
     } catch (error) {
       return { status: "error", error };
     }

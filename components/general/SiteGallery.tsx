@@ -28,6 +28,13 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const router = useRouter();
   const [user, userLoading] = useAuthState(auth);
 
+  // this value is meant to track how many times a person clicked on the 'load more' button. If it reaches 3 it will fire a google tag event and go back to 0
+  const [buttonCliclCount, setButtonCliclCount] = useState(0);
+
+  useEffect(() => {
+    console.log(buttonCliclCount);
+  }, [buttonCliclCount]);
+
   // find the big category name
   const { subCat, ...queryParams } = router.query;
   let category: "advertisement-images" | "graphic-designs" = "graphic-designs";
@@ -66,12 +73,8 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
 
   // login status code
 
-  const { data: loginStatus } = useQuery(
-    "getUserStatus",
-    () => fetchUserStatus(user),
-    {
-      notifyOnChangeProps: user,
-    }
+  const { data: loginStatus } = useQuery(["getUserStatus", user?.uid], () =>
+    fetchUserStatus(user)
   );
 
   if (Object.keys(router.query).length === 0) {
@@ -107,17 +110,9 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const description = router.query.description;
   return (
     <animated.section
-      className={`flex h-auto w-auto flex-col items-center  justify-center align-middle `}
+      className={`flex h-auto max-w-screen-lg flex-col items-center  justify-center align-middle `}
       style={galleryMarginLeft}
     >
-      {/* <InfiniteScroll
-        dataLength={data?.pages.length * 15}
-        next={fetchNextPage}
-        hasMore={hasNextPage as boolean}
-        loader={<Loading />}
-        className={`ml-5 h-auto w-auto max-w-6xl flex-grow items-center justify-center`}
-        style={{ overflow: `hidden` }}
-      > */}
       <div className="!flex w-full flex-col items-center justify-center align-middle ">
         <input
           type="text"
@@ -129,11 +124,11 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       </div>
       {imgDocs.length !== 0 && loginStatus ? (
         <Masonry
-          // columns={4}
+          columns={4}
           spacing={2}
-          defaultColumns={8}
+          defaultColumns={4}
           defaultSpacing={1}
-          className={" w-full max-w-[80vw]"}
+          className={" max-w-screen-lg"}
         >
           {imgDocs.map((doc) => (
             <SingleImage
@@ -157,7 +152,17 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
             hasNextPage ? (
               <button
                 className="mx-10 h-10 w-[20vw] justify-center rounded-sm  bg-brown-800 py-2  text-center font-serif    text-white"
-                onClick={() => fetchNextPage()}
+                onClick={() => {
+                  fetchNextPage();
+                  setButtonCliclCount((number) => {
+                    window.gtag("event", "siteGallery-load-more-clicked-3x", {
+                      subCat: subCat,
+                      queryParams: queryParams,
+                    });
+                    console.log("this ran");
+                    return 0;
+                  });
+                }}
               >
                 Load more images
               </button>
@@ -171,7 +176,6 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
           )}
         </div>
       </div>
-      {/* </InfiniteScroll> */}
     </animated.section>
   );
 };
