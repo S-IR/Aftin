@@ -14,6 +14,7 @@ import {
   handleDeletePage,
 } from "../../../model/client-side/image-editor/Canvas";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
+import styles from "../../../styles/image-editor/image-editor.module.css";
 
 const LayoutButtons = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,9 @@ const LayoutButtons = () => {
   };
 
   return (
-    <section className="flex h-[90vh] w-72 flex-col bg-gray-200 bg-gradient-to-br text-white shadow-md shadow-gray-500">
+    <section
+      className={`flex h-[90vh] w-72 flex-col ${styles.buttonMenusBG} bg-gradient-to-br text-white shadow-md shadow-gray-500`}
+    >
       <div className=" flex h-auto w-full">
         <button
           onClick={openPopover}

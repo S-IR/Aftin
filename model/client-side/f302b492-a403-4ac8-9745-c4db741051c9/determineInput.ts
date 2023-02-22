@@ -36,7 +36,7 @@ export const determineInputs = (
 ) => {
   //this array will be modified with each input that will need to be added
   const Array = [];
-  Array.push({ color_scheme: `` }, { description: `` }, { paid: tier_array });
+  Array.push({ color_scheme: `` }, { description: `` }, { tier: tier_array });
   if (SMALL_CATEGORY_OF_IMG !== `banners`) Array.push({ size: size_array });
 
   switch (LARGE_CATEGORY_OF_IMG) {
@@ -67,7 +67,7 @@ export const determineInputs = (
     case `drinks`:
       Array.push({ drink_type: drinks_array });
       break;
-    case `utensils-and-plates`:
+    case `cutleries-and-plates`:
       Array.push({ utensil_type: utensils_and_plates_array });
       Array.push({ material: utensil_type });
       break;
@@ -78,9 +78,9 @@ export const determineInputs = (
       Array.push({ menu_size: menu_size_array });
       break;
     case `banners`:
-      Array.push({ banner_type: banner_type_array });
+      //TODO
       break;
-    case `artworks`:
+    case `business-cards`:
       Array.push({ artwork_style: artwork_styles_array });
       break;
     case `stickers-and-cliparts`:

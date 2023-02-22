@@ -57,6 +57,7 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
           isMobile={isMobile}
         />
         <PaidImageModal
+          doc={doc}
           dialog={dialog}
           setDialog={setDialog}
           loginStatus={loginStatus}
@@ -82,8 +83,8 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
             className="rounded-md   "
             onLoad={() => setLoading(false)}
           />
-          {doc.paid === `silver` ||
-            (doc.paid === "gold" && <PremiumIcon premiumText={premiumText} />)}
+          {doc.tier === `silver` ||
+            (doc.tier === "gold" && <PremiumIcon premiumText={premiumText} />)}
         </animated.div>
       </div>
     </>

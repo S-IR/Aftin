@@ -4,6 +4,10 @@
 .sidebarBackground{
   background-image: url('/frontend-used-images/image-editor-sidebar-bg.svg');
 }
+.buttonMenusBG{
+  background-image: url('/frontend-used-images/image-editor/buttonMenusBG.svg');
+}
+
 
 
 

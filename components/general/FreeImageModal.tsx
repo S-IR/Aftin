@@ -36,6 +36,7 @@ const FreeImageModal: FC<props> = ({
   isMobile,
 }) => {
   const router = useRouter();
+  const subCat = router.query.subCat;
   const dispatch = useAppDispatch();
   const [openLogin, setOpenLogin] = useState(false);
 
@@ -61,7 +62,7 @@ const FreeImageModal: FC<props> = ({
           }
         >
           <div className=" flex h-full w-full basis-4/5   bg-gradient-to-r from-brown-300 to-brown-600 py-4 align-middle shadow-lg shadow-gray-200 ">
-            {doc.paid !== "bronze" && (
+            {doc.tier !== "bronze" && (
               <div className="absolute top-2 left-2 flex items-center justify-center align-middle text-gray-100">
                 <BiDollarCircle className="h-8 w-8" color="#E5E7EBF" />
                 Premium
@@ -99,6 +100,10 @@ const FreeImageModal: FC<props> = ({
                         className="rounded-sm  bg-yellow-700 p-1 text-xs text-white transition-all duration-300 hover:bg-yellow-500"
                         onClick={() => {
                           handleOptionClick(tag.toLowerCase(), "tags", router);
+                          window.gtag("event", "image_tag_clicked", {
+                            image_tag_name: tag,
+                            subCat,
+                          });
                           return setDialog(null);
                         }}
                       >
@@ -134,7 +139,7 @@ const FreeImageModal: FC<props> = ({
               onClick={() => {
                 const passedChecks = checkModalButtonClick(
                   loginStatus,
-                  doc.paid,
+                  doc.tier,
                   setDialog,
                   setOpenLogin
                 );
@@ -161,7 +166,7 @@ const FreeImageModal: FC<props> = ({
               onClick={() => {
                 const passedChecks = checkModalButtonClick(
                   loginStatus,
-                  doc.paid,
+                  doc.tier,
                   setDialog,
                   setOpenLogin
                 );

@@ -2,13 +2,14 @@ import React, { ReactComponentElement } from "react";
 import useAuth from "../../hooks/useAuth";
 import Link from "next/link";
 import { Url } from "url";
+import Loading from "../general/Loading";
 
 interface props {
   text: string;
-  href?: Url;
+  href?: string;
 }
 const ProfileDropdownRow = ({ text, href }: props) => {
-  const { logout } = useAuth();
+  const [signUp, signIn, logout, loading] = useAuth();
 
   if (text === "Logout") {
     return (

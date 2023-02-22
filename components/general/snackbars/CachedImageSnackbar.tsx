@@ -70,7 +70,7 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
                     onClick={() => {
                       const passedChecks = checkModalButtonClick(
                         loginStatus,
-                        doc.paid,
+                        doc.tier,
                         setDialog,
                         setOpenLogin
                       );

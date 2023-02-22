@@ -8,6 +8,7 @@ export const fetchUserStatus = async (
   if (!user) return "not logged in";
   try {
     const token = await user.getIdToken();
+
     const fetchRes = await fetch(
       `${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`,
       { method: `POST`, body: token }

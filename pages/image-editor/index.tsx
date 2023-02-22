@@ -12,39 +12,29 @@ import {
   ShowMore,
   TextButtons,
   UploadButtons,
-} from "../../components/image-editor/Sidebar";
-import dynamic from "next/dynamic";
-import { useAppSelector } from "../../Redux/hooks";
-import {
   SidebarIcon,
   StylizeButtons,
 } from "../../components/image-editor/Sidebar";
+import dynamic from "next/dynamic";
+import { useAppSelector } from "../../Redux/hooks";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { NextPage } from "next";
 import { Layers, Panorama } from "@mui/icons-material";
 import { DropzoneComp } from "../../components/image-editor";
-import { useSpring, animated, config } from "react-spring";
-
+import { useSpring, animated, useTransition } from "react-spring";
 import LayoutButtons from "../../components/image-editor/Sidebar/LayoutButtons";
 import {
   canvasElement,
   canvasPagesCount,
 } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { Tooltip } from "@mui/material";
+import { activeSidebarType } from "../../components/image-editor/Sidebar/SidebarIcon";
+import { ButtonMenuSwitch } from "../../model/client-side/image-editor/ButtonMenus";
 const Canvas = dynamic(() => import("../../components/image-editor/Canvas"), {
   ssr: false,
 });
 // import Canvas from '../../components/image-editor/Canvas'
-
-type activeSidebarType =
-  | "Upload"
-  | "Layout"
-  | "Images"
-  | "Text"
-  | "Stylize"
-  | "Filters"
-  | "Draw";
 
 const Index: NextPage = () => {
   //canvas  related code
@@ -56,8 +46,15 @@ const Index: NextPage = () => {
 
   //sidebar buttons code
   const [activeSidebar, setActiveSidebar] =
-    useState<activeSidebarType>("Upload");
+    useState<activeSidebarType>("Images");
   const [showSidebar, toggleSidebar] = useState(true);
+
+  const transition = useTransition(activeSidebar, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: { duration: 300 },
+  });
 
   return (
     <>
@@ -66,38 +63,9 @@ const Index: NextPage = () => {
       </Head>
       <div className="flex w-full ">
         <div className="fixed flex">
-          {showSidebar ? (
-            <button
-              className=" absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out  "
-              onClick={() => toggleSidebar((v) => !v)}
-            >
-              <FaAngleDoubleLeft
-                direction={"right"}
-                color={"black"}
-                className={"h-6 w-6"}
-              />
-            </button>
-          ) : (
-            <Tooltip title="Toggle sidebar">
-              <button
-                className={` ${
-                  showSidebar ? ` opacity-0` : ` opacity-1`
-                } absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out`}
-                onClick={() => toggleSidebar((v) => !v)}
-              >
-                <MdOutlineDoubleArrow className="h-16 w-16 md:h-8 md:w-8 " />
-              </button>
-            </Tooltip>
-          )}
           <animated.section
-            className={`flex h-[100vh-125px] w-[7vw]  flex-col items-center bg-gray-900   `}
+            className={`flex h-[90vh] w-[7vw]  flex-col items-center bg-yellow-900   `}
           >
-            <SidebarIcon
-              Icon={<AiOutlineCloudUpload className="h-[5vh] w-[5vw]" />}
-              setActiveSidebar={setActiveSidebar}
-              activeSidebar={activeSidebar}
-              Text="Upload"
-            />
             <SidebarIcon
               Icon={<Panorama className="h-[5vh] w-[5vw]" />}
               setActiveSidebar={setActiveSidebar}
@@ -131,83 +99,42 @@ const Index: NextPage = () => {
               Text="Draw"
             />
           </animated.section>
-          <TransitionGroup>
-            <animated.div
-              className={`h-[90vh] ${
-                showSidebar
-                  ? `opacity-1 left-0 w-auto `
-                  : `-left-52 w-[0px] opacity-0`
-              }  `}
+          {showSidebar ? (
+            <button
+              className=" absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out  "
+              onClick={() => toggleSidebar((v) => !v)}
             >
-              {activeSidebar === "Upload" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Upload"}
-                  sidebarButtons={
-                    <UploadButtons setActiveSidebar={setActiveSidebar} />
-                  }
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-              {activeSidebar === "Images" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Images"}
-                  sidebarButtons={<ImagesButtons />}
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-              {activeSidebar === "Layout" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Layout"}
-                  sidebarButtons={<LayoutButtons />}
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-              {activeSidebar === "Text" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Text"}
-                  sidebarButtons={
-                    <TextButtons setActiveSidebar={setActiveSidebar} />
-                  }
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-              {activeSidebar === "Stylize" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Stylize"}
-                  sidebarButtons={<StylizeButtons />}
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-
-              {activeSidebar === "Draw" ? (
-                <CSSTransitionComp
-                  activeSidebar={activeSidebar}
-                  sidebarName={"Draw"}
-                  sidebarButtons={
-                    <DrawButtons setActiveSidebar={setActiveSidebar} />
-                  }
-                  showSidebar={showSidebar}
-                />
-              ) : (
-                ""
-              )}
-            </animated.div>
-          </TransitionGroup>
+              <FaAngleDoubleLeft
+                direction={"right"}
+                color={"black"}
+                className={"h-6 w-6"}
+              />
+            </button>
+          ) : (
+            <Tooltip title="Toggle sidebar">
+              <button
+                className={` ${
+                  showSidebar ? ` opacity-0` : ` opacity-1`
+                } absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out`}
+                onClick={() => toggleSidebar((v) => !v)}
+              >
+                <MdOutlineDoubleArrow className="h-16 w-16 md:h-8 md:w-8 " />
+              </button>
+            </Tooltip>
+          )}
+          {showSidebar &&
+            transition((style, item) => {
+              return (
+                <animated.section
+                  style={style}
+                  className={`h-[90vh] ${
+                    showSidebar ? `` : `-left-52 w-[0px] opacity-0`
+                  }w-auto absolute left-[7vw] `}
+                >
+                  {ButtonMenuSwitch(item, setActiveSidebar)}
+                </animated.section>
+              );
+            })}
         </div>
 
         {firstImage && canvasPages.past.length > 0 ? (

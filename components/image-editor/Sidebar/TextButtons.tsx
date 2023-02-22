@@ -7,7 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { uploadTextToCanvas } from "../../../model//client-side/image-editor/Upload";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { activeSidebarType } from "./SidebarIcon";
-// import { activeSidebarType } from '../../../pages/image-editor';
+import styles from "../../../styles/image-editor/image-editor.module.css";
+
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
 }
@@ -46,7 +47,9 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     }
   };
   return (
-    <section className="flex h-[100vh] w-64 flex-col items-center bg-white bg-gradient-to-br">
+    <section
+      className={`flex h-[100vh] w-64 flex-col items-center bg-white bg-gradient-to-br ${styles.buttonMenusBG}`}
+    >
       <button
         id="big-text-button"
         onClick={(e) => handleClick(e)}

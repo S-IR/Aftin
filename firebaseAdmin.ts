@@ -29,9 +29,8 @@ export const getUserTier = async (
     .then(async (decodedIdToken) => {
       const docRef = doc(db, "users", decodedIdToken.uid);
       const docSnap = await getDoc(docRef);
-      console.log("token", token, "docSnap.exists()", docSnap.exists());
       if (docSnap.exists()) {
-        userTier = docSnap.data().subscriptionLevel;
+        userTier = docSnap.data().tier;
       } else {
         // doc.data() will be undefined in this case
         userTier = "unauthorized";

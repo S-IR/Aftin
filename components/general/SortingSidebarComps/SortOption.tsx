@@ -43,6 +43,7 @@ const SortOption = ({ optionsArray, title, queryName, Icon }: props) => {
   const currentlySelected = router.query[queryName];
 
   const [open, setOpen] = useState(false);
+  const [sendEvent, setSendEvent] = useState(true);
 
   const handleClick = () => setOpen((open) => !open);
 
@@ -69,13 +70,19 @@ const SortOption = ({ optionsArray, title, queryName, Icon }: props) => {
                 key={sortOption.name}
                 id={`${sortOption.value}`}
                 // typescript is stupid and it should see sortOption.value must be a string from the enclosing if statement
-                onClick={() =>
+                onClick={() => {
+                  if (sendEvent) {
+                    window.gtag("event", "sorting_option_clicked", {
+                      sort_option_name: title,
+                    });
+                    setSendEvent(false);
+                  }
                   handleOptionClick(
                     sortOption.value as string,
                     `${queryName}`,
                     router
-                  )
-                }
+                  );
+                }}
                 className={` !transition-all !duration-300 !ease-in-out hover:translate-x-2   ${
                   isChecked ? `bg-black` : `bg-none`
                 } `}

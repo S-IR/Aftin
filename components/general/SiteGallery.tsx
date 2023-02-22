@@ -31,10 +31,6 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   // this value is meant to track how many times a person clicked on the 'load more' button. If it reaches 3 it will fire a google tag event and go back to 0
   const [buttonCliclCount, setButtonCliclCount] = useState(0);
 
-  useEffect(() => {
-    console.log(buttonCliclCount);
-  }, [buttonCliclCount]);
-
   // find the big category name
   const { subCat, ...queryParams } = router.query;
   let category: "advertisement-images" | "graphic-designs" = "graphic-designs";
@@ -73,8 +69,9 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
 
   // login status code
 
-  const { data: loginStatus } = useQuery(["getUserStatus", user?.uid], () =>
-    fetchUserStatus(user)
+  const { data: loginStatus } = useQuery(
+    ["getUserStatus", user?.uid, userLoading],
+    () => fetchUserStatus(user)
   );
 
   if (Object.keys(router.query).length === 0) {

@@ -129,7 +129,7 @@ const UploadImageComp = ({
           const allowMultipleOptions =
             Object.keys(imgField)[0] !== `size` &&
             Object.keys(imgField)[0] !== `surr_env` &&
-            Object.keys(imgField)[0] !== `paid`;
+            Object.keys(imgField)[0] !== `tier`;
           return (
             <FirstDegreeInput
               key={i}

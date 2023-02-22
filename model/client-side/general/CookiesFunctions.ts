@@ -6,7 +6,6 @@ export const initializeCookieConsent = () => {
   const analytics_storage_value = Cookies.get(`analytics_storage`);
   const ad_storage_value = Cookies.get(`ad_storage`);
 
-  console.log(`functionality_storage_value`, functionality_storage_value);
   window.gtag("consent", "update", {
     functionality_storage: functionality_storage_value,
     security_storage: security_storage_value,

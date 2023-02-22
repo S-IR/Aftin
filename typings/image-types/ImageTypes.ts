@@ -345,7 +345,7 @@ export const valid_image_fields = [
   "tags",
 ];
 export type ImgDoc = {
-  paid: (typeof tier_array)[number];
+  tier: (typeof tier_array)[number];
   size: (typeof size_array)[number] | (typeof menu_size_array)[number];
   description: string;
   color?: { r: number; g: number; b: number }[];
