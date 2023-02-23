@@ -1,5 +1,6 @@
 import { getDownloadURL, ref } from "firebase/storage";
 import { NextRouter, Router } from "next/router";
+import { galleryImageDialog } from "../../../components/general/SingleImage";
 import { DEFAULT_OPTIONS } from "../../../constants/image-editor/imageFilters";
 import { cachedImageActions } from "../../../features/cachedImage/cachedImageSlice";
 import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
@@ -88,16 +89,19 @@ export const handleSubCatEdit = (
  * @param router routes the user to /login in case he is not logged in
  * @returns true if he can perform that action, false if he cannot
  */
-export const checkModalButtonClick = (
-  loginStatus: LoginStatus,
+export const checkImageGalleryClick = (
+  loginStatus: LoginStatus | undefined,
   imageStatus: (typeof tier_array)[number],
-  setDialog: React.Dispatch<React.SetStateAction<null | "free" | "paid">>,
-  setLoginOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>
 ) => {
+  const internalServerError = loginStatus === undefined;
   const isNotLoggedIn =
     loginStatus === "not logged in" || loginStatus === "unauthorized";
   if (isNotLoggedIn) {
-    setLoginOpen(true);
+    setDialog("login");
+    return false;
+  } else if (internalServerError) {
+    setDialog("internalServerError");
     return false;
   } else if (
     (loginStatus === "bronze" && imageStatus === "silver") ||

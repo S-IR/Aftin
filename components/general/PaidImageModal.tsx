@@ -16,11 +16,12 @@ import {
   SMALL_CATEGORY_OF_IMG,
 } from "../../typings/image-types/ImageTypes";
 import { useRouter } from "next/router";
+import { galleryImageDialog } from "./SingleImage";
 
 interface props {
   doc: ImgDoc;
-  dialog: null | "free" | "paid";
-  setDialog: React.Dispatch<React.SetStateAction<null | "free" | "paid">>;
+  dialog: null | galleryImageDialog;
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   subCat?: SMALL_CATEGORY_OF_IMG;
 }

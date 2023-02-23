@@ -46,8 +46,8 @@ export type SidebarSorts = {
 };
 export type LoginStatus =
   | "not logged in"
-  | "unknown"
   | "unauthorized"
   | "bronze"
   | "silver"
-  | "gold";
+  | "gold"
+  | undefined;

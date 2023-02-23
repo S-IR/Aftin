@@ -84,7 +84,7 @@ const StylizeButtons = () => {
 
   return (
     <section
-      className={`h-[100vh] w-96 ${styles.buttonMenusBG} shadow-inner  shadow-black`}
+      className={`h-[100vh] w-72 ${styles.buttonMenusBG} shadow-inner  shadow-black`}
     >
       {selected.element !== null ? (
         renderSwitch(selectedElement as canvasElement)

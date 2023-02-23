@@ -12,6 +12,10 @@ import {
 } from "../../../features/cachedImage/cachedImageSlice";
 import { auth } from "../../../firebase";
 import { fetchUserStatus } from "../../../model/client-side/general/fetches";
+import {
+  checkImageGalleryClick,
+  handleDownload,
+} from "../../../model/client-side/subCat/modalButtons";
 import { useAppDispatch } from "../../../Redux/hooks";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import Button from "../Button";
@@ -24,12 +28,8 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
   const dispatch = useAppDispatch();
   const [user, userLoading] = useAuthState(auth);
 
-  const { data: loginStatus } = useQuery(
-    "getUserStatus",
-    () => fetchUserStatus(user),
-    {
-      notifyOnChangeProps: user,
-    }
+  const { data: loginStatus } = useQuery("getUserStatus", () =>
+    fetchUserStatus(user)
   );
 
   const onClose = () => {
@@ -62,35 +62,29 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
                   </div>
                 }
               >
-                <button className="h-8 w-32 rounded bg-gradient-to-br from-orange-400 via-red-300 to-orange-400">
-                  See image again
-                </button>
-                <div className="flex items-center justify-center align-middle">
-                  <button
-                    onClick={() => {
-                      const passedChecks = checkModalButtonClick(
-                        loginStatus,
-                        doc.tier,
-                        setDialog,
-                        setOpenLogin
-                      );
-                      if (passedChecks)
-                        return handleSubCatDownload(
-                          loginStatus,
-                          router,
-                          doc.url,
-                          doc.width,
-                          doc.height,
-                          dispatch
-                        );
-                    }}
-                    className="buttons-1"
-                  >
-                    Download Image
+                <>
+                  <button className="h-8 w-32 rounded bg-gradient-to-br from-orange-400 via-red-300 to-orange-400">
+                    See image again
                   </button>
-                  <button className="buttons-1">Edit Image</button>
-                  <button className="buttons-1">Preview Image</button>
-                </div>
+                  <div className="flex items-center justify-center align-middle">
+                    <button
+                      onClick={() => {
+                        const passedChecks = checkImageGalleryClick(
+                          loginStatus,
+                          cachedImage.tier,
+                          setDialog
+                        );
+                        if (passedChecks)
+                          return handleDownload(cachedImage.url);
+                      }}
+                      className="buttons-1"
+                    >
+                      Download Image
+                    </button>
+                    <button className="buttons-1">Edit Image</button>
+                    <button className="buttons-1">Preview Image</button>
+                  </div>
+                </>
               </Tooltip>
             </div>
           </div>

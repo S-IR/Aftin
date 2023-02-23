@@ -30,14 +30,14 @@ const LayoutButtons = () => {
     <section
       className={`flex h-[90vh] w-72 flex-col ${styles.buttonMenusBG} bg-gradient-to-br text-white shadow-md shadow-gray-500`}
     >
-      <div className=" flex h-auto w-full">
+      <div className=" flex h-full w-full">
         <button
           onClick={openPopover}
           id={"layout-size-popover"}
-          className="flex h-16 w-72 items-center justify-center bg-gray-500 shadow-gray-200 drop-shadow-2xl transition-all duration-300 hover:bg-gray-300 hover:text-lg"
+          className={`flex h-full w-full items-center justify-center space-x-4 text-2xl ${styles.generalButton}`}
         >
           <AspectRatio className=" h-8 w-auto" />
-          Layout size
+          <p>Layout size</p>
         </button>
         <Popover
           id={"select-filter-popover"}
@@ -139,26 +139,28 @@ const LayoutButtons = () => {
 
       {/* Edit buttons div */}
 
-      <div className="mt-6 flex w-full flex-col items-center justify-center space-y-40 align-middle">
+      <button
+        className={` buttons-1 h-full w-full  text-2xl ${styles.generalButton}  `}
+        onClick={() => handleAddPage(dispatch)}
+      >
+        Add Page
+      </button>
+      {selected !== null && selected !== undefined && (
         <button
-          className=" buttons-1 h-12 w-40"
-          onClick={() => handleAddPage(dispatch)}
+          className={` buttons-1 h-full w-full  text-2xl ${styles.generalButton} `}
+          onClick={() => {
+            handleDeletePage(dispatch, selected.page as number);
+          }}
         >
-          Add Page
+          Delete Page
         </button>
-        {selected !== null && selected !== undefined && (
-          <button
-            className="buttons-1 h-12 w-40"
-            onClick={() => {
-              handleDeletePage(dispatch, selected.page);
-            }}
-          >
-            Delete Page
-          </button>
-        )}
+      )}
 
-        <button className=" buttons-1 h-12 w-40">Default Background</button>
-      </div>
+      <button
+        className={` buttons-1 h-full w-full  text-2xl ${styles.generalButton} `}
+      >
+        Default Background
+      </button>
       {/* Crop button */}
     </section>
   );

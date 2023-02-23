@@ -46,7 +46,7 @@ const Canvas = ({ showSidebar }: props) => {
     >
       <CanvasEditButtons stageRefs={stageRefs} downloadRef={downloadRef} />
 
-      <div id="canvasContainer" className=" mt-10 flex flex-col ">
+      <div id="canvasContainer" className={` mt-10 flex flex-col `}>
         {pages.map((page, i) => {
           return (
             <CanvasPage

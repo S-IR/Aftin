@@ -9,7 +9,7 @@ body {
   color: white;
   font-family: "Taviraj";
 }
-input::-webkit-file-upload-button {
+/* input::-webkit-file-upload-button {
   @apply h-auto w-auto cursor-pointer rounded-sm border-none bg-gradient-to-b from-yellow-500 to-yellow-700
     p-4 text-white brightness-[90%]
     drop-shadow-sm filter-none
@@ -18,7 +18,7 @@ input::-webkit-file-upload-button {
     ease-in-out 
     hover:filter focus:outline-none active:shadow-2xl
     disabled:opacity-25;
-}
+} */
 h1,
 h2,
 h3 {

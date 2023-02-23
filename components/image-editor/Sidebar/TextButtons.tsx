@@ -19,8 +19,6 @@ const TextButtons = ({ setActiveSidebar }: props) => {
   const { pages, selected } = useAppSelector(canvasPagesCount).present;
   const isTheCanvasEmpty = pages.length === 1 && pages[0].length < 1;
 
-  console.log("pagesLen:", pages.length, "pages[0]Len:", pages[0].length);
-
   const selectedPage = selected?.page as number;
 
   useEffect(() => {
@@ -48,26 +46,26 @@ const TextButtons = ({ setActiveSidebar }: props) => {
   };
   return (
     <section
-      className={`flex h-[100vh] w-64 flex-col items-center bg-white bg-gradient-to-br ${styles.buttonMenusBG}`}
+      className={`flex h-[100vh] w-72 flex-col items-center bg-white bg-gradient-to-br ${styles.buttonMenusBG}`}
     >
       <button
         id="big-text-button"
         onClick={(e) => handleClick(e)}
-        className=" !hover:shadow-red-500 !my-10 !h-16 !w-56 rounded-sm border-t-4 border-orange-500 bg-black !text-lg font-bold text-white shadow-lg !shadow-gray-500 transition-all duration-300 hover:translate-x-1 hover:bg-gray-900 active:shadow-none "
+        className={` !my-10 !h-16 !w-64 ${styles.generalButton}   !text-2xl font-bold  `}
       >
         Add a Heading!
       </button>
       <button
         id="medium-text-button"
         onClick={(e) => handleClick(e)}
-        className=" !hover:shadow-red-500 !text-md !my-10 !h-16 !w-56 rounded-sm border-t-4  border-orange-500 bg-black font-bold text-white shadow-lg !shadow-gray-500 transition-all duration-300 hover:translate-x-1 hover:bg-gray-900  active:shadow-none"
+        className={`  !my-10 !h-16 !w-64 ${styles.generalButton}   !text-lg font-bold  `}
       >
         Add a medium-sized text
       </button>
       <button
         id="small-text-button"
         onClick={(e) => handleClick(e)}
-        className=" !hover:shadow-red-500 !my-10 !h-16 !w-56 rounded-sm border-t-4  border-orange-500 bg-black !text-sm font-bold text-white shadow-lg !shadow-gray-500 transition-all duration-300 hover:translate-x-1 hover:bg-gray-900 active:shadow-none "
+        className={`  !my-10 !h-16 !w-64 ${styles.generalButton}   !text-md font-bold  `}
       >
         Add a small text
       </button>

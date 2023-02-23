@@ -8,9 +8,9 @@ import React, { FC, useEffect, useState } from "react";
 import { BiDollar, BiDollarCircle } from "react-icons/bi";
 import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 import {
-  handleSubCatDownload,
+  handleDownload,
   handleSubCatEdit,
-  checkModalButtonClick,
+  checkImageGalleryClick,
 } from "../../model/client-side/subCat/modalButtons";
 import { useAppDispatch } from "../../Redux/hooks";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
@@ -19,11 +19,12 @@ import { LoginStatus } from "../../typings/typings";
 import Button from "./Button";
 import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
 import Loading from "./Loading";
+import { galleryImageDialog } from "./SingleImage";
 
 interface props {
   doc: ImgDoc;
-  dialog: null | "free" | "paid";
-  setDialog: React.Dispatch<React.SetStateAction<null | "free" | "paid">>;
+  dialog: galleryImageDialog | null;
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   isMobile: boolean;
 }
@@ -38,7 +39,6 @@ const FreeImageModal: FC<props> = ({
   const router = useRouter();
   const subCat = router.query.subCat;
   const dispatch = useAppDispatch();
-  const [openLogin, setOpenLogin] = useState(false);
 
   return (
     <>
@@ -137,11 +137,10 @@ const FreeImageModal: FC<props> = ({
             <button
               className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-brown-500   hover:shadow-none "
               onClick={() => {
-                const passedChecks = checkModalButtonClick(
+                const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc.tier,
-                  setDialog,
-                  setOpenLogin
+                  setDialog
                 );
                 if (passedChecks)
                   return handleSubCatEdit(
@@ -164,21 +163,12 @@ const FreeImageModal: FC<props> = ({
             <button
               className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
               onClick={() => {
-                const passedChecks = checkModalButtonClick(
+                const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc.tier,
-                  setDialog,
-                  setOpenLogin
+                  setDialog
                 );
-                if (passedChecks)
-                  return handleSubCatDownload(
-                    loginStatus,
-                    router,
-                    doc.url,
-                    doc.width,
-                    doc.height,
-                    dispatch
-                  );
+                if (passedChecks) return handleDownload(doc.url);
               }}
             >
               Download
@@ -193,7 +183,11 @@ const FreeImageModal: FC<props> = ({
           </div>
         </DialogContent>
       </Dialog>
-      <LoginFirstDialog open={openLogin} setOpen={setOpenLogin} imgDoc={doc} />
+      <LoginFirstDialog
+        open={dialog === "login"}
+        setOpen={setDialog}
+        imgDoc={doc}
+      />
     </>
   );
 };

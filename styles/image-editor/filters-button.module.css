@@ -1,8 +1,0 @@
-.toolbarItems {
-  @apply p-2 flex flex-col items-center
-}
-
-.toolInput {
-  @apply w-[75%] bg-gray-900 cursor-ew-resize appearance-none shadow-md shadow-blue-200 rounded-full 
-  
-}

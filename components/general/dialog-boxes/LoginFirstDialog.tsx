@@ -13,7 +13,7 @@ import { FacebookButton, GoogleButton } from "../../login";
 
 interface props {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<null | string>>;
   imgDoc: ImgDoc;
 }
 
@@ -36,7 +36,7 @@ const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
       aria-labelledby="spring-modal-title"
       aria-describedby="spring-modal-description"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => setOpen(null)}
     >
       <Fade in={open}>
         <Box

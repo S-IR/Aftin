@@ -42,7 +42,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
   const [selectedCategory, setSelectedCategory] = useState<{
     name: string;
     value: SMALL_CATEGORY_OF_IMG;
-  }>({ name: "Fast Foods", value: "fast-foods" });
+  }>({ name: "Main Dishes", value: "main-dishes" });
 
   //POPOVER CODE
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -58,19 +58,19 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
       return;
     }
   };
-  const uploadPageId = useAppSelector(canvasPagesCount).present.selected.page;
+  const pageId = useAppSelector(canvasPagesCount).present.selected.page;
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    uploadImageToCanvas(dispatch, uploadPageId, e.target.files);
+    uploadImageToCanvas(dispatch, pageId, e.target.files);
     setActiveSidebar("Stylize");
   };
   const description = router.query.description;
 
   return (
     <section
-      className={`h-[90vh] w-[416px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col text-white shadow-md shadow-gray-500`}
+      className={`h-[90vh] w-[336px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500`}
     >
-      <div className="my-6 flex flex-col items-center justify-center space-y-4 align-middle shadow-lg">
+      {/* <div className="my-6 flex flex-col items-center justify-center space-y-4 align-middle shadow-lg">
         <label
           htmlFor="image_input"
           className="mb-2 block pt-2  text-center font-Handwriting text-4xl font-[800] dark:text-gray-300 md:text-4xl "
@@ -83,38 +83,41 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
           type="file"
           onChange={(e) => handleUpload(e)}
         ></input>
+      </div> */}
+      <div className="flex flex-col items-center justify-center space-y-1  py-6 align-middle shadow-lg">
+        <div className="relative  h-12 w-72 ">
+          <input
+            className={`  ${styles.input}  `}
+            id="image_input"
+            type="file"
+            title=" "
+            onChange={(e) => handleUpload(e)}
+          />
+          <div
+            className={`${styles.fileDummy} flex items-center justify-center align-middle`}
+          >
+            Upload an Image
+          </div>
+        </div>
       </div>
 
       {/* SELECT THE CATEGORY CODE */}
-      <div className="scrollbar mt-3 flex flex-col items-center justify-center space-y-4 overflow-y-scroll align-middle">
-        <button
-          className="  my-1 h-16 w-48 rounded-sm border-t-4   border-orange-700 bg-yellow-800  p-2  font-Handwriting text-4xl shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80 md:w-96 "
-          onClick={openPopover}
-          id={"category-popover"}
-        >
-          {selectedCategory.name}
-        </button>
-        <CategoriesPopover
-          open={anchorEl?.id === "category-popover"}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          anchorEl={anchorEl}
-          setAnchorEl={setAnchorEl}
-        />
-        {/* INPUT TEXT ELEMENTS  */}
-        <div className="relative flex w-full flex-shrink items-center justify-center align-middle ">
-          <input
-            id={"description-input"}
-            type="text"
-            onKeyDown={(e) => handleDescriptionEnter(e)}
-            placeholder="Describe your desired image"
-            className="my-1 !ml-1 h-12 !w-48 rounded-sm bg-yellow-800 !text-center text-white  transition-all duration-300 focus:bg-yellow-700  active:border-none md:!w-96"
-            defaultValue={description}
-          />
-          <button onClick={openPopover} id={"filter-popover"}>
+      <div className="scrollbar l mt-6 flex flex-col items-center justify-center space-y-4 overflow-y-hidden  align-middle">
+        <p className="w-full  text-center font-Handwriting text-4xl ">
+          Import an Image
+        </p>
+        <div className="relative h-auto w-5/6">
+          <button
+            className="relative  my-1 h-12 w-full rounded-sm border-t-4   border-orange-700 bg-yellow-800  p-2  font-Handwriting text-2xl text-orange-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80 "
+            onClick={openPopover}
+            id={"category-popover"}
+          >
+            {selectedCategory.name}
+          </button>
+          <button className="z-10" onClick={openPopover} id={"filter-popover"}>
             <Tune
               htmlColor="#fb923c"
-              className="absolute top-2 right-8 h-10 w-10  rounded-full p-2 transition-all  duration-300 ease-in-out hover:scale-110 hover:bg-slate-300/20 "
+              className="absolute top-3 right-8 h-10 w-10  rounded-full p-2 transition-all  duration-300 ease-in-out hover:scale-110 hover:bg-slate-300/20 "
             />
           </button>
           <FilterPopover
@@ -125,8 +128,17 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
           />
         </div>
 
+        <CategoriesPopover
+          open={anchorEl?.id === "category-popover"}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+        />
+        {/* INPUT TEXT ELEMENTS  */}
+
         {/* SHOW IMAGES */}
-        <ImagesGrid selectedCategory={selectedCategory} />
+        <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} />
       </div>
     </section>
   );

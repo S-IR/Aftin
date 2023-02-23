@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { requestImageDocs } from "../../../../model/client-side/image-functions/requestImages";
 import { useAppDispatch } from "../../../../Redux/hooks";
 import {
@@ -24,52 +24,26 @@ import PremiumIcon from "../../../general/PremiumIcon";
 import PaidImageModal from "../../../general/PaidImageModal";
 import { auth } from "../../../../firebase";
 import { uploadImageToCanvas } from "../../../../model/client-side/image-editor/Upload";
+import SingleImage, { SingleEditorImage } from "../../../general/SingleImage";
+import { isMobile } from "react-device-detect";
+import { fetchUserStatus } from "../../../../model/client-side/general/fetches";
 
 interface props {
   selectedCategory: { name: string; value: SMALL_CATEGORY_OF_IMG };
+  pageId: number | null;
 }
 
-const ImageButtonImages = ({ selectedCategory }: props) => {
+const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
 
   // handles the hover over the premium image
-  const [premiumText, setPremiumText] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleImageClick = (
-    paid: "bronze" | "silver" | "gold",
-    url: string
-  ) => {
-    if (paid !== "bronze" && loginStatus === "bronze") {
-      return;
-    }
-  };
-  //LOGIN STATUS CODE
 
   const [user, userLoading] = useAuthState(auth);
-  const [loginStatus, setLoginStatus] = useState<
-    null | "not logged in" | "unauthorized" | "bronze" | "silver" | "gold"
-  >(null);
 
-  useEffect(() => {
-    const fetchUserStatus = async () => {
-      if (!user) return setLoginStatus("not logged in");
-      const token = await user.getIdToken();
-      const fetchRes = await fetch(
-        `${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`,
-        { method: `POST`, body: token }
-      ).catch((err: FirebaseError) => console.log(err));
-      if (fetchRes === undefined)
-        return console.log("response on fetching user status void");
-      const { status } = await fetchRes.json();
-
-      setLoginStatus(status);
-    };
-    fetchUserStatus();
-  }, [user]);
-
-  // END LOGIN STATUS CODE
+  const { data: loginStatus } = useQuery(
+    ["getUserStatus", user?.uid, userLoading],
+    () => fetchUserStatus(user)
+  );
 
   //FETCH IMAGE CODE
 
@@ -128,51 +102,56 @@ const ImageButtonImages = ({ selectedCategory }: props) => {
     return <div>{error.message} </div>;
   }
 
-  console.log(`loginStatus:`, loginStatus);
-
   // END OF QUERY IMAGE CODE
   return (
     <>
-      <div className="scrollbar grid h-max  w-full grid-cols-2 items-center justify-center  overflow-x-visible overflow-y-scroll  align-middle shadow-white/40 drop-shadow-md">
+      <div className="scrollbar  grid  h-max w-full grid-cols-2 items-center  justify-center overflow-x-visible  overflow-y-scroll align-middle shadow-white/40 drop-shadow-md">
         {loginStatus &&
           imgDocs.map((doc, i) => {
             return (
-              <animated.div
-                onMouseEnter={() => setPremiumText(true)}
-                onMouseLeave={() => setPremiumText(false)}
-                key={doc.url}
-                className="m-4 flex h-[256] w-[256] items-center justify-center align-middle shadow-white drop-shadow-md  "
-              >
-                <Image
-                  src={doc.url}
-                  width={256}
-                  height={256}
-                  objectFit={"scale-down"}
-                  alt={doc.description}
-                  className={`cursor-pointer `}
-                  onClick={() =>
-                    uploadImageToCanvas(dispatch, undefined, doc.url)
-                  }
-                />
-                {doc.tier === `silver` ||
-                  (doc.tier === "gold" && (
-                    <PremiumIcon premiumText={premiumText} />
-                  ))}
-                {doc.tier === `silver` ||
-                (doc.tier === "gold" && loginStatus === "bronze") ? (
-                  <PaidImageModal
-                    openDialog={openDialog}
-                    setOpenDialog={setOpenDialog}
-                  />
-                ) : (
-                  <></>
-                )}
-              </animated.div>
+              <SingleEditorImage
+                doc={doc}
+                isMobile={isMobile}
+                loginStatus={loginStatus}
+                key={i}
+                pageId={pageId as number}
+              />
+              // <animated.div
+              //   onMouseEnter={() => setPremiumText(true)}
+              //   onMouseLeave={() => setPremiumText(false)}
+              //   key={doc.url}
+              //   className="m-4 flex h-[256] w-[256] items-center justify-center align-middle shadow-white drop-shadow-md  "
+              // >
+              //   <Image
+              //     src={doc.url}
+              //     width={256}
+              //     height={256}
+              //     objectFit={"scale-down"}
+              //     alt={doc.description}
+              //     className={`cursor-pointer `}
+              //     onClick={() =>
+              //       uploadImageToCanvas(dispatch, undefined, doc.url)
+              //     }
+              //   />
+              //   {doc.tier === `silver` ||
+              //     (doc.tier === "gold" && (
+              //       <PremiumIcon premiumText={premiumText} />
+              //     ))}
+              //   {doc.tier === `silver` ||
+              //   (doc.tier === "gold" && loginStatus === "bronze") ? (
+              //     <PaidImageModal
+              //       openDialog={openDialog}
+              //       setOpenDialog={setOpenDialog}
+              //     />
+              //   ) : (
+              //     <></>
+              //   )}
+              // </animated.div>
             );
           })}
       </div>
       <button
-        className="h-16 w-full bg-gray-900 text-center font-serif shadow-white drop-shadow-xl hover:bg-gray-700 "
+        className="my-1 h-8 !w-5/6 rounded-sm border-t-4   border-orange-700 bg-yellow-800   font-Handwriting  text-orange-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80"
         onClick={() => fetchNextPage()}
         disabled={!hasNextPage}
       >

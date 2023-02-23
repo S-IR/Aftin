@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 // import { handleAddPage, handleExport, handlePreview, handleSelectPage } from '../../../model/image-editor/Canvas'
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { Stage } from "konva/lib/Stage";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { InputLabel, MenuItem, Select } from "@mui/material";
+import { InputLabel, MenuItem, Select, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import {
   handleAddPage,
@@ -14,6 +14,13 @@ import {
   handleSelectPage,
 } from "../../../model/client-side/image-editor/Canvas";
 import { NoteAdd } from "@mui/icons-material";
+import { useSpring, animated, useTransition } from "react-spring";
+import {
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+  FaArrowLeft,
+} from "react-icons/fa";
+import { MdOutlineDoubleArrow } from "react-icons/md";
 
 interface props {
   stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[];
@@ -30,12 +37,20 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
   for (let i = 0; i < pagesLength; i++) {
     optionValues.push(i);
   }
-  const w = useAppSelector(canvasPagesCount).present.w;
+  const [showLeftSidebar, toggleLeftSidebar] = useState(true);
 
-  return (
+  return showLeftSidebar ? (
     <section
-      className={`fixed top-[75px] right-0 z-10 flex h-full w-auto flex-col rounded-sm border-b-2 border-yellow-500 bg-yellow-900 bg-gradient-to-br p-2 shadow-lg shadow-brown-700  `}
+      className={` fixed top-[75px] right-0 z-10 flex h-full w-36  flex-col rounded-sm border-b-2 border-yellow-500 bg-yellow-900 bg-gradient-to-br p-2 shadow-lg shadow-brown-700 ${
+        showLeftSidebar ? `right-0` : `-right-36 cursor-none opacity-0`
+      } transition-all duration-300 `}
     >
+      <button
+        className=" absolute top-3 -left-5 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out  "
+        onClick={() => toggleLeftSidebar((v) => !v)}
+      >
+        <FaAngleDoubleRight direction={"right"} className={"h-6 w-6"} />
+      </button>
       {pageId !== null && pageId !== undefined && (
         <div className="mt-6 mb-8 flex flex-col items-center justify-center border-b-2 border-brown-700 pb-2 align-middle ">
           <InputLabel
@@ -97,6 +112,15 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
         </button>
       </div>
     </section>
+  ) : (
+    <Tooltip title="Toggle sidebar">
+      <button
+        className={` absolute top-[75px] right-0 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out`}
+        onClick={() => toggleLeftSidebar((v) => !v)}
+      >
+        <FaAngleDoubleLeft className="h-16 w-16 md:h-8 md:w-8 " />
+      </button>
+    </Tooltip>
   );
 };
 
