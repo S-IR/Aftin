@@ -15,10 +15,11 @@ import {
 } from "../../../model/client-side/image-editor/Canvas";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import styles from "../../../styles/image-editor/image-editor.module.css";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 const LayoutButtons = () => {
   const dispatch = useAppDispatch();
-  const { w, h, selected } = useAppSelector(canvasPagesCount).present;
+  const { w, h, selected } = useCanvasState((state) => state);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 

@@ -85,10 +85,6 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
     refetch();
   }, [router.query]);
 
-  useEffect(() => {
-    console.log(`data:`, data);
-  }, [data]);
-
   let imgDocs: ImgDoc[] = [];
   data?.pages.map((page) => {
     if (!page || !page.docsArray) return;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   MdFindReplace,
   MdFontDownload,
@@ -7,14 +7,6 @@ import {
 } from "react-icons/md";
 import { fontFamilies } from "../../../constants/image-editor/fontFamilies";
 import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
-import {
-  changeStrokeColor,
-  changeStrokeWidth,
-  handleDelete,
-} from "../../../model/client-side/image-editor/EditCanvasElement";
-import { AppDispatch } from "../../../Redux/store";
-import Button from "../../general/Button";
-import { default as MUIButton } from "@mui/material/Button";
 
 import {
   Dialog,
@@ -34,30 +26,46 @@ import { BiColorFill, BiFontSize } from "react-icons/bi";
 import { fillColors } from "../../../constants/image-editor/fillColors";
 import { fontSizes } from "../../../constants/image-editor/fontSizes";
 
-import {
-  changeCanvasText,
-  changeFontColor,
-  changeFontFamily,
-  changeFontSize,
-  changeFontVariant,
-} from "../../../model/client-side/image-editor/EditCanvasText";
-import { textFilter } from "../../../features/canvasPages/canvas-elements/filtersSlice";
+import { textFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import SelectComp from "../../general/SelectComp";
 import { Delete } from "@mui/icons-material";
+import { textFilterProperties } from "../../../zustand/textHandlers";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {
   textData: textData;
-  dispatch: AppDispatch;
   selected: canvasSelected;
-  textFilter: textFilter;
+  textFilter: textFilterProperties;
 }
-const TextElementProperties = ({
-  textData,
-  dispatch,
-  selected,
-  textFilter,
-}: props) => {
+const TextElementProperties = ({ textData, selected, textFilter }: props) => {
+  const [
+    CHANGE_TEXT,
+    CHANGE_FONT_SIZE,
+    CHANGE_FONT_FAMILY,
+    CHANGE_FONT_COLOR,
+    CHANGE_FONT_VARIANT,
+    CHANGE_STROKE_WIDTH,
+    CHANGE_STROKE_COLOR,
+
+    DELETE_ELEMENT,
+  ] = useCanvasState(
+    useCallback(
+      (state) => [
+        state.CHANGE_TEXT,
+        state.CHANGE_FONT_SIZE,
+        state.CHANGE_FONT_FAMILY,
+        state.CHANGE_FONT_COLOR,
+        state.CHANGE_FONT_VARIANT,
+        state.CHANGE_STROKE_WIDTH,
+        state.CHANGE_STROKE_COLOR,
+
+        state.DELETE_ELEMENT,
+      ],
+      []
+    )
+  );
+
   const { page: pageId, element: elementId } = selected as {
     page: number;
     element: number;
@@ -77,7 +85,7 @@ const TextElementProperties = ({
         variant="outlined"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            changeCanvasText(dispatch, pageId, elementId, e.target.value);
+            CHANGE_TEXT(pageId, elementId, e.target.value);
           } else {
             return;
           }
@@ -117,7 +125,7 @@ const TextElementProperties = ({
             label={"Font Family"}
             value={textData.fontFamily}
             onChange={(e) => {
-              changeFontFamily(dispatch, pageId, elementId, e.target.value);
+              CHANGE_FONT_FAMILY(pageId, elementId, e.target.value);
             }}
           >
             <h3 className="pl-2 font-bold">Most common fonts</h3>
@@ -143,7 +151,13 @@ const TextElementProperties = ({
 
             {fontFamilies.map((font: string) => (
               <MenuItem key={font} value={font}>
-                <p className={`font-['${font.replace(" ", "_")}']`}>{font}</p>
+                <p
+                  style={{
+                    fontFamily: font.replace(" ", "-"),
+                  }}
+                >
+                  {font}
+                </p>
               </MenuItem>
             ))}
           </TextField>
@@ -155,7 +169,7 @@ const TextElementProperties = ({
         label="Font Size"
         Icon={<BiFontSize className="mb-4 h-4 w-4" />}
         onChangeFunction={(e) => {
-          changeFontSize(dispatch, pageId, elementId, Number(e.target.value));
+          CHANGE_FONT_SIZE(pageId, elementId, Number(e.target.value));
         }}
         value={textData.fontSize}
         options={fontSizes.map((size: number) => (
@@ -170,7 +184,7 @@ const TextElementProperties = ({
         label="Font Variant"
         Icon={<BiFontSize className="mb-4 h-4 w-4" />}
         onChangeFunction={(e) =>
-          changeFontVariant(dispatch, pageId, elementId, e.target.value)
+          CHANGE_FONT_VARIANT(pageId, elementId, e.target.value)
         }
         value={textData.fontVariant}
         options={[
@@ -201,12 +215,7 @@ const TextElementProperties = ({
         value={textFilter.fill}
         variant="outlined"
         onChange={(e) =>
-          changeFontColor(
-            dispatch,
-            pageId,
-            elementId,
-            e.target.value as `#${string}`
-          )
+          CHANGE_FONT_COLOR(pageId, elementId, e.target.value as `#${string}`)
         }
       />
 
@@ -221,7 +230,7 @@ const TextElementProperties = ({
         defaultValue={textData.strokeWidth}
         variant="outlined"
         onChange={(e) =>
-          changeStrokeWidth(dispatch, pageId, elementId, Number(e.target.value))
+          CHANGE_STROKE_WIDTH(pageId, elementId, Number(e.target.value))
         }
       />
 
@@ -234,27 +243,22 @@ const TextElementProperties = ({
         }}
         id="select-stroke-color"
         label="Stroke Color"
-        value={textFilter.filter.stroke}
+        value={textFilter.stroke}
         variant="outlined"
         onChange={(e) =>
-          changeStrokeColor(
-            dispatch,
-            pageId,
-            elementId,
-            e.target.value as `#${string}`
-          )
+          CHANGE_STROKE_COLOR(pageId, elementId, e.target.value as `#${string}`)
         }
       />
       <div className="flex items-center justify-center align-middle ">
         <button
           className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
-          onClick={(e) => handleDelete(dispatch, pageId, elementId)}
+          // onClick={(e) => handleDelete(dispatch, pageId, elementId)}
         >
           Replace
         </button>
         <button
           className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
-          onClick={(e) => handleDelete(dispatch, pageId, elementId)}
+          onClick={(e) => DELETE_ELEMENT(pageId, elementId)}
         >
           <Delete className="m-2 h-8 w-8" />
           Delete Component

@@ -20,6 +20,7 @@ import { useAppDispatch } from "../../Redux/hooks";
 import { checkImageGalleryClick } from "../../model/client-side/subCat/modalButtons";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import ServerErrorDialog from "./dialog-boxes/ServerErrorDialog";
+import { useCanvasState } from "../../zustand/CanvasStore/store";
 
 interface props {
   doc: ImgDoc;
@@ -35,6 +36,7 @@ export type galleryImageDialog =
 
 function SingleImage({ doc, loginStatus, isMobile }: props) {
   // states that change based on mouse events
+
   const [premiumText, setPremiumText] = useState(false);
   const [dialog, setDialog] = useState<null | galleryImageDialog>(null);
 
@@ -117,13 +119,14 @@ export const SingleEditorImage = ({
   isMobile,
   pageId,
 }: imageEditorProps) => {
+  const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
+
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false);
   const [dialog, setDialog] = useState<null | galleryImageDialog>(null);
 
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useAppDispatch();
   // function to get the w and h of the image
 
   const target = useRef<null | HTMLDivElement>(null);
@@ -167,7 +170,7 @@ export const SingleEditorImage = ({
               setDialog
             );
             if (checked)
-              return uploadImageToCanvas(dispatch, pageId, undefined, doc.url);
+              return uploadImageToCanvas(ADD_IMAGE, pageId, undefined, doc.url);
           }}
         >
           <NextImage

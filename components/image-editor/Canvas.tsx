@@ -1,5 +1,5 @@
 import { Stage } from "konva/lib/Stage";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Stage as KonvaStage,
   Layer,
@@ -9,10 +9,8 @@ import {
   Rect,
 } from "react-konva";
 
-import { canvasPagesCount } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { filtersCount } from "../../features/canvasPages/canvas-elements/filtersSlice";
 import { imageData } from "../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import { useAppSelector } from "../../Redux/hooks";
+import { useCanvasState } from "../../zustand/CanvasStore/store";
 import CanvasPage from "./Canvas/CanvasPage";
 import CanvasShape from "./Canvas/CanvasShape";
 import { CanvasImage, CanvasText, CanvasEditButtons } from "./Canvas/index";
@@ -22,7 +20,31 @@ interface props {
 }
 
 const Canvas = ({ showSidebar }: props) => {
-  const { pages, selected, w, h } = useAppSelector(canvasPagesCount).present;
+  const [
+    pages,
+    selected,
+    w,
+    h,
+    CHANGE_ELEMENT_POSITION,
+    CHANGE_ELEMENT_SCALE,
+    SELECT_PAGE,
+    SELECT_ELEMENT,
+  ] = useCanvasState(
+    useCallback(
+      (state) =>
+        [
+          state.pages,
+          state.selected,
+          state.w,
+          state.h,
+          state.CHANGE_ELEMENT_POSITION,
+          state.CHANGE_ELEMENT_SCALE,
+          state.SELECT_PAGE,
+          state.SELECT_ELEMENT,
+        ] as const,
+      []
+    )
+  );
 
   const downloadRef = useRef<HTMLButtonElement | null>(null);
   const [stageRefs, setStageRefs] = useState<
@@ -57,6 +79,10 @@ const Canvas = ({ showSidebar }: props) => {
               selected={selected}
               pageId={i}
               setStageRefs={setStageRefs}
+              CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
+              CHANGE_ELEMENT_SCALE={CHANGE_ELEMENT_SCALE}
+              SELECT_PAGE={SELECT_PAGE}
+              SELECT_ELEMENT={SELECT_ELEMENT}
             />
           );
         })}

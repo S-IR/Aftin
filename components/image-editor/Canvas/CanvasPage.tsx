@@ -12,11 +12,10 @@ import {
 } from "react-konva";
 import { Stage } from "konva/lib/Stage";
 import {
-  filtersCount,
   imageFilter,
   shapeFilter,
   textFilter,
-} from "../../../features/canvasPages/canvas-elements/filtersSlice";
+} from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import {
   canvasElement,
   canvasPagesCount,
@@ -24,6 +23,12 @@ import {
 } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { RectConfig } from "konva/lib/shapes/Rect";
+import {
+  changeElementPosition,
+  changeElementScale,
+  selectElement,
+  selectPage,
+} from "../../../zustand/CanvasStore/store";
 
 interface props {
   width: number;
@@ -37,6 +42,10 @@ interface props {
       React.RefObject<KonvaNodeComponent<Stage, StageProps>>[]
     >
   >;
+  CHANGE_ELEMENT_POSITION: changeElementPosition;
+  CHANGE_ELEMENT_SCALE: changeElementScale;
+  SELECT_PAGE: selectPage;
+  SELECT_ELEMENT: selectElement;
 }
 
 const CanvasPage = ({
@@ -46,9 +55,11 @@ const CanvasPage = ({
   selected,
   pageId,
   setStageRefs,
+  CHANGE_ELEMENT_POSITION,
+  CHANGE_ELEMENT_SCALE,
+  SELECT_ELEMENT,
+  SELECT_PAGE,
 }: props) => {
-  const filters = useAppSelector(filtersCount);
-
   const canvasBGRef = useRef<null | Rect | RectConfig>(null);
   const canvasContainer = useRef<null | HTMLDivElement>(null);
   const isPageSelected = selected?.page === pageId;
@@ -100,8 +111,11 @@ const CanvasPage = ({
                     pageId={pageId}
                     elementId={elementId}
                     selected={selected}
-                    imageFilter={filters[pageId][elementId] as imageFilter}
+                    imageFilter={element.filters}
                     layerRef={layerRef}
+                    CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
+                    CHANGE_ELEMENT_SCALE={CHANGE_ELEMENT_SCALE}
+                    SELECT_ELEMENT={SELECT_ELEMENT}
                   />
                 );
               case "text":
@@ -112,7 +126,9 @@ const CanvasPage = ({
                     pageId={pageId}
                     elementId={elementId}
                     selected={selected}
-                    textFilter={filters[pageId][elementId] as textFilter}
+                    textFilter={element.filters}
+                    CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
+                    SELECT_ELEMENT={SELECT_ELEMENT}
                   />
                 );
               case "shape":
@@ -123,7 +139,11 @@ const CanvasPage = ({
                     pageId={pageId}
                     elementId={elementId}
                     selected={selected}
-                    shapeFilter={filters[pageId][elementId] as shapeFilter}
+                    layerRef={layerRef}
+                    shapeFilter={element.filters}
+                    CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
+                    CHANGE_ELEMENT_SCALE={CHANGE_ELEMENT_SCALE}
+                    SELECT_ELEMENT={SELECT_ELEMENT}
                   />
                 );
               default:

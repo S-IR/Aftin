@@ -7,29 +7,29 @@ import {
   KonvaNodeComponent,
   Transformer,
 } from "react-konva";
-import { filter } from "../../../constants/image-editor/imageFilters";
 import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import {
-  filtersCount,
-  imageFilter,
-} from "../../../features/canvasPages/canvas-elements/filtersSlice";
+import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import TransformerComp from "./TransformerComp";
 import CropComponent from "./CropComponent";
 import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { imageFilterProperties } from "../../../constants/image-editor/imageFilters";
 import {
-  handleMovePosition,
-  handleScaling,
-  handleSelect,
-} from "../../../model/client-side/image-editor/CanvasElements";
+  changeElementPosition,
+  changeElementScale,
+  selectElement,
+} from "../../../zustand/CanvasStore/store";
 
 interface props {
   data: imageData;
   pageId: number;
   elementId: number;
   selected: canvasSelected;
-  imageFilter: imageFilter;
+  imageFilter: imageFilterProperties;
   layerRef: undefined | Layer | null;
+  CHANGE_ELEMENT_POSITION: changeElementPosition;
+  CHANGE_ELEMENT_SCALE: changeElementScale;
+  SELECT_ELEMENT: selectElement;
 }
 
 const CanvasImage = ({
@@ -39,6 +39,9 @@ const CanvasImage = ({
   selected,
   imageFilter,
   layerRef,
+  CHANGE_ELEMENT_POSITION,
+  CHANGE_ELEMENT_SCALE,
+  SELECT_ELEMENT,
 }: props) => {
   // properties related to the HTML element
   const image = new Image();
@@ -47,11 +50,9 @@ const CanvasImage = ({
   const isSelected =
     selected?.page === pageId && selected.element === elementId;
   //filters, to be removed from here maybe
-  const brightness = imageFilter?.filter.brightness;
-  const contrast = imageFilter?.filter.contrast;
-  const blur = imageFilter?.filter.blur;
-
-  const dispatch = useAppDispatch();
+  const brightness = imageFilter.brightness;
+  const contrast = imageFilter.contrast;
+  const blur = imageFilter.blur;
 
   useEffect(() => {
     if (image && imageRef.current) {
@@ -61,30 +62,21 @@ const CanvasImage = ({
         layerRef.current.draw();
       };
     }
-  }, [imageRef.current, imageRef]);
-
-  const [cropParams, setCropParams] = useState<
-    { x: number; y: number; width: number; height: number } | undefined
-  >(undefined);
+  }, [imageRef.current, imageRef, data.imageSRC]);
 
   useEffect(() => {
-    if (data.crop || data.cropRectangle.width === undefined) return;
+    if (data.cropRectangle.width === undefined) return;
+    // imageRef.current.cache();
+    imageRef.current.crop = data.cropRectangle;
+    imageRef.current.cache();
     layerRef.current.draw();
-  }, [data.crop]);
-
-  useEffect(() => {
-    if (data.crop) return;
-    // setCropParams(data.cropRectangle)
-    console.log(`cropParams:`, cropParams);
-
-    // dwa
-  }, [data.cropRectangle.width]);
+  }, [data.hasCrop]);
 
   return (
     <>
       <KonvaImage
-        onClick={() => handleSelect(pageId, elementId, dispatch)}
-        onTap={() => handleSelect(pageId, elementId, dispatch)}
+        onClick={() => SELECT_ELEMENT(pageId, elementId)}
+        onTap={() => SELECT_ELEMENT(pageId, elementId)}
         ref={imageRef}
         x={data.x}
         y={data.y}
@@ -104,18 +96,21 @@ const CanvasImage = ({
         //ROTATION TODO
         draggable
         onDragEnd={(e) => {
-          handleMovePosition(e, pageId, elementId, dispatch);
+          CHANGE_ELEMENT_POSITION(
+            pageId,
+            elementId,
+            e.target.x(),
+            e.target.y()
+          );
         }}
         onTransformEnd={(e) => {
-          handleScaling(imageRef, pageId, elementId, dispatch);
+          CHANGE_ELEMENT_SCALE(
+            pageId,
+            elementId,
+            imageRef.current.scaleX(),
+            imageRef.current.scaleY()
+          );
         }}
-        // crop={cropParams}
-        cropX={data.cropRectangle.x}
-        cropY={data.cropRectangle.x}
-        cropWidth={data.cropRectangle.width}
-        cropHeight={data.cropRectangle.height}
-
-        // crop={data.cropRectangle}
       />
       {isSelected && !data.crop && (
         <TransformerComp isSelected={isSelected} elementRef={imageRef} />

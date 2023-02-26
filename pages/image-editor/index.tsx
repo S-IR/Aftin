@@ -11,7 +11,6 @@ import {
   ShowLess,
   ShowMore,
   TextButtons,
-  UploadButtons,
   SidebarIcon,
   StylizeButtons,
 } from "../../components/image-editor/Sidebar";
@@ -31,6 +30,7 @@ import {
 import { Tooltip } from "@mui/material";
 import { activeSidebarType } from "../../components/image-editor/Sidebar/SidebarIcon";
 import { ButtonMenuSwitch } from "../../model/client-side/image-editor/ButtonMenus";
+import { useCanvasState } from "../../zustand/CanvasStore/store";
 const Canvas = dynamic(() => import("../../components/image-editor/Canvas"), {
   ssr: false,
 });
@@ -38,11 +38,10 @@ const Canvas = dynamic(() => import("../../components/image-editor/Canvas"), {
 
 const Index: NextPage = () => {
   //canvas  related code
-  const firstImage = useAppSelector(canvasPagesCount).present.pages[0].find(
+  const [pages] = useCanvasState((state) => [state.pages]);
+  const firstImage = pages[0].find(
     (element: canvasElement) => element.elementType === "image"
   );
-
-  const canvasPages = useAppSelector(canvasPagesCount);
 
   //sidebar buttons code
   const [activeSidebar, setActiveSidebar] =
@@ -137,7 +136,7 @@ const Index: NextPage = () => {
             })}
         </div>
 
-        {firstImage && canvasPages.past.length > 0 ? (
+        {firstImage ? (
           <Canvas showSidebar={showSidebar} />
         ) : (
           <DropzoneComp

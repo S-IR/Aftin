@@ -1,51 +1,60 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { BiCrop, BiFilter } from "react-icons/bi";
 import { MdFindReplace, MdRotateRight, MdTune } from "react-icons/md";
 import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import {
-  filtersCount,
-  imageFilter,
-} from "../../../features/canvasPages/canvas-elements/filtersSlice";
+import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { AppDispatch } from "../../../Redux/store";
 import Button from "../../general/Button";
-import SelectComp from "../../SelectComp";
-import { Delete } from "@mui/icons-material";
+import { Crop, Delete } from "@mui/icons-material";
 import { Filter } from "../Sidebar";
 import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import {
-  handleCrop,
-  handleDelete,
-} from "../../../model/client-side/image-editor/EditCanvasElement";
-import { handleResetFilters } from "../../../model/client-side/image-editor/EditCanvasImage";
+
 import styles from "../../../styles/image-editor/image-editor.module.css";
+import { imageFilterProperties } from "../../../constants/image-editor/imageFilters";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import { Alert } from "@mui/material";
 interface props {
   imageData: imageData;
-  dispatch: AppDispatch;
   selected: canvasSelected;
-  imageFilter: imageFilter;
+  imageFilter: imageFilterProperties;
 }
 
 const ImageElementProperties = ({
   imageData,
-  dispatch,
   selected,
   imageFilter,
 }: props) => {
   const { page: pageId, element: elementId } = selected;
+  const [deleteWarningHappened, setDeleteWarningHappened] = useState(false);
+  const [SET_CROP, SET_HAS_CROP, DELETE_ELEMENT, RESET_IMAGE_FILTER] =
+    useCanvasState(
+      useCallback(
+        (state) =>
+          [
+            state.SET_CROP,
+            state.SET_HAS_CROP,
+            state.DELETE_ELEMENT,
+            state.RESET_IMAGE_FILTER,
+          ] as const,
+        []
+      )
+    );
 
-  const brightness = imageFilter?.filter.brightness;
-  const contrast = imageFilter?.filter.contrast;
-  const blur = imageFilter?.filter.blur;
+  const brightness = imageFilter?.brightness;
+  const contrast = imageFilter?.contrast;
+  const blur = imageFilter?.blur;
 
-  if (imageData.crop) {
+  console.log("imageData", imageData);
+  if (imageData.crop === true) {
     return (
       <div className="flex h-full w-full items-center justify-center align-middle">
         <button
           className=" group flex h-24 w-24 items-center justify-center rounded-sm bg-gradient-to-b from-yellow-700 to-yellow-800 p-2 font-serif  font-bold shadow-black drop-shadow-lg  transition-all duration-300 hover:bg-yellow-500 hover:drop-shadow-md active:drop-shadow-none"
-          onClick={() =>
-            handleCrop(dispatch, pageId as number, elementId as number)
-          }
+          onClick={() => {
+            SET_CROP(pageId as number, elementId as number);
+            SET_HAS_CROP(pageId as number, elementId as number);
+          }}
         >
           Save Crop
         </button>
@@ -84,7 +93,7 @@ const ImageElementProperties = ({
         <div className="flex w-full items-center justify-center">
           <button
             className={` my-8  h-12 w-48 ${styles.generalButton} text-xl `}
-            onClick={() => handleResetFilters(dispatch, pageId, elementId)}
+            onClick={() => RESET_IMAGE_FILTER(pageId, elementId)}
           >
             Reset Filters
           </button>
@@ -93,28 +102,45 @@ const ImageElementProperties = ({
 
       {/* Edit buttons div */}
       <div className="mt-6 flex w-full flex-col items-center justify-center space-y-6 align-middle">
-        <button
-          className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
-          onClick={() => handleCrop(dispatch, pageId, elementId)}
+        {/* <button
+          className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg "
+          onClick={() => SET_CROP(pageId as number, elementId as number)}
         >
-          <BiCrop className="h-8 w-8 transition-all duration-300 group-hover:-translate-x-1" />
-          Crop
-        </button>
+          <div className="flex items-center justify-center align-middle ">
+            <Crop className="m-2 h-8 w-8" />
+            Crop
+          </div>
+        </button> */}
         <button className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg ">
-          <div className="flex items-center justify-center align-middle font-bold">
+          <div className="flex items-center justify-center align-middle ">
             <MdFindReplace className="m-2 h-8 w-8" />
             Replace
           </div>
         </button>
         <div className=" flex justify-center">
           <button
-            className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
-            onClick={(e) => handleDelete(dispatch, pageId, elementId)}
+            className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
+            onClick={(e) => {
+              if (pageId === 0 && elementId === 0 && !deleteWarningHappened) {
+                return setDeleteWarningHappened(true);
+              }
+              setDeleteWarningHappened(false);
+              DELETE_ELEMENT(pageId, elementId);
+            }}
           >
             <Delete className="m-2 h-8 w-8" />
             Delete Component
           </button>
         </div>
+        {deleteWarningHappened === true ? (
+          <Alert severity="error">
+            If you delete this component all of your editing progress on the
+            page will be lost. Click again on the delete button if you want to
+            continue
+          </Alert>
+        ) : (
+          <></>
+        )}
       </div>
       {/* Crop button */}
 

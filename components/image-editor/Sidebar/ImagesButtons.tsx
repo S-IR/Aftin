@@ -31,13 +31,17 @@ import { uploadImageToCanvas } from "../../../model/client-side/image-editor/Upl
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { activeSidebarType } from "./SidebarIcon";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
 }
 
 const ImagesButtons = ({ setActiveSidebar }: props) => {
-  const dispatch = useAppDispatch();
+  const [ADD_IMAGE, { page: pageId }] = useCanvasState((state) => [
+    state.ADD_IMAGE,
+    state.selected,
+  ]);
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<{
     name: string;
@@ -58,13 +62,12 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
       return;
     }
   };
-  const pageId = useAppSelector(canvasPagesCount).present.selected.page;
+  // if
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    uploadImageToCanvas(dispatch, pageId, e.target.files);
+    uploadImageToCanvas(ADD_IMAGE, pageId, e.target.files);
     setActiveSidebar("Stylize");
   };
-  const description = router.query.description;
 
   return (
     <section

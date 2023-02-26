@@ -5,7 +5,6 @@ import {
   ShowLess,
   ShowMore,
   TextButtons,
-  UploadButtons,
   SidebarIcon,
   StylizeButtons,
 } from "../../../components/image-editor/Sidebar";
@@ -20,7 +19,7 @@ export const ButtonMenuSwitch = (
     case "Layout":
       return <LayoutButtons />;
     case "Images":
-      return <ImagesButtons />;
+      return <ImagesButtons setActiveSidebar={setActiveSidebar} />;
     case "Text":
       return <TextButtons setActiveSidebar={setActiveSidebar} />;
     case "Stylize":
@@ -28,6 +27,6 @@ export const ButtonMenuSwitch = (
     case "Draw":
       return <DrawButtons setActiveSidebar={setActiveSidebar} />;
     default:
-      return <ImagesButtons />;
+      return <ImagesButtons setActiveSidebar={setActiveSidebar} />;
   }
 };

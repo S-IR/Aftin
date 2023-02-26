@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import { MdFindReplace } from "react-icons/md";
 import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
 import { AppDispatch } from "../../../Redux/store";
@@ -18,37 +18,46 @@ import {
   MenuItem,
   InputAdornment,
 } from "@mui/material";
-import {
-  changeStrokeColor,
-  handleDelete,
-} from "../../../model/client-side/image-editor/EditCanvasElement";
-import { useAppSelector } from "../../../Redux/hooks";
-import {
-  changeShapeFill,
-  fillWithPattern,
-  setStrokeWidth,
-} from "../../../model/client-side/image-editor/EditCanvasShape";
-import { shapeFilter } from "../../../features/canvasPages/canvas-elements/filtersSlice";
-import { handleRemovePattern } from "../../../model/client-side/image-editor/EditCanvasImage";
+
 import {
   canvasPagesCount,
   canvasSelected,
 } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { Delete } from "@mui/icons-material";
 import styles from "../../../styles/image-editor/image-editor.module.css";
+import { shapeFilterProperties } from "../../../zustand/shapeHandlers";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import { fillWithPattern } from "../../../model/client-side/image-editor/Upload";
 interface props {
   shapeData: shapeData;
-  dispatch: AppDispatch;
   selected: canvasSelected;
-  shapeFilter: shapeFilter;
+  shapeFilter: shapeFilterProperties;
 }
 
 const ShapeElementProperties = ({
   shapeData,
-  dispatch,
   selected,
   shapeFilter,
 }: props) => {
+  const [
+    CHANGE_STROKE_COLOR,
+    CHANGE_STROKE_WIDTH,
+    DELETE_ELEMENT,
+    CHANGE_SHAPE_FILL_COLOR,
+    ADD_SHAPE_PATTERN_IMAGE,
+  ] = useCanvasState(
+    useCallback(
+      (state) =>
+        [
+          state.CHANGE_STROKE_COLOR,
+          state.CHANGE_STROKE_WIDTH,
+          state.DELETE_ELEMENT,
+          state.CHANGE_SHAPE_FILL_COLOR,
+          state.ADD_SHAPE_PATTERN_IMAGE,
+        ] as const,
+      []
+    )
+  );
   const { page: pageId, element: elementId } = selected;
 
   if (pageId === null || elementId === null) {
@@ -68,11 +77,10 @@ const ShapeElementProperties = ({
           }}
           id="select-stroke-width"
           label="Color"
-          value={shapeFilter.filter.fill}
+          value={shapeFilter.fill}
           variant="outlined"
           onChange={(e) =>
-            changeShapeFill(
-              dispatch,
+            CHANGE_SHAPE_FILL_COLOR(
               pageId,
               elementId,
               e.target.value as `#${string}`
@@ -91,7 +99,7 @@ const ShapeElementProperties = ({
           value={shapeData.strokeWidth}
           variant="outlined"
           onChange={(e) =>
-            setStrokeWidth(dispatch, pageId, elementId, Number(e.target.value))
+            CHANGE_STROKE_WIDTH(pageId, elementId, Number(e.target.value))
           }
         />
 
@@ -104,11 +112,10 @@ const ShapeElementProperties = ({
           type="color"
           id="select-stroke-width"
           label="Stroke Color"
-          defaultValue={shapeFilter.filter.stroke}
+          defaultValue={shapeFilter.stroke}
           variant="outlined"
           onChange={(e) =>
-            changeStrokeColor(
-              dispatch,
+            CHANGE_STROKE_COLOR(
               pageId,
               elementId,
               e.target.value as `#${string}`
@@ -128,7 +135,12 @@ const ShapeElementProperties = ({
             type="file"
             title=" "
             onChange={(e) =>
-              fillWithPattern(dispatch, pageId, elementId, e.target.files)
+              fillWithPattern(
+                ADD_SHAPE_PATTERN_IMAGE,
+                pageId,
+                elementId,
+                e.target.files
+              )
             }
           />
           <div
@@ -155,7 +167,7 @@ const ShapeElementProperties = ({
         <div className=" flex justify-center">
           <button
             className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
-            onClick={(e) => handleDelete(dispatch, pageId, elementId)}
+            onClick={(e) => DELETE_ELEMENT(pageId, elementId)}
           >
             <Delete className="m-2 h-8 w-8" />
             Delete Component

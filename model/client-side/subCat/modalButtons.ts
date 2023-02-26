@@ -4,7 +4,7 @@ import { galleryImageDialog } from "../../../components/general/SingleImage";
 import { DEFAULT_OPTIONS } from "../../../constants/image-editor/imageFilters";
 import { cachedImageActions } from "../../../features/cachedImage/cachedImageSlice";
 import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersSlice";
+import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { storage } from "../../../firebase";
 import { AppDispatch } from "../../../Redux/store";
 import { ImgDoc, tier_array } from "../../../typings/image-types/ImageTypes";

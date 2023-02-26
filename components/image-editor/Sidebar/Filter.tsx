@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   CSSFilter,
   imageFilterProperties,
 } from "../../../constants/image-editor/imageFilters";
-import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersSlice";
 import { useAppDispatch } from "../../../Redux/hooks";
 import styles from "../../../styles/image-editor/filters.module.css";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 interface props {
   pageId: number;
   elementId: number;
@@ -14,16 +14,15 @@ interface props {
 }
 
 const Filter = ({ pageId, elementId, option, label }: props) => {
-  const dispatch = useAppDispatch();
-
+  const [CHANGE_IMAGE_FILTER] = useCanvasState(
+    useCallback((state) => [state.CHANGE_IMAGE_FILTER], [])
+  );
   function handleSliderChange(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(
-      filtersActions.CHANGE_IMAGE_FILTER({
-        pageId,
-        elementId,
-        property: option.property,
-        value: parseFloat(e.target.value),
-      })
+    CHANGE_IMAGE_FILTER(
+      pageId,
+      elementId,
+      option.property,
+      parseFloat(e.target.value)
     );
   }
 
@@ -38,6 +37,7 @@ const Filter = ({ pageId, elementId, option, label }: props) => {
       <input
         className={`webkit: h-6 w-[75%] cursor-ew-resize appearance-none rounded-full bg-yellow-900 shadow-md shadow-red-200 ${styles.input} `}
         type="range"
+        step={(option.range.max - option.range.min) / 10}
         id={option.property}
         value={option.value}
         min={option.range.min}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Popover } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { uploadShapeToCanvas } from "../../../model/client-side/image-editor/Upload";
@@ -7,15 +7,19 @@ import { FilterFrames, ShapeLine, ShareOutlined } from "@mui/icons-material";
 import { FaIcons } from "react-icons/fa";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { activeSidebarType } from "./SidebarIcon";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
 }
 const DrawButtons = ({ setActiveSidebar }: props) => {
-  const isTheCanvasEmpty =
-    useAppSelector(canvasPagesCount).present.pages[0].length === 0;
-
-  const pageId = useAppSelector(canvasPagesCount).present.selected.page;
+  const [pages, selected, ADD_SHAPE] = useCanvasState(
+    useCallback(
+      (state) => [state.pages, state.selected, state.ADD_SHAPE] as const,
+      []
+    )
+  );
+  const isTheCanvasEmpty = pages.length === 1 && pages[0].length < 1;
 
   const [alert, setAlert] = useState<null | string>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -35,28 +39,28 @@ const DrawButtons = ({ setActiveSidebar }: props) => {
   const stickerID = stickersOpen ? "stickerPopover" : undefined;
   const edgesID = edgesOpen ? `edgesPopover` : undefined;
 
-  const dispatch = useAppDispatch();
   useEffect(() => {
     setAlert(null);
-  }, [useAppSelector(canvasPagesCount).present.pages.length]);
+  }, [pages.length]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const { page: pageId } = selected;
     if (isTheCanvasEmpty || pageId === null)
       return setAlert("Add an image to the canvas before adding a shape");
     setAlert(null);
     switch (e.target.id) {
       case "circle-button":
-        uploadShapeToCanvas(dispatch, pageId, { shape: "Circle" });
+        uploadShapeToCanvas(ADD_SHAPE, pageId, { shape: "Circle" });
         setActiveSidebar("Stylize");
         break;
       case "square-button":
-        uploadShapeToCanvas(dispatch, pageId, { shape: "Rect" });
+        uploadShapeToCanvas(ADD_SHAPE, pageId, { shape: "Rect" });
         setActiveSidebar("Stylize");
         break;
       case "rectangle-button":
         console.log("we are  here");
-        uploadShapeToCanvas(dispatch, pageId, {
+        uploadShapeToCanvas(ADD_SHAPE, pageId, {
           shape: "Rect",
           width: 150,
           height: 75,
@@ -64,7 +68,7 @@ const DrawButtons = ({ setActiveSidebar }: props) => {
         setActiveSidebar("Stylize");
         break;
       case "ring-button":
-        uploadShapeToCanvas(dispatch, pageId, {
+        uploadShapeToCanvas(ADD_SHAPE, pageId, {
           shape: "Ring",
           strokeWidth: 10,
           innerRadius: 50,

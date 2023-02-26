@@ -15,13 +15,13 @@ export const fetchUserStatus = async (
     );
     if (fetchRes === undefined) {
       console.log("error at fetching user. No server response");
-      return "unknown";
+      return undefined;
     }
 
     const { status } = await fetchRes.json();
     return status;
   } catch (error) {
     console.log("error at fetching user", error);
-    return "unknown";
+    return undefined;
   }
 };

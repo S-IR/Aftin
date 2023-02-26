@@ -1,5 +1,5 @@
 import { InputAdornment, TextField } from "@mui/material";
-import React, { DOMAttributes, useEffect, useState } from "react";
+import React, { DOMAttributes, useCallback, useEffect, useState } from "react";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 
 import { Alert } from "@mui/material";
@@ -8,22 +8,27 @@ import { uploadTextToCanvas } from "../../../model//client-side/image-editor/Upl
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { activeSidebarType } from "./SidebarIcon";
 import styles from "../../../styles/image-editor/image-editor.module.css";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
 }
 
 const TextButtons = ({ setActiveSidebar }: props) => {
+  const [pages, selected, ADD_TEXT] = useCanvasState(
+    useCallback(
+      (state) => [state.pages, state.selected, state.ADD_TEXT] as const,
+      []
+    )
+  );
   const [alert, setAlert] = useState<null | string>(null);
-  const dispatch = useAppDispatch();
-  const { pages, selected } = useAppSelector(canvasPagesCount).present;
   const isTheCanvasEmpty = pages.length === 1 && pages[0].length < 1;
 
   const selectedPage = selected?.page as number;
 
   useEffect(() => {
     setAlert(null);
-  }, [useAppSelector(canvasPagesCount).present.pages[0].length]);
+  }, [pages.length]);
 
   //TODO
   let alertMessage: null | string = null;
@@ -34,13 +39,13 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     setAlert(null);
     switch (e.target.id) {
       case "big-text-button":
-        uploadTextToCanvas(dispatch, selectedPage, { fontSize: 32 });
+        uploadTextToCanvas(ADD_TEXT, selectedPage, { fontSize: 32 });
         return setActiveSidebar("Stylize");
       case "medium-text-button":
-        uploadTextToCanvas(dispatch, selectedPage, { fontSize: 16 });
+        uploadTextToCanvas(ADD_TEXT, selectedPage, { fontSize: 16 });
         return setActiveSidebar("Stylize");
       case "small-text-button":
-        uploadTextToCanvas(dispatch, selectedPage, { fontSize: 12 });
+        uploadTextToCanvas(ADD_TEXT, selectedPage, { fontSize: 12 });
         return setActiveSidebar("Stylize");
     }
   };

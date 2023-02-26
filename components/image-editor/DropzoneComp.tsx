@@ -10,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import { canvasPagesCount } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+import { useCanvasState } from "../../zustand/CanvasStore/store";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
@@ -17,12 +18,14 @@ interface props {
 }
 
 const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
-  const dispatch = useAppDispatch();
-  const pageId = useAppSelector(canvasPagesCount).present.pages.length - 1;
+  const [ADD_IMAGE, { page: pageId }] = useCanvasState((state) => [
+    state.ADD_IMAGE,
+    state.selected,
+  ]);
 
   const onDrop: DragEventHandler<HTMLDivElement> = useCallback(
     (acceptedFiles: FileList | null) => {
-      uploadImageToCanvas(dispatch, pageId, acceptedFiles);
+      uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
       setActiveSidebar("Stylize");
     },
     []
@@ -30,7 +33,7 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      uploadImageToCanvas(dispatch, pageId, e.target.files);
+      uploadImageToCanvas(ADD_IMAGE, pageId, e.target.files);
       setActiveSidebar("Stylize");
     },
     []
