@@ -22,7 +22,8 @@ export const usePreviewsStore = create<State & Actions>((set) => ({
   ADD_IMAGE: (url, w, h) =>
     set(
       produce((state: State) => {
-        state.images.push({ url, w, h });
+        const index = state.images.push({ url, w, h });
+        state.currentlyPreviewed = index - 1;
       })
     ),
   CLEAR_IMAGES: () => set(produce((state) => (state.images = []))),

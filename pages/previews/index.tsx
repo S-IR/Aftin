@@ -1,29 +1,62 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { previewCategoryValue } from '../../constants/previews/previewCategories';
-import  ChoosePreview  from '../../components/previews/ChoosePreview';
-import dynamic from 'next/dynamic';
-
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import {
+  previewCategoryNames,
+  previewCategoryType,
+  previewCategoryValues,
+} from "../../constants/previews/previewCategories";
+import ChoosePreview from "../../components/previews/ChoosePreview";
+import dynamic from "next/dynamic";
+import { usePreviewsStore } from "../../zustand/PreviewsStore/store";
+import Head from "next/head";
 
 const PreviewCanvas = dynamic(
-  () => import('../../components/previews/PreviewCanvas'),
-  { ssr: false }
+  () => import("../../components/previews/PreviewCanvas"),
+  {
+    ssr: false,
+  }
+);
+const PreviewDropzoneComp = dynamic(
+  () => import("../../components/previews/PreviewDropzoneComp"),
+  {
+    ssr: false,
+  }
 );
 
+export type previewSelectedCategory = {
+  name: previewCategoryNames;
+  value: previewCategoryValues;
+};
+
 const Index: NextPage = () => {
-  const router = useRouter()
+  const [selectedCategory, setSelectedCategory] = useState<{
+    name: previewCategoryNames;
+    value: previewCategoryValues;
+  }>({ name: "Phone", value: "phone" });
 
-  
-  const [selectedCategory, setSelectedCategory] = useState<{ name: string, value: previewCategoryValue }>({ name: 'Phone', value: 'phone' })
-
+  const images = usePreviewsStore((state) => state.images);
+  const areThereImages = images.length > 0;
   return (
-    <div className='flex h-screen m-10 shadow-lg shadow-black'>
-      <ChoosePreview selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-      <PreviewCanvas selectedCategory={selectedCategory} />
+    <>
+      <Head>
+        <title>Image Previewer for Restaurants</title>
+      </Head>
+      <div className="flex h-screen  ">
+        <ChoosePreview
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <main className="ml-[256px] h-full w-full rounded-md bg-white">
+          {areThereImages ? (
+            <PreviewCanvas selectedCategory={selectedCategory} />
+          ) : (
+            <PreviewDropzoneComp />
+          )}
+        </main>
+      </div>
+    </>
+  );
+};
 
-    </div>
-  )
-}
-
-export default Index
+export default Index;

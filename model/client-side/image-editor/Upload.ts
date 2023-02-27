@@ -18,7 +18,6 @@ export const uploadImageToCanvas = (
   imagesArray?: FileList | null,
   url?: string
 ) => {
-  console.log(`pageId from upload`, pageId);
   const image = new Image();
   if (imagesArray) {
     let selected = imagesArray[0];

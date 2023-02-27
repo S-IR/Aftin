@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { previewCategoryValue } from "../../constants/previews/previewCategories";
 import {
   previewPhone,
   previewTemplate,
@@ -15,12 +14,10 @@ import {
   KonvaNodeComponent,
 } from "react-konva";
 import { usePreviewsStore } from "../../zustand/PreviewsStore/store";
+import { previewSelectedCategory } from "../../pages/previews";
 
 interface props {
-  selectedCategory: {
-    name: string;
-    value: previewCategoryValue;
-  };
+  selectedCategory: previewSelectedCategory;
 }
 
 const PreviewCanvas = ({ selectedCategory }: props) => {
@@ -29,10 +26,9 @@ const PreviewCanvas = ({ selectedCategory }: props) => {
     state.currentlyPreviewed,
   ]);
 
-  const determinePreviewIMG = (selectedCategory: {
-    name: string;
-    value: previewCategoryValue;
-  }): previewTemplate | null => {
+  const determinePreviewIMG = (
+    selectedCategory: previewSelectedCategory
+  ): previewTemplate | null => {
     switch (selectedCategory.value) {
       case "phone":
         return previewPhone;
@@ -49,46 +45,44 @@ const PreviewCanvas = ({ selectedCategory }: props) => {
   const canvasBGRef = useRef<null | KonvaNodeComponent<Rect, RectConfig>>(null);
   const layerRef = useRef<null | KonvaNodeComponent<Layer, LayerConfig>>(null);
 
-  if (currentlyPreviewed === null) {
-    return <div>UPLOAD COMPONENT</div>;
+  if (placementData === null) {
+    console.log("placement Data is null");
+    return <></>;
   }
-  if (placementData === null) return <div>placement data is null</div>;
-  placementData.bg.src = images[currentlyPreviewed];
+  placementData.sentImgPlacement.src = images[currentlyPreviewed as number].url;
 
   return (
-    <div>
-      {placementData !== null && (
-        <KonvaStage
-          width={1920}
-          height={1080}
-          ref={stageRef}
-          willReadFrequently={true}
-        >
-          <Layer ref={layerRef}>
-            <Rect
-              ref={canvasBGRef}
-              width={1920}
-              height={1080}
-              x={0}
-              y={0}
-              fill={`white`}
-            />
-            {/* if the background data is NOT an array, do this  */}
-            {!Array.isArray(placementData.bg) ? (
-              <>
-                {/* <PreviewElement data={placementData.bg} layerRef={layerRef} /> */}
-                <PreviewElement
-                  data={placementData.sentImgPlacement}
-                  layerRef={layerRef}
-                />
-              </>
-            ) : (
-              <></>
-            )}
-          </Layer>
-        </KonvaStage>
-      )}
-    </div>
+    <section className="p-2">
+      <KonvaStage
+        width={1920}
+        height={1080}
+        ref={stageRef}
+        willReadFrequently={true}
+      >
+        <Layer ref={layerRef}>
+          <Rect
+            ref={canvasBGRef}
+            width={1920}
+            height={1080}
+            x={0}
+            y={0}
+            fill={`white`}
+          />
+          {/* if the background data is NOT an array, do this  */}
+          {!Array.isArray(placementData.bg) ? (
+            <>
+              <PreviewElement data={placementData.bg} layerRef={layerRef} />
+              <PreviewElement
+                data={placementData.sentImgPlacement}
+                layerRef={layerRef}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </Layer>
+      </KonvaStage>
+    </section>
   );
 };
 
