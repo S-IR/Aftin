@@ -115,18 +115,20 @@ const SignUpDiv = ({ user, userLoading }: props) => {
   if (user === undefined || (user === null && !userLoading)) {
     return (
       <>
-        <section className="flex h-full w-full">
+        <section className="flex h-full w-full  flex-col md:flex-row">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-1/2 flex-col items-center justify-center space-y-6  border-red-900 pl-10 text-center align-top   "
+            className=" w-full flex-col items-center justify-center space-y-6 border-red-900 pl-2 text-center align-top md:w-1/2 md:pl-10   "
           >
-            <h2 className="mb-8 mt-4  text-center text-2xl">Email Sign Up</h2>
+            <h2 className="mb-8 mt-4  text-center text-xl md:text-2xl">
+              Email Sign Up
+            </h2>
 
             <label className="inline-block w-full">
               <input
                 type="text"
                 placeholder="Username"
-                className=" h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none  "
+                className=" text-md h-10 w-56 bg-[#3A0602] text-center  shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white focus:bg-orange-800 focus:placeholder:text-orange-500/50    active:drop-shadow-none md:w-80 md:text-lg  "
                 {...register("username")}
               />
               {errors.username && (
@@ -139,7 +141,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
               <input
                 type="email"
                 placeholder="Email"
-                className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
+                className="text-md h-10 w-56 bg-[#3A0602] text-center  shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white focus:bg-orange-800 focus:placeholder:text-orange-500/50    active:drop-shadow-none md:w-80 md:text-lg"
                 {...register("email")}
               />
               {errors.email && (
@@ -152,7 +154,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
               <input
                 type="password"
                 placeholder="Password"
-                className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
+                className="text-md h-10 w-56 bg-[#3A0602] text-center  shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white focus:bg-orange-800 focus:placeholder:text-orange-500/50    active:drop-shadow-none md:w-80 md:text-lg"
                 {...register("password")}
               />
               {errors.password && (
@@ -165,7 +167,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
               <input
                 type="password"
                 placeholder="Confirm Password"
-                className="h-10 w-80 bg-[#3A0602]   text-center text-lg shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white    focus:bg-orange-800 focus:placeholder:text-orange-500/50 active:drop-shadow-none"
+                className="text-md h-10 w-56 bg-[#3A0602] text-center  shadow-xl !outline-none drop-shadow-[10px_4px_10px_rgba(0,0,0,0.25)] transition-all duration-300 placeholder:text-white focus:bg-orange-800 focus:placeholder:text-orange-500/50    active:drop-shadow-none md:w-80 md:text-lg"
                 {...register("confirmPassword")}
               />
               {errors.confirmPassword && (
@@ -176,51 +178,26 @@ const SignUpDiv = ({ user, userLoading }: props) => {
             </label>
             <button
               type="submit"
-              className="!mt-16  h-10 w-80 bg-orange-900 transition-all duration-300 hover:bg-orange-800"
+              className="!mt-16  h-10 w-56 bg-orange-900 transition-all duration-300 hover:bg-orange-800 md:w-80"
             >
               Sign Up
             </button>
           </form>
-          <div className="items-top w-1/2 flex-col justify-center space-y-6 pl-10 text-center align-middle ">
-            <h2 className="mb-8 mt-4  text-2xl">3rd Party Sign Up</h2>
-            <div className="flex h-[60%] w-full grow flex-col items-center justify-center space-y-8  align-middle">
+          <div className="items-top w-full flex-col justify-center space-y-6 pl-2 text-center align-middle md:w-1/2 md:pl-10 ">
+            <h2 className="mb-8 mt-4 text-xl md:text-2xl">3rd Party Sign Up</h2>
+            <div className="flex h-[60%] w-full grow flex-col items-center justify-center space-y-0  align-middle  md:space-y-8">
               <GoogleButton
                 text={"Sign up with Google"}
                 onClick={() => handleGoogleSubmit()}
-                w={"lg"}
               />
               <FacebookButton
                 text={"Sign up with Facebook"}
                 onClick={() => handleFacebookSubmit()}
-                w={"lg"}
               />
             </div>
           </div>
         </section>
 
-        {/* <Dialog
-          open={openEmail}
-          keepMounted
-          onClose={() => setOpenEmail(false)}
-          aria-describedby="alert-dialog-slide-description"
-          className="bg-gray-500/40"
-        >
-          <Box className="bg-red-200">
-            <DialogTitle className="my-4  border-b-2 border-black text-center font-serif !text-6xl text-black">
-              <p className="font-Handwriting">{"Verify your email"}</p>
-            </DialogTitle>
-            <DialogContent className="my-4 text-black ">
-              <DialogContentText id="alert-dialog-slide-description">
-                <p className="text-center text-black">
-                  {` A verification email has been set to ${userMail}  `}
-                  <br></br>
-                  {`check your email box and click the verification link that has been sent in order to verify your account. That link will send you to the homepage`}
-                </p>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions></DialogActions>
-          </Box>
-        </Dialog> */}
         {dialogError !== null && (
           <AuthErrorDialogue
             dialogError={dialogError}
@@ -234,7 +211,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
       <div className=" flex h-full w-full items-center justify-center align-middle">
         <button
           onClick={logout}
-          className=" h-10  w-80 bg-red-900 transition-all duration-300 hover:bg-red-800"
+          className=" h-10  w-56 bg-red-900 transition-all duration-300 hover:bg-red-800 md:w-80"
         >
           Logout First
         </button>

@@ -23,7 +23,7 @@ export const determineSorts = (
   fast_food_type: boolean;
   sweet_type: boolean;
   drink_type: boolean;
-  utensil_type: boolean;
+  cutlery_type: boolean;
   material: boolean;
   ingredients: boolean;
   style: boolean;
@@ -45,7 +45,7 @@ export const determineSorts = (
     fast_food_type,
     sweet_type,
     drink_type,
-    utensil_type,
+    cutlery_type,
     material,
     ingredients,
     style,
@@ -101,7 +101,7 @@ export const determineSorts = (
       drink_type = true;
       break;
     case `utensils-and-plates`:
-      utensil_type = true;
+      cutlery_type = true;
       material = true;
       break;
     case `ingredients`:
@@ -140,7 +140,7 @@ export const determineSorts = (
     fast_food_type,
     sweet_type,
     drink_type,
-    utensil_type,
+    cutlery_type,
     material,
     ingredients,
     style,

@@ -82,6 +82,7 @@ const PreviewCanvas = ({ selectedCategory }: props) => {
           )}
         </Layer>
       </KonvaStage>
+      <button></button>
     </section>
   );
 };

@@ -42,12 +42,12 @@ const Index: NextPage = () => {
       <Head>
         <title>Image Previewer for Restaurants</title>
       </Head>
-      <div className="flex h-screen  ">
+      <div className="flex h-screen ">
         <ChoosePreview
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
-        <main className="ml-[256px] h-full w-full rounded-md bg-white">
+        <main className="ml-4 h-full w-full rounded-md bg-white">
           {areThereImages ? (
             <PreviewCanvas selectedCategory={selectedCategory} />
           ) : (

@@ -43,50 +43,38 @@ const Index: NextPage = () => {
 
   if (tier === undefined) tier = "silver";
   const checkoutPageSchema = z.number().gt(0).lt(3);
-  const nextButtonRef = useRef<null | HTMLButtonElement>(null);
 
-  type checkoutPage = z.infer<typeof checkoutPageSchema>;
+  type CheckoutPage = z.infer<typeof checkoutPageSchema>;
 
-  const [checkoutPage, setCheckoutPage] = useState<checkoutPage>(1);
-  // const [country, setCountry] = useState<string>("United States");
-  // const [region, setRegion] = useState<string>("United States");
+  const [checkoutPage, setCheckoutPage] = useState<CheckoutPage>(1);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
+  const [paymentDetails, setPaymentDetails] = useState<Partial<checkoutInputs>>(
+    {
+      firstName: undefined,
+      lastName: undefined,
+      country: undefined,
+      region: undefined,
+      address: undefined,
+      creditCardInfo: undefined,
+      creditCardName: undefined,
+    }
+  );
 
-    formState: { errors },
-  } = useForm<checkoutInputs>({
-    mode: "onBlur",
-    resolver: zodResolver(checkoutSchema),
-  });
-
-  const onSubmit: SubmitHandler<checkoutInputs> = async ({
-    address,
-    country,
-    creditCardInfo,
-    creditCardName,
-    firstName,
-    lastName,
-    region,
-  }) => {
-    // await signIn(email, password);
-  };
+  useEffect(() => {
+    console.log(`checkoutPage`, checkoutPage);
+  }, [checkoutPage]);
 
   const determineForm = (page: 1 | 2 | 3) => {
     switch (page) {
       case 1:
         return (
           <AddressForm
-            register={register}
-            setValue={setValue}
-            errors={errors}
+            setPaymentDetails={setPaymentDetails}
+            setCheckoutPage={setCheckoutPage}
           />
         );
       case 2:
-        return <CreditCardForm register={register} />;
+        return <CreditCardForm setPaymentDetails={setPaymentDetails} />;
       case 3:
         return <PaymentConfirmation />;
       default:
@@ -107,7 +95,7 @@ const Index: NextPage = () => {
         absolute top-0 flex h-screen w-screen flex-col justify-end   align-bottom ${styles.checkoutBG}
       `}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
         {transition((style, i) => (
           <animated.section
             className={`absolute top-10 h-auto w-auto`}
@@ -117,7 +105,7 @@ const Index: NextPage = () => {
           </animated.section>
         ))}
 
-        <div className="mx-auto  flex w-full items-center justify-center space-x-10 align-middle">
+        {/* <div className="mx-auto  flex w-full items-center justify-center space-x-10 align-middle">
           <button
             className="buttons-1 h-8 w-32  disabled:bg-gray-500 "
             disabled={checkoutPage === 1}
@@ -128,7 +116,6 @@ const Index: NextPage = () => {
           {checkoutPage !== 2 ? (
             <button
               className="buttons-1 h-8 w-32  disabled:bg-gray-500"
-              ref={nextButtonRef}
               disabled={checkoutPage === 3}
               onClick={() => setCheckoutPage((v) => v + 1)}
             >
@@ -137,14 +124,13 @@ const Index: NextPage = () => {
           ) : (
             <button
               className="buttons-1 h-8 w-32  disabled:bg-gray-500"
-              ref={nextButtonRef}
               type={"submit"}
             >
               Submit
             </button>
           )}
-        </div>
-      </form>
+        </div> */}
+      </div>
       <PaymentStepsSVG />
     </div>
   );

@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { Masonry } from "@mui/lab";
 import { CategoryPageGraphicImages } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
+import { isMobile } from "react-device-detect";
 
 const Index = () => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const Index = () => {
   return (
     <>
       <Masonry
-        columns={3}
+        columns={isMobile ? 1 : 3}
         spacing={2}
         defaultHeight={450}
         defaultColumns={4}
@@ -34,7 +35,7 @@ const Index = () => {
                   height={list.h}
                   objectFit={"cover"}
                   src={`/frontend-used-images/category-images/${list.catName}/${list.subCatName}.png`}
-                  className={"grayscale-[95%] filter"}
+                  className={"brightness-50 filter"}
                 />
                 <button
                   className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 !grayscale-0 !filter transition-all duration-300 hover:text-red-500 `}
@@ -54,7 +55,7 @@ const Index = () => {
                 key={list}
                 className="flex h-min w-auto flex-col items-center justify-center align-middle"
               >
-                <h3 className="m-8  max-w-md bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-6xl text-transparent drop-shadow-xl">
+                <h3 className="m-8  max-w-md bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-3xl text-transparent drop-shadow-xl md:text-6xl">
                   {list}
                 </h3>
                 <button className="buttons-3 h-min ">

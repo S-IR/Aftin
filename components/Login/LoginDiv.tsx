@@ -48,7 +48,7 @@ const LoginDiv = ({ user, userLoading }: props) => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { signIn, logout } = useAuth();
+  const [signUp, signIn, logout, loading] = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     const res = await signIn(email, password);
@@ -101,7 +101,7 @@ const LoginDiv = ({ user, userLoading }: props) => {
                 <input
                   type="email"
                   placeholder="Email"
-                  className=" white/25 h-8 w-80 bg-[#3A0602]   text-center text-2xl shadow-xl !outline-none drop-shadow-xl transition-all duration-300  placeholder:text-orange-700  focus:bg-orange-800 focus:placeholder:text-orange-500 active:drop-shadow-none "
+                  className=" white/25 h-8 w-64 bg-[#3A0602] text-center text-xl  shadow-xl !outline-none drop-shadow-xl transition-all duration-300 placeholder:text-orange-700 focus:bg-orange-800  focus:placeholder:text-orange-500  active:drop-shadow-none md:w-80 md:text-2xl "
                   {...register("email", {
                     required: true,
                   })}
@@ -117,13 +117,13 @@ const LoginDiv = ({ user, userLoading }: props) => {
                   <input
                     type="password"
                     placeholder="Password"
-                    className="white/25 h-8 w-80 bg-[#3A0602]   text-center text-2xl shadow-xl !outline-none drop-shadow-xl transition-all duration-300  placeholder:text-orange-700  focus:bg-orange-800 focus:placeholder:text-orange-500 active:drop-shadow-none"
+                    className="white/25 h-8 w-64 bg-[#3A0602] text-center text-xl  shadow-xl !outline-none drop-shadow-xl transition-all duration-300 placeholder:text-orange-700 focus:bg-orange-800  focus:placeholder:text-orange-500  active:drop-shadow-none md:w-80 md:text-2xl"
                     {...register("password", {
                       required: true,
                     })}
                   />
                   {errors.password && (
-                    <p className="p-1 text-[13px] text-orange-500">
+                    <p className="p-1 text-xs text-orange-500 md:text-sm">
                       Please enter a valid password
                     </p>
                   )}
@@ -141,14 +141,14 @@ const LoginDiv = ({ user, userLoading }: props) => {
             <div className="mt-10 flex h-min w-1/2 flex-col items-center justify-center space-y-8 ">
               <button
                 type="submit"
-                className="!m-0 h-10 w-80 bg-red-900 transition-all duration-300 hover:bg-red-800"
+                className="!m-0 h-10 w-64 bg-red-900 transition-all duration-300 hover:bg-red-800 md:w-80"
               >
                 Sign In
               </button>
             </div>
           </div>
         </form>
-        <div className=" flex w-auto  items-center justify-center space-x-12 text-center align-middle">
+        <div className=" flex w-auto flex-col items-center  justify-center   text-center align-middle md:flex-row md:space-x-12">
           <GoogleButton
             text="Login with Google"
             onClick={() => handleThirdPartySubmit("Google")}

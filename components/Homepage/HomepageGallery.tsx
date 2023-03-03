@@ -2,6 +2,7 @@ import { Masonry } from "@mui/lab";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { isMobile } from "react-device-detect";
 import { homepageGalleryList } from "../../constants/homepage/homepageGalleryList";
 
 const HomepageGallery = () => {
@@ -9,11 +10,9 @@ const HomepageGallery = () => {
   return (
     <>
       <Masonry
-        columns={3}
+        columns={isMobile ? 1 : 3}
         spacing={2}
-        defaultHeight={450}
-        defaultColumns={4}
-        defaultSpacing={2}
+        defaultColumns={isMobile ? 2 : 4}
         className={"mx-auto mt-20 flex max-w-6xl"}
       >
         {homepageGalleryList.map((list) => {
@@ -21,7 +20,7 @@ const HomepageGallery = () => {
             return (
               <div
                 key={list.name}
-                className="group relative m-2 flex justify-center rounded-md align-middle shadow-gray-700  drop-shadow-xl  transition-all duration-300 "
+                className="h- group relative m-0  flex justify-center rounded-md  align-middle  shadow-gray-700 drop-shadow-xl transition-all duration-300 md:m-2 "
               >
                 <Image
                   alt={`representative image from ${list.name.replace(
@@ -30,7 +29,7 @@ const HomepageGallery = () => {
                   )}`}
                   width={list.w}
                   height={list.h}
-                  objectFit={"cover"}
+                  objectFit={"scale-down"}
                   src={`/frontend-used-images/homepage/homepage-gallery/${list.subCatName}.png`}
                   className={"grayscale-[90%] filter"}
                 />

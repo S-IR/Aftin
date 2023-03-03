@@ -78,7 +78,7 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
 
         <animated.div
           ref={target}
-          className="relative h-auto w-auto cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
+          className="relative flex h-fit w-fit cursor-pointer  items-start  justify-start rounded-lg align-top filter-none transition duration-300 ease-in-out hover:filter "
           onMouseEnter={() => {
             setPremiumText(true);
           }}
@@ -90,10 +90,11 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
           <NextImage
             src={doc.url}
             alt={doc.description}
-            width={280}
-            height={doc.height / 4}
-            objectFit={`scale-down`}
+            width={isMobile ? 256 : 380}
+            height={isMobile ? doc.height / 6 : doc.height / 3}
+            objectFit={`cover`}
             className="rounded-md   "
+            align
             onLoad={() => setLoading(false)}
           />
           {doc.tier === `silver` ||

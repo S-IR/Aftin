@@ -10,10 +10,12 @@ type State = {
 export type addImage = (url: string | Url, w: number, h: number) => void;
 export type removeImage = (index: number) => void;
 export type clearImages = () => void;
+export type selectImage = (index: number) => void;
 type Actions = {
   ADD_IMAGE: addImage;
   REMOVE_IMAGE: removeImage;
   CLEAR_IMAGES: clearImages;
+  SELECT_IMAGE: selectImage;
 };
 
 export const usePreviewsStore = create<State & Actions>((set) => ({
@@ -29,6 +31,8 @@ export const usePreviewsStore = create<State & Actions>((set) => ({
   CLEAR_IMAGES: () => set(produce((state) => (state.images = []))),
   REMOVE_IMAGE: (index) =>
     set(produce((state) => (state.images = state.images.splice(index, 1)))),
+  SELECT_IMAGE: (index) =>
+    set(produce((state) => (state.currentlyPreviewed = index))),
 }));
 if (process.env.NODE_ENV === "development") {
   mountStoreDevtool("PreviewStore", usePreviewsStore);

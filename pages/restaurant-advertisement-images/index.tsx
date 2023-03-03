@@ -10,6 +10,7 @@ import ImgLink from "../../components/general/ImgLink";
 import { Masonry } from "@mui/lab";
 import { CategoryPageAdvertImages } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
+import { isMobile } from "react-device-detect";
 
 const Index = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const Index = () => {
   return (
     <>
       <Masonry
-        columns={3}
+        columns={isMobile ? 1 : 3}
         spacing={2}
         defaultHeight={450}
         defaultColumns={4}
@@ -40,10 +41,10 @@ const Index = () => {
                   height={list.h}
                   objectFit={"cover"}
                   src={`/frontend-used-images/category-images/${list.catName}/${list.subCatName}.png`}
-                  className={"grayscale-[95%] filter"}
+                  className={"brightness-50 filter"}
                 />
                 <button
-                  className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 !grayscale-0 !filter transition-all duration-300 hover:text-red-500 `}
+                  className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 hover:text-red-500 `}
                   onClick={() =>
                     router.push(
                       `/restaurant-${list.catName}/${list.subCatName}`
@@ -57,7 +58,7 @@ const Index = () => {
           } else {
             return (
               <>
-                <h3 className="m-16 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-4xl text-transparent drop-shadow-xl">
+                <h3 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-3xl text-transparent drop-shadow-xl md:m-16 md:text-4xl">
                   {list}
                 </h3>
               </>

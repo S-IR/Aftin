@@ -37,10 +37,6 @@ const CheckoutSelectRegion = ({ register, setValue, chosenCountry }: props) => {
     useState<{ name: string; shortCode: string }[]>(sortedArr);
 
   useEffect(() => {
-    console.log(`sortedArr`, sortedArr);
-  }, [sortedArr]);
-
-  useEffect(() => {
     setOptionsArr(sortedArr);
   }, [chosenCountry]);
 

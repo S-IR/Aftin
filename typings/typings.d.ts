@@ -51,3 +51,5 @@ export type LoginStatus =
   | "silver"
   | "gold"
   | undefined;
+
+// TO BE FILLED

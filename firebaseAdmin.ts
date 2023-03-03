@@ -89,7 +89,6 @@ export async function sendPasswordReset(
   actionCodeSettings: ActionCodeSettings
 ) {
   try {
-    const isValidEmail = admin.auth().fetch;
     const actionLink = await admin
       .auth()
       .generatePasswordResetLink(userEmail, actionCodeSettings);

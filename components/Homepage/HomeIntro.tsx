@@ -22,7 +22,7 @@ function HomeIntro() {
       <a.h2
         style={hTwoStyles}
         ref={hTwoRef}
-        className={`translate-y-20 bg-gradient-to-br from-red-300 to-white bg-clip-text pt-10 font-Handwriting text-8xl text-transparent opacity-0  transition-all duration-1000 ease-out `}
+        className={`translate-y-20 bg-gradient-to-br from-red-300 to-white bg-clip-text pt-10 font-Handwriting text-4xl text-transparent opacity-0 transition-all  duration-1000 ease-out md:text-8xl `}
       >
         Make<br></br> Your Restaurant <br></br> Stand Out
       </a.h2>

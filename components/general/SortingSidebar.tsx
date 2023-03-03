@@ -54,7 +54,7 @@ import {
   stickerOptions,
   surrEnvOptions,
   sweetOptions,
-  utensilsOptions,
+  cutleriesOptions,
 } from "../../constants/SortingSidebar";
 import { isMobile } from "react-device-detect";
 import { SortColor, SortOption } from "./SortingSidebarComps";
@@ -89,7 +89,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
     fast_food_type,
     sweet_type,
     drink_type,
-    utensil_type,
+    cutlery_type,
     material,
     ingredients,
     style,
@@ -215,10 +215,10 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               Icon={<LocalBar style={{ color: `gold` }} />}
             />
           )}
-          {utensil_type && (
+          {cutlery_type && (
             <SortOption
-              optionsArray={utensilsOptions}
-              queryName={`utensil_type`}
+              optionsArray={cutleriesOptions}
+              queryName={`cutlery_type`}
               title={`Utensil Type`}
               Icon={<Restaurant style={{ color: `gold` }} />}
             />

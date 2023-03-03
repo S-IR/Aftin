@@ -21,18 +21,21 @@ const HomepageHireProfessional = () => {
     <section className="relative flex min-h-screen justify-center space-y-4 text-center ">
       <div className="absolute top-40 right-28 flex flex-col items-center">
         <a.h2
-          className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-2xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"
+          className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-4xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"
           ref={hTwoRef}
           style={hTwoStyles}
         >
           Hire <br></br> a professional
         </a.h2>
-        <a.h3 className=" mb-10 font-serif text-lg" style={hFourStyle}>
+        <a.h3
+          className=" text-md mb-10 font-serif md:text-lg"
+          style={hFourStyle}
+        >
           To design your desired website, banner, logo or any graphic design
           element
         </a.h3>
         <Link href={"/request-design"}>
-          <a className="buttons-3 font-Handwriting text-2xl font-thin text-red-300 transition-all duration-300 hover:text-white">
+          <a className="buttons-3 font-Handwriting text-xl font-thin text-red-300 transition-all duration-300 hover:text-white md:text-2xl">
             learn more
           </a>
         </Link>

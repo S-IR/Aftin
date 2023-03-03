@@ -21,7 +21,7 @@ const HomepageTiers = () => {
   return (
     <section className="flex h-auto min-h-[70vh] w-screen flex-col items-center bg-white/10 py-10">
       <a.h2
-        className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text font-Handwriting text-8xl text-transparent"
+        className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text text-center font-Handwriting text-4xl  text-transparent md:text-8xl"
         ref={hTwoRef}
         style={hTwoStyles}
       >
@@ -46,7 +46,7 @@ const HomepageTiers = () => {
           Yearly
         </button>
       </div>
-      <div className="mt-6 flex items-center space-x-48 align-middle">
+      <div className="mt-6 flex w-full flex-col items-center justify-center space-y-12 align-middle md:flex-row md:space-x-48 md:space-y-0">
         {tierBenefits.map((tier) => {
           return TierDescription(tier, subscriptionPeriod);
         })}
@@ -77,13 +77,13 @@ function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
     <div
       key={tier.name}
       className={
-        "h-[75vh] w-[18vw] rounded-md bg-gradient-to-br from-brown-700 to-brown-900 p-1 "
+        "h-[75vh] w-1/2  rounded-md bg-gradient-to-br from-brown-700 to-brown-900 p-1 md:w-[18vw] "
       }
     >
       <div
         className={`group relative  flex  h-full  w-full   justify-center bg-black transition-all duration-300 `}
       >
-        <p className="absolute top-[30%]  text-center font-Handwriting text-4xl text-yellow-300 transition-all duration-300 group-hover:text-red-300">
+        <p className="absolute top-[35%] text-center  font-Handwriting text-2xl text-yellow-300 transition-all duration-300 group-hover:text-red-300 md:top-[30%] md:text-4xl">
           {tier.name}
           <br></br>
           <a.span className="text-2xl text-red-300">
@@ -105,7 +105,10 @@ function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
                 color={"success"}
                 className={"mx-2"}
               />
-              <p className="text-md mx-2 font-serif"> {tierBenefit}</p>
+              <p className=" md:text-md mx-2 font-serif text-sm">
+                {" "}
+                {tierBenefit}
+              </p>
             </div>
           ))}
         </div>

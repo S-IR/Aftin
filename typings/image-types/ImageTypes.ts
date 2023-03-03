@@ -36,7 +36,7 @@ export const subCats_array: SMALL_CATEGORY_OF_IMG[] = [
   `stickers-and-cliparts`,
   `brochures`,
   `other`,
-];
+] as const;
 
 interface Array<SMALL_CATEGORY_OF_IMG> {
   includes(
@@ -63,7 +63,7 @@ export type GraphicDesignType =
   | `brochures`
   | `other`;
 
-export const AdvertImagesOptions: AdvertImageType[] = [
+export const AdvertImagesOptions = [
   `appetizers`,
   `soups`,
   `main-dishes`,
@@ -72,9 +72,9 @@ export const AdvertImagesOptions: AdvertImageType[] = [
   `drinks`,
   `cutleries-and-plates`,
   `ingredients`,
-];
+] as const;
 
-export const GrahicDesignsOptions: GraphicDesignType[] = [
+export const GrahicDesignsOptions = [
   `menus`,
   `banners`,
   `flyers`,
@@ -82,7 +82,7 @@ export const GrahicDesignsOptions: GraphicDesignType[] = [
   `stickers-and-cliparts`,
   `brochures`,
   `other`,
-];
+] as const;
 
 export const size_array = [
   `Small (around 256 X 256)`,
@@ -90,14 +90,14 @@ export const size_array = [
   `HD (around 1280x720)`,
   `HDTV (around 1920x1080)`,
   `4K+`,
-];
+] as const;
 export const surr_env_array = [
   "advertisement-meant",
   "being-cooked",
   "being-served",
   "being-delivered",
   `served-outside`,
-];
+] as const;
 
 export const soups_array = [
   `clam-chowder`,
@@ -105,7 +105,7 @@ export const soups_array = [
   `miso-soup`,
   `pho`,
   `ramen`,
-];
+] as const;
 
 export const appetizers_array = [
   `beef-carpaccio`,
@@ -130,7 +130,7 @@ guacamole`,
   ` scallops`,
   `spring-rolls`,
   `takoyaki`,
-];
+] as const;
 
 export const main_dish_array = [
   `apple-pie`,
@@ -160,7 +160,7 @@ export const main_dish_array = [
   `steak`,
   `steak-tartare`,
   `sushi`,
-];
+] as const;
 
 export const sweets_and_desserts_array = [
   `bread-pudding`,
@@ -179,7 +179,7 @@ export const sweets_and_desserts_array = [
   `strawberry-shortcake`,
   `tiramisu`,
   `waffles`,
-];
+] as const;
 export const fast_foods_array = [
   `burgers`,
   `chicken-wings`,
@@ -190,7 +190,7 @@ export const fast_foods_array = [
   `pizzas`,
   `pretzels`,
   `tacos`,
-];
+] as const;
 export const drinks_array = [
   `beer`,
   `carbonated-drinks`,
@@ -200,7 +200,7 @@ export const drinks_array = [
   `tea`,
   `water`,
   `wine`,
-];
+] as const;
 export const cutleries_and_plates_array = [
   `baking-tools`,
   `forks`,
@@ -210,8 +210,8 @@ export const cutleries_and_plates_array = [
   `spoons`,
   `vessels`,
   `whisks`,
-];
-export const utensil_type = [`wood`, `stainless-steel`];
+] as const;
+export const cutlery_type = [`wood`, `stainless-steel`] as const;
 export const spices_array = [
   `black-pepper`,
   `cardamom`,
@@ -220,7 +220,7 @@ export const spices_array = [
   `masala`,
   `saffron`,
   `zaatar`,
-];
+] as const;
 export const fruits_array = [
   `apples`,
   `berries`,
@@ -231,7 +231,7 @@ export const fruits_array = [
   `pineapples`,
   `strawberries`,
   `watermelons`,
-];
+] as const;
 export const vegetables_array = [
   `beans`,
   `broccoli`,
@@ -242,31 +242,32 @@ export const vegetables_array = [
   `onions`,
   `peas`,
   `tomatoes`,
-];
+] as const;
 export const ingredients_array = [
   ...spices_array,
   ...vegetables_array,
   ...fruits_array,
-];
+] as const;
 
-export const menu_size_array = [`letter`, `legal`, `tabloid`, `half-page`];
+export const menu_size_array = [
+  `letter`,
+  `legal`,
+  `tabloid`,
+  `half-page`,
+] as const;
 
 export const banner_type_array = [
   `facebook-banner`,
   `twitter-banner`,
   `website-banner`,
   `outdoor-banner`,
-];
+] as const;
 
-// export const artwork_styles_array = [
-//   `eye-catchy`,
-//   `hunger-inducing`,
-//   `painting`,
-//   `cartoon`,
-//   `nostalgic`,
-//   `creative`,
-//   `unique`,
-// ];
+export const business_card_styles_array = [
+  `minimalistic`,
+  `elegant`,
+  `professional`,
+] as const;
 export const stickers_and_cliparts_categories = [
   `bread`,
   `burger`,
@@ -279,8 +280,8 @@ export const stickers_and_cliparts_categories = [
   `popcorn`,
   `taco`,
   `vegetables`,
-];
-export const shape_array = [`rectangular`, `round`, `square`];
+] as const;
+export const shape_array = [`rectangular`, `round`, `square`] as const;
 export const gr_des_style_array = [
   `fine-dining`,
   `diner`,
@@ -298,7 +299,7 @@ export const gr_des_style_array = [
   `mexican`,
   `chinese`,
   `middle eastern`,
-];
+] as const;
 // Cannot use the typeof the styles array because the nested object has an array, and ts will think that ethnic is an array and not a string
 export type Valid_image_fields =
   | `paid`
@@ -312,7 +313,7 @@ export type Valid_image_fields =
   | `soup`
   | `fast_food_type`
   | `drink_type`
-  | `utensil_type`
+  | `cutlery_type`
   | `material`
   | `ingredients`
   | `banner_type`
@@ -334,7 +335,7 @@ export const valid_image_fields = [
   `soup`,
   `food_type`,
   `drink_type`,
-  `utensil_type`,
+  `cutlery_type`,
   `material`,
   `ingredients`,
   `banner_type`,
@@ -343,7 +344,7 @@ export const valid_image_fields = [
   `stickers_category`,
   `shape`,
   "tags",
-];
+] as cosnt;
 export type ImgDoc = {
   tier: (typeof tier_array)[number];
   size: (typeof size_array)[number] | (typeof menu_size_array)[number];
@@ -352,18 +353,19 @@ export type ImgDoc = {
   color_scheme: HTMLHexColor[];
   surr_env?: (typeof surr_env_array)[number];
   url: string;
-  views: number;
+  real_url: string;
   width: number;
   height: number;
   tags: (typeof tagsArray)[number][];
+  limited_edition_expiration_date?: Date;
   appetizer_type?: (typeof appetizers_array)[number];
   dish_type?: (typeof main_dish_array)[number];
   soup?: (typeof soups_array)[number];
   fast_food_type?: (typeof fast_foods_array)[number];
   sweet_type: (typeof sweets_and_desserts_array)[number];
   drink_type?: (typeof drinks_array)[number];
-  utensil_type?: (typeof cutleries_and_plates_array)[number];
-  material?: (typeof utensil_type)[number];
+  cutlery_type?: (typeof cutleries_and_plates_array)[number];
+  material?: (typeof cutlery_type)[number];
   ingredients?: typeof ingredients_array;
   menu_type?: (typeof menu_size_array)[number];
   menu_size?: (typeof menu_size_array)[number];

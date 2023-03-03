@@ -2,22 +2,17 @@ import axios from "axios";
 import { addDoc, CollectionReference, DocumentData } from "firebase/firestore";
 import {
   getDownloadURL,
+  ref,
   StorageReference,
   uploadBytesResumable,
+  uploadString,
 } from "firebase/storage";
 import { tagsArray } from "../../../constants/upload-image/Tags";
+import { storage } from "../../../firebase";
+import { makeID } from "../../GeneralFunctions";
 import { buildRgb, ColorQuantization } from "./buildRGB";
 
-// Uploads an image to the firebase storage. Logs the progress and the potential errors
-export const uploadImageToStorage = async (
-  storageRef: StorageReference,
-  file: any,
-  doc: CollectionReference<DocumentData>,
-  docFields: object,
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
-) => {
-  if (!canvasRef.current) return console.log(`no canvas ref`);
-
+const uploadToStorage = (storageRef: StorageReference, file: unknown) => {
   const uploadTask = uploadBytesResumable(storageRef, file);
   const url = uploadTask.on(
     "state_changed",
@@ -37,38 +32,128 @@ export const uploadImageToStorage = async (
     },
     (error) => {
       console.log(`error while uploading: `, error);
-    },
-    () => {
-      // Handle successful uploads on complete
-      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        //Since we need to find the main colors of the image, we need to create a canvas and get the rgb data for each pixel. Then we do a median cut algorithm to find the colors that are most predominant. Now the value is hard coded at 3 (it's the second parameter of the ColorQuantization), which means it will return an array of 2. If it was 4 it would return 1, if it was 2 it would return 8 and so forth
-        const image = new Image();
-        const intermediateImgURL = URL.createObjectURL(file);
-        image.src = intermediateImgURL;
-        image.onload = () => {
-          canvasRef.current.width = image.width;
-          canvasRef.current.height = image.height;
-          const width = image.width;
-          const height = image.height;
-          const ctx = canvasRef.current?.getContext(`2d`);
-          ctx.drawImage(image, 0, 0);
-          const imageData = ctx.getImageData(0, 0, width, height);
-          const rgbArray = buildRgb(imageData.data);
-          const MainColors = ColorQuantization(rgbArray, 3);
-
-          addDoc(doc, {
-            ...docFields,
-            color: MainColors,
-            url,
-            width,
-            height,
-          });
-          console.log(`finished uploading the image`);
-        };
-      });
     }
   );
+  return uploadTask;
+};
+
+// Uploads an image to the firebase storage. Logs the progress and the potential errors
+export const uploadImageToStorage = async (
+  storageAddress: string,
+  file: any,
+  doc: CollectionReference<DocumentData>,
+  docFields: object,
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>,
+  real_file?: any | undefined
+) => {
+  if (!canvasRef.current) return console.log(`no canvas ref`);
+  const storageRef = ref(storage, `${storageAddress}/${makeID(16)}.png`);
+
+  const uploadTask = uploadToStorage(storageRef, file);
+
+  if ((await uploadTask).state === "success") {
+    const image = new Image();
+    const imgUrl = await getDownloadURL(uploadTask.snapshot.ref);
+    const intermediateImgURL = URL.createObjectURL(file);
+    image.src = intermediateImgURL;
+    image.onload = () => {
+      canvasRef.current.width = image.width;
+      canvasRef.current.height = image.height;
+      const width = image.width;
+      const height = image.height;
+      const ctx = canvasRef.current?.getContext(`2d`);
+      ctx.drawImage(image, 0, 0);
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const rgbArray = buildRgb(imageData.data);
+      const MainColors = ColorQuantization(rgbArray, 3);
+      if (real_file === undefined) {
+        addDoc(doc, {
+          ...docFields,
+          color: MainColors,
+          imgUrl,
+          width,
+          height,
+        });
+      } else {
+        const realStorageRef = ref(
+          storage,
+          `${storageAddress}/${makeID(16)}.png`
+        );
+        console.log("real_file", real_file);
+        uploadString(realStorageRef, real_file, "data_url").then(
+          async (result) => {
+            getDownloadURL(realStorageRef).then((realImgUrl) => {
+              console.log("realImgUrl", realImgUrl);
+              addDoc(doc, {
+                ...docFields,
+                color: MainColors,
+                imgUrl,
+                realImgUrl,
+                width,
+                height,
+              });
+            });
+          }
+        );
+      }
+
+      // Since we need to find the main colors of the image, we need to create a canvas and get the rgb data for each pixel. Then we do a median cut algorithm to find the colors that are most predominant. Now the value is hard coded at 3 (it's the second parameter of the ColorQuantization), which means it will return an array of 2. If it was 4 it would return 1, if it was 2 it would return 8 and so forth
+
+      return console.log(`finished uploading the image`);
+    };
+  }
+
+  // const uploadTask = uploadBytesResumable(storageRef, file);
+  // const url = uploadTask.on(
+  //   "state_changed",
+  //   (snapshot) => {
+  //     // Observe state change events such as progress, pause, and resume
+  //     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+  //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //     console.log("Upload is " + progress + "% done");
+  //     switch (snapshot.state) {
+  //       case "paused":
+  //         console.log("Upload is paused");
+  //         break;
+  //       case "running":
+  //         console.log("Upload is running");
+  //         break;
+  //     }
+  //   },
+  //   (error) => {
+  //     console.log(`error while uploading: `, error);
+  //   },
+  //   () => {
+  //     // Handle successful uploads on complete
+  //     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+  //     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+  //       //Since we need to find the main colors of the image, we need to create a canvas and get the rgb data for each pixel. Then we do a median cut algorithm to find the colors that are most predominant. Now the value is hard coded at 3 (it's the second parameter of the ColorQuantization), which means it will return an array of 2. If it was 4 it would return 1, if it was 2 it would return 8 and so forth
+  //       const image = new Image();
+  //       const intermediateImgURL = URL.createObjectURL(file);
+  //       image.src = intermediateImgURL;
+  //       image.onload = () => {
+  //         canvasRef.current.width = image.width;
+  //         canvasRef.current.height = image.height;
+  //         const width = image.width;
+  //         const height = image.height;
+  //         const ctx = canvasRef.current?.getContext(`2d`);
+  //         ctx.drawImage(image, 0, 0);
+  //         const imageData = ctx.getImageData(0, 0, width, height);
+  //         const rgbArray = buildRgb(imageData.data);
+  //         const MainColors = ColorQuantization(rgbArray, 3);
+
+  //         addDoc(doc, {
+  //           ...docFields,
+  //           color: MainColors,
+  //           url,
+  //           width,
+  //           height,
+  //         });
+  //         console.log(`finished uploading the image`);
+  //       };
+  //     });
+  //   }
+  // );
 };
 
 export const getTagsFromTitle = (

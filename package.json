@@ -36,6 +36,7 @@
     "react": "18.2.0",
     "react-color": "^2.19.3",
     "react-country-region-selector": "^3.6.1",
+    "react-datalist-input": "^3.2.1",
     "react-device-detect": "^2.2.2",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
@@ -56,6 +57,7 @@
     "react-transition-group": "^4.4.5",
     "redux-undo": "^1.0.1",
     "simple-zustand-devtools": "^1.1.0",
+    "watermarkjs": "^2.1.1",
     "zod": "^3.20.6",
     "zundo": "^2.0.0-beta.11",
     "zustand": "^4.3.3"

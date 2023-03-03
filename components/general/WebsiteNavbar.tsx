@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { SearchIcon, BellIcon, UserCircleIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navLink, navLinks } from "../../constants/NavLinks";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -17,9 +17,33 @@ function WebsiteNavbar() {
 
   const router = useRouter();
 
+  const navRef = useRef<null | HTMLDivElement>(null);
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setActiveSidebar(null);
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(navRef);
+
   return (
     <>
-      <nav className=" z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center bg-none transition-all duration-300 hover:bg-gray-900  ">
+      <nav
+        className=" z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center  bg-gradient-to-b from-gray-900 to-white/0 transition-all duration-300 hover:bg-gray-900 "
+        ref={navRef}
+      >
         <ul className="grow-1 hidden h-max flex-1 space-x-10 px-4 font-bold md:flex md:space-x-6 md:px-8 ">
           {navLinks.map((nav) => (
             <li
@@ -43,7 +67,7 @@ function WebsiteNavbar() {
           activeSidebar={activeSidebar}
           setActiveSidebar={setActiveSidebar}
         />
-        <div className="mx-4 flex w-min flex-1  grow-0 items-center justify-center space-x-2">
+        <div className="mx-4 flex w-min flex-1  grow-0 items-center justify-center space-x-2 align-middle last:ml-auto">
           {!user && !userLoading && (
             <button
               className="buttons-3 !h-8 !w-24 text-lg"
@@ -61,13 +85,14 @@ function WebsiteNavbar() {
             </button>
           )}
           <button
+            className="h-min w-min"
             onClick={() =>
               activeSidebar === "ProfileDropdown"
                 ? setActiveSidebar(null)
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className="mx-5 h-12 w-12">
+            <div className="mx-5 h-min w-min">
               {user && user.photoURL ? (
                 <Image
                   src={user.photoURL}

@@ -41,13 +41,7 @@ const useAuth = (): [
         password
       );
       const resBody = await verifyEmail(userCredential.user.email as string);
-      createUserDoc(
-        userCredential.user.uid,
-        email,
-        username,
-        "Not Specified",
-        "bronze"
-      );
+      createUserDoc(userCredential.user.uid, email, username, "Not Specified");
       if (resBody.status === 200) {
         window.gtag(`event`, `sign_up`, {
           method: "Aftin",

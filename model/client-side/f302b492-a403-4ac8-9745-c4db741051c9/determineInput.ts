@@ -1,7 +1,14 @@
 //this function determines the input fields that are going to be needed when uploading an image
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
+import { z } from "zod";
 import {
   appetizers_array,
-  artwork_styles_array,
   banner_type_array,
   drinks_array,
   fast_foods_array,
@@ -10,7 +17,7 @@ import {
   ingredients_array,
   LARGE_CATEGORY_OF_IMG,
   main_dish_array,
-  utensil_type,
+  cutlery_type,
   menu_size_array,
   shape_array,
   size_array,
@@ -21,9 +28,52 @@ import {
   surr_env_array,
   sweets_and_desserts_array,
   tier_array,
-  utensils_and_plates_array,
   vegetables_array,
+  cutleries_and_plates_array,
+  business_card_styles_array,
 } from "../../../typings/image-types/ImageTypes";
+
+export const uploadImageSchema = z.object({
+  files: z
+    .any()
+    .refine((files) => files?.length == 1, "Image is required.")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      ".jpg, .jpeg, .png and .webp files are accepted."
+    ),
+  tier: z.enum(tier_array),
+  style: z.array(z.enum(gr_des_style_array)).optional(),
+  appetizer_type: z.array(z.enum(appetizers_array)).optional(),
+  soup: z.array(z.enum(soups_array)).optional(),
+  dish_type: z.array(z.enum(main_dish_array)).optional(),
+  sweet_type: z.array(z.enum(sweets_and_desserts_array)).optional(),
+  fast_food_type: z.array(z.enum(fast_foods_array)).optional(),
+  drink_type: z.array(z.enum(drinks_array)).optional(),
+  cutlery_type: z.array(z.enum(cutleries_and_plates_array)).optional(),
+  material: z.enum(cutlery_type).optional(),
+  ingredients: z.array(z.enum(ingredients_array)).optional(),
+  menu_size: z.enum(menu_size_array).optional(),
+  business_card_style: z.array(z.enum(business_card_styles_array)).optional(),
+  sticker_category: z
+    .array(z.enum(stickers_and_cliparts_categories))
+    .optional(),
+  shape: z.enum(shape_array).optional(),
+  real_files: z
+    .any()
+    .refine((files) => files?.length == 1, "Image is required.")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      ".jpg, .jpeg, .png and .webp files are accepted."
+    )
+    .optional(),
+  lim_edition_expiration_date: z
+    .preprocess((arg) => {
+      if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
+    }, z.date().optional())
+    .optional(),
+});
+export type UploadImgInputs = z.infer<typeof uploadImageSchema>;
+
 /**
  * Determines the categories that can be chosen when an image is uploaded
  * @param {LARGE_CATEGORY_OF_IMG}LARGE_CATEGORY_OF_IMG The large category of the image
@@ -68,8 +118,8 @@ export const determineInputs = (
       Array.push({ drink_type: drinks_array });
       break;
     case `cutleries-and-plates`:
-      Array.push({ utensil_type: utensils_and_plates_array });
-      Array.push({ material: utensil_type });
+      Array.push({ cutlery_type: cutleries_and_plates_array });
+      Array.push({ material: cutlery_type });
       break;
     case `ingredients`:
       Array.push({ ingredients: ingredients_array });
@@ -81,7 +131,7 @@ export const determineInputs = (
       //TODO
       break;
     case `business-cards`:
-      Array.push({ artwork_style: artwork_styles_array });
+      Array.push({ artwork_style: business_card_styles_array });
       break;
     case `stickers-and-cliparts`:
       Array.push({ sticker_category: stickers_and_cliparts_categories });

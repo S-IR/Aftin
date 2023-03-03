@@ -10,10 +10,6 @@ const PaymentStepsSVG = () => {
     }, 1);
   }, []);
 
-  useEffect(() => {
-    console.log(startAnimation);
-  }, [startAnimation]);
-
   return (
     <svg viewBox="0 0 1980 178" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_14_89)">

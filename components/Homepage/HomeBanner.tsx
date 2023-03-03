@@ -65,9 +65,11 @@ function HomeBanner() {
           ref={hOneRef}
           style={hOneStyles}
         >
-          <span className="p-2 text-6xl ">The graphic persuader</span>
-          <span className=" text-6xl">of the</span>
-          <span className=" text-6xl"> food industry</span>
+          <span className="p-2 text-3xl  md:text-6xl ">
+            The graphic persuader
+          </span>
+          <span className=" text-3xl  md:text-6xl">of the</span>
+          <span className=" text-3xl  md:text-6xl"> food industry</span>
         </a.h1>
       </div>
     </section>

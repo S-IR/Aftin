@@ -39,14 +39,13 @@ function Login() {
     leave: { opacity: 0, translateY: 20 },
     config: { duration: 300 },
   });
-  const { loading } = useAuth();
 
   return (
     <div>
       <Head>
         <title>login</title>
       </Head>
-      <div className="w-none relative flex  h-screen w-screen flex-row flex-wrap content-start items-center bg-black py-10 sm:w-auto md:items-center md:justify-center md:bg-transparent">
+      <div className=" relative flex  h-screen w-screen flex-row flex-wrap content-start items-center justify-center bg-black py-10 sm:w-auto md:items-center md:bg-transparent">
         <div className="absolute -z-10 ">
           <Image
             src={loginBanner}
@@ -55,8 +54,11 @@ function Login() {
             className="!none -z-10 bg-blend-hard-light sm:!inline"
           />
         </div>
-        <div className=" flex h-5/6 w-6/12 flex-col-reverse rounded-sm  bg-[#3A0602]/80 drop-shadow-xl sm:flex-col  ">
-          <div className=" relative h-auto "></div>
+        <div
+          className={` flex h-5/6 w-3/4 flex-col-reverse rounded-sm bg-[#3A0602]/80 drop-shadow-xl  sm:flex-col md:h-5/6 md:w-6/12 ${
+            form === "sign-up" ? `h-[110vh] md:h-5/6` : ``
+          } `}
+        >
           {transition((style, item) => (
             <animated.section
               style={style}
@@ -69,7 +71,6 @@ function Login() {
               )}
             </animated.section>
           ))}
-          {loading ? <Loading /> : null}
         </div>
         <div className="relative row-span-2 my-2 flex w-full justify-center overflow-hidden">
           <button
@@ -88,7 +89,7 @@ function Login() {
             Sign In
           </button>
           <button
-            className={`m-1 flex h-10 w-48  items-center justify-center rounded-sm text-xl  brightness-90 filter-none  transition-all duration-300  hover:filter ${
+            className={`m-1 flex h-10 w-24 items-center  justify-center rounded-sm text-xl brightness-90  filter-none transition-all  duration-300 hover:filter  md:w-48 ${
               form === "sign-up" ? `text-red-200` : `text-white`
             }`}
             onClick={() =>

@@ -1,6 +1,7 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { UploadImgInputs } from "../../general/UploadImageComp";
+import { FieldErrorsImpl } from "react-hook-form/dist/types";
+import { UploadImgInputs } from "../../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/determineInput";
 
 interface props {
   imgField: string | object;

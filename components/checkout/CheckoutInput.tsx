@@ -3,13 +3,15 @@ import { checkoutInputs } from "../../pages/checkout";
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import styles from "../../styles/checkout.module.css";
 import { FieldErrorsImpl } from "react-hook-form/dist/types/errors";
+import { AddressInputs } from "./AddressForm";
+import { CreditCardInputs } from "./CreditCardForm";
 
 interface props {
-  register: UseFormRegister<checkoutInputs>;
+  register: UseFormRegister<AddressInputs> | UseFormRegister<CreditCardInputs>;
   w: "sm" | "md" | "lg" | "xl";
   h: "sm" | "md" | "lg" | "xl";
-  label: keyof checkoutInputs;
-  errors: FieldErrorsImpl<checkoutInputs>;
+  label: keyof AddressInputs | keyof CreditCardInputs;
+  errors: FieldErrorsImpl<AddressInputs> | FieldErrorsImpl<CreditCardInputs>;
 }
 
 const CheckoutInput = ({ register, w, h, label, errors }: props) => {

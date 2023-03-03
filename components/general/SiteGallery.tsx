@@ -121,11 +121,9 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       </div>
       {imgDocs.length !== 0 && loginStatus ? (
         <Masonry
-          columns={4}
-          spacing={2}
+          columns={isMobile ? 1 : 4}
           defaultColumns={4}
-          defaultSpacing={1}
-          className={" max-w-screen-lg"}
+          className={"max-w-screen-sm  md:max-w-screen-lg"}
         >
           {imgDocs.map((doc) => (
             <SingleImage

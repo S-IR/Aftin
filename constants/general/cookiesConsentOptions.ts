@@ -1,3 +1,5 @@
+import { ConsentCookiesObs } from "../../lib/gtag";
+
 interface cookiesConsentOption {
   name: string;
   description: string;

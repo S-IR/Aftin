@@ -48,7 +48,7 @@ import {
   stickerOptions,
   surrEnvOptions,
   sweetOptions,
-  utensilsOptions,
+  cutleriesOptions,
 } from "../../../../constants/SortingSidebar";
 import { handleOptionClick } from "../../../../model/client-side/SortingSidebar/handleClick";
 interface props {
@@ -72,7 +72,7 @@ const FilterPopover = ({ open, anchorEl, setAnchorEl, subCat }: props) => {
     fast_food_type,
     sweet_type,
     drink_type,
-    utensil_type,
+    cutlery_type,
     material,
     ingredients,
     style,
@@ -171,10 +171,10 @@ const FilterPopover = ({ open, anchorEl, setAnchorEl, subCat }: props) => {
             Icon={<LocalBar style={{ color: `gold` }} />}
           />
         )}
-        {utensil_type && (
+        {cutlery_type && (
           <SortOption
-            optionsArray={utensilsOptions}
-            queryName={`utensil_type`}
+            optionsArray={cutleriesOptions}
+            queryName={`cutlery_type`}
             title={`Utensil Type`}
             Icon={<Restaurant style={{ color: `gold` }} />}
           />
