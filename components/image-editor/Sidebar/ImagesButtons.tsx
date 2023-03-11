@@ -24,7 +24,7 @@ import {
   FilterPopover,
   ImagesGrid,
 } from "./ImageButtonsComps/index";
-import { SMALL_CATEGORY_OF_IMG } from "../../../typings/image-types/ImageTypes";
+import { SecondDegreeCategory } from "../../../typings/image-types/ImageTypes";
 import { handleOptionClick } from "../../../model/client-side/SortingSidebar/handleClick";
 import styles from "../../../styles/image-editor/image-editor.module.css";
 import { uploadImageToCanvas } from "../../../model/client-side/image-editor/Upload";
@@ -32,6 +32,7 @@ import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { activeSidebarType } from "./SidebarIcon";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
@@ -45,7 +46,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<{
     name: string;
-    value: SMALL_CATEGORY_OF_IMG;
+    value: SecondDegreeCategory;
   }>({ name: "Main Dishes", value: "main-dishes" });
 
   //POPOVER CODE
@@ -64,14 +65,19 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
   };
   // if
 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    uploadImageToCanvas(ADD_IMAGE, pageId, e.target.files);
+  const handleUpload = <T extends File>(acceptedFiles: T[]): void => {
+    uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
     setActiveSidebar("Stylize");
   };
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    noDragEventsBubbling: true,
+    onDrop: handleUpload,
+  });
+
   return (
     <section
-      className={`h-[90vh] w-[336px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500`}
+      className={`z-50 h-[90vh] w-[336px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
     >
       {/* <div className="my-6 flex flex-col items-center justify-center space-y-4 align-middle shadow-lg">
         <label
@@ -88,13 +94,18 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
         ></input>
       </div> */}
       <div className="flex flex-col items-center justify-center space-y-1  py-6 align-middle shadow-lg">
-        <div className="relative  h-12 w-72 ">
+        <div
+          className={`relative  h-12 w-72 ${
+            isDragActive ? `bg-orange-300/60` : ``
+          } transition-all duration-300 `}
+          {...getRootProps()}
+        >
           <input
             className={`  ${styles.input}  `}
             id="image_input"
             type="file"
             title=" "
-            onChange={(e) => handleUpload(e)}
+            {...getInputProps()}
           />
           <div
             className={`${styles.fileDummy} flex items-center justify-center align-middle`}
@@ -127,7 +138,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
             open={anchorEl?.id === "filter-popover"}
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
-            subCat={selectedCategory.value}
+            secondDegCat={selectedCategory.value}
           />
         </div>
 
@@ -141,7 +152,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
         {/* INPUT TEXT ELEMENTS  */}
 
         {/* SHOW IMAGES */}
-        <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} />
+        {/* <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} /> */}
       </div>
     </section>
   );

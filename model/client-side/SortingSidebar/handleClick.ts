@@ -9,18 +9,16 @@ import { NextRouter } from "next/router";
 export const handleOptionClick = (
   value: string,
   modified_value: string,
-  router: NextRouter
+  router: NextRouter,
+  isThirdDegreeCategory?: true
 ) => {
+  if (thirdDegreeCategory) return;
+
   const { [`subCat`]: remove, ...queryParams } = router.query;
 
   const pathname = router.route.replace(
     `[subCat]`,
     router.query.subCat as string
-  );
-
-  console.log(
-    `router.query[modified_value] === value`,
-    router.query[modified_value] === value
   );
 
   if (modified_value === `description` || modified_value === `color`) {

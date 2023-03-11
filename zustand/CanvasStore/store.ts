@@ -35,6 +35,7 @@ import {
 } from "./textHandlers";
 import { TemporalState, temporal } from "zundo";
 import { useStore } from "zustand";
+import { DEFAULT_OPTIONS } from "../../constants/image-editor/imageFilters";
 
 export type canvasElement =
   | {
@@ -326,7 +327,17 @@ export const useCanvasState = create(
             filters[property].value = value;
           })
         ),
-      RESET_IMAGE_FILTER: () => set(produce((state: canvasState) => state)),
+      RESET_IMAGE_FILTER: (pageId, elementId) =>
+        set(
+          produce((state: canvasState) => {
+            let filters = state.pages[pageId][elementId]
+              .filters as imageFilterProperties;
+            for (const filterProperty in filters) {
+              filters[filterProperty].value =
+                DEFAULT_OPTIONS[filterProperty].value;
+            }
+          })
+        ),
       // SHAPE HANDLERS
 
       ADD_SHAPE: (pageId, data, filters) =>

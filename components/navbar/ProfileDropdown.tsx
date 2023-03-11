@@ -52,8 +52,8 @@ function ProfileDropdown({ user, activeSidebar }: props) {
           )}
         </div>
 
-        <p className="text-lg text-gray-200">{user.email}</p>
-        <p className="text-lg text-gray-200">{user.displayName}</p>
+        <bdi className="text-lg text-gray-200">{user.email}</bdi>
+        <bdi className="text-lg text-gray-200">{user.displayName}</bdi>
       </div>
 
       <div className="w-full grid-rows-2 space-y-5">

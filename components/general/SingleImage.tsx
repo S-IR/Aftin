@@ -17,28 +17,24 @@ import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
 import Loading from "./Loading";
 import { useAppDispatch } from "../../Redux/hooks";
-import { checkImageGalleryClick } from "../../model/client-side/subCat/modalButtons";
+import { checkImageGalleryClick } from "../../model/client-side/image-gallery/modalButtons";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import ServerErrorDialog from "./dialog-boxes/ServerErrorDialog";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
+import { galleryImageDialog } from "./SiteGallery";
 
 interface props {
   doc: ImgDoc;
   loginStatus: LoginStatus;
   isMobile: boolean;
+  dialog: null | galleryImageDialog;
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
 }
 
-export type galleryImageDialog =
-  | "free"
-  | "paid"
-  | "login"
-  | "internalServerError";
-
-function SingleImage({ doc, loginStatus, isMobile }: props) {
+function SingleImage({ doc, loginStatus, isMobile, dialog, setDialog }: props) {
   // states that change based on mouse events
 
   const [premiumText, setPremiumText] = useState(false);
-  const [dialog, setDialog] = useState<null | galleryImageDialog>(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -57,25 +53,10 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
       )}
 
       <div
-        className={`relative flex h-auto w-auto justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
+        className={`relative flex h-fit w-fit justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
           loading ? "hidden" : "block"
         }`}
       >
-        <ServerErrorDialog dialog={dialog} setDialog={setDialog} />
-        <FreeImageModal
-          doc={doc}
-          dialog={dialog}
-          setDialog={setDialog}
-          loginStatus={loginStatus}
-          isMobile={isMobile}
-        />
-        <PaidImageModal
-          doc={doc}
-          dialog={dialog}
-          setDialog={setDialog}
-          loginStatus={loginStatus}
-        />
-
         <animated.div
           ref={target}
           className="relative flex h-fit w-fit cursor-pointer  items-start  justify-start rounded-lg align-top filter-none transition duration-300 ease-in-out hover:filter "
@@ -85,7 +66,7 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
           onMouseLeave={() => {
             setPremiumText(false);
           }}
-          onClick={() => setDialog("free")}
+          onClick={() => setDialog({ name: `free`, doc })}
         >
           <NextImage
             src={doc.url}
@@ -94,7 +75,6 @@ function SingleImage({ doc, loginStatus, isMobile }: props) {
             height={isMobile ? doc.height / 6 : doc.height / 3}
             objectFit={`cover`}
             className="rounded-md   "
-            align
             onLoad={() => setLoading(false)}
           />
           {doc.tier === `silver` ||
@@ -143,21 +123,13 @@ export const SingleEditorImage = ({
       )}
 
       <div
-        className={`relative m-1 flex h-auto w-auto justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
+        className={`relative m-1 flex !h-min !w-min justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
           loading ? "hidden" : "block"
         }`}
       >
-        <PaidImageModal
-          doc={doc}
-          dialog={dialog}
-          setDialog={setDialog}
-          loginStatus={loginStatus}
-        />
-        <ServerErrorDialog dialog={dialog} setDialog={setDialog} />
-
         <animated.div
           ref={target}
-          className="relative h-auto w-auto cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
+          className="relative h-min w-min cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
           onMouseEnter={() => {
             setPremiumText(true);
           }}
@@ -165,11 +137,7 @@ export const SingleEditorImage = ({
             setPremiumText(false);
           }}
           onClick={() => {
-            const checked = checkImageGalleryClick(
-              loginStatus,
-              doc.tier,
-              setDialog
-            );
+            const checked = checkImageGalleryClick(loginStatus, doc, setDialog);
             if (checked)
               return uploadImageToCanvas(ADD_IMAGE, pageId, undefined, doc.url);
           }}

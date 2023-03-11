@@ -7,9 +7,9 @@ import { useInfiniteQuery, useQuery } from "react-query";
 import { requestImageDocs } from "../../../../model/client-side/image-functions/requestImages";
 import { useAppDispatch } from "../../../../Redux/hooks";
 import {
-  GrahicDesignsOptions,
+  GraphicDesignsOptions,
   ImgDoc,
-  SMALL_CATEGORY_OF_IMG,
+  SecondDegreeCategory,
   AdvertImagesOptions,
 } from "../../../../typings/image-types/ImageTypes";
 import {
@@ -29,7 +29,7 @@ import { isMobile } from "react-device-detect";
 import { fetchUserStatus } from "../../../../model/client-side/general/fetches";
 
 interface props {
-  selectedCategory: { name: string; value: SMALL_CATEGORY_OF_IMG };
+  selectedCategory: { name: string; value: SecondDegreeCategory };
   pageId: number | null;
 }
 
@@ -50,7 +50,7 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
   const category = useMemo(() => {
     if (AdvertImagesOptions.includes(selectedCategory?.value)) {
       return "advertisement-images";
-    } else if (GrahicDesignsOptions.includes(selectedCategory?.value)) {
+    } else if (GraphicDesignsOptions.includes(selectedCategory?.value)) {
       return "graphic-designs";
     } else {
       return null;

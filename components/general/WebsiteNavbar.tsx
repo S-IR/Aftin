@@ -17,6 +17,9 @@ function WebsiteNavbar() {
 
   const router = useRouter();
 
+  const isPageThatNeedsTheBGBlack =
+    router.pathname.includes("restaurant-advertisement-images/") ||
+    router.pathname.includes("restaurant-graphic-designs/");
   const navRef = useRef<null | HTMLDivElement>(null);
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -41,7 +44,12 @@ function WebsiteNavbar() {
   return (
     <>
       <nav
-        className=" z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center  bg-gradient-to-b from-gray-900 to-white/0 transition-all duration-300 hover:bg-gray-900 "
+        className={` z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center 
+   transition-all duration-300 hover:bg-gray-900  ${
+     isPageThatNeedsTheBGBlack
+       ? `bg-black`
+       : `bg-gradient-to-b from-black to-white/0`
+   } `}
         ref={navRef}
       >
         <ul className="grow-1 hidden h-max flex-1 space-x-10 px-4 font-bold md:flex md:space-x-6 md:px-8 ">
@@ -92,14 +100,14 @@ function WebsiteNavbar() {
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className="mx-5 h-min w-min">
-              {user && user.photoURL ? (
+            <div className="mx-5 h-[25px] w-[25px]">
+              {!userLoading && user && user.photoURL ? (
                 <Image
                   src={user.photoURL}
-                  width={75}
-                  height={75}
+                  width={25}
+                  height={25}
                   alt={"user profile picture"}
-                  className={"mx-2  rounded-full "}
+                  className={`  mx-2 rounded-full  `}
                 />
               ) : (
                 <UserCircleIcon className="h-8 w-8" />

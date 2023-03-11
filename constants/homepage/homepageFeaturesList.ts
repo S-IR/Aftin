@@ -29,7 +29,7 @@ export const homepageFeaturesList: homepageFeature[] = [
   {
     title: `Preview your images`,
     description: `Preview your images in your desired environment using our Smartmockup system to ensure that you are getting what you need`,
-    href: "/previews",
+    href: "/mockups",
     imgSrc: ``,
   },
 ];

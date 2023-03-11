@@ -11,12 +11,22 @@ import { Masonry } from "@mui/lab";
 import { CategoryPageAdvertImages } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
 import { isMobile } from "react-device-detect";
+import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 const Index = () => {
   const router = useRouter();
 
   return (
     <>
+      <Head>
+        <NextSeo
+          title={"Unique Food Advertisement Images"}
+          description={
+            "Browse unique food advertisement images meant for restaurant owners"
+          }
+        />
+      </Head>
       <Masonry
         columns={isMobile ? 1 : 3}
         spacing={2}
@@ -40,14 +50,14 @@ const Index = () => {
                   width={list.w}
                   height={list.h}
                   objectFit={"cover"}
-                  src={`/frontend-used-images/category-images/${list.catName}/${list.subCatName}.png`}
+                  src={`/frontend-used-images/category-images/${list.catName}/${list.secondDegCatName}.png`}
                   className={"brightness-50 filter"}
                 />
                 <button
                   className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 hover:text-red-500 `}
                   onClick={() =>
                     router.push(
-                      `/restaurant-${list.catName}/${list.subCatName}`
+                      `/restaurant-${list.catName}/${list.secondDegCatName}`
                     )
                   }
                 >

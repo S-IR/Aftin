@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { determineSorts } from "../../../../model/client-side/SortingSidebar/determineSorts";
-import { SMALL_CATEGORY_OF_IMG } from "../../../../typings/image-types/ImageTypes";
+import { SecondDegreeCategory } from "../../../../typings/image-types/ImageTypes";
 import {
   SortColor,
   SortOption,
@@ -56,10 +56,15 @@ interface props {
 
   anchorEl: HTMLButtonElement | null;
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
-  subCat: SMALL_CATEGORY_OF_IMG;
+  secondDegCat: SecondDegreeCategory;
 }
 
-const FilterPopover = ({ open, anchorEl, setAnchorEl, subCat }: props) => {
+const FilterPopover = ({
+  open,
+  anchorEl,
+  setAnchorEl,
+  secondDegCat,
+}: props) => {
   const {
     paid,
     size,
@@ -80,7 +85,7 @@ const FilterPopover = ({ open, anchorEl, setAnchorEl, subCat }: props) => {
     artwork_style,
     sticker_category,
     shape,
-  } = useMemo(() => determineSorts(subCat), [subCat]);
+  } = useMemo(() => determineSorts(secondDegCat), [secondDegCat]);
   const router = useRouter();
   const description = router.query.description;
 

@@ -6,24 +6,28 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { BiDollar, BiDollarCircle } from "react-icons/bi";
-import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 import {
-  handleDownload,
-  handleSubCatEdit,
   checkImageGalleryClick,
-} from "../../model/client-side/subCat/modalButtons";
+  handleDownload,
+  handleWebsiteGalleryEdit,
+  handleWebsiteGalleryPreview,
+} from "../../model/client-side/image-gallery/modalButtons";
+import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
+
 import { useAppDispatch } from "../../Redux/hooks";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
+import { useCanvasState } from "../../zustand/CanvasStore/store";
+import { useMockupsStore } from "../../zustand/MockupsStore/store";
 
 import Button from "./Button";
 import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
 import Loading from "./Loading";
-import { galleryImageDialog } from "./SingleImage";
+import { galleryImageDialog } from "./SiteGallery";
 
 interface props {
   doc: ImgDoc;
-  dialog: galleryImageDialog | null;
+  dialogName: galleryImageDialog["name"] | null;
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   isMobile: boolean;
@@ -31,19 +35,20 @@ interface props {
 
 const FreeImageModal: FC<props> = ({
   doc,
-  dialog,
+  dialogName,
   setDialog,
   loginStatus,
   isMobile,
 }) => {
   const router = useRouter();
-  const subCat = router.query.subCat;
-  const dispatch = useAppDispatch();
+  const secondDegCat = router.query.imageCategory[0] as SecondDegreeCategory;
+  const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
+  const [ADD_PREVIEW_IMAGE] = useMockupsStore((state) => [state.ADD_IMAGE]);
 
   return (
     <>
       <Dialog
-        open={dialog === "free"}
+        open={dialogName === "free"}
         onClose={() => setDialog(null)}
         fullWidth
         maxWidth={"xl"}
@@ -51,17 +56,17 @@ const FreeImageModal: FC<props> = ({
           style: {
             backgroundColor: "transparent",
             boxShadow: "none",
-            width: "75vw",
-            height: "75vh",
+            width: isMobile ? "85vw" : "75vw",
+            height: isMobile ? "85vh" : "75vh",
           },
         }}
       >
         <DialogContent
           className={
-            "flex h-[75vh] w-[75vw] items-center justify-center rounded-lg border-4 border-gray-500/40  !p-0 align-middle"
+            "flex h-full w-full flex-col items-center justify-center rounded-lg border-4 border-gray-500/40 !p-0 align-middle md:h-[75vh]  md:w-[75vw] md:flex-row"
           }
         >
-          <div className=" flex h-full w-full basis-4/5   bg-gradient-to-r from-brown-300 to-brown-600 py-4 align-middle shadow-lg shadow-gray-200 ">
+          <div className=" flex h-full w-full basis-4/5 flex-col bg-gradient-to-r   from-brown-300 to-brown-600 py-4 align-middle shadow-lg shadow-gray-200 md:flex-row ">
             {doc.tier !== "bronze" && (
               <div className="absolute top-2 left-2 flex items-center justify-center align-middle text-gray-100">
                 <BiDollarCircle className="h-8 w-8" color="#E5E7EBF" />
@@ -70,13 +75,15 @@ const FreeImageModal: FC<props> = ({
             )}
             <div
               className={
-                " mx-10 my-8 flex flex-col space-y-10 p-2  shadow-inner shadow-gray-300 "
+                " mx-10 my-8 flex flex-col space-y-2 p-2 shadow-inner  shadow-gray-300 md:space-y-10 "
               }
             >
-              <p className="text-center text-lg">
-                <span className="text-gray-500">Resolution:</span> <br></br>
-                {`${doc.width} x ${doc.height}`}
-              </p>
+              {!isMobile && (
+                <p className="text-center text-lg">
+                  <span className="text-gray-500">Resolution:</span> <br></br>
+                  {`${doc.width} x ${doc.height}`}
+                </p>
+              )}
               <p className="text-center text-lg">
                 <span className="text-gray-500">Tags:</span> <br></br>
                 {doc.tags.length === 0 ? (
@@ -102,7 +109,7 @@ const FreeImageModal: FC<props> = ({
                           handleOptionClick(tag.toLowerCase(), "tags", router);
                           window.gtag("event", "image_tag_clicked", {
                             image_tag_name: tag,
-                            subCat,
+                            secondDegCat,
                           });
                           return setDialog(null);
                         }}
@@ -114,7 +121,22 @@ const FreeImageModal: FC<props> = ({
                 )}
               </p>
 
-              <button className=" rounded-sm bg-yellow-700 p-2 text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-yellow-500 hover:shadow-none">
+              <button
+                className="text-md  rounded-sm bg-yellow-700 p-2 text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-yellow-500 hover:shadow-none"
+                onClick={() => {
+                  window.gtag(
+                    "event",
+                    "redirected_to_upscale_through_siteGallery",
+                    {
+                      secondDegCat,
+                      imageRef: doc.url.replace(
+                        "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                        ""
+                      ),
+                    }
+                  );
+                }}
+              >
                 Upscale Image
               </button>
             </div>
@@ -122,10 +144,10 @@ const FreeImageModal: FC<props> = ({
               id="modal-modal-description"
               src={doc.url}
               width={
-                isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
+                isMobile ? Math.min(doc.width, 280) : Math.min(doc.width, 512)
               }
               height={
-                isMobile ? Math.min(doc.height, 256) : Math.min(doc.height, 384)
+                isMobile ? Math.min(doc.height, 280) : Math.min(doc.height, 384)
               }
               objectFit={`scale-down`}
               className=" overflow-hidden rounded-sm "
@@ -133,49 +155,89 @@ const FreeImageModal: FC<props> = ({
             />
           </div>
 
-          <div className="flex h-full basis-1/5  flex-col items-center justify-center space-y-16 bg-brown-700 py-10  align-middle ">
+          <div className="grid h-full w-full basis-1/5  grid-cols-2 flex-row items-center  justify-center gap-2 bg-brown-700    px-2  py-10  align-middle  md:flex md:flex-col md:space-x-0  md:space-y-16 md:px-0 ">
             <button
-              className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-brown-500   hover:shadow-none "
+              className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500  hover:bg-brown-500 hover:shadow-none md:h-12 md:w-36 "
               onClick={() => {
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
-                  doc.tier,
+                  doc,
                   setDialog
                 );
-                if (passedChecks)
-                  return handleSubCatEdit(
+                if (passedChecks) {
+                  console.log("passed the checks!");
+                  window.gtag(
+                    "event",
+                    "redirected_to_edit_through_siteGallery",
+                    {
+                      imageRef: doc.url.replace(
+                        "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                        ""
+                      ),
+                    }
+                  );
+                  return handleWebsiteGalleryEdit(
                     router,
-                    dispatch,
+                    ADD_IMAGE,
                     doc.url,
                     doc.width,
                     doc.height
                   );
+                }
               }}
             >
               Edit Picture
             </button>
             <button
-              className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
-              onClick={() => setDialog(null)}
+              className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500   hover:bg-brown-500   hover:shadow-none md:h-12   md:w-36 "
+              onClick={() => {
+                const passedChecks = checkImageGalleryClick(
+                  loginStatus,
+                  doc,
+                  setDialog
+                );
+                if (passedChecks) {
+                  window.gtag("event", "previewed_image_through_siteGallery", {
+                    imageRef: doc.url.replace(
+                      "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                      ""
+                    ),
+                  });
+                  return handleWebsiteGalleryPreview(
+                    router,
+                    doc,
+                    secondDegCat,
+                    ADD_PREVIEW_IMAGE
+                  );
+                }
+              }}
             >
               Preview
             </button>
             <button
-              className=" h-12 w-36 bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500   hover:shadow-none "
+              className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500   hover:bg-brown-500   hover:shadow-none md:h-12   md:w-36 "
               onClick={() => {
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
-                  doc.tier,
+                  doc,
                   setDialog
                 );
-                if (passedChecks) return handleDownload(doc.url);
+                if (passedChecks) {
+                  window.gtag("event", "downloaded_image_through_siteGallery", {
+                    imageRef: doc.url.replace(
+                      "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                      ""
+                    ),
+                  });
+                  return handleDownload(doc.url);
+                }
               }}
             >
               Download
             </button>
 
             <button
-              className=" h-12 w-36 justify-center bg-yellow-700  text-yellow-200 drop-shadow-xl   transition-all   duration-500 hover:bg-brown-500  hover:shadow-none"
+              className=" h-full w-full justify-center bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500   hover:bg-brown-500   hover:shadow-none md:h-12  md:w-36"
               onClick={() => setDialog(null)}
             >
               Close
@@ -183,11 +245,6 @@ const FreeImageModal: FC<props> = ({
           </div>
         </DialogContent>
       </Dialog>
-      <LoginFirstDialog
-        open={dialog === "login"}
-        setOpen={setDialog}
-        imgDoc={doc}
-      />
     </>
   );
 };

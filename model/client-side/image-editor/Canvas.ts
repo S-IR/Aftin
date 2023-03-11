@@ -4,10 +4,10 @@ import { NextRouter } from "next/router";
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { previewActions } from "../../../features/previews/previewsSlice";
+import { previewActions } from "../../../features/mockups/mockupsSlice";
 import { AppDispatch } from "../../../Redux/store";
 import { selectElement } from "../../../zustand/CanvasStore/store";
-import { addImage } from "../../../zustand/PreviewsStore/store";
+import { addImage } from "../../../zustand/MockupsStore/store";
 
 export const canvasFilters = (filters: Filter[]) => {
   const filtersString = filters.map((filter) => {
@@ -68,5 +68,5 @@ export const handlePreview = async (
     ADD_IMAGE(img, w, h);
   }
 
-  return router.push(`/previews`);
+  return router.push(`/restaurant-mockups`);
 };

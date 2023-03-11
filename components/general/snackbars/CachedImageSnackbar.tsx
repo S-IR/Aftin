@@ -15,7 +15,7 @@ import { fetchUserStatus } from "../../../model/client-side/general/fetches";
 import {
   checkImageGalleryClick,
   handleDownload,
-} from "../../../model/client-side/subCat/modalButtons";
+} from "../../../model/client-side/image-gallery/modalButtons";
 import { useAppDispatch } from "../../../Redux/hooks";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import Button from "../Button";

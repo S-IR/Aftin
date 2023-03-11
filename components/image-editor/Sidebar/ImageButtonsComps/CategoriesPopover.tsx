@@ -5,7 +5,7 @@ import {
   GrDesignLinks,
   AdvertImagesLinks,
 } from "../../../../constants/imageCategories";
-import { SMALL_CATEGORY_OF_IMG } from "../../../../typings/image-types/ImageTypes";
+import { SecondDegreeCategory } from "../../../../typings/image-types/ImageTypes";
 
 interface props {
   open: boolean;
@@ -13,7 +13,7 @@ interface props {
   setSelectedCategory: React.Dispatch<
     React.SetStateAction<{
       name: string;
-      value: SMALL_CATEGORY_OF_IMG;
+      value: SecondDegreeCategory;
     }>
   >;
   anchorEl: HTMLButtonElement | null;
@@ -55,12 +55,12 @@ const CategoriesPopover = ({
                 onClick={() =>
                   setSelectedCategory({
                     name: category.name,
-                    value: category.value as SMALL_CATEGORY_OF_IMG,
+                    value: category.value as SecondDegreeCategory,
                   })
                 }
               >
                 <Image
-                  src={`/frontend-used-images/category-images/${category.catName}/${category.subCatName}.png`}
+                  src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
                   width={48}
                   height={48}
                   objectFit={`cover`}
@@ -88,12 +88,12 @@ const CategoriesPopover = ({
                   onClick={() =>
                     setSelectedCategory({
                       name: category.name,
-                      value: category.value as SMALL_CATEGORY_OF_IMG,
+                      value: category.value as SecondDegreeCategory,
                     })
                   }
                 >
                   <Image
-                    src={`/frontend-used-images/category-images/${category.catName}/${category.subCatName}.png`}
+                    src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
                     width={48}
                     height={48}
                     objectFit={`cover`}

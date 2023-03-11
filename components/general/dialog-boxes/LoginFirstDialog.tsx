@@ -4,20 +4,22 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import React from "react";
+import { isMobile } from "react-device-detect";
 import Fade from "../../../constants/general/Fade";
 import useAuthThirdParty from "../../../hooks/useAuthThirdParty";
-import { cacheImage } from "../../../model/client-side/subCat/modalButtons";
+import { cacheImage } from "../../../model/client-side/image-gallery/modalButtons";
 import { useAppDispatch } from "../../../Redux/hooks";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import { FacebookButton, GoogleButton } from "../../login";
+import { galleryImageDialog } from "../SiteGallery";
 
 interface props {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<null | string>>;
+  setOpen: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   imgDoc: ImgDoc;
 }
 
-const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
+const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -32,17 +34,26 @@ const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
     p: 6,
   };
   return (
-    <Modal
+    <Dialog
       aria-labelledby="spring-modal-title"
       aria-describedby="spring-modal-description"
       open={open}
+      maxWidth={"xl"}
       onClose={() => setOpen(null)}
+      PaperProps={{
+        style: {
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          width: isMobile ? "70vw" : "50vw",
+          height: isMobile ? "70vh" : "50vh",
+        },
+      }}
     >
       <Fade in={open}>
         <Box
           sx={style}
           className={
-            "flex  items-center justify-center rounded-md  bg-gray-700 align-middle "
+            "flex h-full w-full  flex-col items-center justify-center  rounded-md bg-gray-700 align-middle md:flex-row "
           }
         >
           <div className="mx-2 w-auto ">
@@ -50,14 +61,14 @@ const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
               id="spring-modal-title"
               variant="h6"
               component="h2"
-              className="w-fit text-center  font-serif text-4xl text-orange-300  "
+              className="w-fit text-center  font-serif text-4xl text-orange-400  "
             >
               Log in or sign up
             </Typography>
             <Typography
               id="spring-modal-description"
               sx={{ mt: 2 }}
-              className={"my-2 text-center font-serif text-xl"}
+              className={"my-2 text-center font-serif text-xl text-orange-200"}
             >
               Create an account or quickly login
             </Typography>
@@ -79,7 +90,7 @@ const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
                 }
               }}
               w={"lg"}
-              h={"auto"}
+              h={"sm"}
             />
 
             <FacebookButton
@@ -92,13 +103,13 @@ const LoginFirstdialog = ({ open, setOpen, imgDoc }: props) => {
                 }
               }}
               w={"lg"}
-              h={"auto"}
+              h={"sm"}
             />
           </div>
         </Box>
       </Fade>
-    </Modal>
+    </Dialog>
   );
 };
 
-export default LoginFirstdialog;
+export default LoginFirstDialog;

@@ -7,10 +7,13 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import { galleryImageDialog } from "../SiteGallery";
 
 interface props {
-  dialog: boolean | string | null;
-  setDialog: React.Dispatch<React.SetStateAction<boolean | string | null>>;
+  dialog: boolean | string | null | galleryImageDialog["name"];
+  setDialog: React.Dispatch<
+    React.SetStateAction<boolean | null | galleryImageDialog>
+  >;
 }
 
 const ServerErrorDialog = ({ dialog, setDialog }: props) => {

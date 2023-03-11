@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useDropzone } from "react-dropzone";
+import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import { canvasPagesCount } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
@@ -23,48 +23,39 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
     state.selected,
   ]);
 
-  const onDrop: DragEventHandler<HTMLDivElement> = useCallback(
-    (acceptedFiles: FileList | null) => {
-      uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
-      setActiveSidebar("Stylize");
-    },
-    []
-  );
-  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      uploadImageToCanvas(ADD_IMAGE, pageId, e.target.files);
-      setActiveSidebar("Stylize");
-    },
-    []
-  );
+  const onDrop = <T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent
+  ): void => {
+    uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
+    return setActiveSidebar("Stylize");
+  };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    noDragEventsBubbling: true,
+    onDrop: onDrop,
+  });
 
   return (
     <div
       className={`${
-        showSidebar ? `ml-[560px]` : "ml-[8vw]"
-      } mt-4 flex h-full w-full items-center justify-center transition-all duration-300 `}
+        showSidebar ? `ml-[340px] md:ml-[560px]` : "ml-[16vw] md:ml-[8vw]"
+      } z-0 mt-4 flex  h-[90vh]  w-3/4 items-center justify-center transition-all duration-300 md:h-[90vh] md:w-1/2 `}
     >
-      <label
-        htmlFor="dropzone-file"
-        className={`flex h-[100vh] w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-800 bg-opacity-40  hover:bg-gray-400 hover:opacity-50 ${
+      <div
+        className={`flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-800 bg-opacity-40 hover:bg-gray-400 hover:opacity-50  ${
           isDragActive ? "bg-purple-500" : ""
         } duration-400 transition-all`}
+        {...getRootProps({})}
       >
-        <div
-          {...getRootProps({
-            className:
-              "flex flex-col justify-center items-center pt-5 pb-6 h-full w-full",
-          })}
-        >
+        <div className="flex flex-col items-center justify-center align-middle">
           <UploadFileIcon className="m-4  " />
           <p className="mb-2 flex flex-col text-center text-sm text-gray-500 dark:text-gray-400">
             <span className="font-semibold">Click to upload an image</span>or
             drag and drop
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="mx-4 text-xs text-gray-500 dark:text-gray-400">
             PNG, JPEG or JPG. Anything bigger than 1550 width or 1000 height
             will be scaled down{" "}
           </p>
@@ -74,11 +65,9 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
             id: "dropzone-file",
             type: "file",
             className: "hidden",
-            onChange: onChange,
-            onDrop: onDrop,
           })}
         />
-      </label>
+      </div>
     </div>
   );
 };

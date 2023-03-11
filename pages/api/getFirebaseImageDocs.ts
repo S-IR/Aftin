@@ -4,19 +4,35 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../firebase";
 import {
-  GrahicDesignsOptions,
+  GraphicDesignsOptions,
   ImgDoc,
   Valid_image_fields,
 } from "../../typings/image-types/ImageTypes";
 import { valid_image_fields } from "../../typings/image-types/ImageTypes";
+import {
+  firstDegCat_schema,
+  secondDegCat_schema,
+} from "../../typings/image-types/imageZodSchemas";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { category, subCat } = req.query;
-  if (!category || !subCat)
+  const { firstDegreeCategory, secondDegreeCategory } = req.query as {
+    firstDegreeCategory: string;
+    secondDegreeCategory: string;
+  };
+  if (
+    !firstDegCat_schema.safeParse(firstDegreeCategory) ||
+    !secondDegCat_schema.safeParse(secondDegreeCategory)
+  ) {
+    console.log("invalid params");
     return res.status(406).send(`not acceptable criteria`);
-  const subCatRef = collection(db, `/${category}/${subCat}/Images`);
+  }
+
+  const subCatRef = collection(
+    db,
+    `/${firstDegreeCategory}/${secondDegreeCategory}/Images`
+  );
   let querySnapshot;
   querySnapshot = await getDocs(subCatRef);
 

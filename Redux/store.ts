@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import undoableCanvasPagesSlice from "../features/canvasPages/canvas-elements/canvasPageSlice";
 import cachedImageReducer from "../features/cachedImage/cachedImageSlice";
-import previewsReducer from "../features/previews/previewsSlice";
+import previewsReducer from "../features/mockups/mockupsSlice";
 
 export const store = configureStore({
   reducer: {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
-// import { handleAddPage, handleExport, handlePreview, handleSelectPage } from '../../../model/image-editor/Canvas'
+
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { Stage } from "konva/lib/Stage";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
@@ -24,7 +24,7 @@ import {
   handleExport,
   handlePreview,
 } from "../../../model/client-side/image-editor/Canvas";
-import { usePreviewsStore } from "../../../zustand/PreviewsStore/store";
+import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 
 interface props {
   stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[];
@@ -47,7 +47,7 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
           state.SELECT_ELEMENT,
         ] as const
     );
-  const ADD_IMAGE = usePreviewsStore((state) => state.ADD_IMAGE);
+  const ADD_IMAGE = useMockupsStore((state) => state.ADD_IMAGE);
   const pagesLength = canvasPages.length;
 
   const optionValues: number[] = [];
@@ -58,8 +58,8 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
 
   return showLeftSidebar ? (
     <section
-      className={` fixed top-[75px] right-0 z-50 flex h-full w-36  flex-col rounded-sm border-b-2 border-yellow-500 bg-yellow-900 bg-gradient-to-br p-2 shadow-lg shadow-brown-700 ${
-        showLeftSidebar ? `right-0` : `-right-36 cursor-none opacity-0`
+      className={` fixed top-[75px] right-0 z-50 flex h-[90vh]  w-36  flex-col rounded-sm border-b-2 border-yellow-500 bg-yellow-900 bg-gradient-to-br p-2 shadow-lg shadow-brown-700 ${
+        showLeftSidebar ? `right-0` : `-right-36  cursor-none opacity-0`
       } transition-all duration-300 `}
     >
       <button
@@ -93,28 +93,28 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
       )}
       <div className="flex grow flex-col space-y-10  p-5 align-middle">
         <button
-          className="flex h-12 items-center justify-center rounded-sm border-t-4  border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm  shadow-brown-500 drop-shadow-md  transition-all duration-300 ease-in-out  hover:-translate-x-1 hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
+          className="flex h-12 items-center justify-center rounded-sm border-t-4  border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm  shadow-brown-500 drop-shadow-md  transition-all duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
           onClick={() => ADD_PAGE()}
         >
           Add Page
         </button>
 
         <button
-          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out  hover:-translate-x-1 hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
+          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
           ref={downloadRef}
           onClick={() => handleExport(SELECT_ELEMENT, stageRefs, "all")}
         >
           Download
         </button>
         <button
-          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out  hover:-translate-x-1 hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
+          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
           disabled={pastStates.length === 0}
           onClick={() => undo()}
         >
           Undo
         </button>
         <button
-          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out  hover:-translate-x-1 hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
+          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none disabled:bg-brown-200/80"
           disabled={futureStates.length === 0}
           onClick={() => redo()}
         >
@@ -122,7 +122,7 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
         </button>
 
         <button
-          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out  hover:-translate-x-1 hover:bg-brown-500 active:shadow-none  disabled:bg-brown-200/80"
+          className=" h-12 rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none  disabled:bg-brown-200/80"
           onClick={() =>
             handlePreview(router, SELECT_ELEMENT, ADD_IMAGE, stageRefs, "all")
           }

@@ -8,7 +8,13 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, {
+  MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { db } from "../../firebase";
@@ -18,35 +24,33 @@ import {
   UploadImgInputs,
 } from "../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/determineInput";
 import {
+  getImgFieldsFromTitle,
   getTagsFromTitle,
   uploadImageToStorage,
 } from "../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/uploadImageToStorage";
 import { makeID } from "../../model/GeneralFunctions";
 import {
   gr_des_style_array,
-  LARGE_CATEGORY_OF_IMG,
-  SMALL_CATEGORY_OF_IMG,
+  FirstDegreeCategory,
+  SecondDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
+import { AdvertImagesOptionsSchema } from "../../typings/image-types/imageZodSchemas";
 import FirstDegreeInput from "../f302b492-a403-4ac8-9745-c4db741051c9/UploadImage/FirstDegreeInput";
-import watermark from "watermarkjs";
 
 interface props {
-  LARGE_CATEGORY_OF_IMG: LARGE_CATEGORY_OF_IMG;
-  SMALL_CATEGORY_OF_IMG: SMALL_CATEGORY_OF_IMG;
+  FirstDegreeCategory: FirstDegreeCategory;
+  SecondDegreeCategory: SecondDegreeCategory;
 }
-const watermarkOptions = {
-  init(img) {
-    img.crossOrigin = "anonymous";
-  },
-};
+
 const UploadImageComp = ({
-  LARGE_CATEGORY_OF_IMG,
-  SMALL_CATEGORY_OF_IMG,
+  FirstDegreeCategory,
+  SecondDegreeCategory,
 }: props) => {
   const canvasRef = useRef<MutableRefObject<HTMLCanvasElement | null>>(null);
 
-  const [inputsArray, setInputsArray] = useState<null | [string | object]>(
-    null
+  const inputsArray = useMemo(
+    () => determineInputs(FirstDegreeCategory, SecondDegreeCategory),
+    [FirstDegreeCategory, SecondDegreeCategory]
   );
 
   const [limEditionChecked, setLimEditionChecked] = useState(false);
@@ -64,80 +68,93 @@ const UploadImageComp = ({
     console.log("errors", errors);
   }, [errors]);
 
-  //whenever the choosen categories change this function will run to recalculate the what categories to show
-  useEffect(() => {
-    const Array = determineInputs(LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG);
-    setInputsArray(Array);
-  }, [LARGE_CATEGORY_OF_IMG, SMALL_CATEGORY_OF_IMG]);
-
   const doc = collection(
     db,
-    `${LARGE_CATEGORY_OF_IMG}/${SMALL_CATEGORY_OF_IMG}/Images`
+    `${FirstDegreeCategory}/${SecondDegreeCategory}/Images`
   );
-  const storage = getStorage();
 
   // Based on the categories that are passed down , this array and switch statement will be our method of calculating what inputs need to appear on the screen
   const [disableUpload, setDisableUpload] = useState(false);
+  const storageAddress = `product-images/${FirstDegreeCategory}/${SecondDegreeCategory}`;
 
   const onSubmit: SubmitHandler<UploadImgInputs> = async ({
     files,
     real_files,
     ...imgFields
   }) => {
+    const watermark = (await import("watermarkjs")).default;
+    const watermarkOptions = {
+      init(img) {
+        img.crossOrigin = "anonymous";
+      },
+    };
     // if the image has a limited edition , convert it to a date format
     if (imgFields.lim_edition_expiration_date) {
       const string = imgFields.lim_edition_expiration_date;
       imgFields.lim_edition_expiration_date = new Date(string);
     }
     //Disable upload button while uploading
-    setDisableUpload(true);
-    const storageAddress = `product-images/${LARGE_CATEGORY_OF_IMG}/${SMALL_CATEGORY_OF_IMG}`;
-    for (let i = 0; i < files.length; i++) {
-      // Create a storage ref for the image
+    // setDisableUpload(true);
 
-      let description: string;
+    const forLoop = async () => {
+      for (let i = 0; i < files.length; i++) {
+        // Create a storage ref for the image
 
-      // if there is a real image (meaning the previous reference was for the image with the watercolors), create a reference for that image also
+        // if there is a real image (meaning the previous reference was for the image with the watercolors), create a reference for that image also
 
-      description = files[i].name
-        .replace(".png", "")
-        .replace("_", "")
-        .replace("Wildhide", "");
-      const tags = getTagsFromTitle(description);
-      const docFields = { tags, description, ...imgFields };
-      // if the image needs to have a watermark added, then create a new image with the watermark
-      if (realImageChecked) {
-        watermark(
-          [
-            files[i],
-            "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
-          ],
-          watermarkOptions
-        )
-          .image(watermark.image.lowerRight(0.5))
-          .then((watermarkedImg) => {
-            return uploadImageToStorage(
-              storageAddress,
-              files[i],
-              doc,
-              docFields,
-              canvasRef,
-              watermarkedImg.src
-            );
-          });
-      } else {
-        return uploadImageToStorage(
-          storageAddress,
-          files[i],
-          doc,
-          docFields,
-          canvasRef
+        const description = files[i].name
+          .replace(".png", "")
+          .replace("_", "")
+          .replace("Wildhide", "");
+        const tags = getTagsFromTitle(description);
+        const uniqueImageFields = getImgFieldsFromTitle(
+          files[i].name,
+          SecondDegreeCategory,
+          i
         );
-      }
-    }
 
-    setDisableUpload(false);
-    alert("done");
+        imgFields = Object.assign(uniqueImageFields, imgFields);
+        let sizeField: "menu_size" | "size" | "banner_type" | undefined;
+        if (AdvertImagesOptionsSchema.safeParse(SecondDegreeCategory).success)
+          sizeField = "size";
+        if (SecondDegreeCategory === "menus") sizeField = "menu_size";
+        if (SecondDegreeCategory === "banners") sizeField = "banner_type";
+
+        const docFields = { tags, description, ...imgFields };
+        // if the image needs to have a watermark added, then create a new image with the watermark
+        if (realImageChecked) {
+          watermark(
+            [
+              files[i],
+              "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
+            ],
+            watermarkOptions
+          )
+            .image(watermark.image.lowerRight(0.5))
+            .then((watermarkedImg) => {
+              uploadImageToStorage(
+                storageAddress,
+                files[i],
+                doc,
+                docFields,
+                canvasRef,
+                sizeField,
+                watermarkedImg.src
+              );
+            });
+        } else {
+          uploadImageToStorage(
+            storageAddress,
+            files[i],
+            doc,
+            docFields,
+            canvasRef,
+            sizeField
+          );
+        }
+      }
+    };
+    forLoop().then(() => setDisableUpload(false));
   };
   if (!inputsArray)
     return <div>somehow this appeared without any inputs to show</div>;
@@ -177,7 +194,9 @@ const UploadImageComp = ({
             Object.keys(imgField)[0] !== `menu_size` &&
             Object.keys(imgField)[0] !== `surr_env` &&
             Object.keys(imgField)[0] !== `material_type` &&
-            Object.keys(imgField)[0] !== `tier`;
+            Object.keys(imgField)[0] !== `tier` &&
+            Object.keys(imgField)[0] !== `thirdDegreeCategory`;
+
           return (
             <FirstDegreeInput
               key={i}
@@ -226,7 +245,7 @@ const UploadImageComp = ({
           <button
             type="submit"
             disabled={disableUpload}
-            className="general-buttons !m-0"
+            className="general-buttons !m-0 disabled:bg-gray-500"
           >
             Upload
           </button>

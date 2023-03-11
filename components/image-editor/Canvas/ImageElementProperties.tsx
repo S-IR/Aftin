@@ -45,7 +45,6 @@ const ImageElementProperties = ({
   const contrast = imageFilter?.contrast;
   const blur = imageFilter?.blur;
 
-  console.log("imageData", imageData);
   if (imageData.crop === true) {
     return (
       <div className="flex h-full w-full items-center justify-center align-middle">
@@ -144,7 +143,7 @@ const ImageElementProperties = ({
       </div>
       {/* Crop button */}
 
-      <div className="absolute bottom-0 left-16  m-2 flex h-12 w-60 items-center justify-center rounded-full  bg-blue-800 bg-opacity-60 font-bold shadow-md shadow-gray-500">
+      <div className="absolute bottom-0 left-5  m-2 flex h-12 w-60 items-center justify-center rounded-full  bg-blue-800 bg-opacity-60 font-bold shadow-md shadow-gray-500">
         H :{" "}
         <p className="m-2 underline">
           {(imageData.height * imageData.scaleY).toFixed(0)}

@@ -30,14 +30,14 @@ const HomepageGallery = () => {
                   width={list.w}
                   height={list.h}
                   objectFit={"scale-down"}
-                  src={`/frontend-used-images/homepage/homepage-gallery/${list.subCatName}.png`}
+                  src={`/frontend-used-images/homepage/homepage-gallery/${list.secondDegCatName}.png`}
                   className={"grayscale-[90%] filter"}
                 />
                 <button
                   className={`absolute top-1/2 left-1/2 border-b-2 border-white  text-center font-serif text-xl text-red-300 opacity-0 !grayscale-0 !filter transition-all duration-300 hover:text-red-500 group-hover:-translate-y-4 group-hover:opacity-100`}
                   onClick={() =>
                     router.push(
-                      `/restaurant-${list.catName}/${list.subCatName}`
+                      `/restaurant-${list.catName}/${list.secondDegCatName}`
                     )
                   }
                 >

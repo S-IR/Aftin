@@ -6,18 +6,18 @@ import { textData } from "../../../features/canvasPages/canvas-elements/textHand
 import { AppDispatch } from "../../../Redux/store";
 import { HTMLHexColor } from "../../../typings/typings";
 import { addImage } from "../../../zustand/CanvasStore/imageHandlers";
-import { addShape, addShapePatternImage } from "../../../zustand/shapeHandlers";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
-import { addText } from "../../../zustand/textHandlers";
+import { addText } from "../../../zustand/CanvasStore/textHandlers";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
 export const uploadImageToCanvas = (
   ADD_IMAGE: addImage,
   pageId: number | null,
-  imagesArray?: FileList | null,
+  imagesArray?: File[] | null | FileList,
   url?: string
 ) => {
+  console.log("this uploadImageToCanvas ran");
   const image = new Image();
   if (imagesArray) {
     let selected = imagesArray[0];
@@ -26,7 +26,7 @@ export const uploadImageToCanvas = (
     image.src = url;
   }
 
-  image.onload = () => {
+  return (image.onload = () => {
     const data = {
       imageSRC: image.src,
       width: image.width,
@@ -48,8 +48,8 @@ export const uploadImageToCanvas = (
       },
     };
     const filterData = DEFAULT_OPTIONS;
-    ADD_IMAGE(pageId ? pageId : 0, data, filterData);
-  };
+    return ADD_IMAGE(pageId ? pageId : 0, data, filterData);
+  });
 };
 
 export const uploadTextToCanvas = (

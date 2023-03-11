@@ -1,68 +1,16 @@
 import { HTMLHexColor } from "../typings";
 export const tier_array = [`bronze`, `silver`, `gold`] as const;
-export type LARGE_CATEGORY_OF_IMG = `graphic-designs` | `advertisement-images`;
+export type FirstDegreeCategory = `graphic-designs` | `advertisement-images`;
 import { tagsArray } from "../../constants/upload-image/Tags";
+import { z } from "zod";
 
-export type SMALL_CATEGORY_OF_IMG =
-  | `soups`
-  | `appetizers`
-  | `main-dishes`
-  | `sweets-and-desserts`
-  | `fast-foods`
-  | `drinks`
-  | `cutleries-and-plates`
-  | `ingredients`
-  | `menus`
-  | `banners`
-  | `flyers`
-  | `business-cards`
-  | `stickers-and-cliparts`
-  | `brochures`
-  | `other`;
-
-export const subCats_array: SMALL_CATEGORY_OF_IMG[] = [
-  `soups`,
-  `appetizers`,
-  `main-dishes`,
-  `sweets-and-desserts`,
-  `fast-foods`,
-  `drinks`,
-  `cutleries-and-plates`,
-  `ingredients`,
-  `menus`,
-  `banners`,
-  `flyers`,
-  `business-cards`,
-  `stickers-and-cliparts`,
-  `brochures`,
-  `other`,
+export const fistDegArray = [
+  `graphic-designs`,
+  `advertisement-images`,
 ] as const;
+export type SecondDegreeCategory = (typeof secondDegArray)[number];
 
-interface Array<SMALL_CATEGORY_OF_IMG> {
-  includes(
-    searchElement: any,
-    fromIndex?: number
-  ): searchElement is SMALL_CATEGORY_OF_IMG;
-}
-
-export type AdvertImageType =
-  | `soups`
-  | `appetizers`
-  | `main-dishes`
-  | `sweets-and-desserts`
-  | `fast-foods`
-  | `drinks`
-  | `cutleries-and-plates`
-  | `ingredients`;
-export type GraphicDesignType =
-  | `menus`
-  | `banners`
-  | `flyers`
-  | `business-cards`
-  | `stickers-and-cliparts`
-  | `brochures`
-  | `other`;
-
+export type GraphicDesignType = (typeof GraphicDesignsOptions)[number];
 export const AdvertImagesOptions = [
   `appetizers`,
   `soups`,
@@ -72,25 +20,33 @@ export const AdvertImagesOptions = [
   `drinks`,
   `cutleries-and-plates`,
   `ingredients`,
+  `tables`,
 ] as const;
+export type AdvertImageType = (typeof AdvertImagesOptions)[number];
 
-export const GrahicDesignsOptions = [
+export const GraphicDesignsOptions = [
   `menus`,
   `banners`,
   `flyers`,
   `business-cards`,
   `stickers-and-cliparts`,
   `brochures`,
-  `other`,
+] as const;
+
+export const secondDegArray = [
+  ...AdvertImagesOptions,
+  ...GraphicDesignsOptions,
 ] as const;
 
 export const size_array = [
-  `Small (around 256 X 256)`,
-  `Medium (around 512x512)`,
-  `HD (around 1280x720)`,
-  `HDTV (around 1920x1080)`,
+  `<256x256`,
+  `256x256-512x512`,
+  `512x512-1280x720`,
+  `1280x720-1920x1080`,
+  `1920x1080-4K`,
   `4K+`,
 ] as const;
+
 export const surr_env_array = [
   "advertisement-meant",
   "being-cooked",
@@ -120,8 +76,7 @@ export const appetizers_array = [
   `falafel`,
   `gnocchi`,
   `greek-salad`,
-  `
-guacamole`,
+  `guacamole`,
   `gyoza`,
   `oyster`,
   `ravioli`,
@@ -180,6 +135,7 @@ export const sweets_and_desserts_array = [
   `tiramisu`,
   `waffles`,
 ] as const;
+
 export const fast_foods_array = [
   `burgers`,
   `chicken-wings`,
@@ -191,6 +147,7 @@ export const fast_foods_array = [
   `pretzels`,
   `tacos`,
 ] as const;
+
 export const drinks_array = [
   `beer`,
   `carbonated-drinks`,
@@ -201,6 +158,7 @@ export const drinks_array = [
   `water`,
   `wine`,
 ] as const;
+
 export const cutleries_and_plates_array = [
   `baking-tools`,
   `forks`,
@@ -211,6 +169,7 @@ export const cutleries_and_plates_array = [
   `vessels`,
   `whisks`,
 ] as const;
+
 export const cutlery_type = [`wood`, `stainless-steel`] as const;
 export const spices_array = [
   `black-pepper`,
@@ -225,7 +184,7 @@ export const fruits_array = [
   `apples`,
   `berries`,
   `grapes`,
-  `mango`,
+  `mangos`,
   `nuts`,
   `oranges`,
   `pineapples`,
@@ -235,7 +194,7 @@ export const fruits_array = [
 export const vegetables_array = [
   `beans`,
   `broccoli`,
-  `cabbage`,
+  `cabbages`,
   `carrots`,
   `cucumbers`,
   `garlic`,
@@ -254,6 +213,7 @@ export const menu_size_array = [
   `legal`,
   `tabloid`,
   `half-page`,
+  "other-dimension",
 ] as const;
 
 export const banner_type_array = [
@@ -264,7 +224,7 @@ export const banner_type_array = [
 ] as const;
 
 export const business_card_styles_array = [
-  `minimalistic`,
+  `minimalist`,
   `elegant`,
   `professional`,
 ] as const;
@@ -281,6 +241,7 @@ export const stickers_and_cliparts_categories = [
   `taco`,
   `vegetables`,
 ] as const;
+
 export const shape_array = [`rectangular`, `round`, `square`] as const;
 export const gr_des_style_array = [
   `fine-dining`,
@@ -298,53 +259,68 @@ export const gr_des_style_array = [
   `thai`,
   `mexican`,
   `chinese`,
-  `middle eastern`,
+  `middle-eastern`,
 ] as const;
+
+export const tables_arr = [
+  "bar-stools",
+  "booths",
+  "family-dinning-tables",
+  "patio-tables",
+] as const;
+
 // Cannot use the typeof the styles array because the nested object has an array, and ts will think that ethnic is an array and not a string
-export type Valid_image_fields =
-  | `paid`
-  | `size`
-  | `description`
-  | `color_scheme`
-  | `surr_env`
-  | `url`
-  | `views`
-  | `dish_type`
-  | `soup`
-  | `fast_food_type`
-  | `drink_type`
-  | `cutlery_type`
-  | `material`
-  | `ingredients`
-  | `banner_type`
-  | `style`
-  | `artwork_style`
-  | `stickers_category`
-  | `shape`;
+export type Valid_image_fields = (typeof valid_image_fields)[number];
 
 export const valid_image_fields = [
-  `paid`,
-  `color`,
+  `tier`,
   `size`,
   `description`,
+  `color`,
   `color_scheme`,
   `surr_env`,
   `url`,
-  `views`,
-  `dish_type`,
-  `soup`,
-  `food_type`,
-  `drink_type`,
+  "real_url",
+  `width`,
+  `height`,
+  "tags",
+  "limited_edition_expiration_date",
+  `thirdDegreeCategory`,
+  "menu_size",
   `cutlery_type`,
   `material`,
-  `ingredients`,
   `banner_type`,
-  `style`,
-  `artwork_style`,
-  `stickers_category`,
   `shape`,
-  "tags",
-] as cosnt;
+] as const;
+
+export type nestedImageFields = "ingredients";
+
+export const thirdDegArr = [
+  ...appetizers_array,
+  ...main_dish_array,
+  ...soups_array,
+  ...fast_foods_array,
+  ...sweets_and_desserts_array,
+  ...sweets_and_desserts_array,
+  ...drinks_array,
+  ...cutleries_and_plates_array,
+  ...ingredients_array,
+  ...tables_arr,
+  ...gr_des_style_array,
+] as const;
+export type ThirdDegreeCategory = (typeof thirdDegArr)[number];
+export type thirdDegCompositionArr =
+  | typeof appetizers_array
+  | typeof main_dish_array
+  | typeof soups_array
+  | typeof fast_foods_array
+  | typeof sweets_and_desserts_array
+  | typeof sweets_and_desserts_array
+  | typeof drinks_array
+  | typeof cutleries_and_plates_array
+  | typeof ingredients_array
+  | typeof gr_des_style_array;
+
 export type ImgDoc = {
   tier: (typeof tier_array)[number];
   size: (typeof size_array)[number] | (typeof menu_size_array)[number];
@@ -358,20 +334,9 @@ export type ImgDoc = {
   height: number;
   tags: (typeof tagsArray)[number][];
   limited_edition_expiration_date?: Date;
-  appetizer_type?: (typeof appetizers_array)[number];
-  dish_type?: (typeof main_dish_array)[number];
-  soup?: (typeof soups_array)[number];
-  fast_food_type?: (typeof fast_foods_array)[number];
-  sweet_type: (typeof sweets_and_desserts_array)[number];
-  drink_type?: (typeof drinks_array)[number];
-  cutlery_type?: (typeof cutleries_and_plates_array)[number];
+  thirdDegreeCategory: ThirdDegreeCategory;
   material?: (typeof cutlery_type)[number];
-  ingredients?: typeof ingredients_array;
-  menu_type?: (typeof menu_size_array)[number];
   menu_size?: (typeof menu_size_array)[number];
   banner_type?: (typeof banner_type_array)[number];
-  style: (typeof gr_des_style_array)[number];
-  artwork_style?: (typeof artwork_styles_array)[number];
-  sticker_category?: (typeof stickers_and_cliparts_categories)[number];
   shape?: (typeof shape_array)[number];
 };

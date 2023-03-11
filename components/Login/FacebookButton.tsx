@@ -9,8 +9,8 @@ interface props {
 }
 
 const heightObj = {
-  sm: "h-8",
-  md: "h-16",
+  sm: "h-10",
+  md: "h-20",
   lg: "h-32",
   auto: "h-auto",
 };

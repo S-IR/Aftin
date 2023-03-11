@@ -9,30 +9,38 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import {
-  GrahicDesignsOptions as GraphicDesignsOptions,
+  GraphicDesignsOptions as GraphicDesignsOptions,
   GraphicDesignType,
-  LARGE_CATEGORY_OF_IMG,
+  FirstDegreeCategory,
   AdvertImagesOptions,
   AdvertImageType,
+  SecondDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
 import { GetServerSideProps } from "next";
 import { getUserTier } from "../../firebaseAdmin";
-import UploadImageComp from "../../components/general/UploadImageComp";
+import dynamic from "next/dynamic";
+const UploadImageComp = dynamic(
+  () => import("../../components/general/UploadImageComp"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
 
 const Index = (LOGIN_DATA: Object) => {
   const [largeCategory, setLargeCategory] =
-    useState<null | LARGE_CATEGORY_OF_IMG>(null);
-  const [smallCategory, setSmallCategory] = useState<
-    null | GraphicDesignType | AdvertImageType
-  >(null);
+    useState<null | FirstDegreeCategory>(null);
+  const [smallCategory, setSmallCategory] =
+    useState<null | SecondDegreeCategory>(null);
 
   const handleLargeCategory = (e: SelectChangeEvent) => {
-    setLargeCategory(e.target.value as LARGE_CATEGORY_OF_IMG);
+    setLargeCategory(e.target.value as FirstDegreeCategory);
   };
 
   const handleSmallCategory = (e: SelectChangeEvent) => {
     setSmallCategory(e.target.value as GraphicDesignType | AdvertImageType);
   };
+
+  console.log("largeCategory", largeCategory, "smallCategory", smallCategory);
 
   return (
     <>
@@ -50,6 +58,9 @@ const Index = (LOGIN_DATA: Object) => {
             </MenuItem>
             <MenuItem key={"graphic-designs"} value={"graphic-designs"}>
               {`Graphic Designs`}
+            </MenuItem>
+            <MenuItem key={`null`} value={null}>
+              {`null`}
             </MenuItem>
           </Select>
         </FormControl>
@@ -96,8 +107,8 @@ const Index = (LOGIN_DATA: Object) => {
       </Box>
       {largeCategory !== null && smallCategory !== null && (
         <UploadImageComp
-          LARGE_CATEGORY_OF_IMG={largeCategory}
-          SMALL_CATEGORY_OF_IMG={smallCategory}
+          FirstDegreeCategory={largeCategory}
+          SecondDegreeCategory={smallCategory}
         />
       )}
     </>

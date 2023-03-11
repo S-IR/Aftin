@@ -74,7 +74,7 @@ const CanvasPage = ({
 
   return (
     <div
-      className=" m-5 ml-28 flex  h-full w-min flex-col "
+      className="  m-5 ml-28  flex h-full w-min flex-col "
       ref={canvasContainer}
     >
       <h3 className="g mx-auto my-2  text-xl md:text-4xl">{`Page ${
@@ -85,7 +85,7 @@ const CanvasPage = ({
         height={height}
         ref={stageRef}
         willReadFrequently={true}
-        className={`border-gradient-to-br rounded-sm border-2 from-gray-400 to-gray-600 ${
+        className={`border-gradient-to-br -z-10 rounded-sm border-2 from-gray-400 to-gray-600  ${
           isPageSelected
             ? `border-red-500`
             : `border-gradient-to-br z-10 from-gray-400 to-gray-600 `

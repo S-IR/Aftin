@@ -1,32 +1,51 @@
 import axios, { AxiosResponse } from "axios";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ParsedUrlQuery } from "querystring";
 import { db } from "../../firebase";
 import {
-  GrahicDesignsOptions,
+  FirstDegreeCategory,
+  GraphicDesignsOptions,
   ImgDoc,
+  SecondDegreeCategory,
+  ThirdDegreeCategory,
   Valid_image_fields,
 } from "../../typings/image-types/ImageTypes";
 import { valid_image_fields } from "../../typings/image-types/ImageTypes";
+import {
+  firstDegCat_schema,
+  secondDegCat_schema,
+  thirdDegCat_schema,
+  valid_image_fields_schema,
+} from "../../typings/image-types/imageZodSchemas";
 import { queryType } from "../../typings/image-types/queryTypes";
 
-const determineQuery = (data: ImgDoc[], queries: queryType) => {
+const determineQuery = (
+  data: ImgDoc[],
+  thirdDegreeCategory: ThirdDegreeCategory,
+  queries: queryType | undefined
+) => {
   // get the filter names
   const filtersArray = Object.keys(queries) as unknown as Array<
     keyof queryType
   >;
   //create an intermediate array that will be modified
-  let filteredData: ImgDoc[] | [] = [];
+  let filteredData: ImgDoc[] | [] = data;
   // go through each one of the filters
 
-  filtersArray.forEach((filter: keyof queryType) => {
+  filteredData = filteredData.filter(
+    (imgDoc) => imgDoc.thirdDegreeCategory === thirdDegreeCategory
+  );
+
+  if (queries === undefined) return filteredData;
+  filtersArray.forEach((filter) => {
     //if the filter is a color
     if (filter === `color`) {
       // get the R G B values in this array
       const rgbQueryArr = queries.color?.split("-");
       if (!rgbQueryArr) return;
       //sort the data by
-      return (filteredData = data.sort((a, b) => {
+      return (filteredData = filteredData.sort((a, b) => {
         // first declare 2 variables that are meant to be the proximity of this image's colors to that of the query
         let aProximity: number = 0;
         let bProximity: number = 0;
@@ -59,56 +78,22 @@ const determineQuery = (data: ImgDoc[], queries: queryType) => {
     }
 
     if (filter === `description`) {
-      return (filteredData = data.filter((imgField) =>
-        imgField[filter].toLowerCase().includes(queries[filter].toLowerCase())
+      return (filteredData = filteredData.filter((imgDoc) =>
+        imgDoc[filter].toLowerCase().includes(queries[filter].toLowerCase())
       ));
     }
 
     const paramsArr = queries[filter].toLowerCase().split(";");
-    if (typeof data[0][filter] === `string`) {
-      return (filteredData = data.filter(
-        (imgFied) => imgFied[filter] === paramsArr[0]
+    if (data[0][filter] === undefined || typeof data[0][filter] === `string`) {
+      return (filteredData = filteredData.filter(
+        (imgField) => imgField[filter] === paramsArr[0]
       ));
     } else if (Array.isArray(data[0][filter])) {
-      console.log("paramsArr", paramsArr);
-
-      return (filteredData = data.filter((imgFied) =>
+      return (filteredData = filteredData.filter((imgFied) =>
         paramsArr.every((arrElem) => imgFied[filter].includes(arrElem))
       ));
     }
-    // FILTER = STRING  & DATA OF FILTER = STRING , compare strings
-    //   if (
-    //     typeof queries[filter] === `string` &&
-    //     typeof data[0][filter] === `string`
-    //   ) {
-    //     return (filteredData = data.filter(
-    //       (imgField) => imgField[filter] === queries[filter]
-    //     ));
-    //   }
 
-    //   // if FILTER = ARRAY & DATA OF FILTER = STRING, check if the filter array includes the DATA string
-    //   if (
-    //     Array.isArray(queries[filter]) &&
-    //     typeof (data[0][filter] === `string`)
-    //   ) {
-    //     return (filteredData = data.filter((imgField) =>
-    //       queries[filter]?.includes(imgField[filter])
-    //     ));
-    //   }
-
-    //   // if FILTER = STRING & DATA OF FILTER = ARRAY, check if data array INCLUDES the filter string
-    //   if (typeof queries[filter] === `string` && Array.isArray(data[0][filter])) {
-    //     filteredData = data.filter((imgField) =>
-    //       imgField[filter]?.includes(queries[filter])
-    //     );
-    //     return filteredData;
-    //   }
-
-    //   // if BOTH ARE ARRAYS, check if the data array is a subset of the filter array
-    //   return (filteredData = data.filter((imgField) =>
-    //     imgField[filter].every((val: string) => queries[filter]?.includes(val))
-    //   ));
-    // });
     return filteredData;
   });
   return filteredData;
@@ -118,16 +103,45 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("fetch request came in");
+
   // get all of the image docs of that subcategory
-  const { category, subCat, rowRequested, ...queryParams } = req.query;
+  const {
+    firstDegreeCategory,
+    secondDegreeCategory,
+    thirdDegreeCategory,
+    rowRequested,
+    ...queryParams
+  } = req.query as unknown as {
+    firstDegreeCategory: FirstDegreeCategory | undefined;
+    secondDegreeCategory: SecondDegreeCategory | undefined;
+    thirdDegreeCategory: ThirdDegreeCategory | undefined | "no-third-category";
+    rowRequested: number;
+    queryParams: ParsedUrlQuery | undefined;
+  };
+  if (
+    !firstDegCat_schema.safeParse(firstDegreeCategory) ||
+    !secondDegCat_schema.safeParse(secondDegCat_schema) ||
+    (thirdDegreeCategory !== undefined &&
+      !thirdDegCat_schema.safeParse(thirdDegreeCategory)) ||
+    rowRequested === undefined ||
+    (Object.keys(queryParams).length !== 0 &&
+      !Object.keys(queryParams).every((queryParam) =>
+        valid_image_fields_schema.safeParse(queryParam)
+      ))
+  ) {
+    console.log("invalid request parameters");
+    return res.status(406).send({ message: "invalid request" });
+  }
 
   //save them in an array
+  //ignore TS
   const firebaseAPIResponse = await fetch(
     `${
       process.env.NEXT_PUBLIC_server
     }/api/getFirebaseImageDocs?${new URLSearchParams({
-      category: category as string,
-      subCat: subCat as string,
+      firstDegreeCategory,
+      secondDegreeCategory,
     })}`
   );
   let docsArray: ImgDoc[] = await firebaseAPIResponse.json();
@@ -136,9 +150,14 @@ export default async function handler(
   const slicingEnd = 14 + 15 * Number(rowRequested);
 
   // if there are parameters being sent filter the docsArray an slice it
-  if (Object.keys(queryParams).length !== 0) {
+  //ignore ts
+  if (
+    thirdDegreeCategory !== "no-third-category" ||
+    thirdDegreeCategory === undefined
+  ) {
     docsArray = await determineQuery(
       docsArray,
+      thirdDegreeCategory,
       queryParams as unknown as queryType
     );
   }

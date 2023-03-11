@@ -12,8 +12,8 @@ import NavbarImageCategory from "./NavbarImageCategory";
 interface props {}
 const AdvertImagesDropdown = ({}: props) => {
   return (
-    <animated.div className=" z-50 h-auto  w-max overflow-hidden rounded-sm bg-gray-900 p-2 shadow-md shadow-gray-800 ">
-      <div className="grid grid-cols-3">
+    <animated.div className=" z-50 h-auto  w-max overflow-hidden rounded-sm bg-gray-900 p-2 pb-4 shadow-md ">
+      <div className="grid grid-cols-4">
         {AdvertImagesLinks.map((AdvertImageLink: NavbarImageLink) => (
           <NavbarImageCategory
             Category={AdvertImageLink}

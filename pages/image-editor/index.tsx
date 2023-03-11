@@ -63,7 +63,7 @@ const Index: NextPage = () => {
       <div className="flex w-full ">
         <div className="fixed flex">
           <animated.section
-            className={`flex h-[90vh] w-[7vw]  flex-col items-center bg-yellow-900   `}
+            className={`flex h-[90vh] w-[25vw]  flex-col  items-center bg-yellow-900 md:w-[7vw]   `}
           >
             <SidebarIcon
               Icon={<Panorama className="h-[5vh] w-[5vw]" />}
@@ -117,7 +117,7 @@ const Index: NextPage = () => {
                 } absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out`}
                 onClick={() => toggleSidebar((v) => !v)}
               >
-                <MdOutlineDoubleArrow className="h-16 w-16 md:h-8 md:w-8 " />
+                <MdOutlineDoubleArrow className="h-6 w-6 md:h-8 md:w-8 " />
               </button>
             </Tooltip>
           )}
@@ -126,9 +126,9 @@ const Index: NextPage = () => {
               return (
                 <animated.section
                   style={style}
-                  className={`h-[90vh] ${
+                  className={`!z-[60] h-[90vh] ${
                     showSidebar ? `` : `-left-52 w-[0px] opacity-0`
-                  }w-auto absolute left-[7vw] `}
+                  }w-auto absolute left-[25vw]  md:left-[7vw]  `}
                 >
                   {ButtonMenuSwitch(item, setActiveSidebar)}
                 </animated.section>

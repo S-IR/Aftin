@@ -10,20 +10,19 @@ interface props {
 }
 
 const heightObj = {
-  sm: "h-4  md:h-8",
-  md: "h-12  md:h-16",
-  lg: "h-20  md:h-32",
+  sm: "h-10",
+  md: "h-20",
+  lg: "h-32",
   auto: "h-auto",
 };
-
 const widthObj = {
-  sm: "h-4  md:w-16",
-  md: "h-12  md:w-32",
-  lg: "h-32  md:w-64",
+  sm: "w-16",
+  md: "w-32",
+  lg: "w-64",
   auto: "w-auto",
 };
 
-const FacebookButton = ({ text, onClick, w, h }: props) => {
+const GoogleButton = ({ text, onClick, w, h }: props) => {
   return (
     <button
       onClick={onClick}
@@ -37,4 +36,4 @@ const FacebookButton = ({ text, onClick, w, h }: props) => {
   );
 };
 
-export default FacebookButton;
+export default GoogleButton;

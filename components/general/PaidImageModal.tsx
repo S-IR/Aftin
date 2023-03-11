@@ -13,33 +13,33 @@ import { LoginStatus } from "../../typings/typings";
 import { isMobile } from "react-device-detect";
 import {
   ImgDoc,
-  SMALL_CATEGORY_OF_IMG,
+  SecondDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
 import { useRouter } from "next/router";
-import { galleryImageDialog } from "./SingleImage";
+import { galleryImageDialog } from "./SiteGallery";
 
 interface props {
   doc: ImgDoc;
-  dialog: null | galleryImageDialog;
+  dialogName: null | galleryDialogWithDoc["name"];
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
-  subCat?: SMALL_CATEGORY_OF_IMG;
+  secondDegCat?: SecondDegreeCategory;
 }
 
 const PaidImageModal: FC<props> = ({
   doc,
-  dialog,
+  dialogName,
   setDialog,
   loginStatus,
-  subCat,
+  secondDegCat,
 }) => {
   const router = useRouter();
-  if (subCat === undefined)
-    subCat = router.query.subCat as SMALL_CATEGORY_OF_IMG;
+  if (secondDegCat === undefined)
+    secondDegCat = router.query.secondDegCat as SecondDegreeCategory;
 
   return (
     <Dialog
-      open={dialog === "paid"}
+      open={dialogName === "paid"}
       onClose={(_, reason) => {
         if (reason === "backdropClick") return setDialog(null);
       }}
@@ -50,7 +50,7 @@ const PaidImageModal: FC<props> = ({
         style: {
           backgroundColor: "transparent",
           height: isMobile ? 512 : 768,
-          margin: 0,
+          margin: 10,
           borderRadius: 25,
           position: "relative",
         },
@@ -61,28 +61,33 @@ const PaidImageModal: FC<props> = ({
           src="/frontend-used-images/general/premium-popup-banner.png"
           alt="Paid dialogue box image popup "
           layout="fill"
+          objectFit="scale-down"
           className={"brightness-75  filter"}
         />
       </div>
 
-      <div className="z-20 mx-8 mb-10 flex h-full flex-col items-center justify-end space-y-12 align-bottom">
+      <div className="z-20 mx-8 mb-10 flex h-full flex-col items-center justify-end space-y-4  align-bottom md:space-y-12">
         <h2 className="bold my-2 mx-2 text-center font-Handwriting text-5xl text-[#FFA841] shadow-md ">
           Unlock this image among others
         </h2>
         <div className="text-md flex w-full items-center justify-center space-x-20 align-middle text-white">
-          <p className="w-48 text-center font-serif">
-            Thousands of <br></br> professional photos
-          </p>
-          <p className="w-48 text-center font-serif">
-            Hundreds of <br></br> templates
-          </p>
-          <p className=" w-48 font-serif">And more</p>
+          {!isMobile && (
+            <>
+              <p className="w-48 text-center font-serif text-sm">
+                Thousands of <br></br> professional photos
+              </p>
+              <p className="w-48 text-center font-serif text-sm">
+                Hundreds of <br></br> templates
+              </p>
+              <p className=" w-48 font-serif text-sm">And more</p>
+            </>
+          )}
         </div>
         <button
-          className="buttons-3 h-min text-lg text-red-400"
+          className="buttons-3 !md:mt-10 !m-0 h-min text-lg text-red-400"
           onClick={() => {
             window.gtag("event", "redirected_to_checkout_through_image", {
-              subCat,
+              secondDegCat,
               imageRef: doc.url.replace(
                 "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
                 ""
