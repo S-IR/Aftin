@@ -44,7 +44,7 @@ const MoreDropdown = ({}: props) => {
           Access Image Editor
         </button>
         <button
-          onClick={() => router.push("/image-scalar")}
+          onClick={() => router.push("/image-enhancing/upscale")}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Increase Image Resolution
@@ -56,7 +56,7 @@ const MoreDropdown = ({}: props) => {
           Preview Image
         </button>
         <button
-          onClick={() => router.push("/image-deblur")}
+          onClick={() => router.push("/image-enhancing/deblur")}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Deblur Image

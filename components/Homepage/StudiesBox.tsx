@@ -3,6 +3,7 @@ import React from "react";
 import { useInView } from "react-intersection-observer";
 import { StudiesList } from "../../constants/StudiesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
+import Image from "next/image";
 
 function StudiesBox() {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
@@ -14,8 +15,17 @@ function StudiesBox() {
   });
 
   return (
-    <section className="relative">
-      <div className="ml-[15vw] mt-[25vh] flex flex-col">
+    <section className="relative h-screen  ">
+      <div className="absolute -top-52  right-2 overflow-hidden">
+        <Image
+          width={612}
+          height={612}
+          objectFit={"scale-down"}
+          quality={100}
+          src={"/frontend-used-images/homepage/studiexBoxImg.png"}
+        />
+      </div>
+      <div className="mt-[10vh] ml-[15vw] flex flex-col">
         <a.h2
           ref={hTwoRef}
           style={hTwoStyles}
@@ -29,11 +39,12 @@ function StudiesBox() {
         >
           People judge a restaurant by its images. <br></br>
           Is essential therefore to be able to display your branding personality
+          <br></br>
           through every image that your potential clients might see
         </a.p>
       </div>
 
-      <figure className="text-md mt-16 mb-10 ml-3  flex w-screen flex-col justify-center  space-y-2 px-2 font-serif md:mt-40 md:mb-28 md:flex-row md:space-x-4 ">
+      <figure className="text-md mt-16 mb-10 ml-3  flex w-screen flex-col justify-center  space-y-2 px-2 font-serif md:mt-40 md:mb-28 md:flex-row md:space-x-4 md:space-y-0 ">
         {StudiesList.map((study) => (
           <div
             key={study.text}

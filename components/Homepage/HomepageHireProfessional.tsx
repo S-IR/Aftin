@@ -3,6 +3,7 @@ import React from "react";
 import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 
 const HomepageHireProfessional = () => {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
@@ -19,6 +20,15 @@ const HomepageHireProfessional = () => {
 
   return (
     <section className="relative flex min-h-screen justify-center space-y-4 text-center ">
+      <div className="absolute -top-2 left-2 overflow-hidden">
+        <Image
+          width={612}
+          height={612}
+          objectFit={"scale-down"}
+          quality={100}
+          src={"/frontend-used-images/homepage/HomepageHireProfessionalImg.png"}
+        />
+      </div>
       <div className="absolute top-40 right-28 flex flex-col items-center">
         <a.h2
           className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-4xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"

@@ -202,7 +202,17 @@ Allow: /restaurant-advertisement-images/ingredients/watermelons
 Allow: /restaurant-advertisement-images/tables/bar-stools
 Allow: /restaurant-advertisement-images/tables/booths
 Allow: /restaurant-advertisement-images/tables/family-dinning-tables
-Allow: /restaurant-advertisement-images/tables/patio-tables
+Allow: /restaurant-advertisement-images/cutleries-and-plates/rolling_pins
+Allow: /restaurant-advertisement-images/cutleries-and-plates/forks
+Allow: /restaurant-advertisement-images/cutleries-and-plates/knives
+Allow: /restaurant-advertisement-images/cutleries-and-plates/spatulas
+Allow: /restaurant-advertisement-images/cutleries-and-plates/spoons
+Allow: /restaurant-advertisement-images/cutleries-and-plates/whisks
+Allow: /restaurant-advertisement-images/cutleries-and-plates/plates
+
+
+
+
 
 
 Allow: /restaurant-graphic-designs/menus/fine-dining 

@@ -160,13 +160,12 @@ export const drinks_array = [
 ] as const;
 
 export const cutleries_and_plates_array = [
-  `baking-tools`,
+  `rolling_pins`,
   `forks`,
   `knives`,
-  `ladle`,
   `spatulas`,
   `spoons`,
-  `vessels`,
+  `plates`,
   `whisks`,
 ] as const;
 

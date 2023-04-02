@@ -34,7 +34,6 @@ import FreeImageModal from "./FreeImageModal";
 import PaidImageModal from "./PaidImageModal";
 import { GetServerSideProps } from "next";
 import { getImageQueryParams } from "../../model/client-side/image-gallery/getImageQueryParams";
-
 interface props {
   showSidebar: boolean;
 }
@@ -121,10 +120,6 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
 
   const [dialog, setDialog] = useState<galleryImageDialog | null>(null);
 
-  useEffect(() => {
-    console.log("data.pages", data);
-  }, [data]);
-
   //Code to deal with loading and error states
   if (Object.keys(router.query).length === 0) {
     return (
@@ -154,7 +149,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const description = router.query.description;
   return (
     <animated.section
-      className={` flex h-auto w-full max-w-[80vw]  flex-col items-center  justify-center align-middle `}
+      className={` flex h-auto w-full max-w-[80vw]  flex-col items-center  justify-center rounded-sm bg-gray-900/40 p-2 align-middle `}
       style={galleryMarginLeft}
     >
       <div className="!flex w-full flex-col items-center justify-center align-middle ">

@@ -1,0 +1,79 @@
+import { QuestionMark } from "@mui/icons-material";
+import { NextPage } from "next";
+import Link from "next/link";
+import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useQuery } from "react-query";
+import Loading from "../../components/general/Loading";
+import { auth } from "../../firebase";
+import { fetchUserStatus } from "../../model/client-side/general/fetches";
+
+const Index: NextPage = () => {
+  const [user, userLoading] = useAuthState(auth);
+
+  const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
+    ["getUserStatus", user?.uid, userLoading],
+    () => fetchUserStatus(user),
+    {
+      staleTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  return (
+    <section className="flex h-screen w-screen items-center justify-center align-middle">
+      <div className="flex h-[85%] w-[85%]  flex-col items-center justify-center space-y-20 overflow-hidden rounded-lg bg-[url('/frontend-used-images/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
+        {loginStatusLoading ? (
+          <Loading />
+        ) : loginStatus === "gold" ? (
+          <>
+            <h1 className="0 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-2xl text-transparent md:text-4xl">
+              What do you want to do to a particular image?
+            </h1>
+            <div className="flex w-full flex-col items-center justify-center align-middle drop-shadow-xl ">
+              <Link href={"/image-enhancing/upscale"}>
+                <a className=" flex h-16 w-3/4  items-center justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 text-center align-middle font-Handwriting text-xl transition-all duration-300 hover:text-red-200 md:w-1/2 ">
+                  Increase Resolution
+                </a>
+              </Link>
+
+              <Link href={"/image-enhancing/deblur"}>
+                <a className=" flex h-16 w-3/4  items-center justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 align-middle font-Handwriting text-xl transition-all duration-300 hover:text-red-200 md:w-1/2 ">
+                  Deblur
+                </a>
+              </Link>
+            </div>
+            <div className="flex w-full flex-col">
+              <p className="w-full text-center text-sm">
+                Keep in mind that these enhancing techniques are done by AI
+                models. that are not owned by us
+              </p>
+              <Link href={"/policies/AI-use"}>
+                <a className="buttons-3 h-auto w-auto cursor-pointer">
+                  Find out more
+                </a>
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className="text-center font-Handwriting text-2xl md:text-4xl">
+              You require gold tier to access this page <br></br>
+              <Link href={"/subscribe?tier=gold"} className={"buttons-3"}>
+                <a>
+                  <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
+                    {" "}
+                    Unlock <span className="text-yellow-300">gold</span> tier
+                  </p>
+                </a>
+              </Link>
+            </h1>
+          </>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Index;

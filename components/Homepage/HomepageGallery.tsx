@@ -9,29 +9,30 @@ const HomepageGallery = () => {
   const router = useRouter();
   return (
     <>
-      <Masonry
-        columns={isMobile ? 1 : 3}
-        spacing={2}
-        defaultColumns={isMobile ? 2 : 4}
-        className={"mx-auto mt-20 flex max-w-6xl"}
+      <section
+        className={
+          "max-w-8xl mx-auto mt-20 grid w-full grid-cols-3 items-center "
+        }
       >
         {homepageGalleryList.map((list) => {
           if (typeof list !== "string") {
             return (
               <div
                 key={list.name}
-                className="h- group relative m-0  flex justify-center rounded-md  align-middle  shadow-gray-700 drop-shadow-xl transition-all duration-300 md:m-2 "
+                className="group relative m-0 flex h-auto  w-auto justify-center rounded-md  align-middle  shadow-gray-700 drop-shadow-xl transition-all duration-300 "
               >
                 <Image
                   alt={`representative image from ${list.name.replace(
                     "-",
                     " "
                   )}`}
-                  width={list.w}
-                  height={list.h}
-                  objectFit={"scale-down"}
+                  width={1920 / 4}
+                  height={1080 / 4}
+                  objectFit={"fill"}
                   src={`/frontend-used-images/homepage/homepage-gallery/${list.secondDegCatName}.png`}
-                  className={"grayscale-[90%] filter"}
+                  className={
+                    "grayscale-[10%] filter transition-all duration-300 hover:grayscale-[80%]"
+                  }
                 />
                 <button
                   className={`absolute top-1/2 left-1/2 border-b-2 border-white  text-center font-serif text-xl text-red-300 opacity-0 !grayscale-0 !filter transition-all duration-300 hover:text-red-500 group-hover:-translate-y-4 group-hover:opacity-100`}
@@ -55,7 +56,7 @@ const HomepageGallery = () => {
             );
           }
         })}
-      </Masonry>
+      </section>
     </>
   );
 };

@@ -7,6 +7,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import { NavbarDropdown, ProfileDropdown } from "../navbar";
 import styles from "../../styles/WebsiteNavbar.module.css";
+import Link from "next/link";
+
+let lastWidth = 0;
 
 function WebsiteNavbar() {
   const [activeSidebar, setActiveSidebar] =
@@ -17,9 +20,29 @@ function WebsiteNavbar() {
 
   const router = useRouter();
 
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (lastWidth <= window.scrollY || lastWidth < 75) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+      return (lastWidth = window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const isPageThatNeedsTheBGBlack =
     router.pathname.includes("restaurant-advertisement-images/") ||
-    router.pathname.includes("restaurant-graphic-designs/");
+    router.pathname.includes("restaurant-graphic-designs/") ||
+    router.pathname === "/";
+
   const navRef = useRef<null | HTMLDivElement>(null);
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -44,15 +67,15 @@ function WebsiteNavbar() {
   return (
     <>
       <nav
-        className={` z-5 sticky top-0 z-[120] flex h-[75px] w-full items-center 
-   transition-all duration-300 hover:bg-gray-900  ${
+        className={` z-5 sticky top-0 z-[120] flex h-[75px] w-screen items-center justify-center  
+   transition-all duration-500 hover:bg-gray-900  ${
      isPageThatNeedsTheBGBlack
        ? `bg-black`
        : `bg-gradient-to-b from-black to-white/0`
-   } `}
+   } ${isVisible ? `translate-y-0` : `-translate-y-48`} `}
         ref={navRef}
       >
-        <ul className="grow-1 hidden h-max flex-1 space-x-10 px-4 font-bold md:flex md:space-x-6 md:px-8 ">
+        <ul className="grow-1 hidden h-max space-x-2 px-4  font-bold md:flex md:flex-1 md:space-x-6 md:px-8 ">
           {navLinks.map((nav) => (
             <li
               key={nav.id}
@@ -61,7 +84,7 @@ function WebsiteNavbar() {
             >
               <>
                 <p
-                  className={`textUnderline cursor-pointer font-serif  text-sm font-thin  `}
+                  className={`textUnderline cursor-pointer font-Handwriting  text-sm font-thin  `}
                   onClick={() => router.push(nav.url)}
                   onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
                 >
@@ -71,14 +94,29 @@ function WebsiteNavbar() {
             </li>
           ))}
         </ul>
+        <Link href={"/"}>
+          <a>
+            <button className="h-[60px] w-[60px]  rounded-full border-2 border-gray-700/40 transition-all duration-300 hover:border-gray-500/40">
+              <Image
+                src={"/frontend-used-images/croppedLogo.png"}
+                width={60}
+                height={60}
+                className={"rounded-full"}
+                objectFit={"scale-down"}
+                alt={"Aftin Logo"}
+              />
+            </button>
+          </a>
+        </Link>
+
         <NavbarDropdown
           activeSidebar={activeSidebar}
           setActiveSidebar={setActiveSidebar}
         />
-        <div className="mx-4 flex w-min flex-1  grow-0 items-center justify-center space-x-2 align-middle last:ml-auto">
+        <div className=" flex  w-[40vw]  flex-1  items-center justify-end  font-Handwriting ">
           {!user && !userLoading && (
             <button
-              className="buttons-3 !h-8 !w-24 text-lg"
+              className="buttons-3 !h-8 !w-24 flex-1 text-lg"
               onClick={() => router.push("/login?form=login")}
             >
               Login
@@ -86,21 +124,21 @@ function WebsiteNavbar() {
           )}
           {!user && !userLoading && (
             <button
-              className="buttons-3 !h-8 !w-24 whitespace-nowrap text-lg"
+              className="buttons-3 !h-8 !w-24 flex-1 whitespace-nowrap text-lg"
               onClick={() => router.push("/login?form=signUp")}
             >
               Sign Up
             </button>
           )}
           <button
-            className="h-min w-min"
+            className="z-10 mr-6 h-min w-min "
             onClick={() =>
               activeSidebar === "ProfileDropdown"
                 ? setActiveSidebar(null)
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className="mx-5 h-[25px] w-[25px]">
+            <div className=" ml-auto mr-8 h-[35px] w-[35px] rounded-full border-2 border-dashed border-gray-500">
               {!userLoading && user && user.photoURL ? (
                 <Image
                   src={user.photoURL}
@@ -110,7 +148,7 @@ function WebsiteNavbar() {
                   className={`  mx-2 rounded-full  `}
                 />
               ) : (
-                <UserCircleIcon className="h-8 w-8" />
+                <UserCircleIcon className="h-full w-full" />
               )}
             </div>
           </button>

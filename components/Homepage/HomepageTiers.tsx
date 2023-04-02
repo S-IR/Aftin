@@ -19,7 +19,7 @@ const HomepageTiers = () => {
   });
 
   return (
-    <section className="flex h-auto min-h-[70vh] w-screen flex-col items-center bg-white/10 py-10">
+    <section className="flex h-auto min-h-[70vh] w-screen flex-col items-center border-2 border-gray-500 bg-white/10 py-10">
       <a.h2
         className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text text-center font-Handwriting text-4xl  text-transparent md:text-8xl"
         ref={hTwoRef}

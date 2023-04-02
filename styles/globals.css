@@ -4,7 +4,7 @@
 
 @tailwind base;
 body {
-  background-image: url("/frontend-used-images/website-background.png");
+  background-color: rgb(18, 18, 18);
   background-repeat: repeat;
   color: white;
   font-family: "Taviraj";

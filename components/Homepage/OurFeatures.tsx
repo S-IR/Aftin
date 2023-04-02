@@ -14,7 +14,7 @@ const OurFeatures = () => {
   });
 
   return (
-    <div className="flex h-auto min-h-[75vh] w-screen flex-col items-center bg-white/10 px-4">
+    <section className="flex h-auto min-h-[75vh] w-screen flex-col items-center border-2 border-gray-500 bg-white/10   px-4">
       <a.h2
         className=" mt-6 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-3xl text-transparent  text-white  md:mt-20 md:text-8xl"
         ref={hTwoRef}
@@ -42,7 +42,7 @@ const OurFeatures = () => {
               <a>
                 <div
                   className={
-                    "group flex h-[35vh] w-full items-center justify-center bg-black/10 align-middle transition-all duration-300 hover:bg-black/30"
+                    "group flex h-[35vh] w-full items-center justify-center bg-black/20  align-middle transition-all duration-300 hover:bg-black/30"
                   }
                 >
                   <div className="flex flex-col items-center justify-center align-middle">
@@ -59,7 +59,7 @@ const OurFeatures = () => {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 };
 

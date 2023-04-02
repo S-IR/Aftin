@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         />
         <title>Aftin - Homepage</title>
       </Head>
-      <main className="website-theme-image">
+      <main className="website-theme-image overflow-x-hidden ">
         <HomeBanner />
         <HomeIntro />
         <StudiesBox />
