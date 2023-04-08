@@ -138,7 +138,7 @@ function WebsiteNavbar() {
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className=" ml-auto mr-8 h-[35px] w-[35px] rounded-full border-2 border-dashed border-gray-500">
+            <div className=" ml-auto mr-8 h-[35px] w-[35px] rounded-full border-1 border-dashed border-gray-500">
               {!userLoading && user && user.photoURL ? (
                 <Image
                   src={user.photoURL}
