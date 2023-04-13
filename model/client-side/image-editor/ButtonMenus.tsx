@@ -1,5 +1,4 @@
 import {
-  CSSTransitionComp,
   DrawButtons,
   ImagesButtons,
   ShowLess,

@@ -3,7 +3,6 @@ import {
   CSSFilter,
   imageFilterProperties,
 } from "../../../constants/image-editor/imageFilters";
-import { useAppDispatch } from "../../../Redux/hooks";
 import styles from "../../../styles/image-editor/filters.module.css";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
 interface props {

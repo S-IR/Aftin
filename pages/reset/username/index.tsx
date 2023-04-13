@@ -3,16 +3,20 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
-import GenericDialog from "../../../components/general/dialog-boxes/GenericDialog";
-import ServerErrorDialog from "../../../components/general/dialog-boxes/ServerErrorDialog";
 import { auth } from "../../../firebase";
 import { changeUsername } from "../../../model/server-side/sendEmail";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 
 interface Inputs {
   newUsername: string;
 }
 
 const Index = () => {
+  const [changeModalText, changeModalType] = useModalStore((store) => [
+    store.CHANGE_MODAL_TEXT,
+    store.CHANGE_MODAL_TYPE,
+  ]);
+
   const {
     register,
     handleSubmit,
@@ -21,9 +25,6 @@ const Index = () => {
   } = useForm<Inputs>();
   const router = useRouter();
   const [user, userLoading] = useAuthState(auth);
-  const [dialog, setDialog] = useState<
-    null | "internalServerError" | "genericDialog"
-  >(null);
 
   if (!user && !userLoading) return router.push("/");
   const onSubmit: SubmitHandler<Inputs> = async ({ newUsername }) => {
@@ -35,14 +36,22 @@ const Index = () => {
     );
     switch (res.status) {
       case 500:
-        return setDialog("internalServerError");
+        return changeModalType("server-error");
       case 401:
-        return alert("Session token has expired. Please try loggging in again");
+        changeModalText({
+          title: "Session has Expired",
+          text: "Your session token has expired. Please log in again",
+        });
+        return changeModalType("generic-error");
       default:
         updateProfile(user, {
           displayName: newUsername,
         });
-        return setDialog("genericDialog");
+        changeModalText({
+          title: "Your changes have been applied",
+          text: "You have successfully changed your username",
+        });
+        return changeModalType("generic-success");
     }
   };
   return (
@@ -53,7 +62,7 @@ const Index = () => {
         </h1>
         <h2 className="mx-auto text-xl text-gray-400">
           {" "}
-          Please enter your email address :
+          Please enter your new usernames :
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -84,12 +93,6 @@ const Index = () => {
           </button>
         </form>
       </section>
-      <ServerErrorDialog dialog={dialog} setDialog={setDialog} />
-      <GenericDialog
-        dialog={dialog}
-        setDialog={setDialog}
-        title={"Your username has been changed successfully"}
-      />
     </div>
   );
 };

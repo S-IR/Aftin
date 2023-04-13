@@ -9,16 +9,18 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import * as gtag from "../../lib/gtag";
 import { Box } from "@mui/material";
-import MissingFeatureDialog from "../general/dialog-boxes/MissingFeatureDialog";
+import { useModalStore } from "../../zustand/ModalBoxStore/store";
 
 interface props {}
 
 const MoreDropdown = ({}: props) => {
   const router = useRouter();
-  const [missingFeatureText, setMissingFeatureText] =
-    useState<JSX.Element | null>(null);
+  const [changeModalText, changeModalType] = useModalStore((store) => [
+    store.CHANGE_MODAL_TEXT,
+    store.CHANGE_MODAL_TYPE,
+  ]);
 
-  const [user, userLoading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const style = {
     position: "absolute" as "absolute",
@@ -31,6 +33,23 @@ const MoreDropdown = ({}: props) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 2,
+  };
+
+  //this function deals with people clicking on a button which is a missing feature
+  type EventName =
+    | `request_custom_design_clicked`
+    | `request_custom_website_clicked`
+    | `request_custom_images_clicked`;
+  const handleMissingFeatureClick = (
+    event_name: EventName,
+    title?: string,
+    text?: string
+  ) => {
+    window.gtag(`event`, event_name, {
+      userId: user ? user.uid : "not logged in",
+    });
+    changeModalText({ title, text });
+    return changeModalType("missing-feature");
   };
 
   return (
@@ -65,34 +84,26 @@ const MoreDropdown = ({}: props) => {
       <div className=" flex w-auto flex-col items-center space-y-2">
         <p className=" mb-6 text-xl text-orange-300 ">Professional Designers</p>
         <button
-          onClick={() => {
-            window.gtag(`event`, `request_custom_design_clicked`, {
-              userId: user ? user.uid : "not logged in",
-              name: "not-known",
-            });
-            setMissingFeatureText(
-              <p>
-                We cannot currently offer custom graphic designs images at
-                special request.<br></br>
-                We are sorry for the inconvenience.
-              </p>
-            );
-          }}
+          onClick={() =>
+            handleMissingFeatureClick(
+              "request_custom_design_clicked",
+              undefined,
+              ` We cannot currently offer custom graphic designs images at
+                special request
+                We are sorry for the inconvenience`
+            )
+          }
           className=" GA-request-custom-design font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Request Custom Design
         </button>
         <button
           onClick={() => {
-            window.gtag(`event`, `request_custom_website_clicked`, {
-              userId: user ? user.uid : "not logged in",
-            });
-            setMissingFeatureText(
-              <p>
-                We cannot currently offer website design services at request.
-                <br></br>
-                We are sorry for the inconvenience.
-              </p>
+            handleMissingFeatureClick(
+              `request_custom_website_clicked`,
+              undefined,
+              ` We cannot currently offer website design services at request.
+                We are sorry for the inconvenience.`
             );
           }}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
@@ -101,14 +112,11 @@ const MoreDropdown = ({}: props) => {
         </button>
         <button
           onClick={() => {
-            window.gtag(`event`, `request_custom_images_clicked`, {
-              userId: user ? user.uid : "not logged in",
-            });
-            setMissingFeatureText(
-              <p>
-                We cannot currently offer custom images at request.<br></br>
-                We are sorry for the inconvenience.
-              </p>
+            handleMissingFeatureClick(
+              `request_custom_images_clicked`,
+              undefined,
+              `  We cannot currently offer custom images at request.
+                We are sorry for the inconvenience.`
             );
           }}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
@@ -135,11 +143,6 @@ const MoreDropdown = ({}: props) => {
           Privacy Policy{" "}
         </button>
       </div>
-
-      <MissingFeatureDialog
-        text={missingFeatureText}
-        setModalText={setMissingFeatureText}
-      />
     </animated.div>
   );
 };

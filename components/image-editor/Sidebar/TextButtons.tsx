@@ -3,7 +3,6 @@ import React, { DOMAttributes, useCallback, useEffect, useState } from "react";
 import ShortTextIcon from "@mui/icons-material/ShortText";
 
 import { Alert } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { uploadTextToCanvas } from "../../../model//client-side/image-editor/Upload";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { activeSidebarType } from "./SidebarIcon";

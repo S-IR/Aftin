@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { requestImageDocs } from "../../../../model/client-side/image-functions/requestImages";
-import { useAppDispatch } from "../../../../Redux/hooks";
 import {
   GraphicDesignsOptions,
   ImgDoc,

@@ -6,8 +6,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { sendPasswordReset, sendVerificationEmail } from "../../firebaseAdmin";
 
-const ejs = require("ejs");
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

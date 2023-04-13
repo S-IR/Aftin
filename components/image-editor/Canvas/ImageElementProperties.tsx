@@ -3,8 +3,6 @@ import { BiCrop, BiFilter } from "react-icons/bi";
 import { MdFindReplace, MdRotateRight, MdTune } from "react-icons/md";
 import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
 import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-import { AppDispatch } from "../../../Redux/store";
 import Button from "../../general/Button";
 import { Crop, Delete } from "@mui/icons-material";
 import { Filter } from "../Sidebar";

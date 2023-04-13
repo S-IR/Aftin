@@ -1,4 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
+
+const bodySchema = z.object({
+  image: z.any(),
+  text: z
+    .string()
+    .min(1, "The prompt cannot be empty")
+    .max(256, "Prompt is too big"),
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,6 +16,11 @@ export default async function handler(
   if (req.method !== "POST" || req.body.image === undefined) {
     return res.status(400).json({ message: "Bad Request" });
   }
+  const parseResult = bodySchema.safeParse(req.body);
+  if (!parseResult.success) {
+    return res.status(400).json({ message: parseResult.error });
+  }
+  console.log("gotten text", req.body.text);
 
   const response = await fetch("https://api.replicate.com/v1/predictions", {
     method: "POST",
@@ -18,14 +32,13 @@ export default async function handler(
       // Pinned to a specific version of Stable Diffusion
       // See https://replicate.com/stability-ai/stable-diffussion/versions
       version:
-        "660d922d33153019e8c263a3bba265de882e7f4f70396546b6c9c8f9d47a021a",
+        "f2d6b24e6002f25f77ae89c2b0a5987daa6d0bf751b858b94b8416e8542434d1",
 
       // This is the text prompt that will be submitted by a form on the frontend
       input: {
-        task_type: "Real-World Image Super-Resolution-Large",
-        noise: 15,
-        jpeg: 40,
         image: req.body.image,
+        text: req.body.text,
+        iterations: 1,
       },
     }),
   });

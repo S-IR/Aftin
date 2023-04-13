@@ -4,18 +4,19 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import Fade from "../../../constants/general/Fade";
+import { generalModalBoxProps } from "./AllDialogBoxes";
 
 interface props {
   text: JSX.Element | null;
   setModalText: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 }
 
-const MissingFeatureDialog = ({
-  text = (
-    <p>This feature is not yet available. We are sorry for the inconvenience</p>
-  ),
-  setModalText,
-}: props) => {
+const MissingFeatureModal = ({
+  title = "Feature not yet available",
+  text = "This feature is not yet available. We are sorry for the inconvenience",
+  modalType,
+  changeModalType,
+}: generalModalBoxProps) => {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -30,10 +31,10 @@ const MissingFeatureDialog = ({
   };
   return (
     <Modal
+      open={modalType === "missing-feature"}
       aria-labelledby="spring-modal-title"
       aria-describedby="spring-modal-description"
-      open={text !== null}
-      onClose={() => setModalText(null)}
+      onClose={() => changeModalType(null)}
     >
       <Fade in={text !== null}>
         <Box
@@ -48,15 +49,19 @@ const MissingFeatureDialog = ({
             component="h2"
             className="text-4xl text-orange-300"
           >
-            Feature not yet available
+            {title}
           </Typography>
-          <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-            {text}
-          </Typography>
+          {typeof text === "string" ? (
+            <Typography id="spring-modal-description" sx={{ mt: 2 }}>
+              {text}
+            </Typography>
+          ) : (
+            { text }
+          )}
         </Box>
       </Fade>
     </Modal>
   );
 };
 
-export default MissingFeatureDialog;
+export default MissingFeatureModal;

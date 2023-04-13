@@ -8,7 +8,6 @@ import {
   shapeFilter,
   textFilter,
 } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import ImageElementProperties from "../Canvas/ImageElementProperties";
 import ShapeElementProperties from "../Canvas/ShapeElementProperties";
 import TextElementProperties from "../Canvas/TextElementProperties";

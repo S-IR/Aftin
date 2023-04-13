@@ -5,13 +5,12 @@ import { canvasSelected } from "../../../features/canvasPages/canvas-elements/ca
 import { textFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
 
-import { useAppDispatch } from "../../../Redux/hooks";
 import {
   changeElementPosition,
   selectElement,
 } from "../../../zustand/CanvasStore/store";
-import { textFilterProperties } from "../../../zustand/textHandlers";
 import TransformerComp from "./TransformerComp";
+import { textFilterProperties } from "../../../zustand/CanvasStore/textHandlers";
 
 interface props {
   data: textData;

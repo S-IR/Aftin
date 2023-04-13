@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FacebookButton, GoogleButton } from ".";
 import Box from "@mui/material/Box";
-import AuthErrorDialogue from "../general/dialog-boxes/AuthErrorDialogue";
+import AuthErrorDialogue from "../general/modal-boxes/AuthErrorModal";
 import { determineDialogError } from "../../model/client-side/login/errors";
 import { ThirdPartiesSchema } from "../../constants/login/ThirdParties";
 import { useRouter } from "next/router";

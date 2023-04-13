@@ -3,9 +3,6 @@ import { Stage } from "konva/lib/Stage";
 import { NextRouter } from "next/router";
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { previewActions } from "../../../features/mockups/mockupsSlice";
-import { AppDispatch } from "../../../Redux/store";
 import { selectElement } from "../../../zustand/CanvasStore/store";
 import { addImage } from "../../../zustand/MockupsStore/store";
 

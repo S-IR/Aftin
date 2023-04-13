@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import { canvasPagesCount } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { useCanvasState } from "../../zustand/CanvasStore/store";

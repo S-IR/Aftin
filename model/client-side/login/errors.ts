@@ -1,77 +1,79 @@
 import { FirebaseError } from "firebase-admin";
+import { changeModalText, changeModalType } from "../../../zustand/ModalBoxStore/store";
 
-export const determineDialogError = (
+export const determineModalError = (
   error: FirebaseError | unknown,
-  setDialogError: React.Dispatch<
-    React.SetStateAction<{
-      title: string | JSX.Element;
-      content: string | JSX.Element;
-    } | null>
-  >
+  changeModalText: changeModalText,
+  changeModalType: changeModalType
 ) => {
   if (error === undefined || error.code === undefined) {
-    return setDialogError({
+    return changeModalText({
       title: "Internal Server Error",
-      content:
-        "An unexpected internal server has occurred. Please try again later",
+      text: "An unexpected internal server has occurred. Please try again later",
     });
   }
 
   switch (error.code) {
     // SIGNUP ERRORS
     case "auth/email-already-in-use":
-      return setDialogError({
+      changeModalText({
         title: "Email already in use",
-        content:
-          "The provided email is already in use by another user. Please use another email address",
+        text: "The provided email is already in use by another user. Please use another email address",
       });
+      break;
 
     case "auth/email-already-exists":
-      return setDialogError({
+      changeModalText({
         title: "Email already in use",
-        content:
-          "The provided email is already in use by another user. Please use another email address",
+        text: "The provided email is already in use by another user. Please use another email address",
       });
+      break;
     case "auth/invalid-display-name		":
-      return setDialogError({
+      changeModalText({
         title: "Invalid Username",
-        content: "Your provided username is invalid",
+        text: "Your provided username is invalid",
       });
+      break;
     case "auth/invalid-email":
-      return setDialogError({
+      changeModalText({
         title: "Invalid Email",
-        content: "Your provided email is invalid",
+        text: "Your provided email is invalid",
       });
+      break;
     case "auth/invalid-password":
-      return setDialogError({
+      changeModalText({
         title: "Invalid Password",
-        content: "Your provided password is invalid",
+        text: "Your provided password is invalid",
       });
+      break;
     case "auth/uid-already-exists":
-      return setDialogError({
+      changeModalText({
         title: "Email already in use",
-        content:
-          "The provided email is already in use by another user. Please use another email address",
+        text: "The provided email is already in use by another user. Please use another email address",
       });
+      break;
 
     //LOGIN ERRORS
     case "auth/user-not-found" || "wrong-email":
-      return setDialogError({
+      changeModalText({
         title: "No user found",
-        content: "No user that has that email address has been found",
+        text: "No user that has that email address has been found",
       });
+      break;
 
     case "auth/wrong-password" || "wrong-email":
-      return setDialogError({
+      changeModalText({
         title: "Wrong Email or Password",
-        content: "Your provided email or password is wrong",
+        text: "Your provided email or password is wrong",
       });
+      break;
 
     default:
-      return setDialogError({
+      changeModalText({
         title: "Internal Server Error",
-        content:
-          "An unexpected internal server has occurred. Please try again later",
+        text: "An unexpected internal server has occurred. Please try again later",
       });
+      break;
   }
+  return changeModalType("auth-error");
 };

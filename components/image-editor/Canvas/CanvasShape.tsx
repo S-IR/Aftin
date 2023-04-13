@@ -6,14 +6,13 @@ import { canvasSelected } from "../../../features/canvasPages/canvas-elements/ca
 import { shapeFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
 
-import { useAppDispatch } from "../../../Redux/hooks";
-import { shapeFilterProperties } from "../../../zustand/shapeHandlers";
 import {
   changeElementPosition,
   changeElementScale,
   selectElement,
 } from "../../../zustand/CanvasStore/store";
 import TransformerComp from "./TransformerComp";
+import { shapeFilterProperties } from "../../../zustand/CanvasStore/shapeHandlers";
 
 interface props {
   data: shapeData;

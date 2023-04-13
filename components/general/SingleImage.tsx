@@ -16,10 +16,8 @@ import PremiumIcon from "./PremiumIcon";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
 import Loading from "./Loading";
-import { useAppDispatch } from "../../Redux/hooks";
-import { checkImageGalleryClick } from "../../model/client-side/image-gallery/modalButtons";
+import { checkImageGalleryClick } from "../../model/client-side/image-gallery/dialogButtons";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
-import ServerErrorDialog from "./dialog-boxes/ServerErrorDialog";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
 import { galleryImageDialog } from "./SiteGallery";
 

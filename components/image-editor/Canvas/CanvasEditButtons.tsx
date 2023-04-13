@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 
 import { KonvaNodeComponent, StageProps } from "react-konva";

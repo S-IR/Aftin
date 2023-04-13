@@ -11,14 +11,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST" || req.body.image === undefined) {
+  if (req.method !== "POST") {
     return res.status(400).json({ message: "Bad Request" });
   }
 
-  if (bodySchema.safeParse(req.body).success === false) {
-    return res
-      .status(400)
-      .json({ message: bodySchema.safeParse(req.body).error });
+  const parseResult = bodySchema.safeParse(req.body);
+  if (!parseResult.success) {
+    return res.status(400).json({ message: parseResult.error });
   }
 
   const response = await fetch("https://api.replicate.com/v1/predictions", {
@@ -31,7 +30,7 @@ export default async function handler(
       // Pinned to a specific version of Stable Diffusion
       // See https://replicate.com/stability-ai/stable-diffussion/versions
       version:
-        "494ca4d578293b4b93945115601b6a38190519da18467556ca223d219c3af9f9",
+        "f2d6b24e6002f25f77ae89c2b0a5987daa6d0bf751b858b94b8416e8542434d1",
 
       // This is the text prompt that will be submitted by a form on the frontend
       input: {

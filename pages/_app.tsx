@@ -6,7 +6,6 @@ import Layout from "../components/general/Layout";
 import Script from "next/script";
 
 import { Provider } from "react-redux";
-import { store } from "../Redux/store";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { useEffect, useState } from "react";
@@ -60,12 +59,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
         />
         <Hydrate state={pageProps.dehydratedState}>
-          <Provider store={store}>
-            <Layout>
-              <ReactQueryDevtools initialIsOpen={false} />
-              <Component {...pageProps} />
-            </Layout>
-          </Provider>
+          <Layout>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Component {...pageProps} />
+          </Layout>
         </Hydrate>
       </QueryClientProvider>
     </>

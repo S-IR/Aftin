@@ -28,8 +28,7 @@ import { auth } from "../../firebase";
 import { fetchUserStatus } from "../../model/client-side/general/fetches";
 import { User } from "firebase/auth";
 import useUserStatus from "../../hooks/useUserStatus";
-import ServerErrorDialog from "./dialog-boxes/ServerErrorDialog";
-import LoginFirstdialog from "./dialog-boxes/LoginFirstDialog";
+import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
 import FreeImageModal from "./FreeImageModal";
 import PaidImageModal from "./PaidImageModal";
 import { GetServerSideProps } from "next";
@@ -39,9 +38,8 @@ interface props {
 }
 
 export type galleryImageDialog = {
-  name: "free" | "login" | "paid" | "internalServerError";
+  name: "free" | "login" | "paid";
   doc: ImgDoc | null;
-  initialData: unknown;
 };
 
 const SiteGallery: FC<props> = ({ showSidebar }) => {
@@ -222,8 +220,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
 
       {dialog !== null && (
         <>
-          <ServerErrorDialog dialog={dialog.name} setDialog={setDialog} />
-          <LoginFirstdialog
+          <LoginFirstDialog
             open={dialog.name === "login"}
             setOpen={setDialog}
             imgDoc={dialog.doc as ImgDoc}

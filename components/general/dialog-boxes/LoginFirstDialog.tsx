@@ -7,8 +7,7 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 import Fade from "../../../constants/general/Fade";
 import useAuthThirdParty from "../../../hooks/useAuthThirdParty";
-import { cacheImage } from "../../../model/client-side/image-gallery/modalButtons";
-import { useAppDispatch } from "../../../Redux/hooks";
+import { cacheImage } from "../../../model/client-side/image-gallery/dialogButtons";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import { FacebookButton, GoogleButton } from "../../login";
 import { galleryImageDialog } from "../SiteGallery";
@@ -20,7 +19,6 @@ interface props {
 }
 
 const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
@@ -85,7 +83,7 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
               onClick={async () => {
                 const res = await authWithGoogle();
                 if (res.status === "success") {
-                  cacheImage(imgDoc, dispatch);
+                  // cacheImage(imgDoc, dispatch);
                   return router.push("/");
                 }
               }}
@@ -98,7 +96,7 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
               onClick={async () => {
                 const res = await authWithFacebook();
                 if (res.status === "success") {
-                  cacheImage(imgDoc, dispatch);
+                  // cacheImage(imgDoc, dispatch);
                   return router.push("/");
                 }
               }}

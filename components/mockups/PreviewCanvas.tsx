@@ -5,7 +5,6 @@ import {
 } from "../../constants/mockups/mockupTemplates";
 import PreviewImg from "./PreviewImg";
 import PreviewElement from "./PreviewElement";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { mockupsCount } from "../../features/mockups/mockupsSlice";
 import {
   Stage as KonvaStage,

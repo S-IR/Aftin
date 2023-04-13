@@ -15,8 +15,7 @@ import { fetchUserStatus } from "../../../model/client-side/general/fetches";
 import {
   checkImageGalleryClick,
   handleDownload,
-} from "../../../model/client-side/image-gallery/modalButtons";
-import { useAppDispatch } from "../../../Redux/hooks";
+} from "../../../modeh } from "../../../Redux/hooks";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import Button from "../Button";
 
@@ -25,7 +24,6 @@ interface props {
 }
 
 const CachedImageSnackbar = ({ cachedImage }: props) => {
-  const dispatch = useAppDispatch();
   const [user, userLoading] = useAuthState(auth);
 
   const { data: loginStatus } = useQuery("getUserStatus", () =>
@@ -68,15 +66,15 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
                   </button>
                   <div className="flex items-center justify-center align-middle">
                     <button
-                      onClick={() => {
-                        const passedChecks = checkImageGalleryClick(
-                          loginStatus,
-                          cachedImage.tier,
-                          setDialog
-                        );
-                        if (passedChecks)
-                          return handleDownload(cachedImage.url);
-                      }}
+                      // onClick={() => {
+                      //   const passedChecks = checkImageGalleryClick(
+                      //     loginStatus,
+                      //     cachedImage.tier,
+                      //     setDialog
+                      //   );
+                      //   if (passedChecks)
+                      //     return handleDownload(cachedImage.url);
+                      // }}
                       className="buttons-1"
                     >
                       Download Image

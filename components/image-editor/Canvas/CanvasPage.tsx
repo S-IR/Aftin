@@ -21,7 +21,6 @@ import {
   canvasPagesCount,
   canvasSelected,
 } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { RectConfig } from "konva/lib/shapes/Rect";
 import {
   changeElementPosition,

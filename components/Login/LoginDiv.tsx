@@ -11,11 +11,12 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { auth } from "../../firebase";
 import Loading from "../general/Loading";
-import { determineDialogError } from "../../model/client-side/login/errors";
-import AuthErrorDialogue from "../general/dialog-boxes/AuthErrorDialogue";
+import { determineModalError } from "../../model/client-side/login/errors";
+import AuthErrorDialogue from "../general/modal-boxes/AuthErrorModal";
 import { ThirdPartiesSchema } from "../../constants/login/ThirdParties";
 import { authResponseType } from "../../constants/login/types";
 import { User } from "firebase/auth";
+import { useModalStore } from "../../zustand/ModalBoxStore/store";
 
 interface props {
   user: User | null | undefined;
@@ -32,10 +33,10 @@ const loginSchema = z.object({
 });
 
 const LoginDiv = ({ user, userLoading }: props) => {
-  const [dialogError, setDialogError] = useState<null | {
-    title: string | JSX.Element;
-    content: string | JSX.Element;
-  }>(null);
+  const [changeModalText, changeModalType] = useModalStore((state) => [
+    state.CHANGE_MODAL_TEXT,
+    state.CHANGE_MODAL_TYPE,
+  ]);
 
   const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
   const router = useRouter();
@@ -53,7 +54,7 @@ const LoginDiv = ({ user, userLoading }: props) => {
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     const res = await signIn(email, password);
     if (res?.status === "error") {
-      return determineDialogError(res.error, setDialogError);
+      return determineModalError(res.error, changeModalText, changeModalType);
     } else {
       return router.push("/");
     }
@@ -69,14 +70,22 @@ const LoginDiv = ({ user, userLoading }: props) => {
         if (res.status === "success") {
           return router.push("/");
         } else {
-          return determineDialogError(res.error, setDialogError);
+          return determineModalError(
+            res.error,
+            changeModalText,
+            changeModalType
+          );
         }
       case "Facebook":
         res = await authWithFacebook();
         if (res.status === "success") {
           return router.push("/");
         } else {
-          return determineDialogError(res.error, setDialogError);
+          return determineModalError(
+            res.error,
+            changeModalText,
+            changeModalType
+          );
         }
     }
   };
@@ -158,13 +167,6 @@ const LoginDiv = ({ user, userLoading }: props) => {
             onClick={() => handleThirdPartySubmit("Facebook")}
           />
         </div>
-
-        {dialogError !== null && (
-          <AuthErrorDialogue
-            dialogError={dialogError}
-            setDialogError={setDialogError}
-          />
-        )}
       </>
     );
   } else {

@@ -3,11 +3,7 @@ import { NextRouter, Router } from "next/router";
 import { galleryImageDialog } from "../../../components/general/SiteGallery";
 import { DEFAULT_OPTIONS } from "../../../constants/image-editor/imageFilters";
 import { MockupType } from "../../../constants/mockups/previewCategories";
-import { cachedImageActions } from "../../../features/cachedImage/cachedImageSlice";
-import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { filtersActions } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import { storage } from "../../../firebase";
-import { AppDispatch } from "../../../Redux/store";
 import {
   ImgDoc,
   SecondDegreeCategory,
@@ -16,6 +12,7 @@ import {
 import { LoginStatus } from "../../../typings/typings";
 import { addImage } from "../../../zustand/CanvasStore/imageHandlers";
 import { addImage as addMockupImage } from "../../../zustand/MockupsStore/store";
+import { changeModalType } from "../../../zustand/ModalBoxStore/store";
 
 /**
  * Download an image from the firebase database
@@ -80,15 +77,16 @@ export const handleWebsiteGalleryEdit = (
 /**
  * Checks if the user is logged in or has a high enough payment tier to perform this button action
  * @param loginStatus user's login status
- * @param doc the firebase image odcument
+ * @param doc the firebase image document
  * @param setDialog sets the paid dialog box if the user does not have a high enough tier
- * @param router routes the user to /login in case he is not logged in
+ * @param changeModalType if there is a server error this is used to make the server error modal appear
  * @returns true if he can perform that action, false if he cannot
  */
 export const checkImageGalleryClick = (
   loginStatus: LoginStatus | undefined,
   doc: ImgDoc,
-  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>,
+  changeModalType: changeModalType
 ) => {
   const internalServerError = loginStatus === undefined;
   const isNotLoggedIn =
@@ -97,7 +95,7 @@ export const checkImageGalleryClick = (
     setDialog({ name: "login", doc });
     return false;
   } else if (internalServerError) {
-    setDialog({ name: "internalServerError", doc: null });
+    changeModalType("server-error");
     return false;
   } else if (
     (loginStatus === "bronze" && doc.tier === "silver") ||

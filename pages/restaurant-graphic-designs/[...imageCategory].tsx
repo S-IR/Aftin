@@ -26,7 +26,7 @@ import {
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
 }
-const Index = ({ pageMetas, initialData }: props) => {
+const Index = ({ pageMetas }: props) => {
   const [showSidebar, toggleSidebar] = useState(true);
   useEffect(() => {
     if (isMobile) toggleSidebar(false);
@@ -45,7 +45,7 @@ const Index = ({ pageMetas, initialData }: props) => {
           toggleSidebar={toggleSidebar}
         />
         <main className={` flex-grow `}>
-          <SiteGallery showSidebar={showSidebar} initialData={initialData} />
+          <SiteGallery showSidebar={showSidebar} />
         </main>
       </div>
     </>

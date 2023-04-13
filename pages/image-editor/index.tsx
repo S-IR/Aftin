@@ -5,7 +5,6 @@ import { FaAngleDoubleLeft, FaIcons } from "react-icons/fa";
 import { BiText, BiPalette } from "react-icons/bi";
 import { MdOutlineDoubleArrow, MdOutlineDraw } from "react-icons/md";
 import {
-  CSSTransitionComp,
   DrawButtons,
   ImagesButtons,
   ShowLess,

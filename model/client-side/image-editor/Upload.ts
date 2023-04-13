@@ -3,7 +3,6 @@ import { DEFAULT_OPTIONS } from "../../../constants/image-editor/imageFilters";
 import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
 import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
-import { AppDispatch } from "../../../Redux/store";
 import { HTMLHexColor } from "../../../typings/typings";
 import { addImage } from "../../../zustand/CanvasStore/imageHandlers";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";

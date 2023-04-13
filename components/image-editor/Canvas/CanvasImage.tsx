@@ -9,7 +9,6 @@ import {
 } from "react-konva";
 import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
 import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import TransformerComp from "./TransformerComp";
 import CropComponent from "./CropComponent";
 import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";

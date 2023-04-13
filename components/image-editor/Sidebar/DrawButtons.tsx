@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Alert, Popover } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { uploadShapeToCanvas } from "../../../model/client-side/image-editor/Upload";
 import { BiShapeCircle } from "react-icons/bi";
 import { FilterFrames, ShapeLine, ShareOutlined } from "@mui/icons-material";

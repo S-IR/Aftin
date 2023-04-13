@@ -18,7 +18,6 @@ import {
   canvasPagesCount,
 } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {

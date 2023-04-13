@@ -11,11 +11,13 @@ import {
   handleDownload,
   handleWebsiteGalleryEdit,
   handleWebsiteGalleryPreview,
-} from "../../model/client-side/image-gallery/modalButtons";
+} from "../../model/client-side/image-gallery/dialogButtons";
 import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 
-import { useAppDispatch } from "../../Redux/hooks";
-import { ImgDoc } from "../../typings/image-types/ImageTypes";
+import {
+  ImgDoc,
+  SecondDegreeCategory,
+} from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
 import { useMockupsStore } from "../../zustand/MockupsStore/store";
@@ -24,6 +26,7 @@ import Button from "./Button";
 import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
 import Loading from "./Loading";
 import { galleryImageDialog } from "./SiteGallery";
+import { useModalStore } from "../../zustand/ModalBoxStore/store";
 
 interface props {
   doc: ImgDoc;
@@ -44,6 +47,10 @@ const FreeImageModal: FC<props> = ({
   const secondDegCat = router.query.imageCategory[0] as SecondDegreeCategory;
   const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
   const [ADD_PREVIEW_IMAGE] = useMockupsStore((state) => [state.ADD_IMAGE]);
+  const [changeModalText, changeModalType] = useModalStore((state) => [
+    state.CHANGE_MODAL_TEXT,
+    state.CHANGE_MODAL_TYPE,
+  ]);
 
   return (
     <>
@@ -162,10 +169,10 @@ const FreeImageModal: FC<props> = ({
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc,
-                  setDialog
+                  setDialog,
+                  changeModalType
                 );
                 if (passedChecks) {
-                  console.log("passed the checks!");
                   window.gtag(
                     "event",
                     "redirected_to_edit_through_siteGallery",
@@ -194,7 +201,8 @@ const FreeImageModal: FC<props> = ({
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc,
-                  setDialog
+                  setDialog,
+                  changeModalType
                 );
                 if (passedChecks) {
                   window.gtag("event", "previewed_image_through_siteGallery", {
@@ -220,7 +228,8 @@ const FreeImageModal: FC<props> = ({
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc,
-                  setDialog
+                  setDialog,
+                  changeModalType
                 );
                 if (passedChecks) {
                   window.gtag("event", "downloaded_image_through_siteGallery", {

@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback } from "react";
 import { MdFindReplace } from "react-icons/md";
 import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
-import { AppDispatch } from "../../../Redux/store";
 import Button from "../../general/Button";
 
 import {
@@ -25,9 +24,9 @@ import {
 } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { Delete } from "@mui/icons-material";
 import styles from "../../../styles/image-editor/image-editor.module.css";
-import { shapeFilterProperties } from "../../../zustand/shapeHandlers";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
 import { fillWithPattern } from "../../../model/client-side/image-editor/Upload";
+import { shapeFilterProperties } from "../../../zustand/CanvasStore/shapeHandlers";
 interface props {
   shapeData: shapeData;
   selected: canvasSelected;

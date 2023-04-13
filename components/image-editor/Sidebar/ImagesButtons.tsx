@@ -28,7 +28,6 @@ import { SecondDegreeCategory } from "../../../typings/image-types/ImageTypes";
 import { handleOptionClick } from "../../../model/client-side/SortingSidebar/handleClick";
 import styles from "../../../styles/image-editor/image-editor.module.css";
 import { uploadImageToCanvas } from "../../../model/client-side/image-editor/Upload";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import { activeSidebarType } from "./SidebarIcon";
 import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
