@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { auth } from "../../../firebase";
 import { changeUsername } from "../../../model/server-side/sendEmail";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
+import { NextSeo } from "next-seo";
 
 interface Inputs {
   newUsername: string;
@@ -56,6 +57,7 @@ const Index = () => {
   };
   return (
     <div className="flex h-screen w-screen justify-center ">
+      <NextSeo title="Reset Username" />
       <section className="my-10 flex h-1/2 w-1/2 flex-col items-center justify-center rounded-md bg-brown-900 bg-gradient-to-r p-4 align-middle">
         <h1 className="mx-auto my-4 font-Handwriting text-2xl">
           Would you like to change your username?

@@ -15,8 +15,8 @@ import { addImage as addMockupImage } from "../../../zustand/MockupsStore/store"
 import { changeModalType } from "../../../zustand/ModalBoxStore/store";
 
 /**
- * Download an image from the firebase database
- * @param url the image URL
+ * Download an image from firebase
+ * @param url the image's firebase URL
  */
 export const handleDownload = (url: string) => {
   let httpsReference = ref(storage, url);
@@ -107,18 +107,6 @@ export const checkImageGalleryClick = (
   } else {
     return true;
   }
-};
-
-/**
- * Caches an image that the user was browsing before being pushed to another route in order to ask him later if he still wants to browse this image
- * @param url the URL of the image
- * @param w the width of the image
- * @param h the height of the image
- * @param dispatch redux dispatch
- */
-export const cacheImage = (imgDoc: ImgDoc, dispatch: AppDispatch) => {
-  const { CACHE_IMAGE } = cachedImageActions;
-  dispatch(CACHE_IMAGE(imgDoc));
 };
 
 export const handleWebsiteGalleryPreview = (

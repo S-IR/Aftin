@@ -7,14 +7,17 @@ import {
   digitalLayouts,
   physicalLayouts,
 } from "../../../constants/image-editor/layoutTypes";
-import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 
 import styles from "../../../styles/image-editor/image-editor.module.css";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import {
+  useCanvasState,
+  useTemporalCanvasState,
+} from "../../../zustand/CanvasStore/store";
 
 const LayoutButtons = () => {
   const { w, h, selected } = useCanvasState((state) => state);
 
+  const CHANGE_PAGE_SIZE = useCanvasState((state) => state.CHANGE_PAGE_SIZE);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,9 +61,9 @@ const LayoutButtons = () => {
                       isSelected ? `bg-gray-500` : `bg-none`
                     }  my-3 ml-4 flex w-[196px] flex-row items-center rounded-l-full align-middle shadow-sm shadow-gray-500 transition-all duration-300 hover:shadow-gray-200`}
                     key={layout.name}
-                    // onClick={() =>
-                    //   changeCanvasSize(dispatch, layout.value.w, layout.value.h)
-                    // }
+                    onClick={() =>
+                      CHANGE_PAGE_SIZE(layout.value.w, layout.value.h)
+                    }
                   >
                     <Image
                       src={layout.url}

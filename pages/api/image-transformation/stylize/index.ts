@@ -13,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST" || req.body.image === undefined) {
+  if (req.method !== "POST") {
     return res.status(400).json({ message: "Bad Request" });
   }
   const parseResult = bodySchema.safeParse(req.body);

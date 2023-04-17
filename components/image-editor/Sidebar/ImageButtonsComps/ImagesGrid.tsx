@@ -20,12 +20,13 @@ import {
 } from "react-spring";
 import Loading from "../../../general/Loading";
 import PremiumIcon from "../../../general/PremiumIcon";
-import PaidImageModal from "../../../general/PaidImageModal";
 import { auth } from "../../../../firebase";
 import { uploadImageToCanvas } from "../../../../model/client-side/image-editor/Upload";
-import SingleImage, { SingleEditorImage } from "../../../general/SingleImage";
+import { SingleEditorImage } from "../../../general/SingleImage";
 import { isMobile } from "react-device-detect";
 import { fetchUserStatus } from "../../../../model/client-side/general/fetches";
+import { useModalStore } from "../../../../zustand/ModalBoxStore/store";
+import { galleryImageDialog } from "../../../general/SiteGallery";
 
 interface props {
   selectedCategory: { name: string; value: SecondDegreeCategory };
@@ -35,7 +36,11 @@ interface props {
 const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
   const router = useRouter();
 
-  // handles the hover over the premium image
+  //sets the image dialog boxes depending on the user's interaction with a displayed image
+  const [dialog, setDialog] = useState<null | galleryImageDialog>(null);
+
+  ///handles server error modal appearance
+  const changeModalType = useModalStore((store) => store.CHANGE_MODAL_TYPE);
 
   const [user, userLoading] = useAuthState(auth);
 
@@ -45,14 +50,11 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
   );
 
   //FETCH IMAGE CODE
-
   const category = useMemo(() => {
     if (AdvertImagesOptions.includes(selectedCategory?.value)) {
       return "advertisement-images";
-    } else if (GraphicDesignsOptions.includes(selectedCategory?.value)) {
-      return "graphic-designs";
     } else {
-      return null;
+      return "graphic-designs";
     }
   }, [selectedCategory?.value]);
   const queryParams = router.query;
@@ -64,7 +66,8 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
         requestImageDocs(
           pageParam,
           category,
-          selectedCategory?.value,
+          selectedCategory.value,
+          "no-third-category",
           queryParams
         ),
       {
@@ -102,46 +105,17 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
     <>
       <div className="scrollbar  grid  h-max w-full grid-cols-2 items-center  justify-center overflow-x-visible  overflow-y-scroll align-middle shadow-white/40 drop-shadow-md">
         {loginStatus &&
-          imgDocs.map((doc, i) => {
+          imgDocs.map((imgDoc, i) => {
             return (
               <SingleEditorImage
-                doc={doc}
+                imgDoc={imgDoc}
                 isMobile={isMobile}
                 loginStatus={loginStatus}
                 key={i}
                 pageId={pageId as number}
+                setDialog={setDialog}
+                changeModalType={changeModalType}
               />
-              // <animated.div
-              //   onMouseEnter={() => setPremiumText(true)}
-              //   onMouseLeave={() => setPremiumText(false)}
-              //   key={doc.url}
-              //   className="m-4 flex h-[256] w-[256] items-center justify-center align-middle shadow-white drop-shadow-md  "
-              // >
-              //   <Image
-              //     src={doc.url}
-              //     width={256}
-              //     height={256}
-              //     objectFit={"scale-down"}
-              //     alt={doc.description}
-              //     className={`cursor-pointer `}
-              //     onClick={() =>
-              //       uploadImageToCanvas(dispatch, undefined, doc.url)
-              //     }
-              //   />
-              //   {doc.tier === `silver` ||
-              //     (doc.tier === "gold" && (
-              //       <PremiumIcon premiumText={premiumText} />
-              //     ))}
-              //   {doc.tier === `silver` ||
-              //   (doc.tier === "gold" && loginStatus === "bronze") ? (
-              //     <PaidImageModal
-              //       openDialog={openDialog}
-              //       setOpenDialog={setOpenDialog}
-              //     />
-              //   ) : (
-              //     <></>
-              //   )}
-              // </animated.div>
             );
           })}
       </div>

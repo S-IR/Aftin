@@ -5,8 +5,8 @@ import { useSpring, animated } from "react-spring";
 import {
   NavbarImageLink,
   AdvertImagesLinks,
-} from "../../constants/imageCategories";
-import { navLink } from "../../constants/NavLinks";
+} from "../../constants/Navbar/imageCategories";
+import { navLink } from "../../constants/Navbar/NavLinks";
 import NavbarImageCategory from "./NavbarImageCategory";
 
 interface props {}

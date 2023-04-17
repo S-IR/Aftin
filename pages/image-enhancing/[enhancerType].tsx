@@ -176,7 +176,7 @@ const Index: NextPage<props> = ({ enhancerType }) => {
           <ImageComponent
             imageDataObj={beforeImage}
             imageToDisplay={imageToDisplay}
-            setImageToDisplay={setImageToDisplay}
+            enhancerType={enhancerType}
           />
         );
       case "After":
@@ -184,7 +184,7 @@ const Index: NextPage<props> = ({ enhancerType }) => {
           <ImageComponent
             imageDataObj={afterImage}
             imageToDisplay={imageToDisplay}
-            setImageToDisplay={setImageToDisplay}
+            enhancerType={enhancerType}
           />
         );
       default:
@@ -357,16 +357,14 @@ export default Index;
 
 interface ImageComponentProps {
   imageToDisplay: null | "Before" | "After";
-  setImageToDisplay: React.Dispatch<
-    React.SetStateAction<"Before" | "After" | null>
-  >;
   imageDataObj: null | { src: string; width: number; height: number };
+  enhancerType: enhancerType;
 }
 
 const ImageComponent = ({
   imageToDisplay,
-  setImageToDisplay,
   imageDataObj,
+  enhancerType,
 }: ImageComponentProps): JSX.Element => {
   const isBiggerThanScreenWidth = imageDataObj?.width > window.innerWidth;
   return (
@@ -387,7 +385,7 @@ const ImageComponent = ({
               height={Math.min(imageDataObj.height, window.innerHeight)}
               objectFit="scale-down"
               className="rounded-sm shadow-sm shadow-black"
-              alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for upscaling `}
+              alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for ${enhancerType} `}
             />
           )
         )}

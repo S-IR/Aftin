@@ -29,17 +29,18 @@ import { fetchUserStatus } from "../../model/client-side/general/fetches";
 import { User } from "firebase/auth";
 import useUserStatus from "../../hooks/useUserStatus";
 import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
-import FreeImageModal from "./FreeImageModal";
-import PaidImageModal from "./PaidImageModal";
 import { GetServerSideProps } from "next";
 import { getImageQueryParams } from "../../model/client-side/image-gallery/getImageQueryParams";
+import { useModalStore } from "../../zustand/ModalBoxStore/store";
+import FreeImageDialog from "./dialog-boxes/FreeImageDialog";
+import PaidImageDialog from "./dialog-boxes/PaidImageDialog";
 interface props {
   showSidebar: boolean;
 }
 
 export type galleryImageDialog = {
   name: "free" | "login" | "paid";
-  doc: ImgDoc | null;
+  imgDoc: ImgDoc | null;
 };
 
 const SiteGallery: FC<props> = ({ showSidebar }) => {
@@ -47,8 +48,11 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const router = useRouter();
   const [user, userLoading] = useAuthState(auth);
 
+  const changeModalType = useModalStore((store) => store.CHANGE_MODAL_TYPE);
   // this value is meant to track how many times a person clicked on the 'load more' button. If it reaches 3 it will fire a google tag event and go back to 0
   const [buttonClickCount, setButtonClickCount] = useState(0);
+
+  //used to make modals
 
   // find the big category name
   const {
@@ -168,14 +172,13 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
           }
         >
           {data.pages.map((page) =>
-            page.docsArray.map((doc) => (
+            page.docsArray.map((imgDoc) => (
               <SingleImage
-                key={doc.url}
-                doc={doc}
-                loginStatus={loginStatus}
+                key={imgDoc.url}
+                imgDoc={imgDoc}
                 isMobile={isMobile}
-                dialog={dialog}
                 setDialog={setDialog}
+                changeModalType={changeModalType}
               />
             ))
           )}
@@ -197,7 +200,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
                   fetchNextPage();
                   setButtonClickCount((number) => {
                     window.gtag("event", "siteGallery-load-more-clicked-3x", {
-                      subCat: subCat,
+                      subCat: secondDegreeCategory,
                       queryParams: queryParams,
                     });
                     console.log("this ran");
@@ -221,20 +224,20 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       {dialog !== null && (
         <>
           <LoginFirstDialog
-            open={dialog.name === "login"}
-            setOpen={setDialog}
-            imgDoc={dialog.doc as ImgDoc}
+            dialog={dialog}
+            setDialog={setDialog}
+            imgDoc={dialog.imgDoc as ImgDoc}
           />
-          <FreeImageModal
-            doc={dialog.doc as ImgDoc}
+          <FreeImageDialog
+            doc={dialog.imgDoc as ImgDoc}
             dialogName={dialog.name}
             setDialog={setDialog}
             loginStatus={loginStatus}
             isMobile={isMobile}
           />
-          <PaidImageModal
-            doc={dialog.doc as ImgDoc}
-            dialogName={dialog.name as string}
+          <PaidImageDialog
+            doc={dialog.imgDoc as ImgDoc}
+            dialog={dialog}
             setDialog={setDialog}
             loginStatus={loginStatus}
           />

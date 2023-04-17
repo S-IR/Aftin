@@ -7,10 +7,11 @@ import {
   useModalStore,
 } from "../../../zustand/ModalBoxStore/store";
 import AuthErrorModal from "./AuthErrorModal";
-import GenericModal from "./GenericErrorModal";
+import GenericErrorModal from "./GenericErrorModal";
 import ServerErrorModal from "./ServerErrorModal";
 import MissingFeatureModal from "./MissingFeatureModal";
 import GenericSuccessModal from "./GenericSuccessModal";
+import LoginFirstModal from "./LoginFirstModal";
 
 export interface generalModalBoxProps {
   title?: string;
@@ -35,10 +36,11 @@ const AllModalBoxes = () => {
   return (
     <>
       <AuthErrorModal {...modalStoreProps} />
-      <GenericModal {...modalStoreProps} />
+      <GenericErrorModal {...modalStoreProps} />
       <MissingFeatureModal {...modalStoreProps} />
       <ServerErrorModal {...modalStoreProps} />
       <GenericSuccessModal {...modalStoreProps} />
+      <LoginFirstModal {...modalStoreProps} />
     </>
   );
 };

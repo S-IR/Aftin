@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { resetPassword } from "../../../model/server-side/sendEmail";
+import { NextSeo } from "next-seo";
 
 interface Inputs {
   email: string;
@@ -33,6 +34,7 @@ const Index = () => {
   };
   return (
     <div className="flex h-screen w-screen justify-center ">
+      <NextSeo title="Reset Password" />
       <section className="my-10 flex h-1/2 w-1/2 flex-col items-center justify-center rounded-md bg-brown-900 bg-gradient-to-r p-4 align-middle">
         <h1 className="mx-auto my-4 font-Handwriting text-2xl">
           Forgot your password?

@@ -72,10 +72,7 @@ const CanvasPage = ({
   }, [stageRef]);
 
   return (
-    <div
-      className="  m-5 ml-28  flex h-full w-min flex-col "
-      ref={canvasContainer}
-    >
+    <>
       <h3 className="g mx-auto my-2  text-xl md:text-4xl">{`Page ${
         pageId + 1
       }`}</h3>
@@ -83,8 +80,9 @@ const CanvasPage = ({
         width={width}
         height={height}
         ref={stageRef}
+        onClick={() => console.log("stage clicked")}
         willReadFrequently={true}
-        className={`border-gradient-to-br -z-10 rounded-sm border-2 from-gray-400 to-gray-600  ${
+        className={`border-gradient-to-br z-10 rounded-sm border-2 from-gray-400 to-gray-600  ${
           isPageSelected
             ? `border-red-500`
             : `border-gradient-to-br z-10 from-gray-400 to-gray-600 `
@@ -151,7 +149,7 @@ const CanvasPage = ({
           })}
         </Layer>
       </KonvaStage>
-    </div>
+    </>
   );
 };
 

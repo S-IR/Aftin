@@ -1,5 +1,5 @@
 import { HTMLHexColor } from "../typings";
-export const tier_array = [`bronze`, `silver`, `gold`] as const;
+
 export type FirstDegreeCategory = `graphic-designs` | `advertisement-images`;
 import { tagsArray } from "../../constants/upload-image/Tags";
 import { z } from "zod";
@@ -9,7 +9,8 @@ export const fistDegArray = [
   `advertisement-images`,
 ] as const;
 export type SecondDegreeCategory = (typeof secondDegArray)[number];
-
+export const tier_array = [`bronze`, `silver`, `gold`] as const;
+export const paid_tier_array = ["silver", "gold"] as const;
 export type GraphicDesignType = (typeof GraphicDesignsOptions)[number];
 export const AdvertImagesOptions = [
   `appetizers`,

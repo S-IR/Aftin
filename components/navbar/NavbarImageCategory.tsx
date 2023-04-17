@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { CSSProperties, useEffect, useMemo, useState } from "react";
-import { NavbarImageLink } from "../../constants/imageCategories";
+import { NavbarImageLink } from "../../constants/Navbar/imageCategories";
 import Tooltip from "@mui/material/Tooltip";
 import {
   useTransition,

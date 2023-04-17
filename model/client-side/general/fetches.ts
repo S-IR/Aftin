@@ -14,14 +14,13 @@ export const fetchUserStatus = async (
       { method: `POST`, body: token }
     );
     if (fetchRes === undefined) {
-      console.log("error at fetching user. No server response");
+      // console.log("error at fetching user. No server response");
       return undefined;
     }
 
     const { status } = await fetchRes.json();
     return status;
   } catch (error) {
-    console.log("error at fetching user", error);
     return undefined;
   }
 };

@@ -74,7 +74,10 @@ const CanvasImage = ({
   return (
     <>
       <KonvaImage
-        onClick={() => SELECT_ELEMENT(pageId, elementId)}
+        onClick={() => {
+          console.log("image click happened");
+          return SELECT_ELEMENT(pageId, elementId);
+        }}
         onTap={() => SELECT_ELEMENT(pageId, elementId)}
         ref={imageRef}
         x={data.x}

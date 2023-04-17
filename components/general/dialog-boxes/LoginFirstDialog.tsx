@@ -7,20 +7,32 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 import Fade from "../../../constants/general/Fade";
 import useAuthThirdParty from "../../../hooks/useAuthThirdParty";
-import { cacheImage } from "../../../model/client-side/image-gallery/dialogButtons";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
 import { FacebookButton, GoogleButton } from "../../login";
 import { galleryImageDialog } from "../SiteGallery";
+import Cookies from "js-cookie";
+import { useCachedStore } from "../../../zustand/CachedImageStore/store";
+import { canvasEditButtonDialog } from "../../image-editor/Canvas/CanvasEditButtons";
 
 interface props {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
-  imgDoc: ImgDoc;
+  dialog: null | galleryImageDialog | canvasEditButtonDialog;
+  setDialog: React.Dispatch<
+    React.SetStateAction<null | galleryImageDialog | canvasEditButtonDialog>
+  >;
+  imgDoc?: ImgDoc;
 }
 
-const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
+/**
+ * This is a functional component that appears when a user tries to access an image or a feature like SVG conversion that requires him to be logged in to do.
+ * @param {Object} props
+ * @returns {JSX.Element}
+ */
+const LoginFirstDialog = ({ dialog, setDialog, imgDoc }: props) => {
   const router = useRouter();
 
+  const [addImageToCache] = useCachedStore((store) => [
+    store.ADD_IMAGE_TO_CACHE,
+  ]);
   const { authWithGoogle, authWithFacebook } = useAuthThirdParty();
   const style = {
     position: "absolute" as "absolute",
@@ -35,9 +47,9 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
     <Dialog
       aria-labelledby="spring-modal-title"
       aria-describedby="spring-modal-description"
-      open={open}
+      open={dialog === "login"}
       maxWidth={"xl"}
-      onClose={() => setOpen(null)}
+      onClose={() => setDialog(null)}
       PaperProps={{
         style: {
           backgroundColor: "transparent",
@@ -47,7 +59,7 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
         },
       }}
     >
-      <Fade in={open}>
+      <Fade in={dialog === "login"}>
         <Box
           sx={style}
           className={
@@ -83,7 +95,9 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
               onClick={async () => {
                 const res = await authWithGoogle();
                 if (res.status === "success") {
-                  // cacheImage(imgDoc, dispatch);
+                  if (imgDoc !== undefined) {
+                    addImageToCache(imgDoc);
+                  }
                   return router.push("/");
                 }
               }}
@@ -96,7 +110,7 @@ const LoginFirstDialog = ({ open, setOpen, imgDoc }: props) => {
               onClick={async () => {
                 const res = await authWithFacebook();
                 if (res.status === "success") {
-                  // cacheImage(imgDoc, dispatch);
+                  addImageToCache(imgDoc);
                   return router.push("/");
                 }
               }}

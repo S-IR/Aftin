@@ -42,7 +42,6 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
     state.ADD_IMAGE,
     state.selected,
   ]);
-  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<{
     name: string;
     value: SecondDegreeCategory;
@@ -53,16 +52,6 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleDescriptionEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    if (e.key === `Enter`) {
-      handleOptionClick(target.value, `description`, router);
-    } else {
-      return;
-    }
-  };
-  // if
 
   const handleUpload = <T extends File>(acceptedFiles: T[]): void => {
     uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
@@ -78,20 +67,6 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
     <section
       className={`z-50 h-[90vh] w-[336px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
     >
-      {/* <div className="my-6 flex flex-col items-center justify-center space-y-4 align-middle shadow-lg">
-        <label
-          htmlFor="image_input"
-          className="mb-2 block pt-2  text-center font-Handwriting text-4xl font-[800] dark:text-gray-300 md:text-4xl "
-        >
-          Upload <br></br> Image
-        </label>
-        <input
-          className="mx-auto w-full cursor-pointer rounded p-4   "
-          id="image_input"
-          type="file"
-          onChange={(e) => handleUpload(e)}
-        ></input>
-      </div> */}
       <div className="flex flex-col items-center justify-center space-y-1  py-6 align-middle shadow-lg">
         <div
           className={`relative  h-12 w-72 ${
@@ -151,6 +126,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
         {/* INPUT TEXT ELEMENTS  */}
 
         {/* SHOW IMAGES */}
+        {/* UNCOMMENT THIS AFTER DEVLELOPMENT  */}
         {/* <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} /> */}
       </div>
     </section>

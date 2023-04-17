@@ -9,11 +9,11 @@ import {
   Rect,
 } from "react-konva";
 
-import { imageData } from "../../features/canvasPages/canvas-elements/imageHandlingReducer";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
 import CanvasPage from "./Canvas/CanvasPage";
 import CanvasShape from "./Canvas/CanvasShape";
 import { CanvasImage, CanvasText, CanvasEditButtons } from "./Canvas/index";
+import { imageData } from "../../zustand/CanvasStore/imageHandlers";
 
 interface props {
   showSidebar: boolean;
@@ -64,29 +64,27 @@ const Canvas = ({ showSidebar }: props) => {
     <section
       className={`${
         showSidebar ? `ml-[27vw]` : "ml-[5vh]"
-      } flex h-auto w-auto    transition-all duration-300`}
+      } flex h-auto w-auto flex-col transition-all duration-300 `}
     >
       <CanvasEditButtons stageRefs={stageRefs} downloadRef={downloadRef} />
 
-      <div id="canvasContainer" className={` mt-10 flex flex-col `}>
-        {pages.map((page, i) => {
-          return (
-            <CanvasPage
-              key={i}
-              elements={page}
-              height={height}
-              width={width}
-              selected={selected}
-              pageId={i}
-              setStageRefs={setStageRefs}
-              CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
-              CHANGE_ELEMENT_SCALE={CHANGE_ELEMENT_SCALE}
-              SELECT_PAGE={SELECT_PAGE}
-              SELECT_ELEMENT={SELECT_ELEMENT}
-            />
-          );
-        })}
-      </div>
+      {pages.map((page, i) => {
+        return (
+          <CanvasPage
+            key={i}
+            elements={page}
+            height={height}
+            width={width}
+            selected={selected}
+            pageId={i}
+            setStageRefs={setStageRefs}
+            CHANGE_ELEMENT_POSITION={CHANGE_ELEMENT_POSITION}
+            CHANGE_ELEMENT_SCALE={CHANGE_ELEMENT_SCALE}
+            SELECT_PAGE={SELECT_PAGE}
+            SELECT_ELEMENT={SELECT_ELEMENT}
+          />
+        );
+      })}
     </section>
   );
 };

@@ -15,13 +15,15 @@ if (!admin.apps.length) {
 }
 
 /**
- * Gets the user's payment tier level
+ * Backend function thatGets the user's payment tier level
  * @param token firebase JWT token of the user
  * @returns
  */
 export const getUserTier = async (
-  token: string
+  token: string | undefined
 ): Promise<"bronze" | "silver" | "gold" | "unauthorized"> => {
+  if (token === undefined) return "unauthorized";
+
   let userTier: "bronze" | "silver" | "gold" | "unauthorized" = "bronze";
   await admin
     .auth()

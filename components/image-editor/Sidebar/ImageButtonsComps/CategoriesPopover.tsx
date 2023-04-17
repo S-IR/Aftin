@@ -4,7 +4,7 @@ import React from "react";
 import {
   GrDesignLinks,
   AdvertImagesLinks,
-} from "../../../../constants/imageCategories";
+} from "../../../../constants/Navbar/imageCategories";
 import { SecondDegreeCategory } from "../../../../typings/image-types/ImageTypes";
 
 interface props {

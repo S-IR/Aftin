@@ -51,5 +51,14 @@ export type LoginStatus =
   | "silver"
   | "gold"
   | undefined;
+export type Base64Data<imageType extends string> =
+  `data:image/${imageType};base64,${string}`;
+export type UTF8Data<imageType extends string> =
+  `data:image/${imageType};utf8,${string}`;
 
+export type paidFeature =
+  | "svg-convert"
+  | "upscale-image"
+  | "stylize-image"
+  | "deblur-image";
 // TO BE FILLED

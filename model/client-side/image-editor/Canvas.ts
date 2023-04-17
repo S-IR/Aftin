@@ -39,7 +39,15 @@ export const handleExport = (
     // return downloadURI(uri);
   }
 };
-
+/**
+ * Handles the onClick event on the preview button on the image-editor section. Takes the current edited canvas page or all of the pages, transforms them into an image and places them in the preview global state.
+ * @param router the next router, used to push the user
+ * @param SELECT_ELEMENT function used to deselect the canvas page. This is used in order to not have the select edges on the final preview sent image
+ * @param ADD_IMAGE Adds the image to the preview global state
+ * @param stageRefs The stageRef of the canvas
+ * @param pageToPreview The index of the currently viewed page
+ * @returns Sends the user to /restaurant-mockups
+ */
 export const handlePreview = async (
   router: NextRouter,
   SELECT_ELEMENT: selectElement,

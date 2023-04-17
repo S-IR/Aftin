@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import { useAppSelector } from "../Redux/hooks";
-import { cachedImageCount } from "../features/cachedImage/cachedImageSlice";
+
 import { Snackbar, SnackbarContent } from "@mui/material";
 import { MdOutlineImage } from "react-icons/md";
 import CachedImageSnackbar from "../components/general/snackbars/CachedImageSnackbar";
@@ -30,12 +28,10 @@ import {
   tables_arr,
 } from "../typings/image-types/ImageTypes";
 import { MockupTypeArr } from "../constants/mockups/previewCategories";
-
-const mockupStr = MockupTypeArr.map((mockup) => {
-  return `Allow: /restaurant-mockups/${mockup}`;
-});
+import { useCachedStore } from "../zustand/CachedImageStore/store";
 
 const Home: NextPage = () => {
+  const cachedImage = useCachedStore((store) => store.imgDoc);
   return (
     <>
       <Head>
@@ -54,7 +50,7 @@ const Home: NextPage = () => {
         <HomepageHireProfessional />
         <HomepageTiers />
         <HomepageGallery />
-        {/* <CachedImageSnackbar cachedImage={cachedImage} /> */}
+        {cachedImage !== null && <CachedImageSnackbar cachedImage={cachedImage} />}
       </main>
     </>
   );

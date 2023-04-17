@@ -10,8 +10,6 @@ import {
   to,
   AnimatedComponent,
 } from "react-spring";
-import FreeImageModal from "./FreeImageModal";
-import PaidImageModal from "./PaidImageModal";
 import PremiumIcon from "./PremiumIcon";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../typings/typings";
@@ -20,16 +18,19 @@ import { checkImageGalleryClick } from "../../model/client-side/image-gallery/di
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
 import { galleryImageDialog } from "./SiteGallery";
+import {
+  changeModalText,
+  changeModalType,
+} from "../../zustand/ModalBoxStore/store";
 
 interface props {
-  doc: ImgDoc;
-  loginStatus: LoginStatus;
+  imgDoc: ImgDoc;
   isMobile: boolean;
-  dialog: null | galleryImageDialog;
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
+  changeModalType: changeModalType;
 }
 
-function SingleImage({ doc, loginStatus, isMobile, dialog, setDialog }: props) {
+function SingleImage({ imgDoc, isMobile, setDialog, changeModalType }: props) {
   // states that change based on mouse events
 
   const [premiumText, setPremiumText] = useState(false);
@@ -64,19 +65,21 @@ function SingleImage({ doc, loginStatus, isMobile, dialog, setDialog }: props) {
           onMouseLeave={() => {
             setPremiumText(false);
           }}
-          onClick={() => setDialog({ name: `free`, doc })}
+          onClick={() => setDialog({ name: `free`, imgDoc })}
         >
           <NextImage
-            src={doc.url}
-            alt={doc.description}
+            src={imgDoc.url}
+            alt={imgDoc.description}
             width={isMobile ? 256 : 380}
-            height={isMobile ? doc.height / 6 : doc.height / 3}
+            height={isMobile ? imgDoc.height / 6 : imgDoc.height / 3}
             objectFit={`cover`}
             className="rounded-md   "
             onLoad={() => setLoading(false)}
           />
-          {doc.tier === `silver` ||
-            (doc.tier === "gold" && <PremiumIcon premiumText={premiumText} />)}
+          {imgDoc.tier === `silver` ||
+            (imgDoc.tier === "gold" && (
+              <PremiumIcon premiumText={premiumText} />
+            ))}
         </animated.div>
       </div>
     </>
@@ -86,23 +89,26 @@ function SingleImage({ doc, loginStatus, isMobile, dialog, setDialog }: props) {
 export default SingleImage;
 
 interface imageEditorProps {
-  doc: ImgDoc;
+  imgDoc: ImgDoc;
   loginStatus: LoginStatus;
   isMobile: boolean;
   pageId: number;
+  setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
+  changeModalType: changeModalType;
 }
 
 export const SingleEditorImage = ({
-  doc,
+  imgDoc,
   loginStatus,
   isMobile,
   pageId,
+  changeModalType,
+  setDialog,
 }: imageEditorProps) => {
   const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
 
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false);
-  const [dialog, setDialog] = useState<null | galleryImageDialog>(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -135,22 +141,34 @@ export const SingleEditorImage = ({
             setPremiumText(false);
           }}
           onClick={() => {
-            const checked = checkImageGalleryClick(loginStatus, doc, setDialog);
+            const checked = checkImageGalleryClick(
+              loginStatus,
+              imgDoc,
+              setDialog,
+              changeModalType
+            );
             if (checked)
-              return uploadImageToCanvas(ADD_IMAGE, pageId, undefined, doc.url);
+              return uploadImageToCanvas(
+                ADD_IMAGE,
+                pageId,
+                undefined,
+                imgDoc.url
+              );
           }}
         >
           <NextImage
-            src={doc.url}
-            alt={doc.description}
+            src={imgDoc.url}
+            alt={imgDoc.description}
             width={256}
-            height={doc.height / 4}
+            height={imgDoc.height / 4}
             objectFit={`scale-down`}
             className="rounded-md   "
             onLoad={() => setLoading(false)}
           />
-          {doc.tier === `silver` ||
-            (doc.tier === "gold" && <PremiumIcon premiumText={premiumText} />)}
+          {imgDoc.tier === `silver` ||
+            (imgDoc.tier === "gold" && (
+              <PremiumIcon premiumText={premiumText} />
+            ))}
         </animated.div>
       </div>
     </>

@@ -11,22 +11,22 @@ import {
   handleDownload,
   handleWebsiteGalleryEdit,
   handleWebsiteGalleryPreview,
-} from "../../model/client-side/image-gallery/dialogButtons";
-import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
+} from "../../../model/client-side/image-gallery/dialogButtons";
+import { handleOptionClick } from "../../../model/client-side/SortingSidebar/handleClick";
 
 import {
   ImgDoc,
   SecondDegreeCategory,
-} from "../../typings/image-types/ImageTypes";
-import { LoginStatus } from "../../typings/typings";
-import { useCanvasState } from "../../zustand/CanvasStore/store";
-import { useMockupsStore } from "../../zustand/MockupsStore/store";
+} from "../../../typings/image-types/ImageTypes";
+import { LoginStatus } from "../../../typings/typings";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 
-import Button from "./Button";
-import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
-import Loading from "./Loading";
-import { galleryImageDialog } from "./SiteGallery";
-import { useModalStore } from "../../zustand/ModalBoxStore/store";
+import Button from "../Button";
+import LoginFirstDialog from "./LoginFirstDialog";
+import Loading from "../Loading";
+import { galleryImageDialog } from "../SiteGallery";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 
 interface props {
   doc: ImgDoc;
@@ -36,7 +36,7 @@ interface props {
   isMobile: boolean;
 }
 
-const FreeImageModal: FC<props> = ({
+const FreeImageDialog: FC<props> = ({
   doc,
   dialogName,
   setDialog,
@@ -258,4 +258,4 @@ const FreeImageModal: FC<props> = ({
   );
 };
 
-export default FreeImageModal;
+export default FreeImageDialog;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 
 import { KonvaNodeComponent, StageProps } from "react-konva";
@@ -7,7 +7,7 @@ import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/
 import { InputLabel, MenuItem, Select, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 
-import { NoteAdd } from "@mui/icons-material";
+import { NoteAdd, Wallpaper } from "@mui/icons-material";
 import { useSpring, animated, useTransition } from "react-spring";
 import {
   FaAngleDoubleLeft,
@@ -24,31 +24,70 @@ import {
   handlePreview,
 } from "../../../model/client-side/image-editor/Canvas";
 import { useMockupsStore } from "../../../zustand/MockupsStore/store";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
+import { useQuery } from "react-query";
+import { fetchUserStatus } from "../../../model/client-side/general/fetches";
+import { Base64Data, paidFeature } from "../../../typings/typings";
+import PaidFeatureDialog from "../../general/dialog-boxes/PaidFeatureDialog";
+import SVGConverterDialog from "../../general/dialog-boxes/SVGConverterDialog";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
+import { User } from "firebase/auth";
+import LoginFirstDialog from "../../general/dialog-boxes/LoginFirstDialog";
 
 interface props {
   stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[];
   downloadRef: React.RefObject<HTMLButtonElement>;
 }
+export type canvasEditButtonDialog = "svg-convert" | "paid" | "login";
 const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
   const { undo, redo, futureStates, pastStates } = useTemporalCanvasState(
     (state) => state
   );
 
+  //variables used for when the user clicks on a paid feature like svg conversions
+  const [dialog, setDialog] = useState<null | canvasEditButtonDialog>(null);
+  const [featureName, setFeatureName] = useState<paidFeature>("svg-convert");
+  const [user, userLoading] = useAuthState(auth);
+  const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
+    ["getUserStatus", user?.uid, userLoading],
+    () => fetchUserStatus(user),
+    {
+      staleTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+    }
+  );
+  //saves the selected page image in order to he sent to a image editing feature
+  const [beforeImage, setBeforeImage] = useState<null | {
+    src: Base64Data<"png">;
+    width: number;
+    height: number;
+  }>(null);
+
   const router = useRouter();
-  const [canvasPages, pageId, ADD_PAGE, SELECT_PAGE, SELECT_ELEMENT] =
-    useCanvasState(
-      (state) =>
-        [
-          state.pages,
-          state.selected.page,
-          state.ADD_PAGE,
-          state.SELECT_PAGE,
-          state.SELECT_ELEMENT,
-        ] as const
-    );
+  const [
+    canvasPages,
+    pageId,
+    elementId,
+    ADD_PAGE,
+    SELECT_PAGE,
+    SELECT_ELEMENT,
+  ] = useCanvasState(
+    (state) =>
+      [
+        state.pages,
+        state.selected.page,
+        state.selected.element,
+        state.ADD_PAGE,
+        state.SELECT_PAGE,
+        state.SELECT_ELEMENT,
+      ] as const
+  );
   const ADD_IMAGE = useMockupsStore((state) => state.ADD_IMAGE);
   const pagesLength = canvasPages.length;
 
+  const changeModalType = useModalStore((store) => store.CHANGE_MODAL_TYPE);
   const optionValues: number[] = [];
   for (let i = 0; i < pagesLength; i++) {
     optionValues.push(i);
@@ -70,7 +109,7 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
       {pageId !== null && pageId !== undefined && (
         <div className="mt-6 mb-8 flex flex-col items-center justify-center border-b-2 border-brown-700 pb-2 align-middle ">
           <InputLabel
-            className="my-2 mx-2  font-Handwriting text-xl font-semibold text-brown-300  "
+            className="my-2 mx-2  font-Handwriting text-lg font-semibold text-brown-300  "
             id="pageId-select"
           >{`Selected Page `}</InputLabel>
           <Select
@@ -128,7 +167,45 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
         >
           Preview
         </button>
+        <button
+          disabled={loginStatusLoading}
+          className="mt-auto h-auto w-full whitespace-nowrap rounded bg-orange-800 p-2 text-center  font-['Lato'] text-xs text-orange-100  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-orange-700 active:shadow-none  disabled:bg-brown-200/80  "
+          onClick={async () => {
+            // I need to use this silly structure to ensure that the elements are first deselected so that they don't have that transformer wrapper around them before the image is going to be transferred to the SVG box
+            new Promise((resolve) => {
+              resolve(SELECT_ELEMENT(pageId, null));
+            }).then(async () => {
+              const stageRef = stageRefs[pageId as number];
+              setBeforeImage({
+                src: stageRef.current.toDataURL() as Base64Data<"png">,
+                width: stageRef.current.width() as number,
+                height: stageRef.current.height() as number,
+              });
+              setFeatureName("svg-convert");
+              setDialog("svg-convert");
+            });
+          }}
+        >
+          Export as SVG <br></br>
+          <Wallpaper htmlColor="#D5EDFF" className="h-8 w-8" />
+        </button>
       </div>
+      <PaidFeatureDialog
+        dialog={dialog}
+        setDialog={setDialog}
+        feature={featureName}
+      />
+      <SVGConverterDialog
+        dialog={dialog}
+        setDialog={setDialog}
+        beforeImageSrc={beforeImage?.src}
+        width={beforeImage?.width}
+        height={beforeImage?.height}
+        user={user as User}
+        loginStatus={loginStatus}
+      />
+      {/* ignore ts  */}
+      <LoginFirstDialog dialog={dialog} setDialog={setDialog} />
     </section>
   ) : (
     <Tooltip title="Toggle sidebar">

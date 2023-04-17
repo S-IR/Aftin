@@ -7,6 +7,10 @@ import { HTMLHexColor } from "../../../typings/typings";
 import { addImage } from "../../../zustand/CanvasStore/imageHandlers";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
 import { addText } from "../../../zustand/CanvasStore/textHandlers";
+import {
+  addShape,
+  addShapePatternImage,
+} from "../../../zustand/CanvasStore/shapeHandlers";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 

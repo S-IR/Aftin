@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import Footer from "./Footer";
 import ConsentCookiesSnackbar from "./snackbars/ConsentCookiesSnackbar";
 import WebsiteNavbar from "./WebsiteNavbar";
-import AllDialogBoxes from "./modal-boxes/AllDialogBoxes";
+import AllModalBoxes from "./modal-boxes/AllDialogBoxes";
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   const ad_storage: undefined | "granted" | "denied" | string =
@@ -36,7 +36,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
           setCookiesConsent={setCookiesConsent}
         />
       ) : null}
-      <AllDialogBoxes />
+      <AllModalBoxes />
       <Footer />
     </>
   );

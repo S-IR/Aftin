@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useInView } from "react-intersection-observer";
-import { StudiesList } from "../../constants/StudiesList";
+import { StudiesList } from "../../constants/homepage/StudiesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import Image from "next/image";
 

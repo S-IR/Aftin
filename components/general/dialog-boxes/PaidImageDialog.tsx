@@ -9,26 +9,26 @@ import {
   VariableIcon,
 } from "@heroicons/react/solid";
 import { AiFillEdit } from "react-icons/ai";
-import { LoginStatus } from "../../typings/typings";
+import { LoginStatus } from "../../../typings/typings";
 import { isMobile } from "react-device-detect";
 import {
   ImgDoc,
   SecondDegreeCategory,
-} from "../../typings/image-types/ImageTypes";
+} from "../../../typings/image-types/ImageTypes";
 import { useRouter } from "next/router";
-import { galleryImageDialog } from "./SiteGallery";
+import { galleryImageDialog } from "../SiteGallery";
 
 interface props {
   doc: ImgDoc;
-  dialogName: null | galleryDialogWithDoc["name"];
+  dialog: null | galleryImageDialog;
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   secondDegCat?: SecondDegreeCategory;
 }
 
-const PaidImageModal: FC<props> = ({
+const PaidImageDialog: FC<props> = ({
   doc,
-  dialogName,
+  dialog,
   setDialog,
   loginStatus,
   secondDegCat,
@@ -39,7 +39,7 @@ const PaidImageModal: FC<props> = ({
 
   return (
     <Dialog
-      open={dialogName === "paid"}
+      open={dialog !== null && dialog.name === "paid"}
       onClose={(_, reason) => {
         if (reason === "backdropClick") return setDialog(null);
       }}
@@ -108,4 +108,4 @@ const PaidImageModal: FC<props> = ({
   );
 };
 
-export default PaidImageModal;
+export default PaidImageDialog;

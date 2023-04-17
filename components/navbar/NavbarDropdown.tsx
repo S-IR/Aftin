@@ -1,11 +1,11 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { NavbarImageLink } from "../../constants/imageCategories";
+import { NavbarImageLink } from "../../constants/Navbar/imageCategories";
 import GrDesignsDropdown from "./GrDesignsDropdown";
 import NavbarImageCategory from "./NavbarImageCategory";
 import MoreDropdown from "./MoreDropdown";
 import AdvertImagesDropdown from "./AdvertImagesDropdown";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { navLink } from "../../constants/NavLinks";
+import { navLink } from "../../constants/Navbar/NavLinks";
 import { useSpring, animated, useTransition } from "react-spring";
 
 interface props {

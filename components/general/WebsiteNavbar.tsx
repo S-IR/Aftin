@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { SearchIcon, BellIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
-import { navLink, navLinks } from "../../constants/NavLinks";
+import { navLink, navLinks } from "../../constants/Navbar/NavLinks";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
@@ -138,7 +138,7 @@ function WebsiteNavbar() {
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className=" ml-auto mr-8 h-[35px] w-[35px] rounded-full border-1 border-dashed border-gray-500">
+            <div className=" border-1 ml-auto mr-8 h-[35px] w-[35px] rounded-full border-dashed border-gray-500">
               {!userLoading && user && user.photoURL ? (
                 <Image
                   src={user.photoURL}

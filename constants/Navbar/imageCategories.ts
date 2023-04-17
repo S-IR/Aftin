@@ -1,7 +1,7 @@
 import {
   FirstDegreeCategory,
   SecondDegreeCategory,
-} from "../typings/image-types/ImageTypes";
+} from "../../typings/image-types/ImageTypes";
 
 export type NavbarImageLink = {
   name: string;

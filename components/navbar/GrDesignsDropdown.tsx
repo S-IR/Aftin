@@ -7,7 +7,7 @@ import { useSpring, animated } from "react-spring";
 import {
   NavbarImageLink,
   GrDesignLinks,
-} from "../../constants/imageCategories";
+} from "../../constants/Navbar/imageCategories";
 import NavbarImageCategory from "./NavbarImageCategory";
 
 interface props {}
