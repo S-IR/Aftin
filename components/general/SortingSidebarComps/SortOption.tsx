@@ -95,7 +95,7 @@ const SortOption = ({
                 condition={isThirdDegreeCategory === true}
                 wrapper={(children: JSX.Element) => (
                   <Link href={`${thirdDegreePathname}/${sortOption.value}`}>
-                    <a>{children}</a>
+                    {children}
                   </Link>
                 )}
               >

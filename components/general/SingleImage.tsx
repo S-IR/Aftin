@@ -72,7 +72,7 @@ function SingleImage({ imgDoc, isMobile, setDialog, changeModalType }: props) {
             alt={imgDoc.description}
             width={isMobile ? 256 : 380}
             height={isMobile ? imgDoc.height / 6 : imgDoc.height / 3}
-            objectFit={`cover`}
+            style={{ objectFit: "cover" }}
             className="rounded-md   "
             onLoad={() => setLoading(false)}
           />
@@ -161,7 +161,7 @@ export const SingleEditorImage = ({
             alt={imgDoc.description}
             width={256}
             height={imgDoc.height / 4}
-            objectFit={`scale-down`}
+            style={{ objectFit: `scale-down` }}
             className="rounded-md   "
             onLoad={() => setLoading(false)}
           />

@@ -43,7 +43,7 @@ const Index = () => {
                   )}`}
                   width={list.w}
                   height={list.h}
-                  objectFit={"cover"}
+                  style={{ objectFit: "cover" }}
                   src={`/frontend-used-images/category-images/${list.catName}/${list.secondDegCatName}.png`}
                   className={"brightness-50 filter"}
                 />

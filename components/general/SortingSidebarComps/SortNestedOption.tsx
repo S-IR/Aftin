@@ -68,7 +68,7 @@ const SortNestedOption: FC<props> = ({
               key={NestedOption.name}
               wrapper={(children: JSX.Element) => (
                 <Link href={`${thirdDegreePathname}/${NestedOption.value}`}>
-                  <a>{children}</a>
+                  {children}
                 </Link>
               )}
             >

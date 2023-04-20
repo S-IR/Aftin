@@ -156,7 +156,7 @@ const FreeImageDialog: FC<props> = ({
               height={
                 isMobile ? Math.min(doc.height, 280) : Math.min(doc.height, 384)
               }
-              objectFit={`scale-down`}
+              style={{ objectFit: `scale-down` }}
               className=" overflow-hidden rounded-sm "
               alt={doc.description}
             />

@@ -16,9 +16,9 @@ import { canvasEditButtonDialog } from "../../image-editor/Canvas/CanvasEditButt
 
 interface props {
   dialog: null | galleryImageDialog | canvasEditButtonDialog;
-  setDialog: React.Dispatch<
-    React.SetStateAction<null | galleryImageDialog | canvasEditButtonDialog>
-  >;
+  setDialog:
+    | React.Dispatch<React.SetStateAction<canvasEditButtonDialog | null>>
+    | React.Dispatch<React.SetStateAction<galleryImageDialog | null>>;
   imgDoc?: ImgDoc;
 }
 

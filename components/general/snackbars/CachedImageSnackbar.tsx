@@ -9,9 +9,7 @@ import { useQuery } from "react-query";
 
 import { auth } from "../../../firebase";
 import { fetchUserStatus } from "../../../model/client-side/general/fetches";
-
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
-import Button from "../Button";
 import Cookies from "js-cookie";
 import {
   checkImageGalleryClick,

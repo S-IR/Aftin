@@ -28,7 +28,7 @@ const HomepageGallery = () => {
                   )}`}
                   width={1920 / 4}
                   height={1080 / 4}
-                  objectFit={"fill"}
+                  style={{ objectFit: "fill" }}
                   src={`/frontend-used-images/homepage/homepage-gallery/${list.secondDegCatName}.png`}
                   className={
                     "grayscale-[10%] filter transition-all duration-300 hover:grayscale-[80%]"

@@ -23,10 +23,10 @@ export const tierBenefits: tierBenefit[] = [
   },
   {
     name: `Silver Aftin`,
-    monthPrice: 19.95,
-    yearPrice: 189.95,
+    monthPrice: 29.95,
+    yearPrice: 287.95,
     imgSrc: "/frontend-used-images/homepage/silver",
-    yearlyPerMonthPrice: 15.83,
+    yearlyPerMonthPrice: 23.95,
     benefits: [
       "Everything that Bronze tier offers",
       "Access to higher quality stock images and graphic designs",
@@ -35,9 +35,9 @@ export const tierBenefits: tierBenefit[] = [
   },
   {
     name: `Golden Aftin`,
-    monthPrice: 44.95,
-    yearPrice: 429.95,
-    yearlyPerMonthPrice: 38.83,
+    monthPrice: 59.95,
+    yearPrice: 575.95,
+    yearlyPerMonthPrice: 47.95,
     imgSrc: "/frontend-used-images/homepage/gold",
     benefits: [
       "Everything that Silver tier offers",

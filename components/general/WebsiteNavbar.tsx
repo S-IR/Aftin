@@ -11,7 +11,7 @@ import Link from "next/link";
 
 let lastWidth = 0;
 
-function WebsiteNavbar() {
+const WebsiteNavbar = (): JSX.Element => {
   const [activeSidebar, setActiveSidebar] =
     useState<navLink["DropdownState"]>(null);
   const [user, userLoading] = useAuthState(auth);
@@ -95,18 +95,16 @@ function WebsiteNavbar() {
           ))}
         </ul>
         <Link href={"/"}>
-          <a>
-            <button className="h-[60px] w-[60px]  rounded-full border-2 border-gray-700/40 transition-all duration-300 hover:border-gray-500/40">
-              <Image
-                src={"/frontend-used-images/croppedLogo.png"}
-                width={60}
-                height={60}
-                className={"rounded-full"}
-                objectFit={"scale-down"}
-                alt={"Aftin Logo"}
-              />
-            </button>
-          </a>
+          <button className="h-[60px] w-[60px]  rounded-full border-2 border-gray-700/40 transition-all duration-300 hover:border-gray-500/40">
+            <Image
+              src={"/frontend-used-images/croppedLogo.png"}
+              width={60}
+              height={60}
+              className={"rounded-full"}
+              style={{ objectFit: "scale-down" }}
+              alt={"Aftin Logo"}
+            />
+          </button>
         </Link>
 
         <NavbarDropdown
@@ -161,5 +159,5 @@ function WebsiteNavbar() {
       </nav>
     </>
   );
-}
+};
 export default WebsiteNavbar;

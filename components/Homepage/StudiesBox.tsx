@@ -5,6 +5,10 @@ import { StudiesList } from "../../constants/homepage/StudiesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import Image from "next/image";
 
+/**
+ * Third component of the homepage. Meant to give data in order to be more authoritative.
+ * @returns
+ */
 function StudiesBox() {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
     triggerOnce: true,
@@ -20,7 +24,7 @@ function StudiesBox() {
         <Image
           width={612}
           height={612}
-          objectFit={"scale-down"}
+          style={{ objectFit: "scale-down" }}
           quality={100}
           src={"/frontend-used-images/homepage/studiexBoxImg.png"}
         />
@@ -50,12 +54,10 @@ function StudiesBox() {
             key={study.text}
             className={`flex h-48 w-full items-center justify-center  rounded-sm bg-brown-900/30 align-middle drop-shadow-xl transition-all  duration-300 hover:bg-brown-900 md:h-72 md:w-72`}
           >
-            <Link href={study.href}>
-              <a className="w-[200px]">
-                <p className="text-wrap   break-words font-Handwriting font-light transition-all duration-300 hover:text-gray-300 hover:underline ">
-                  {study.text}
-                </p>
-              </a>
+            <Link href={study.href} className="w-[200px]">
+              <p className="text-wrap   break-words font-Handwriting font-light transition-all duration-300 hover:text-gray-300 hover:underline ">
+                {study.text}
+              </p>
             </Link>
           </div>
         ))}

@@ -35,6 +35,11 @@ interface customInputs {
   security_storage?: boolean;
 }
 
+/**
+ * A popup that lets the user accept or refuse the cookie consent options. It sets 4 cookies to save the user's cookie consent decision and sends the information to GTM
+ * @param open In order to avoid unnecessarry
+ * @returns
+ */
 const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
   const [openCustom, setOpenCustom] = useState(false);
 

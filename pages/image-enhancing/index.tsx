@@ -31,17 +31,14 @@ const Index: NextPage = () => {
             <h1 className="0 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-2xl text-transparent md:text-4xl">
               What do you want to do to a particular image?
             </h1>
-            <div className="flex w-full flex-col items-center justify-center align-middle drop-shadow-xl ">
-              <Link href={"/image-enhancing/upscale"}>
-                <a className=" flex h-16 w-3/4  items-center justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 text-center align-middle font-Handwriting text-xl transition-all duration-300 hover:text-red-200 md:w-1/2 ">
-                  Increase Resolution
-                </a>
-              </Link>
+            <div className=" flex  h-16 w-3/4 flex-col items-center  justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 text-center align-middle font-Handwriting text-xl drop-shadow-xl transition-all duration-300 hover:text-red-200 md:w-1/2  ">
+              <Link href={"/image-enhancing/upscale"}>Increase Resolution</Link>
 
-              <Link href={"/image-enhancing/deblur"}>
-                <a className=" flex h-16 w-3/4  items-center justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 align-middle font-Handwriting text-xl transition-all duration-300 hover:text-red-200 md:w-1/2 ">
-                  Deblur
-                </a>
+              <Link
+                href={"/image-enhancing/deblur"}
+                className=" flex h-16 w-3/4  items-center justify-center rounded-sm border-2 border-black/20 bg-gradient-to-r from-yellow-800 to-orange-900 align-middle font-Handwriting text-xl transition-all duration-300 hover:text-red-200 md:w-1/2"
+              >
+                Deblur
               </Link>
             </div>
             <div className="flex w-full flex-col">
@@ -49,10 +46,11 @@ const Index: NextPage = () => {
                 Keep in mind that these enhancing techniques are done by AI
                 models. that are not owned by us
               </p>
-              <Link href={"/policies/AI-use"}>
-                <a className="buttons-3 h-auto w-auto cursor-pointer">
-                  Find out more
-                </a>
+              <Link
+                href={"/policies/AI-use"}
+                className="buttons-3 h-auto w-auto cursor-pointer"
+              >
+                Find out more
               </Link>
             </div>
           </>
@@ -61,12 +59,10 @@ const Index: NextPage = () => {
             <h1 className="text-center font-Handwriting text-2xl md:text-4xl">
               You require gold tier to access this page <br></br>
               <Link href={"/subscribe?tier=gold"} className={"buttons-3"}>
-                <a>
-                  <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
-                    {" "}
-                    Unlock <span className="text-yellow-300">gold</span> tier
-                  </p>
-                </a>
+                <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
+                  {" "}
+                  Unlock <span className="text-yellow-300">gold</span> tier
+                </p>
               </Link>
             </h1>
           </>

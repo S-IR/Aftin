@@ -3,6 +3,7 @@ import React from "react";
 import { homepageFeaturesList } from "../../constants/homepage/homepageFeaturesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 
 const OurFeatures = () => {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
@@ -30,31 +31,27 @@ const OurFeatures = () => {
         amount of customers{" "}
       </a.h4>
       <div className=" m-4 grid grid-cols-2 ">
-        {homepageFeaturesList.map((feature) => {
+        {homepageFeaturesList.map((feature, i) => {
           return (
             <Link
               href={feature.href}
               key={feature.href}
               className={
-                "flex h-[15vh] w-full items-center justify-center bg-black/10 align-middle transition-all duration-300 hover:bg-black/30"
+                "relative flex h-auto w-full items-center justify-center bg-black/10 align-middle transition-all duration-300 hover:bg-black/30"
               }
             >
-              <a>
-                <div
-                  className={
-                    "group flex h-[35vh] w-full items-center justify-center bg-black/20  align-middle transition-all duration-300 hover:bg-black/30"
-                  }
-                >
-                  <div className="flex flex-col items-center justify-center align-middle">
-                    <p className="w-min bg-gradient-to-br from-red-300 to-white bg-clip-text font-serif text-lg text-yellow-300  text-transparent transition-all duration-300 group-hover:-translate-y-6 md:w-auto md:text-2xl">
-                      {feature.title}
-                    </p>
-                    <p className="text-center opacity-0  transition-all duration-300 group-hover:-translate-y-6 group-hover:opacity-100">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </a>
+              <div
+                className={
+                  "group flex h-[25vh] w-full flex-col items-center justify-center  bg-black/20  align-middle transition-all duration-300 hover:bg-black/30"
+                }
+              >
+                <p className="w-full bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-serif text-lg text-yellow-300  text-transparent transition-all duration-300 group-hover:-translate-y-6 md:w-auto md:text-4xl">
+                  {feature.title}
+                </p>
+                <p className="mx-4 w-[100%-1rem]  text-center opacity-0 transition-all duration-300 group-hover:-translate-y-6 group-hover:opacity-100">
+                  {feature.description}
+                </p>
+              </div>
             </Link>
           );
         })}

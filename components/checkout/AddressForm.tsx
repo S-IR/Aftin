@@ -63,6 +63,11 @@ interface props {
   >;
   setCheckoutPage: React.Dispatch<React.SetStateAction<number>>;
 }
+/**
+ * Handles the inputting of the user's address
+ * @param
+ * @returns
+ */
 const AddressForm = ({ setPaymentDetails, setCheckoutPage }: props) => {
   const {
     register,

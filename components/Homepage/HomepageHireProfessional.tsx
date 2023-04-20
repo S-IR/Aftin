@@ -4,6 +4,9 @@ import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
 import Image from "next/image";
+import { useModalStore } from "../../zustand/ModalBoxStore/store";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
 
 const HomepageHireProfessional = () => {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
@@ -17,6 +20,12 @@ const HomepageHireProfessional = () => {
   const hFourStyle = useSpring({
     opacity: hTwoVisible ? 1 : 0,
   });
+  //used to make the missing feature popup appear
+  const [changeModalText, changeModalType] = useModalStore((store) => [
+    store.CHANGE_MODAL_TEXT,
+    store.CHANGE_MODAL_TYPE,
+  ]);
+  const [user] = useAuthState(auth);
 
   return (
     <section className="relative flex min-h-screen justify-center space-y-4 text-center ">
@@ -24,8 +33,9 @@ const HomepageHireProfessional = () => {
         <Image
           width={612}
           height={612}
-          objectFit={"scale-down"}
+          style={{ objectFit: "scale-down" }}
           quality={100}
+          alt={`Aftin banner for Hire Professional iamge`}
           src={"/frontend-used-images/homepage/HomepageHireProfessionalImg.png"}
         />
       </div>
@@ -44,11 +54,23 @@ const HomepageHireProfessional = () => {
           To design your desired website, banner, logo or any graphic design
           element
         </a.h3>
-        <Link href={"/request-design"}>
-          <a className="buttons-3 font-Handwriting text-xl font-thin text-red-300 transition-all duration-300 hover:text-white md:text-2xl">
-            learn more
-          </a>
-        </Link>
+        <button
+          className="buttons-3 font-Handwriting text-xl font-thin text-red-300 transition-all duration-300 hover:text-white md:text-2xl"
+          onClick={() => {
+            window.gtag(`event`, "request_custom_design_clicked", {
+              userId: user ? user.uid : "not logged in",
+            });
+            changeModalText({
+              title: undefined,
+              text: `We cannot currently offer custom graphic designs images at
+            special request
+            We are sorry for the inconvenience`,
+            });
+            return changeModalType("missing-feature");
+          }}
+        >
+          learn more
+        </button>
       </div>
     </section>
     // {/*

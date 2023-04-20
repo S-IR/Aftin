@@ -51,8 +51,8 @@ const ChoosePreview = ({ mockupType }: props) => {
           <Image
             src={"/frontend-used-images/mockups/DigitalMockup.png"}
             alt={"background banner image for digital mock-ups"}
-            layout={"fill"}
-            objectFit={"cover"}
+            fill
+            style={{ objectFit: "cover" }}
             className={
               "absolute top-0 left-0 brightness-50 filter transition-all duration-300 group-hover:brightness-75"
             }
@@ -72,7 +72,7 @@ const ChoosePreview = ({ mockupType }: props) => {
             src={"/frontend-used-images/mockups/PhysicalMockup.png"}
             alt={"background banner image for physical mock-ups"}
             layout={"fill"}
-            objectFit={"cover"}
+            style={{ objectFit: "cover" }}
             className={
               "absolute top-0 left-0 brightness-50 filter transition-all duration-300 group-hover:brightness-75"
             }

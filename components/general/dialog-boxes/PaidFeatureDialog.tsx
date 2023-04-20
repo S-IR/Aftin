@@ -54,7 +54,7 @@ const PaidFeatureDialog: FC<props> = ({ dialog, setDialog, feature }) => {
           src="/frontend-used-images/general/premium-popup-banner.png"
           alt="Paid dialogue box image popup "
           layout="fill"
-          objectFit="scale-down"
+          style={{ objectFit: "scale-down" }}
           className={"brightness-75   filter"}
         />
       </div>

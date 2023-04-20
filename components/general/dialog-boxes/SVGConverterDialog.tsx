@@ -299,7 +299,7 @@ const ImageComponent = ({
             src={imageSrc}
             width={width}
             height={height}
-            objectFit="none"
+            style={{ objectFit: "none" }}
             className="scrollbar z-10   h-auto w-auto overflow-visible rounded-sm shadow-sm shadow-black"
             alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded to be converted into SVG `}
           />

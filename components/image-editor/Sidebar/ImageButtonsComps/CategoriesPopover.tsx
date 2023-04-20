@@ -63,7 +63,7 @@ const CategoriesPopover = ({
                   src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
                   width={48}
                   height={48}
-                  objectFit={`cover`}
+                  style={{ objectFit: `cover` }}
                   alt={`image of ${category.name}`}
                   className={"rounded-full"}
                 />
@@ -96,7 +96,7 @@ const CategoriesPopover = ({
                     src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
                     width={48}
                     height={48}
-                    objectFit={`cover`}
+                    style={{ objectFit: `cover` }}
                     alt={`image of ${category.name}`}
                     className={"rounded-full"}
                   />

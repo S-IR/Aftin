@@ -337,12 +337,10 @@ const Index: NextPage<props> = ({ enhancerType }) => {
               <h1 className=" text-center font-Handwriting text-2xl md:text-4xl">
                 You require gold tier to access this page <br></br>
                 <Link href={"/subscribe?tier=gold"} className={"buttons-3"}>
-                  <a>
-                    <p className="mt-4 h-full text-center underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
-                      {" "}
-                      Unlock <span className="text-yellow-300">gold</span> tier
-                    </p>
-                  </a>
+                  <p className="mt-4 h-full text-center underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
+                    {" "}
+                    Unlock <span className="text-yellow-300">gold</span> tier
+                  </p>
                 </Link>
               </h1>
             </div>
@@ -383,7 +381,7 @@ const ImageComponent = ({
               src={imageDataObj.src}
               width={Math.min(imageDataObj.width, window.innerWidth)}
               height={Math.min(imageDataObj.height, window.innerHeight)}
-              objectFit="scale-down"
+              style={{ objectFit: "scale-down" }}
               className="rounded-sm shadow-sm shadow-black"
               alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for ${enhancerType} `}
             />

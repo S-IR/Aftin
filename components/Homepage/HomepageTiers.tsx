@@ -114,11 +114,9 @@ function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
         </div>
         <div className="absolute -bottom-8   h-auto   ">
           <Link href={"/purchase"}>
-            <a>
-              <p className="buttons-3 h-min  w-48  rounded-sm bg-brown-900/50 font-serif text-lg font-thin text-red-300 no-underline shadow-md shadow-black transition-all  duration-500 group-hover:bg-brown-900 ">
-                Learn more
-              </p>
-            </a>
+            <p className="buttons-3 h-min  w-48  rounded-sm bg-brown-900/50 font-serif text-lg font-thin text-red-300 no-underline shadow-md shadow-black transition-all  duration-500 group-hover:bg-brown-900 ">
+              Learn more
+            </p>
           </Link>
         </div>
       </div>

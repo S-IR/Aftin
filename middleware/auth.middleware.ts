@@ -1,12 +1,15 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getUserTier } from "../firebaseAdmin";
-import { NextResponse } from "next/server";
+// import { NextApiRequest, NextApiResponse } from "next";
+// import { NextResponse } from "next/server";
 
-export function checkAuthHeader(req: NextApiRequest) {
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    return true;
-  } else {
-    return false;
-  }
-}
+// export function isAuthHeader(req: NextApiRequest) {
+
+//   const authHeader = req.headers.authorization;
+//   if (authHeader && authHeader.startsWith("Bearer ")) {
+//     const token = authHeader.
+//     substring(7);
+//     req.token = token;
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }

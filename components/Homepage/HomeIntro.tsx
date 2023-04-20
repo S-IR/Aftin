@@ -3,6 +3,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTrail, animated as a, useSpring, interpolate } from "react-spring";
 
+/**
+ * Second component in order from the top of the homepage. Component meant to have a descriptive phrase of the company and some sort of animation in order to entice people to read further
+ * @returns 
+ */
 function HomeIntro() {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
     triggerOnce: true,
@@ -61,7 +65,7 @@ function HomeIntro() {
           src={"/frontend-used-images/homepage/homeIntro1.png"}
           width={1024}
           height={1024}
-          objectFit={"none"}
+          style={{ objectFit: "none" }}
           quality={100}
           className={
             "!h-[1024px] !w-[1024px] origin-bottom  overflow-visible filter"
@@ -77,7 +81,7 @@ function HomeIntro() {
           src={"/frontend-used-images/homepage/homeIntro2.png"}
           width={1024}
           height={1024}
-          objectFit={"none"}
+          style={{ objectFit: "none" }}
           className={"overflow-hiddenfilter !h-[1024px] !w-[1024px]"}
           alt={"home intro banner 2 for Aftin"}
         />

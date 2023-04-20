@@ -10,24 +10,13 @@ import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
 
-const imageArray = [
-  "/frontend-used-images/homeImageInPhone1.png",
-  "/frontend-used-images/homeImageInPhone2.png",
-  "/frontend-used-images/homeImageInPhone3.png",
-];
-const pages: ((
-  props: AnimatedProps<{ style: CSSProperties }>
-) => React.ReactElement)[] = imageArray.map((image) =>
-  // eslint-disable-next-line react/display-name
-  ({ style }) => (
-    <animated.div style={{ ...style, position: "absolute" }}>
-      <img src={image} layout={"fill"} />
-    </animated.div>
-  )
-);
 
+
+/**
+ * Component at the top of homepage
+ * @returns 
+ */
 function HomeBanner() {
-  const transRef = useSpringRef();
 
   const { ref: hOneRef, inView: hOneVisible } = useInView({
     triggerOnce: true,
@@ -50,7 +39,7 @@ function HomeBanner() {
           width={768}
           height={768}
           quality={100}
-          objectFit={"scale-down"}
+          style={{objectFit: "scale-down"}}
         />
       </a.div>
       <div className={`relative  max-w-full `}>

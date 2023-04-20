@@ -69,7 +69,7 @@ const LayoutButtons = () => {
                       src={layout.url}
                       width={48}
                       height={48}
-                      objectFit={`cover`}
+                      style={{ objectFit: `cover` }}
                       alt={`layout image`}
                       className={"rounded-full"}
                     />
@@ -105,7 +105,7 @@ const LayoutButtons = () => {
                         src={layout.url}
                         width={48}
                         height={48}
-                        objectFit={`cover`}
+                        style={{ objectFit: `cover` }}
                         alt={`layout image`}
                         className={"rounded-full"}
                       />

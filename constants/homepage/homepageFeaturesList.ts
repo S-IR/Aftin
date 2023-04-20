@@ -9,14 +9,14 @@ export const homepageFeaturesList: homepageFeature[] = [
   {
     title: `Find fitting Advertisement Images`,
     description: ` Access our full library of stock photos to display high resolution images that fit your needs.`,
-    href: `/`,
+    href: `/restaurant-advertisement-images`,
     imgSrc: ``,
   },
   {
     title: `Browse unique Graphic Designs`,
     description: `  Catch the eyes of your customers with our 
     artistically made banners, menus, brochures and more.`,
-    href: `/graphic-designs`,
+    href: `/restaurant-graphic-designs`,
     imgSrc: ``,
   },
   {
@@ -29,7 +29,7 @@ export const homepageFeaturesList: homepageFeature[] = [
   {
     title: `Preview your images`,
     description: `Preview your images in your desired environment using our Smartmockup system to ensure that you are getting what you need`,
-    href: "/mockups",
+    href: "/restaurant-mockups",
     imgSrc: ``,
   },
 ];
