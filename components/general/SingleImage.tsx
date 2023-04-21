@@ -1,7 +1,7 @@
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import { useGesture } from "@use-gesture/react";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import React, { useEffect, useRef, useState } from "react";
 import {
   useSpring,

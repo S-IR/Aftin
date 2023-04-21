@@ -16,7 +16,7 @@ import { useMockupsStore } from "../../zustand/MockupsStore/store";
 import { previewSelectedCategory } from "../../pages/restaurant-mockups";
 import { animated, useSpringRef, useTransition } from "react-spring";
 import { Spring } from "@react-spring/konva";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { isMobile } from "react-device-detect";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { MockupType } from "../../constants/mockups/previewCategories";

@@ -1,10 +1,18 @@
 import { Check } from "@mui/icons-material";
 import Link from "next/link";
 import React, { useState } from "react";
-import { tierBenefits } from "../../constants/homepage/tierBenefits";
+import {
+  tierBenefit,
+  tierBenefits,
+} from "../../constants/homepage/tierBenefits";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 
+/**
+ * Sixth component of the homepage. Meant to link the homepage to the different purchase plans
+ * @returns
+ */
 const HomepageTiers = () => {
   const [subscriptionPeriod, setSubscriptionPeriod] = useState<
     "Yearly" | "Monthly"
@@ -19,7 +27,14 @@ const HomepageTiers = () => {
   });
 
   return (
-    <section className="flex h-auto min-h-[70vh] w-screen flex-col items-center border-2 border-gray-500 bg-white/10 py-10">
+    <section className="relative flex h-auto min-h-[70vh] w-screen flex-col items-center border-y-2 border-gray-500 bg-white/10 py-10">
+      <Image
+        className="absolute top-0 left-0 brightness-[25%] filter"
+        fill
+        src={"/frontend-used-images/homepage/HomepageTiersBG.png"}
+        alt={"Background image to present our payment tiers on Aftin Homepage"}
+        style={{ objectFit: "fill" }}
+      />
       <a.h2
         className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text text-center font-Handwriting text-4xl  text-transparent md:text-8xl"
         ref={hTwoRef}
@@ -27,7 +42,7 @@ const HomepageTiers = () => {
       >
         Our subscription tier list
       </a.h2>
-      <div className="mt-10 flex h-10 space-x-14">
+      <div className="z-20 mt-10 flex h-10 space-x-14">
         <button
           onClick={() => setSubscriptionPeriod("Monthly")}
           className={`font-handwriting buttons-3 w-28   font-serif text-4xl   ${
@@ -46,7 +61,7 @@ const HomepageTiers = () => {
           Yearly
         </button>
       </div>
-      <div className="mt-6 flex w-full flex-col items-center justify-center space-y-12 align-middle md:flex-row md:space-x-48 md:space-y-0">
+      <div className="z-20 mt-6 flex w-full flex-col items-center justify-center space-y-12 align-middle md:flex-row md:space-x-48 md:space-y-0">
         {tierBenefits.map((tier) => {
           return TierDescription(tier, subscriptionPeriod);
         })}
@@ -56,23 +71,10 @@ const HomepageTiers = () => {
 };
 
 export default HomepageTiers;
-function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
-  // const numberProps = useSpring({
-  //   val: tier.yearPrice,
-  //   from: {
-  //     val: tier.monthPrice,
-  //     // subscriptionPeriod === "Monthly" && tier.monthPrice !== "free"
-  //     //   ? tier.monthPrice
-  //     //   : tier.yearPrice,
-  //   },
-  //   to: {
-  //     val: subscriptionPeriod === "Monthly" ? tier.monthPrice : tier.yearPrice,
-  //     // subscriptionPeriod === "Monthly" && tier.monthPrice !== "free"
-  //     //   ? tier.monthPrice
-  //     //   : tier.yearPrice,
-  //   },
-  // });
-
+function TierDescription(
+  tier: tierBenefit,
+  subscriptionPeriod: "Monthly" | "Yearly"
+) {
   return (
     <div
       key={tier.name}
@@ -113,7 +115,9 @@ function TierDescription(tier: tierBenefit, subscriptionPeriod: string) {
           ))}
         </div>
         <div className="absolute -bottom-8   h-auto   ">
-          <Link href={"/purchase"}>
+          <Link
+            href={`/checkout?tier=${tier.value}&period=${subscriptionPeriod}`}
+          >
             <p className="buttons-3 h-min  w-48  rounded-sm bg-brown-900/50 font-serif text-lg font-thin text-red-300 no-underline shadow-md shadow-black transition-all  duration-500 group-hover:bg-brown-900 ">
               Learn more
             </p>

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useRef } from "react";
 import Button from "../../components/general/Button";
 import { handleRequestDesigner } from "../../model/handleRequestDesigner";

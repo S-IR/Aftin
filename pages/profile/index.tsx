@@ -2,7 +2,7 @@ import { Cookie, Restaurant } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { FirebaseError } from "firebase-admin";
 import { NextPage } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";

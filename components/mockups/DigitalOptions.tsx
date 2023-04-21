@@ -7,7 +7,7 @@ import {
   previewCategoryType,
   previewCategoryValues,
 } from "../../constants/mockups/previewCategories";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { previewSelectedCategory } from "../../pages/restaurant-mockups";
 import { isMobile } from "react-device-detect";
 import Link from "next/link";
@@ -38,7 +38,7 @@ const DigitalOptions = ({ open, anchorEl, setAnchorEl, mockupType }: props) => {
             <Link
               href={`/restaurant-mockups/${digitalCategory.value}`}
               key={digitalCategory.value}
-            >
+              legacyBehavior>
               <div className=" group relative  flex h-48 w-48 cursor-pointer flex-col items-center justify-center space-y-4  align-middle transition-all duration-300  ">
                 <Image
                   src={digitalCategory.source}

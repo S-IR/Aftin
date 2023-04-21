@@ -1,5 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle, Modal } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { FC } from "react";
 import {
   PhotographIcon,

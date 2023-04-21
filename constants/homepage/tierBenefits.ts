@@ -1,5 +1,6 @@
-interface tierBenefit {
+export interface tierBenefit {
   name: string;
+  value: "bronze" | "silver" | "gold";
   monthPrice: "Free" | number;
   yearPrice: "Free" | number;
   yearlyPerMonthPrice: "Free" | number;
@@ -10,6 +11,7 @@ interface tierBenefit {
 export const tierBenefits: tierBenefit[] = [
   {
     name: `Bronze Aftin`,
+    value: "bronze",
     monthPrice: "Free",
     yearPrice: "Free",
     imgSrc: "/frontend-used-images/homepage/bronze",
@@ -23,6 +25,7 @@ export const tierBenefits: tierBenefit[] = [
   },
   {
     name: `Silver Aftin`,
+    value: "silver",
     monthPrice: 29.95,
     yearPrice: 287.95,
     imgSrc: "/frontend-used-images/homepage/silver",
@@ -35,6 +38,7 @@ export const tierBenefits: tierBenefit[] = [
   },
   {
     name: `Golden Aftin`,
+    value: "gold",
     monthPrice: 59.95,
     yearPrice: 575.95,
     yearlyPerMonthPrice: 47.95,

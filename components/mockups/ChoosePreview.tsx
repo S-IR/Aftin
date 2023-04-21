@@ -1,6 +1,6 @@
 import { InputLabel, Popover, Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useState } from "react";
 import {
   MockupType,

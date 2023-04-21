@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Masonry } from "@mui/lab";
 import { collection, getDocs, query } from "firebase/firestore";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import PremiumIcon from "./PremiumIcon";
 import SingleImage from "./SingleImage";
 import InfiniteScroll from "react-infinite-scroll-component";

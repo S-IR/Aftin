@@ -3,8 +3,12 @@ import React from "react";
 import { homepageFeaturesList } from "../../constants/homepage/homepageFeaturesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
+/**
+ * Forth component of the homepage. Meant to display the main features of Aftin
+ * @returns
+ */
 const OurFeatures = () => {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
     triggerOnce: true,
@@ -15,7 +19,14 @@ const OurFeatures = () => {
   });
 
   return (
-    <section className="flex h-auto min-h-[75vh] w-screen flex-col items-center border-2 border-gray-500 bg-white/10   px-4">
+    <section className="relative flex h-auto min-h-[75vh] w-screen flex-col items-center border-y-2 border-gray-500   px-4">
+      <Image
+        className="absolute top-0 left-0 brightness-[25%] filter"
+        layout="fill"
+        src={"/frontend-used-images/homepage/OurFeaturesBG.png"}
+        alt={"Background image to present our features on Aftin Homepage"}
+        style={{ objectFit: "contain" }}
+      />
       <a.h2
         className=" mt-6 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-3xl text-transparent  text-white  md:mt-20 md:text-8xl"
         ref={hTwoRef}
@@ -30,14 +41,14 @@ const OurFeatures = () => {
         We are here to achieve your desired aesthetic and attract the most
         amount of customers{" "}
       </a.h4>
-      <div className=" m-4 grid grid-cols-2 ">
+      <div className=" z-20 m-4 grid grid-cols-2 ">
         {homepageFeaturesList.map((feature, i) => {
           return (
             <Link
               href={feature.href}
               key={feature.href}
               className={
-                "relative flex h-auto w-full items-center justify-center bg-black/10 align-middle transition-all duration-300 hover:bg-black/30"
+                "relative z-30 flex h-auto w-full items-center justify-center bg-black/10 align-middle transition-all duration-300 hover:bg-black/30"
               }
             >
               <div

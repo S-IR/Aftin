@@ -8,7 +8,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import ProfileDropdownRow from "./ProfileDropdownRow";
 import { User } from "firebase/auth";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useSpring, useTransition, animated } from "react-spring";
 
 interface props {

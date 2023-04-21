@@ -1,7 +1,7 @@
 import { LockClosedIcon, XIcon } from "@heroicons/react/solid";
 import { IconButton, Snackbar, SnackbarContent, Tooltip } from "@mui/material";
 import { User } from "firebase/auth";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { MdOutlineImage } from "react-icons/md";

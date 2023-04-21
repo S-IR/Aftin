@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { SearchIcon, BellIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
 import { navLink, navLinks } from "../../constants/Navbar/NavLinks";
@@ -67,12 +67,12 @@ const WebsiteNavbar = (): JSX.Element => {
   return (
     <>
       <nav
-        className={` z-5 sticky top-0 z-[120] flex h-[75px] w-screen items-center justify-center  
-   transition-all duration-500 hover:bg-gray-900  ${
-     isPageThatNeedsTheBGBlack
-       ? `bg-black`
-       : `bg-gradient-to-b from-black to-white/0`
-   } ${isVisible ? `translate-y-0` : `-translate-y-48`} `}
+        className={`z-5 sticky top-0 z-[120] flex h-[75px] w-screen max-w-full items-center justify-center  
+ transition-all duration-500 hover:bg-gray-900  ${
+   isPageThatNeedsTheBGBlack
+     ? `bg-black`
+     : `bg-gradient-to-b from-black to-white/0`
+ } ${isVisible ? `translate-y-0` : `-translate-y-48`} `}
         ref={navRef}
       >
         <ul className="grow-1 hidden h-max space-x-2 px-4  font-bold md:flex md:flex-1 md:space-x-6 md:px-8 ">
@@ -80,11 +80,11 @@ const WebsiteNavbar = (): JSX.Element => {
             <li
               key={nav.id}
               className={`flex h-[50px]   flex-1  items-center space-x-1 
-              `}
+            `}
             >
               <>
                 <p
-                  className={`textUnderline cursor-pointer font-Handwriting  text-sm font-thin  `}
+                  className={`textUnderline mx-auto  cursor-pointer text-center text-white/70 `}
                   onClick={() => router.push(nav.url)}
                   onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
                 >
@@ -94,7 +94,7 @@ const WebsiteNavbar = (): JSX.Element => {
             </li>
           ))}
         </ul>
-        <Link href={"/"}>
+        <Link href={"/"} legacyBehavior>
           <button className="h-[60px] w-[60px]  rounded-full border-2 border-gray-700/40 transition-all duration-300 hover:border-gray-500/40">
             <Image
               src={"/frontend-used-images/croppedLogo.png"}

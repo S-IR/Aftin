@@ -30,13 +30,7 @@ export const GrDesignLinks: NavbarImageLink[] = [
     secondDegCatName: "flyers",
     description: "Unique flyer templates that can be modified",
   },
-  {
-    name: "Business Cards",
-    catName: "graphic-designs",
-    secondDegCatName: "business-cards",
-    description:
-      "Unique styled business cards designed for restaurants. Simple and slick",
-  },
+
   {
     name: "Stickers & Cliparts",
     catName: "graphic-designs",

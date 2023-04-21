@@ -58,7 +58,7 @@ const Index: NextPage = () => {
           <>
             <h1 className="text-center font-Handwriting text-2xl md:text-4xl">
               You require gold tier to access this page <br></br>
-              <Link href={"/subscribe?tier=gold"} className={"buttons-3"}>
+              <Link href={"/subscribe?tier=gold"} className={"buttons-3"} legacyBehavior>
                 <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
                   {" "}
                   Unlock <span className="text-yellow-300">gold</span> tier

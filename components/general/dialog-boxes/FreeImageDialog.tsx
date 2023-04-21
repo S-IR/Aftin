@@ -2,7 +2,7 @@ import { Dialog, DialogContent, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { Box } from "@mui/system";
 import { getDownloadURL, ref } from "firebase/storage";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { BiDollar, BiDollarCircle } from "react-icons/bi";

@@ -1,5 +1,5 @@
 import { Popover } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { determineSorts } from "../../../../model/client-side/SortingSidebar/determineSorts";

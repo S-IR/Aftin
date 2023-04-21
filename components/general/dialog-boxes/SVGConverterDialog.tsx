@@ -1,5 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle, Modal } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { FC, useEffect, useState } from "react";
 import {
   PhotographIcon,
@@ -29,7 +29,7 @@ import {
 import { handleDownload } from "../../../model/client-side/image-gallery/dialogButtons";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import Loading from "../Loading";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";

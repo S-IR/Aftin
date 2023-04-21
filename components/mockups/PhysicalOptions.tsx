@@ -1,5 +1,5 @@
 import Popover from "@mui/material/Popover";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
@@ -58,7 +58,7 @@ const PhysicalOptions = ({
                   }
                   alt={`preview image for ${dayCategory.name}`}
                 />
-                <Link href={`restaurant-mockups/${dayCategory.value}`}>
+                <Link href={`restaurant-mockups/${dayCategory.value}`} legacyBehavior>
                   <button
                     className={`webkit !m-0 h-16 w-36 rounded-l-md rounded-r-md stroke-black font-serif  text-2xl  drop-shadow-2xl transition-all duration-300 hover:border-gray-300  ${
                       selected ? `text-orange-500` : `text-white`

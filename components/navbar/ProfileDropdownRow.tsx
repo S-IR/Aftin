@@ -24,7 +24,7 @@ const ProfileDropdownRow = ({ text, href }: props) => {
     );
   } else {
     return (
-      <Link href={href as Url}>
+      <Link href={href as Url} legacyBehavior>
         <div className="it group my-2 flex w-full cursor-pointer items-center justify-center space-x-2 rounded-sm  border-y-2 border-gray-400/20 p-2 transition-all duration-300 hover:bg-gray-900 hover:text-gray-300">
           <a className="cursor-pointer font-sans text-xl transition-all duration-300  hover:text-gray-300">
             {text}

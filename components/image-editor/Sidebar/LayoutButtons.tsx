@@ -1,7 +1,7 @@
 import { AspectRatio } from "@mui/icons-material";
 import { MenuItem, Select } from "@mui/material";
 import Popover from "@mui/material/Popover";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useState } from "react";
 import {
   digitalLayouts,

@@ -41,16 +41,17 @@ const Home: NextPage = () => {
         />
         <title>Aftin - Homepage</title>
       </Head>
-      <main className="website-theme-image overflow-x-hidden ">
+      <main className="website-theme-image max-w-full overflow-x-hidden">
         <HomeBanner />
         <HomeIntro />
         <StudiesBox />
-        {/* <CreateWithUs /> */}
         <OurFeatures />
         <HomepageHireProfessional />
         <HomepageTiers />
         <HomepageGallery />
-        {cachedImage !== null && <CachedImageSnackbar cachedImage={cachedImage} />}
+        {cachedImage !== null && (
+          <CachedImageSnackbar cachedImage={cachedImage} />
+        )}
       </main>
     </>
   );

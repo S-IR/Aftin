@@ -9,7 +9,7 @@ import {
   AnimatedProps,
   useSpringRef,
 } from "react-spring";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 interface props {
   Category: NavbarImageLink;

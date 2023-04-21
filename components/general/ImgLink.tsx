@@ -1,5 +1,5 @@
 import { useGesture } from "@use-gesture/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useEffect, useRef } from "react";
 import { useSpring, animated, config, to } from "react-spring";
 

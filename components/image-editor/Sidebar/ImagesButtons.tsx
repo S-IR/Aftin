@@ -2,7 +2,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { ArrowLeft, ArrowRight, Filter, Tune } from "@mui/icons-material";
 import { Card, Grid, Popover } from "@mui/material";
 import { FirebaseError } from "firebase/app";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React, {
   ChangeEvent,

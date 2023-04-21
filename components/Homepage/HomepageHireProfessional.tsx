@@ -3,11 +3,15 @@ import React from "react";
 import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 
+/**
+ * Fifth component of the homepage. Meant to allow people to hire professionals
+ * @returns
+ */
 const HomepageHireProfessional = () => {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
     triggerOnce: true,

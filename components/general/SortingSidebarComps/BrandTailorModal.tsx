@@ -2,7 +2,7 @@
 
 import { Fade, Modal, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import React from 'react'
 import { MdImageSearch, MdOutlinePageview, MdPageview } from 'react-icons/md'
 import { useSpring, animated, to, config } from 'react-spring'

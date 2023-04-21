@@ -88,7 +88,7 @@ const MoreDropdown = ({}: props) => {
             handleMissingFeatureClick(
               "request_custom_design_clicked",
               undefined,
-              ` We cannot currently offer custom graphic designs images at
+              `We cannot currently offer custom graphic designs images at
                 special request
                 We are sorry for the inconvenience`
             )

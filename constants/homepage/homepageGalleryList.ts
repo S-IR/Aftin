@@ -47,7 +47,6 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     catName: "advertisement-images",
     secondDegCatName: "cutleries-and-plates",
   },
-  "Browse our Images",
 
   {
     name: "Menus",
@@ -64,11 +63,7 @@ export const homepageGalleryList: (homepageGallery | string)[] = [
     catName: "graphic-designs",
     secondDegCatName: "flyers",
   },
-  {
-    name: "Business Cards",
-    catName: "graphic-designs",
-    secondDegCatName: "business-cards",
-  },
+
   {
     name: "Stickers & Cliparts",
     catName: "graphic-designs",
