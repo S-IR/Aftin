@@ -12,7 +12,6 @@ import { getStorage, ref } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 import { z } from "zod";
 import { tier_array } from "./typings/image-types/ImageTypes";
-import { userOccupations } from "./constants/login/types";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -41,20 +40,20 @@ export default app;
 const userDocScheme = z.object({
   uid: z.string().min(10),
   email: z.string().email(),
-  occupation: z.enum(userOccupations),
+  username: z.string(),
   tier: z.enum(tier_array),
 });
 
 const createUserDoc = (
   uid: string,
   email: string,
-  occupation = "Not Specified",
+  username = "Not Specified",
   tier = "bronze"
 ) => {
-  userDocScheme.parse({ uid, email, occupation, tier });
+  userDocScheme.parse({ uid, email, username, tier });
   setDoc(doc(db, "users", uid), {
     email: email,
-    occupation: "Not Specified",
+    username: "Not Specified",
     tier: "bronze",
   });
 };

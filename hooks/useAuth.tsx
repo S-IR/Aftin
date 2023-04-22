@@ -28,6 +28,14 @@ const useAuth = (): [
 ] => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  /**
+   * Creates a firebase account for the user, sends a verification email to the email address and if there were no errors sets a gtag event for sign up
+   * @param email user's email from input
+   * @param password user's password from input
+   * @param username user's username from input
+   * @returns {Promise<authResponseType>}
+   */
   const signUp = async (
     email: string,
     password: string,
@@ -41,12 +49,12 @@ const useAuth = (): [
         password
       );
       const resBody = await verifyEmail(userCredential.user.email as string);
-      createUserDoc(userCredential.user.uid, email, username, "Not Specified");
+      createUserDoc(userCredential.user.uid, email, username, "bronze");
       if (resBody.status === 200) {
         window.gtag(`event`, `sign_up`, {
           method: "Aftin",
         });
-        return { status: `success`, user: userCredential };
+        return { status: `success`, user: userCredential.user };
       } else {
         return { status: "error", error: resBody };
       }
@@ -56,6 +64,13 @@ const useAuth = (): [
       setLoading(false);
     }
   };
+
+  /**
+   * Signs in the user and sends a gtag login event
+   * @param email
+   * @param password
+   * @returns {Promise<authResponseType>}
+   */
   const signIn = async (
     email: string,
     password: string
@@ -82,6 +97,9 @@ const useAuth = (): [
     }
   };
 
+  /**
+   * Logs out the user and sends him to /login
+   */
   const logout = async () => {
     setLoading(true);
     signOut(auth)

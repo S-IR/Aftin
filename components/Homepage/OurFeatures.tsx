@@ -25,7 +25,6 @@ const OurFeatures = () => {
         layout="fill"
         src={"/frontend-used-images/homepage/OurFeaturesBG.png"}
         alt={"Background image to present our features on Aftin Homepage"}
-        style={{ objectFit: "contain" }}
       />
       <a.h2
         className=" mt-6 bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-3xl text-transparent  text-white  md:mt-20 md:text-8xl"

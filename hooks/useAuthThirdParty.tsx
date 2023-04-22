@@ -5,6 +5,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  User,
   UserCredential,
 } from "firebase/auth";
 import { useRouter } from "next/router";
@@ -29,13 +30,18 @@ export default function useAuthThirdParty() {
         });
         return { status: "success", user: result.user, isNewUser: false };
       }
-      const resBody = await verifyEmail(result.user.email as string);
-
+      const emailRes = await verifyEmail(result.user.email as string);
+      if (emailRes.status === 500) {
+        return {
+          status: "error",
+          error: "Verification email server is not responding",
+        };
+      }
       const uid = result.user.uid;
       const username = result.user.displayName as string;
       const email = result.user.email as string;
       //creating the user document
-      createUserDoc(uid, email, username, "Not Specified", "bronze");
+      createUserDoc(uid, email, username, "bronze");
       //sending the request to set cookie
       const token = await result.user.getIdToken();
       await fetch("/api/login", {
@@ -65,14 +71,17 @@ export default function useAuthThirdParty() {
       window.gtag(`event`, `sign_up`, {
         method: "Facebook",
       });
-      return { status: "success", user };
+      return { status: "success", user: user.user };
     } catch (error) {
       return { status: "error", error };
     }
   };
 
-  return {
-    authWithGoogle,
-    authWithFacebook,
+  const authWithPinterest = async (): Promise<authResponseType> => {
+    //TODO
+    const auth = getAuth();
+    let user: User;
+    return { status: "success", user };
   };
+  return [authWithGoogle, authWithFacebook, authWithPinterest];
 }

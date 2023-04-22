@@ -4,8 +4,12 @@ import Footer from "./Footer";
 import ConsentCookiesSnackbar from "./snackbars/ConsentCookiesSnackbar";
 import WebsiteNavbar from "./WebsiteNavbar";
 import AllModalBoxes from "./modal-boxes/AllDialogBoxes";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }: React.PropsWithChildren) => {
+  const router = useRouter();
+
+  const isFooterVisible = !router.pathname.includes("/login");
   const ad_storage: undefined | "granted" | "denied" | string =
     Cookies.get("ad_storage");
   const analytics_storage: undefined | "granted" | "denied" | string =
@@ -37,7 +41,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
         />
       ) : null}
       <AllModalBoxes />
-      <Footer />
+      {isFooterVisible && <Footer />}
     </>
   );
 };

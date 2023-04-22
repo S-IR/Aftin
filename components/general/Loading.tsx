@@ -1,21 +1,18 @@
-import React from 'react'
-import { PuffLoader } from 'react-spinners'
+import React from "react";
+import { PuffLoader } from "react-spinners";
 
-interface props {
-  w? : number
-  h? :number
-}
-
-const Loading = ({w, h}: props) => {
+const Loading = () => {
   return (
-    <section className={`${w? `w-[${w}]`: `w-full`}  ${h? `h-[${h}]` : `h-full`}  flex items-center justify-center z-[100]`}>
+    <section
+      className={`z-[100] flex  h-full w-full items-center justify-center`}
+    >
       <PuffLoader
-      color={`purple`}
-      aria-label="Loading Spinner"
-      data-testid="loader"
+        color={`purple`}
+        aria-label="Loading Spinner"
+        data-testid="loader"
       />
     </section>
-  )
-}
+  );
+};
 
-export default Loading
+export default Loading;

@@ -33,7 +33,7 @@ const Index = () => {
         defaultHeight={450}
         defaultColumns={4}
         defaultSpacing={2}
-        className={"mx-auto  flex max-w-6xl"}
+        className={"  !mx-auto flex"}
       >
         {CategoryPageAdvertImages.map((list) => {
           if (typeof list !== "string") {
@@ -68,7 +68,7 @@ const Index = () => {
           } else {
             return (
               <>
-                <h3 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-3xl text-transparent drop-shadow-xl md:m-16 md:text-4xl">
+                <h3 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent drop-shadow-xl md:m-16 md:text-6xl">
                   {list}
                 </h3>
               </>

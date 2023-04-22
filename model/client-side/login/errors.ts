@@ -1,16 +1,23 @@
 import { FirebaseError } from "firebase-admin";
-import { changeModalText, changeModalType } from "../../../zustand/ModalBoxStore/store";
+import {
+  changeModalText,
+  changeModalType,
+} from "../../../zustand/ModalBoxStore/store";
 
+/**
+ * Function that changes a login error to a more user friendly text in a modal that appears
+ * @param error the login error
+ * @param changeModalText fn that lets you modify the text on the modal
+ * @param changeModalType fn that lets you make the error modal appear
+ * @returns Changes the modal to either 'server-error' or 'auth-error'
+ */
 export const determineModalError = (
   error: FirebaseError | unknown,
   changeModalText: changeModalText,
   changeModalType: changeModalType
 ) => {
   if (error === undefined || error.code === undefined) {
-    return changeModalText({
-      title: "Internal Server Error",
-      text: "An unexpected internal server has occurred. Please try again later",
-    });
+    return changeModalType("server-error");
   }
 
   switch (error.code) {
@@ -28,7 +35,7 @@ export const determineModalError = (
         text: "The provided email is already in use by another user. Please use another email address",
       });
       break;
-    case "auth/invalid-display-name		":
+    case "auth/invalid-display-name":
       changeModalText({
         title: "Invalid Username",
         text: "Your provided username is invalid",
@@ -57,7 +64,7 @@ export const determineModalError = (
     case "auth/user-not-found" || "wrong-email":
       changeModalText({
         title: "No user found",
-        text: "No user that has that email address has been found",
+        text: "No user with that email address has been found",
       });
       break;
 
@@ -73,7 +80,6 @@ export const determineModalError = (
         title: "Internal Server Error",
         text: "An unexpected internal server has occurred. Please try again later",
       });
-      break;
   }
   return changeModalType("auth-error");
 };

@@ -9,10 +9,15 @@
 
 .loginDiv-exit {
   opacity: 1;
-  ;
 }
 
 .loginDiv-exit.loginDiv-exit-active {
   opacity: 0;
   transition: all 300ms;
+}
+.loginFieldBG {
+  background-image: url("/frontend-used-images/login/loginFieldsSVG.svg");
+}
+.loginBanner {
+  background-image: url("/frontend-used-images/login/loginBanner.png");
 }

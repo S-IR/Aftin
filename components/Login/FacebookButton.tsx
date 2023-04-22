@@ -4,7 +4,7 @@ import React from "react";
 interface props {
   text: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  w?: "sm" | "md" | "lg" | "auto";
+  w?: "sm" | "md" | "lg" | "auto" | "full";
   h?: "sm" | "md" | "lg" | "auto";
 }
 
@@ -20,8 +20,12 @@ const widthObj = {
   md: "w-32",
   lg: "w-64",
   auto: "w-auto",
+  full: "w-full",
 };
+/**
+ * A component styled after the Facebook login button
 
+ */
 const FacebookButton = ({ text, onClick, w, h }: props) => {
   return (
     <button

@@ -84,7 +84,7 @@ const WebsiteNavbar = (): JSX.Element => {
             >
               <>
                 <p
-                  className={`textUnderline mx-auto  cursor-pointer text-center text-white/70 `}
+                  className={`textUnderline mx-auto  cursor-pointer text-center font-Handwriting text-white `}
                   onClick={() => router.push(nav.url)}
                   onMouseEnter={() => setActiveSidebar(nav.DropdownState)}
                 >
