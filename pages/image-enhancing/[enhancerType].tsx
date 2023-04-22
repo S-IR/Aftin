@@ -192,161 +192,167 @@ const Index: NextPage<props> = ({ enhancerType }) => {
     }
   };
 
-  return <>
-    <NextSeo
-      title={`Image ${enhancerType} for Restaurants`}
-      description={`An image ${enhancerType} meant for different restaurant images`}
-    />
-    <ChooseEnhancerModal
-      popover={popover}
-      setPopover={setPopover}
-      router={router}
-    />
-    <section className="flex h-screen w-screen items-center justify-center align-middle">
-      <div className="relative flex h-[85%] w-[85%] overflow-hidden  rounded-3xl bg-[url('/frontend-used-images/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
-        {loginStatusLoading || userLoading ? (
-          <Loading />
-        ) : loginStatus === "gold" ? (
-          <>
-            <section className=" flex h-full w-1/4  flex-col bg-gray-900/20 align-middle ">
-              <button
-                className="relative h-20 w-full rounded-sm  bg-yellow-800/60  p-2  font-Handwriting text-xl text-yellow-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-800 active:shadow-none disabled:bg-yellow-200/80 "
-                onClick={() => setPopover(true)}
-                id={"category-popover"}
-              >
-                <span className="text-red-200">Type of enhancement</span>{" "}
-                <br></br>
-                {enhancerType}
-              </button>
-              <div
-                className={`  h-32 w-full  border-2 border-dashed   transition-all duration-300 hover:bg-gray-400/20 ${
-                  isDragActive ? `bg-red-500/20` : ` bg-gray-800/20`
-                }
+  return (
+    <>
+      <NextSeo
+        title={`Image ${enhancerType} for Restaurants`}
+        description={`An image ${enhancerType} meant for different restaurant images`}
+      />
+      <ChooseEnhancerModal
+        popover={popover}
+        setPopover={setPopover}
+        router={router}
+      />
+      <section className="flex h-screen w-screen items-center justify-center align-middle">
+        <div className="relative flex h-[85%] w-[85%] overflow-hidden  rounded-3xl bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
+          {loginStatusLoading || userLoading ? (
+            <Loading />
+          ) : loginStatus === "gold" ? (
+            <>
+              <section className=" flex h-full w-1/4  flex-col bg-gray-900/20 align-middle ">
+                <button
+                  className="relative h-20 w-full rounded-sm  bg-yellow-800/60  p-2  font-Handwriting text-xl text-yellow-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-800 active:shadow-none disabled:bg-yellow-200/80 "
+                  onClick={() => setPopover(true)}
+                  id={"category-popover"}
+                >
+                  <span className="text-red-200">Type of enhancement</span>{" "}
+                  <br></br>
+                  {enhancerType}
+                </button>
+                <div
+                  className={`  h-32 w-full  border-2 border-dashed   transition-all duration-300 hover:bg-gray-400/20 ${
+                    isDragActive ? `bg-red-500/20` : ` bg-gray-800/20`
+                  }
                 ${
                   isDropboxDisabled
                     ? `border-gray-800/20 bg-gray-500/40`
                     : `cursor-pointer border-yellow-300/40 bg-yellow-500/20`
                 }
                 `}
-                {...getRootProps({})}
-              >
-                <div className=" flex h-full flex-col items-center justify-center space-y-2 align-middle">
-                  <UploadFileIcon
-                    className="h-4 w-4 "
-                    color={isDropboxDisabled ? `disabled` : `action`}
+                  {...getRootProps({})}
+                >
+                  <div className=" flex h-full flex-col items-center justify-center space-y-2 align-middle">
+                    <UploadFileIcon
+                      className="h-4 w-4 "
+                      color={isDropboxDisabled ? `disabled` : `action`}
+                    />
+
+                    <p className="ml-5 text-xs text-gray-500 dark:text-gray-400">
+                      {beforeImage === null ? `Upload Image` : beforeImage.name}
+                    </p>
+                  </div>
+                  <input
+                    {...getInputProps({
+                      id: "dropzone-file",
+                      type: "file",
+                      className: "hidden",
+                    })}
                   />
-
-                  <p className="ml-5 text-xs text-gray-500 dark:text-gray-400">
-                    {beforeImage === null ? `Upload Image` : beforeImage.name}
-                  </p>
                 </div>
-                <input
-                  {...getInputProps({
-                    id: "dropzone-file",
-                    type: "file",
-                    className: "hidden",
-                  })}
-                />
-              </div>
-              {renderFields(enhancerType, optionFields, setOptionFields)}
-              <div className="mt-auto flex h-auto w-full flex-col space-y-4">
-                <animated.button
-                  style={undoUploadButtonStyle}
-                  onClick={handleClearImage}
-                  className={` h-12 w-full  bg-yellow-800/60 p-2 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 ${
-                    beforeImage !== null
-                      ? `pointer-events-auto`
-                      : `pointer-events-none`
-                  }`}
-                >
-                  Clear Upload Image
-                </animated.button>
-
-                <button
-                  className="h-20 w-full rounded-sm bg-yellow-800/60 p-2 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 "
-                  onClick={handleSubmit}
-                >
-                  Submit{" "}
-                </button>
-              </div>
-            </section>
-            <section className="relative h-full w-full ">
-              {error ? (
-                <div className="m-6 flex h-full w-auto flex-col items-center justify-center space-y-6 align-middle md:m-10">
-                  <p className=" text-center text-4xl">{error} </p>
-                  <button
-                    onClick={() => setError(null)}
-                    className={`h-12 w-36 rounded-sm bg-yellow-800/60 p-2  font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 md:w-48 md:text-2xl`}
+                {renderFields(enhancerType, optionFields, setOptionFields)}
+                <div className="mt-auto flex h-auto w-full flex-col space-y-4">
+                  <animated.button
+                    style={undoUploadButtonStyle}
+                    onClick={handleClearImage}
+                    className={` h-12 w-full  bg-yellow-800/60 p-2 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 ${
+                      beforeImage !== null
+                        ? `pointer-events-auto`
+                        : `pointer-events-none`
+                    }`}
                   >
-                    Remove error
+                    Clear Upload Image
+                  </animated.button>
+
+                  <button
+                    className="h-20 w-full rounded-sm bg-yellow-800/60 p-2 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 "
+                    onClick={handleSubmit}
+                  >
+                    Submit{" "}
                   </button>
                 </div>
-              ) : imageToDisplay === null ? null : (
-                <div className="flex h-full w-full flex-col items-center justify-center align-middle">
-                  <div className="relative  z-10 flex h-24 w-full flex-col items-center justify-center rounded-md  bg-yellow-900/20 align-middle transition-all duration-300 hover:bg-yellow-900/10">
-                    <h3 className="font-Handwriting text-4xl text-yellow-700 ">
-                      {imageToDisplay}
-                    </h3>
-                    <div className=" z-10 flex h-auto w-full items-center justify-center align-middle">
-                      <button
-                        onClick={() => setImageToDisplay("Before")}
-                        className=" group  h-auto w-auto duration-300"
-                      >
-                        <ArrowLeft
-                          color={"warning"}
-                          className="!h-8 !w-8 transform opacity-100 transition-opacity duration-300 group-hover:opacity-50"
-                        />
-                      </button>
-                      <button
-                        disabled={
-                          imageToDisplay === "Before" && afterImage === null
-                        }
-                        onClick={() => setImageToDisplay("After")}
-                        className="group  h-auto w-auto"
-                      >
-                        <ArrowRight
-                          color={
+              </section>
+              <section className="relative h-full w-full ">
+                {error ? (
+                  <div className="m-6 flex h-full w-auto flex-col items-center justify-center space-y-6 align-middle md:m-10">
+                    <p className=" text-center text-4xl">{error} </p>
+                    <button
+                      onClick={() => setError(null)}
+                      className={`h-12 w-36 rounded-sm bg-yellow-800/60 p-2  font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-600/60 md:w-48 md:text-2xl`}
+                    >
+                      Remove error
+                    </button>
+                  </div>
+                ) : imageToDisplay === null ? null : (
+                  <div className="flex h-full w-full flex-col items-center justify-center align-middle">
+                    <div className="relative  z-10 flex h-24 w-full flex-col items-center justify-center rounded-md  bg-yellow-900/20 align-middle transition-all duration-300 hover:bg-yellow-900/10">
+                      <h3 className="font-Handwriting text-4xl text-yellow-700 ">
+                        {imageToDisplay}
+                      </h3>
+                      <div className=" z-10 flex h-auto w-full items-center justify-center align-middle">
+                        <button
+                          onClick={() => setImageToDisplay("Before")}
+                          className=" group  h-auto w-auto duration-300"
+                        >
+                          <ArrowLeft
+                            color={"warning"}
+                            className="!h-8 !w-8 transform opacity-100 transition-opacity duration-300 group-hover:opacity-50"
+                          />
+                        </button>
+                        <button
+                          disabled={
                             imageToDisplay === "Before" && afterImage === null
-                              ? "disabled"
-                              : "warning"
                           }
-                          className="group-disabled:transition-none: !h-8 !w-8 transform opacity-100 transition-opacity duration-300 group-hover:opacity-50 "
-                        />
-                      </button>
+                          onClick={() => setImageToDisplay("After")}
+                          className="group  h-auto w-auto"
+                        >
+                          <ArrowRight
+                            color={
+                              imageToDisplay === "Before" && afterImage === null
+                                ? "disabled"
+                                : "warning"
+                            }
+                            className="group-disabled:transition-none: !h-8 !w-8 transform opacity-100 transition-opacity duration-300 group-hover:opacity-50 "
+                          />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="relative flex h-full w-full flex-col">
+                      {transitions((style, item) => {
+                        return (
+                          <animated.section
+                            className={`absolute top-0 left-0 h-full w-full `}
+                            style={style}
+                          >
+                            {determineImageToDisplay(item)}
+                          </animated.section>
+                        );
+                      })}
                     </div>
                   </div>
-                  <div className="relative flex h-full w-full flex-col">
-                    {transitions((style, item) => {
-                      return (
-                        <animated.section
-                          className={`absolute top-0 left-0 h-full w-full `}
-                          style={style}
-                        >
-                          {determineImageToDisplay(item)}
-                        </animated.section>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </section>
-          </>
-        ) : (
-          <div className="flex w-full flex-col items-center justify-center align-middle">
-            <h1 className=" text-center font-Handwriting text-2xl md:text-4xl">
-              You require gold tier to access this page <br></br>
-              <Link href={"/subscribe?tier=gold"} className={"buttons-3"} legacyBehavior>
-                <p className="mt-4 h-full text-center underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
-                  {" "}
-                  Unlock <span className="text-yellow-300">gold</span> tier
-                </p>
-              </Link>
-            </h1>
-          </div>
-        )}
-      </div>
-    </section>
-  </>;
+                )}
+              </section>
+            </>
+          ) : (
+            <div className="flex w-full flex-col items-center justify-center align-middle">
+              <h1 className=" text-center font-Handwriting text-2xl md:text-4xl">
+                You require gold tier to access this page <br></br>
+                <Link
+                  href={"/subscribe?tier=gold"}
+                  className={"buttons-3"}
+                  legacyBehavior
+                >
+                  <p className="mt-4 h-full text-center underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
+                    {" "}
+                    Unlock <span className="text-yellow-300">gold</span> tier
+                  </p>
+                </Link>
+              </h1>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default Index;

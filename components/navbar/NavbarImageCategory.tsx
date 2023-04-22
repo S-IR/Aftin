@@ -33,7 +33,7 @@ const NavbarImageCategory = ({ Category }: props) => {
         >
           <div className="relative m-1 h-[128px] w-[128px]   cursor-pointer rounded-sm shadow-sm shadow-white brightness-75 filter-none  transition duration-300  ease-in-out hover:shadow-md hover:filter ">
             <Image
-              src={`/frontend-used-images/category-images/${Category.catName}/${Category.secondDegCatName}.png`}
+              src={`/category-images/${Category.catName}/${Category.secondDegCatName}.png`}
               alt={`Food ${Category.name}`}
               layout="fill"
             />

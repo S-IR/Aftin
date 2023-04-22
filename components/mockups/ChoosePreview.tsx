@@ -49,7 +49,7 @@ const ChoosePreview = ({ mockupType }: props) => {
             Digital Mockups
           </button>
           <Image
-            src={"/frontend-used-images/mockups/DigitalMockup.png"}
+            src={"/mockups/DigitalMockup.png"}
             alt={"background banner image for digital mock-ups"}
             fill
             style={{ objectFit: "cover" }}
@@ -69,7 +69,7 @@ const ChoosePreview = ({ mockupType }: props) => {
             Physical Mockups
           </button>
           <Image
-            src={"/frontend-used-images/mockups/PhysicalMockup.png"}
+            src={"/mockups/PhysicalMockup.png"}
             alt={"background banner image for physical mock-ups"}
             layout={"fill"}
             style={{ objectFit: "cover" }}

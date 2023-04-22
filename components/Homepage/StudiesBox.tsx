@@ -26,7 +26,7 @@ function StudiesBox() {
           height={612}
           style={{ objectFit: "scale-down" }}
           quality={100}
-          src={"/frontend-used-images/homepage/studiexBoxImg.png"}
+          src={"/homepage/studiexBoxImg.png"}
         />
       </div>
       <div className="mt-[10vh] ml-[15vw] flex flex-col">

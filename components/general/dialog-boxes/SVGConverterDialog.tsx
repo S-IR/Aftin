@@ -177,7 +177,7 @@ const SVGConverterDialog: FC<props> = ({
       }}
       maxWidth="xl"
       PaperProps={{
-        className: `relative flex h-[85vh] w-[85vw] overflow-hidden  rounded-3xl bg-[url('/frontend-used-images/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl`,
+        className: `relative flex h-[85vh] w-[85vw] overflow-hidden  rounded-3xl bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl`,
       }}
     >
       <DialogTitle className="font-Handwriting text-2xl text-white  lg:text-4xl">

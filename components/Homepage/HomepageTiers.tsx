@@ -31,7 +31,8 @@ const HomepageTiers = () => {
       <Image
         className="absolute top-0 left-0 brightness-[25%] filter"
         fill
-        src={"/frontend-used-images/homepage/HomepageTiersBG.png"}
+        quality={100}
+        src={"/homepage/HomepageTiersBG.png"}
         alt={"Background image to present our payment tiers on Aftin Homepage"}
         style={{ objectFit: "fill" }}
       />

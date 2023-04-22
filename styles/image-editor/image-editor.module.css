@@ -2,10 +2,10 @@
   @apply flex cursor-pointer flex-col  items-center justify-center pt-4 text-gray-100 opacity-60 shadow-lg  transition-colors duration-500  hover:opacity-100  hover:shadow-2xl focus:rounded-sm;
 }
 .sidebarBackground {
-  background-image: url("/frontend-used-images/image-editor-sidebar-bg.svg");
+  background-image: url("/image-editor-sidebar-bg.svg");
 }
 .buttonMenusBG {
-  background-image: url("/frontend-used-images/image-editor/buttonMenusBG.svg");
+  background-image: url("/image-editor/buttonMenusBG.svg");
 }
 .generalButton {
   @apply rounded-sm border-t-4 border-orange-700 bg-yellow-800  p-2  font-serif  shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80;

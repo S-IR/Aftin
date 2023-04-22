@@ -23,7 +23,7 @@ const Index: NextPage = () => {
 
   return (
     <section className="flex h-screen w-screen items-center justify-center align-middle">
-      <div className="flex h-[85%] w-[85%]  flex-col items-center justify-center space-y-20 overflow-hidden rounded-lg bg-[url('/frontend-used-images/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
+      <div className="flex h-[85%] w-[85%]  flex-col items-center justify-center space-y-20 overflow-hidden rounded-lg bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
         {loginStatusLoading ? (
           <Loading />
         ) : loginStatus === "gold" ? (
@@ -58,7 +58,11 @@ const Index: NextPage = () => {
           <>
             <h1 className="text-center font-Handwriting text-2xl md:text-4xl">
               You require gold tier to access this page <br></br>
-              <Link href={"/subscribe?tier=gold"} className={"buttons-3"} legacyBehavior>
+              <Link
+                href={"/subscribe?tier=gold"}
+                className={"buttons-3"}
+                legacyBehavior
+              >
                 <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
                   {" "}
                   Unlock <span className="text-yellow-300">gold</span> tier

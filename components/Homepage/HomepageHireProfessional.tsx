@@ -40,7 +40,7 @@ const HomepageHireProfessional = () => {
           style={{ objectFit: "scale-down" }}
           quality={100}
           alt={`Aftin banner for Hire Professional iamge`}
-          src={"/frontend-used-images/homepage/HomepageHireProfessionalImg.png"}
+          src={"/homepage/HomepageHireProfessionalImg.png"}
         />
       </div>
       <div className="absolute top-40 right-28 flex flex-col items-center">

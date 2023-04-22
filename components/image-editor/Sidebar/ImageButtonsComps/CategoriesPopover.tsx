@@ -60,7 +60,7 @@ const CategoriesPopover = ({
                 }
               >
                 <Image
-                  src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
+                  src={`/category-images/${category.catName}/${category.secondDegCatName}.png`}
                   width={48}
                   height={48}
                   style={{ objectFit: `cover` }}
@@ -93,7 +93,7 @@ const CategoriesPopover = ({
                   }
                 >
                   <Image
-                    src={`/frontend-used-images/category-images/${category.catName}/${category.secondDegCatName}.png`}
+                    src={`/category-images/${category.catName}/${category.secondDegCatName}.png`}
                     width={48}
                     height={48}
                     style={{ objectFit: `cover` }}

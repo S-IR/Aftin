@@ -94,10 +94,10 @@ const WebsiteNavbar = (): JSX.Element => {
             </li>
           ))}
         </ul>
-        <Link href={"/"} legacyBehavior>
+        <Link href={"/"}>
           <button className="h-[60px] w-[60px]  rounded-full border-2 border-gray-700/40 transition-all duration-300 hover:border-gray-500/40">
             <Image
-              src={"/frontend-used-images/croppedLogo.png"}
+              src={"/croppedLogo.png"}
               width={60}
               height={60}
               className={"rounded-full"}
@@ -114,7 +114,7 @@ const WebsiteNavbar = (): JSX.Element => {
         <div className=" flex  w-[40vw]  flex-1  items-center justify-end  font-Handwriting ">
           {!user && !userLoading && (
             <button
-              className="buttons-3 !h-8 !w-24 flex-1 text-lg"
+              className="buttons-3 mx-auto !h-8 !w-12 text-lg"
               onClick={() => router.push("/login?form=login")}
             >
               Login
@@ -122,7 +122,7 @@ const WebsiteNavbar = (): JSX.Element => {
           )}
           {!user && !userLoading && (
             <button
-              className="buttons-3 !h-8 !w-24 flex-1 whitespace-nowrap text-lg"
+              className="buttons-3 mx-auto !h-8 !w-auto whitespace-nowrap text-lg"
               onClick={() => router.push("/login?form=signUp")}
             >
               Sign Up
@@ -137,7 +137,7 @@ const WebsiteNavbar = (): JSX.Element => {
             }
           >
             <div className=" border-1 ml-auto mr-8 h-[35px] w-[35px] rounded-full border-dashed border-gray-500">
-              {!userLoading && user && user.photoURL ? (
+              {!userLoading && user && user.photoURL !== null && (
                 <Image
                   src={user.photoURL}
                   width={25}
@@ -145,8 +145,6 @@ const WebsiteNavbar = (): JSX.Element => {
                   alt={"user profile picture"}
                   className={`  mx-2 rounded-full  `}
                 />
-              ) : (
-                <UserCircleIcon className="h-full w-full" />
               )}
             </div>
           </button>

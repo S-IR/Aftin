@@ -10,14 +10,11 @@ import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
 
-
-
 /**
  * Component at the top of homepage
- * @returns 
+ * @returns
  */
 function HomeBanner() {
-
   const { ref: hOneRef, inView: hOneVisible } = useInView({
     triggerOnce: true,
   });
@@ -34,12 +31,12 @@ function HomeBanner() {
         style={hOneStyles}
       >
         <Image
-          src={"/frontend-used-images/homepage/homeBannerImg.png"}
+          src={"/homepage/homeBannerImg.png"}
           alt={"home banner image for Aftin"}
           width={768}
           height={768}
           quality={100}
-          style={{objectFit: "scale-down"}}
+          style={{ objectFit: "scale-down" }}
         />
       </a.div>
       <div className={`relative  max-w-full `}>

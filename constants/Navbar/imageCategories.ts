@@ -92,7 +92,14 @@ export const AdvertImagesLinks: NavbarImageLink[] = [
     catName: "advertisement-images",
     secondDegCatName: "ingredients",
     description:
-      "Fresh Vegetables, fruits, spices and other ingredients that are used in cooking ",
+      "Fresh Vegetables, fruits, spices and other ingredients that are used in cooking.",
+  },
+  {
+    name: "Cutleries and Plates",
+    catName: "advertisement-images",
+    secondDegCatName: "cutleries-and-plates",
+    description:
+      "Knives, forks and other utensils used in restaurant environment.",
   },
   {
     name: "Tables",

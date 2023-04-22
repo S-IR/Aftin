@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import React, { useState } from "react";
-import loginBanner from "../public/frontend-used-images/login/loginBanner.png";
-import aftinLogo from "../public/frontend-used-images/aftinLogoSvg.svg";
+import loginBanner from "../public/login/loginBanner.png";
+import aftinLogo from "../public//aftinLogoSvg.svg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import useAuth from "../hooks/useAuth";

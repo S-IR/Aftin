@@ -29,7 +29,6 @@ export const GraphicDesignsOptions = [
   `menus`,
   `banners`,
   `flyers`,
-  `business-cards`,
   `stickers-and-cliparts`,
   `brochures`,
 ] as const;
@@ -223,11 +222,6 @@ export const banner_type_array = [
   `outdoor-banner`,
 ] as const;
 
-export const business_card_styles_array = [
-  `minimalist`,
-  `elegant`,
-  `professional`,
-] as const;
 export const stickers_and_cliparts_categories = [
   `bread`,
   `burger`,

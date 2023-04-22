@@ -30,14 +30,14 @@ export const previewPhone: mockupTemplate = {
       h: 1080,
       x: 0,
       y: 0,
-      src: "/frontend-used-images/mockups/phoneMockup/1.png",
+      src: "/mockups/phoneMockup/1.png",
     },
     {
       w: 1920,
       h: 1080,
       x: 0,
       y: 0,
-      src: "/frontend-used-images/mockups/phoneMockup/2.png",
+      src: "/mockups/phoneMockup/2.png",
     },
   ],
   sentImgPlacement: [

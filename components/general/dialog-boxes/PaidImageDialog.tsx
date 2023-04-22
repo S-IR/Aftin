@@ -58,7 +58,7 @@ const PaidImageDialog: FC<props> = ({
     >
       <div className="absolute top-0 left-0 h-full w-full  ">
         <Image
-          src="/frontend-used-images/general/premium-popup-banner.png"
+          src="/general/premium-popup-banner.png"
           alt="Paid dialogue box image popup "
           layout="fill"
           objectFit="scale-down"

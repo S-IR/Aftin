@@ -14,7 +14,7 @@ export const tierBenefits: tierBenefit[] = [
     value: "bronze",
     monthPrice: "Free",
     yearPrice: "Free",
-    imgSrc: "/frontend-used-images/homepage/bronze",
+    imgSrc: "/homepage/bronze",
     yearlyPerMonthPrice: "Free",
     benefits: [
       "Thousands of free stock images",
@@ -28,7 +28,7 @@ export const tierBenefits: tierBenefit[] = [
     value: "silver",
     monthPrice: 29.95,
     yearPrice: 287.95,
-    imgSrc: "/frontend-used-images/homepage/silver",
+    imgSrc: "/homepage/silver",
     yearlyPerMonthPrice: 23.95,
     benefits: [
       "Everything that Bronze tier offers",
@@ -42,7 +42,7 @@ export const tierBenefits: tierBenefit[] = [
     monthPrice: 59.95,
     yearPrice: 575.95,
     yearlyPerMonthPrice: 47.95,
-    imgSrc: "/frontend-used-images/homepage/gold",
+    imgSrc: "/homepage/gold",
     benefits: [
       "Everything that Silver tier offers",
       "Access to best stock images and graphic designs",

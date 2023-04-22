@@ -10,7 +10,7 @@ const PremiumIcon = ({ premiumText }: props) => {
   return (
     <div className="absolute bottom-5 right-5 flex items-center justify-center rounded-lg align-middle ">
       <Image
-        src="/frontend-used-images/PremiumIcon.png"
+        src="/PremiumIcon.png"
         width={32}
         height={32}
         alt="Premium image icon"

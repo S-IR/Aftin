@@ -23,7 +23,8 @@ const OurFeatures = () => {
       <Image
         className="absolute top-0 left-0 brightness-[25%] filter"
         layout="fill"
-        src={"/frontend-used-images/homepage/OurFeaturesBG.png"}
+        quality={100}
+        src={"/homepage/OurFeaturesBG.png"}
         alt={"Background image to present our features on Aftin Homepage"}
       />
       <a.h2

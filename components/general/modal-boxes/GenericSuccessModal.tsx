@@ -29,7 +29,7 @@ const GenericSuccessModal = ({
     >
       <Box className=" absolute top-1/2 left-1/2 flex h-3/4 w-3/4 translate-x-[-50%] translate-y-[-50%] flex-col space-y-20 rounded-2xl border-2 border-black ">
         <Image
-          src={`/frontend-used-images/general/GenericSuccessModalBG1.png`}
+          src={`/general/GenericSuccessModalBG1.png`}
           fill
           style={{ objectFit: "cover" }}
           className="-z-10 rounded-xl brightness-50 filter"

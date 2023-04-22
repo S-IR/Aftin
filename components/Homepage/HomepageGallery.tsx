@@ -36,7 +36,7 @@ const HomepageGallery = () => {
                   layout="fill"
                   // width={1920 / 4}
                   // height={1080 / 4}
-                  src={`/frontend-used-images/homepage/homepage-gallery/${list.secondDegCatName}.png`}
+                  src={`/homepage/homepage-gallery/${list.secondDegCatName}.png`}
                   className={
                     " grayscale-[10%] filter transition-all duration-300 group-hover:grayscale-[80%] "
                   }

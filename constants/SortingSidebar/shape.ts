@@ -3,17 +3,17 @@ import { SortOptionType } from "../../typings/image-types/sortTypes";
 const shapeOptions: SortOption[] = [
   {
     name: "Rectangular",
-    imgSrc: "/frontend-used-images/SortingSidebar/shape/rectangular.png",
+    imgSrc: "/SortingSidebar/shape/rectangular.png",
     value: `rectangular`,
   },
   {
     name: "Round",
-    imgSrc: "/frontend-used-images/SortingSidebar/shape/round.png",
+    imgSrc: "/SortingSidebar/shape/round.png",
     value: `round`,
   },
   {
     name: "Square",
-    imgSrc: "/frontend-used-images/SortingSidebar/shape/square.png",
+    imgSrc: "/SortingSidebar/shape/square.png",
     value: `square`,
   },
 ];

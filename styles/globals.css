@@ -75,7 +75,7 @@ h3 {
   background-size: cover;
 }
 .website-theme-image {
-  background-image: url("/frontend-used-images/website-background.png");
+  background-image: url("/website-background.png");
   width: auto;
   background-repeat: repeat;
 }
@@ -84,7 +84,7 @@ h3 {
   background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.89' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
 }
 .logo-svg {
-  background-image: url("/frontend-used-images/aftin-logo-svg.svg");
+  background-image: url("//aftin-logo-svg.svg");
 }
 .links-general {
   @apply bg-orange-400 px-4 text-fuchsia-600 transition duration-300 ease-in-out

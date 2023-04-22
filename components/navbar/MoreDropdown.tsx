@@ -10,6 +10,7 @@ import { auth } from "../../firebase";
 import * as gtag from "../../lib/gtag";
 import { Box } from "@mui/material";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
+import Link from "next/link";
 
 interface props {}
 
@@ -56,30 +57,30 @@ const MoreDropdown = ({}: props) => {
     <animated.div className=" a z-50 mb-10 flex h-auto   w-auto  space-x-28  overflow-hidden rounded-sm p-1">
       <div className="flex w-auto flex-col items-center space-y-2 p-2  ">
         <p className="mb-6 text-xl text-orange-300 ">Edit Images</p>
-        <button
-          onClick={() => router.push("/image-editor")}
+        <Link
+          href={`/image-edito`}
           className="text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Access Image Editor
-        </button>
-        <button
-          onClick={() => router.push("/image-enhancing/upscale")}
+        </Link>
+        <Link
+          href={`/image-enhancing/upscale`}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Increase Image Resolution
-        </button>
-        <button
-          onClick={() => router.push("/preview")}
+        </Link>
+        <Link
+          href={`/preview`}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Preview Image
-        </button>
-        <button
-          onClick={() => router.push("/image-enhancing/deblur")}
+        </Link>
+        <Link
+          href={`/image-enhancing/deblur`}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Deblur Image
-        </button>
+        </Link>
       </div>
       <div className=" flex w-auto flex-col items-center space-y-2">
         <p className=" mb-6 text-xl text-orange-300 ">Professional Designers</p>

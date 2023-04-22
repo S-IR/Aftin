@@ -5,7 +5,7 @@ import { useTrail, animated as a, useSpring, interpolate } from "react-spring";
 
 /**
  * Second component in order from the top of the homepage. Component meant to have a descriptive phrase of the company and some sort of animation in order to entice people to read further
- * @returns 
+ * @returns
  */
 function HomeIntro() {
   const { ref: hTwoRef, inView: hTwoVisible } = useInView({
@@ -62,7 +62,7 @@ function HomeIntro() {
         style={{ ...imageOneStyles, transformOrigin: "bottom" }}
       >
         <Image
-          src={"/frontend-used-images/homepage/homeIntro1.png"}
+          src={"/homepage/homeIntro1.png"}
           width={1024}
           height={1024}
           style={{ objectFit: "none" }}
@@ -78,9 +78,10 @@ function HomeIntro() {
         style={{ ...imageTwoStyles, transformOrigin: "bottom" }}
       >
         <Image
-          src={"/frontend-used-images/homepage/homeIntro2.png"}
+          src={"/homepage/homeIntro2.png"}
           width={1024}
           height={1024}
+          quality={100}
           style={{ objectFit: "none" }}
           className={"overflow-hiddenfilter !h-[1024px] !w-[1024px]"}
           alt={"home intro banner 2 for Aftin"}

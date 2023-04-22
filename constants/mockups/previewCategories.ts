@@ -21,76 +21,76 @@ export const digitalCategories: MockupCategory[] = [
   {
     name: `Phone`,
     value: `phone`,
-    source: "/frontend-used-images/mockups/phone.png",
+    source: "/mockups/phone.png",
   },
   {
     name: `Website`,
     value: `website`,
-    source: "/frontend-used-images/mockups/website.png",
+    source: "/mockups/website.png",
   },
   {
     name: `Facebook Banner`,
     value: `facebook-banner`,
-    source: "/frontend-used-images/mockups/facebook-banner.png",
+    source: "/mockups/facebook-banner.png",
   },
   {
     name: `Twitter Banner`,
     value: `twitter-banner`,
-    source: "/frontend-used-images/mockups/twitter-banner.png",
+    source: "/mockups/twitter-banner.png",
   },
   {
     name: `Facebook Post`,
     value: `facebook-post`,
-    source: "/frontend-used-images/mockups/facebook-post.png",
+    source: "/mockups/facebook-post.png",
   },
   {
     name: `Instagram Post`,
     value: `instagram-post`,
-    source: "/frontend-used-images/mockups/instagram-post.png",
+    source: "/mockups/instagram-post.png",
   },
 ];
 export const dayCategories: MockupCategory[] = [
   {
     name: `In Hand`,
     value: `in-hand-day-environment`,
-    source: "/frontend-used-images/mockups/day-hand.png",
+    source: "/mockups/day-hand.png",
   },
   {
     name: `On Table`,
     value: `on-table-day-environment`,
-    source: "/frontend-used-images/mockups/day-table.png",
+    source: "/mockups/day-table.png",
   },
   {
     name: `On wall`,
     value: `on-wall-day-environment`,
-    source: "/frontend-used-images/mockups/day-wall.png",
+    source: "/mockups/day-wall.png",
   },
   {
     name: `At Entrance`,
     value: `at-entrance-day-environment`,
-    source: "/frontend-used-images/mockups/day-entrance.png",
+    source: "/mockups/day-entrance.png",
   },
 ];
 export const nightCategories: MockupCategory[] = [
   {
     name: `In Hand`,
     value: `in-hand-night-environment`,
-    source: `/frontend-used-images/mockups/night-hand.png`,
+    source: `/mockups/night-hand.png`,
   },
   {
     name: `On Table`,
     value: `on-table-night-environment`,
-    source: `/frontend-used-images/mockups/night-table.png`,
+    source: `/mockups/night-table.png`,
   },
   {
     name: `On wall`,
     value: `on-wall-night-environment`,
-    source: `/frontend-used-images/mockups/night-wall.png`,
+    source: `/mockups/night-wall.png`,
   },
   {
     name: `At Entrance`,
     value: `at-entrance-night-environment`,
-    source: `/frontend-used-images/mockups/night-entrance.png`,
+    source: `/mockups/night-entrance.png`,
   },
 ];
 export const MockupTypeArr = [
