@@ -31,7 +31,7 @@ import { MockupTypeArr } from "../constants/mockups/previewCategories";
 import { useCachedStore } from "../zustand/CachedImageStore/store";
 
 const Home: NextPage = () => {
-  const cachedImage = useCachedStore((store) => store.imgDoc);
+  const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
   return (
     <>
       <Head>

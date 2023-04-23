@@ -36,6 +36,7 @@ import {
   handleEnhanceAPIRequest,
 } from "../../model/client-side/image-enhancing/enhancerFunctions";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
+import { useCachedStore } from "../../zustand/CachedImageStore/store";
 
 interface props {
   enhancerType: enhancerType;
@@ -43,6 +44,12 @@ interface props {
 
 const Index: NextPage<props> = ({ enhancerType }) => {
   const router = useRouter();
+
+  //if the user has been pushed to this route through some sort of image clicking event data about that image will be saved here
+  const [cachedEnhancerImage, clearEnhanceImage] = useCachedStore((store) => [
+    store.imageToEnhance,
+    store.CLEAR_ENHANCE_IMAGE_CACHE,
+  ]);
 
   //state that manages the appearance of the modal box on the screen
   const [popover, setPopover] = useState(false);
@@ -70,6 +77,13 @@ const Index: NextPage<props> = ({ enhancerType }) => {
   useEffect(() => {
     setOptionFields(() => determineDefaultOptionFields(enhancerType));
   }, [router.asPath, enhancerType]);
+
+  useEffect(() => {
+    if (cachedEnhancerImage === null) return;
+    setBeforeImage(cachedEnhancerImage);
+    setImageToDisplay("Before");
+    return clearEnhanceImage;
+  }, [cachedEnhancerImage]);
 
   //this variable detects if there's an uploaded image and saves <it></it>
   const [beforeImage, setBeforeImage] = useState<null | {
@@ -383,8 +397,8 @@ const ImageComponent = ({
           imageDataObj !== null && (
             <NextImage
               src={imageDataObj.src}
-              width={Math.min(imageDataObj.width, window.innerWidth)}
-              height={Math.min(imageDataObj.height, window.innerHeight)}
+              width={Math.min(imageDataObj.width, window.innerWidth / 2)}
+              height={Math.min(imageDataObj.height, window.innerHeight / 2)}
               style={{ objectFit: "scale-down" }}
               className="rounded-sm shadow-sm shadow-black"
               alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for ${enhancerType} `}

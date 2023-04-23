@@ -49,7 +49,7 @@ export const handleEnhanceAPIRequest = async (
   setImageToDisplay("After");
   setAfterImage(null);
 
-  const response = await fetch(`/api/image-transformation/${enhancerType}`, {
+  const response = await fetch(`/api/products/image-tranasformations/${enhancerType}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ image, ...otherFields }),
@@ -62,7 +62,7 @@ export const handleEnhanceAPIRequest = async (
     console.log("prediction", prediction);
 
     await sleep(1000);
-    const response = await fetch(`/api/image-transformation/${prediction.id}`);
+    const response = await fetch(`/api/products/image-tranasformations/${prediction.id}`);
     prediction = await response.json();
 
     if (response.status === 500) {

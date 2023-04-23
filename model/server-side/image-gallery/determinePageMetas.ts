@@ -54,7 +54,7 @@ export const determinePageMetas = (
     ? "/restaurant-advertisement-images"
     : `/restaurant-graphic-designs`;
 
-  let secondDegCatWords = secondDegCat.replace("-", " ").split(" ");
+  let secondDegCatWords = secondDegCat.replaceAll("-", " ").split(" ");
   for (let i = 0; i < secondDegCatWords.length; i++) {
     secondDegCatWords[i] =
       secondDegCatWords[i][0].toUpperCase() + secondDegCatWords[i].substr(1);

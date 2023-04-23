@@ -2,7 +2,7 @@ import { Dialog, DialogContent, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { Box } from "@mui/system";
 import { getDownloadURL, ref } from "firebase/storage";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { BiDollar, BiDollarCircle } from "react-icons/bi";
@@ -23,22 +23,22 @@ import { useCanvasState } from "../../../zustand/CanvasStore/store";
 import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 
 import Button from "../Button";
-import LoginFirstDialog from "./LoginFirstDialog";
 import Loading from "../Loading";
 import { galleryImageDialog } from "../SiteGallery";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
+import { useCachedStore } from "../../../zustand/CachedImageStore/store";
 
 interface props {
-  doc: ImgDoc;
-  dialogName: galleryImageDialog["name"] | null;
+  dialogName: null | galleryImageDialog["name"];
+  doc: null | ImgDoc;
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   isMobile: boolean;
 }
 
 const FreeImageDialog: FC<props> = ({
-  doc,
   dialogName,
+  doc,
   setDialog,
   loginStatus,
   isMobile,
@@ -52,6 +52,12 @@ const FreeImageDialog: FC<props> = ({
     state.CHANGE_MODAL_TYPE,
   ]);
 
+  // used when a person click on the 'upscale image' button
+  const [addEnhanceImageToCache] = useCachedStore((store) => [
+    store.ADD_ENHANCE_IMAGE_TO_CACHE,
+  ]);
+
+  if (doc === undefined || doc === null) return <></>;
   return (
     <>
       <Dialog
@@ -131,17 +137,32 @@ const FreeImageDialog: FC<props> = ({
               <button
                 className="text-md  rounded-sm bg-yellow-700 p-2 text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-yellow-500 hover:shadow-none"
                 onClick={() => {
-                  window.gtag(
-                    "event",
-                    "redirected_to_upscale_through_siteGallery",
-                    {
-                      secondDegCat,
-                      imageRef: doc.url.replace(
-                        "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
-                        ""
-                      ),
-                    }
-                  );
+                  switch (loginStatus) {
+                    case "gold":
+                      window.gtag(
+                        "event",
+                        "redirected_to_upscale_through_siteGallery",
+                        {
+                          secondDegCat,
+                          imageRef: doc.url.replace(
+                            "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                            ""
+                          ),
+                        }
+                      );
+                      addEnhanceImageToCache({
+                        src: doc.tier === "bronze" ? doc.url : doc.real_url,
+                        name: doc.tier === "bronze" ? doc.url : doc.real_url,
+                        width: doc.width,
+                        height: doc.height,
+                      });
+                      return router.push("/image-enhancing/upscale");
+                    case "not logged in":
+                    case "unauthorized":
+                      return setDialog({ name: "login", imgDoc: doc });
+                    default:
+                      return setDialog({ name: "paid", imgDoc: doc });
+                  }
                 }}
               >
                 Upscale Image
@@ -151,13 +172,13 @@ const FreeImageDialog: FC<props> = ({
               id="modal-modal-description"
               src={doc.url}
               width={
-                isMobile ? Math.min(doc.width, 280) : Math.min(doc.width, 512)
+                isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
               }
               height={
-                isMobile ? Math.min(doc.height, 280) : Math.min(doc.height, 384)
+                isMobile ? Math.min(doc.height, 256) : Math.min(doc.height, 384)
               }
               style={{ objectFit: `scale-down` }}
-              className=" overflow-hidden rounded-sm "
+              className="mx-auto overflow-hidden  rounded-sm lg:mx-0  "
               alt={doc.description}
             />
           </div>

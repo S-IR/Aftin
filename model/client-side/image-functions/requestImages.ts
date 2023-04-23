@@ -38,11 +38,11 @@ export const requestImageDocs = async (
   const res: Response = await fetch(
     `${
       process.env.NEXT_PUBLIC_server
-    }/api/requestImagesAPI?${new URLSearchParams({
+    }/api/products/images/commercial-images?${new URLSearchParams({
       firstDegreeCategory,
       secondDegreeCategory,
       thirdDegreeCategory,
-      rowRequested: rowRequested.toString(),
+      rowRequested: rowRequested === null ? `0` : rowRequested.toString(),
       ...queryData,
     })}`
   );

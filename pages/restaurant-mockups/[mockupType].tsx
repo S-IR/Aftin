@@ -1,4 +1,4 @@
-import { GetStaticPaths, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -26,9 +26,12 @@ const PreviewDropzoneComp = dynamic(
   }
 );
 
-const Index: NextPage = () => {
+interface props {
+  mockupType: MockupType;
+}
+
+const Index: NextPage = ({ mockupType }: props) => {
   const router = useRouter();
-  const mockupType = router.query.mockupType as MockupType;
   const metas = determineMockupMeta(mockupType);
   const images = useMockupsStore((state) => state.images);
   const areThereImages = images.length > 0;
@@ -66,5 +69,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: paths,
     fallback: false,
+  };
+};
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const mockupType = params ? params.mockupType : undefined;
+  return {
+    // Passed to the page component as props
+    props: { mockupType },
   };
 };

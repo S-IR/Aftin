@@ -92,7 +92,7 @@ export const checkImageGalleryClick = (
   const isNotLoggedIn =
     loginStatus === "not logged in" || loginStatus === "unauthorized";
   if (isNotLoggedIn) {
-    setDialog({ name: "login", doc });
+    setDialog({ name: "login", imgDoc: doc });
     return false;
   } else if (internalServerError) {
     changeModalType("server-error");
@@ -102,7 +102,7 @@ export const checkImageGalleryClick = (
     (loginStatus === "bronze" && doc.tier === "gold") ||
     (loginStatus === "silver" && doc.tier === "gold")
   ) {
-    setDialog({ name: `paid`, doc });
+    setDialog({ name: `paid`, imgDoc: doc });
     return false;
   } else {
     return true;
@@ -141,11 +141,10 @@ const determinePreviewRoute = (
     case "stickers-and-cliparts":
       return "website";
     case "menus":
-    case "business-cards":
     case "flyers":
     case "brochures":
       return "in-hand-day-environment";
     case "banners":
-      return "facebook-banner";
+      return "website";
   }
 };

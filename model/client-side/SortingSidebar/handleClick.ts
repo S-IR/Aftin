@@ -4,15 +4,17 @@ import { NextRouter } from "next/router";
  * @param value the value that you want the sort to change into
  * @param modified_value the sort category that you want to change
  * @param router react router. Used to change the query string
+ * @param isThirdDegreeCategory
  * @returns
  */
 export const handleOptionClick = (
   value: string,
   modified_value: string,
   router: NextRouter,
-  isThirdDegreeCategory?: true
+  isThirdDegreeCategory?: boolean
 ) => {
-  if (thirdDegreeCategory) return;
+  // if it is a third degree category then the sort option should already be wrapper in a link component that will redirect the user to the proper place. I did this for SEO purposes
+  if (isThirdDegreeCategory) return;
 
   const { [`subCat`]: remove, ...queryParams } = router.query;
 

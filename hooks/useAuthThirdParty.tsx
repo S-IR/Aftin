@@ -44,7 +44,7 @@ export default function useAuthThirdParty() {
       createUserDoc(uid, email, username, "bronze");
       //sending the request to set cookie
       const token = await result.user.getIdToken();
-      await fetch("/api/login", {
+      await fetch("/api/users/actions/login", {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",

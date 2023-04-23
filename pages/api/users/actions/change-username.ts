@@ -4,7 +4,10 @@ import "firebase/compat/firestore";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { sendPasswordReset, sendVerificationEmail } from "../../firebaseAdmin";
+import {
+  sendPasswordReset,
+  sendVerificationEmail,
+} from "../../../../firebaseAdmin";
 
 export default async function handler(
   req: NextApiRequest,

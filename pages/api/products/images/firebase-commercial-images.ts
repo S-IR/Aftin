@@ -2,17 +2,17 @@
 
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../firebase";
+import { db } from "../../../../firebase";
 import {
   GraphicDesignsOptions,
   ImgDoc,
   Valid_image_fields,
-} from "../../typings/image-types/ImageTypes";
-import { valid_image_fields } from "../../typings/image-types/ImageTypes";
+} from "../../../../typings/image-types/ImageTypes";
+import { valid_image_fields } from "../../../../typings/image-types/ImageTypes";
 import {
   firstDegCat_schema,
   secondDegCat_schema,
-} from "../../typings/image-types/imageZodSchemas";
+} from "../../../../typings/image-types/imageZodSchemas";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

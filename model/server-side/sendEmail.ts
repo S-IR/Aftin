@@ -1,6 +1,6 @@
 export async function verifyEmail(userEmail: string): Promise<Response> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_server}/api/emailVerification`,
+    `${process.env.NEXT_PUBLIC_server}/api/users/send-email-verification`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -23,7 +23,7 @@ export async function verifyEmail(userEmail: string): Promise<Response> {
  */
 export async function resetPassword(userEmail: string): Promise<Response> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_server}/api/passwordReset`,
+    `${process.env.NEXT_PUBLIC_server}/api/users/actions/reset-password`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -41,7 +41,7 @@ export async function resetPassword(userEmail: string): Promise<Response> {
 
 export async function changeUsername(userEmail: string): Promise<Response> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_server}/api/changeUsername`,
+    `${process.env.NEXT_PUBLIC_server}/api/users/actions/change-username`,
     {
       method: "POST",
       body: JSON.stringify({

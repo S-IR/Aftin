@@ -14,7 +14,6 @@ import { dehydrate, QueryClient } from "react-query";
 import SiteGallery from "../../components/general/SiteGallery";
 import SortingSidebar from "../../components/general/SortingSidebar";
 import { requestImageDocs } from "../../model/client-side/image-functions/requestImages";
-import { confirmValidUrlParams } from "../../model/client-side/image-gallery/confirmValidUrlParams";
 import { determinePageMetas } from "../../model/server-side/image-gallery/determinePageMetas";
 import { queryImagesServerSide } from "../../model/server-side/image-gallery/queryImagesServerSide";
 import {
@@ -22,6 +21,7 @@ import {
   SecondDegreeCategory,
   ThirdDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
+import { isValidUrlParams } from "../../model/client-side/image-gallery/confirmValidUrlParams";
 
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
@@ -58,12 +58,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   params,
 }) => {
-  const urlStatus = confirmValidUrlParams(params.imageCategory);
-  if (
-    urlStatus === "invalid" ||
-    params === undefined ||
-    params.imageCategory === undefined
-  ) {
+  if (params === undefined || params.imageCategory === undefined) {
+    return {
+      notFound: true,
+    };
+  }
+  const validParamsCheck = isValidUrlParams(params.imageCategory);
+  if (!validParamsCheck) {
     return {
       notFound: true,
     };

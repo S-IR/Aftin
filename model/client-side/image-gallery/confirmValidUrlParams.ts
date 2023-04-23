@@ -17,32 +17,35 @@ import {
   tables_schema,
 } from "../../../typings/image-types/imageZodSchemas";
 
-export const confirmValidUrlParams = (
+/**
+ * Determines if the accessed image url is a valid url page
+ * @param imageCategory the string or the string array containing the second degree category and the third degree catgory name
+ * @returns "invalid" | "valid"
+ */
+export const isValidUrlParams = (
   imageCategory: string[] | undefined | string
-): "invalid" | "valid" => {
+): boolean => {
   if (imageCategory === undefined || typeof imageCategory === "string")
-    return "invalid";
+    return false;
 
-  if (imageCategory.length === 0) return "invalid";
+  if (imageCategory.length === 0) return false;
 
   if (imageCategory.length === 1) {
-    if (!secondDegCat_schema.safeParse(imageCategory[0]).success)
-      return "invalid";
+    if (!secondDegCat_schema.safeParse(imageCategory[0]).success) return false;
   }
 
   if (imageCategory.length === 2) {
-    if (!secondDegCat_schema.safeParse(imageCategory[0]).success)
-      return "invalid";
+    if (!secondDegCat_schema.safeParse(imageCategory[0]).success) return false;
     const zodSchema = determineZodSchema(
       imageCategory[0] as SecondDegreeCategory
     );
 
-    if (!zodSchema.safeParse(imageCategory[1]).success) return "invalid";
+    if (!zodSchema.safeParse(imageCategory[1]).success) return false;
   }
   if (imageCategory.length > 2) {
-    return "invalid";
+    return false;
   }
-  return "valid";
+  return true;
 };
 
 const determineZodSchema = (
@@ -54,8 +57,6 @@ const determineZodSchema = (
     case "banners":
       return gr_des_style_schema;
     case "brochures":
-      return gr_des_style_schema;
-    case "business-cards":
       return gr_des_style_schema;
     case "cutleries-and-plates":
       return cutleries_and_plates_schema;

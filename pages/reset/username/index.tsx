@@ -32,7 +32,7 @@ const Index = () => {
     if (!user) return;
     const token = await user.getIdToken();
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_server}/api/changeUsername`,
+      `${process.env.NEXT_PUBLIC_server}/api/users/actions/change-username`,
       { method: `POST`, body: token }
     );
     switch (res.status) {

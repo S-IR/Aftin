@@ -46,7 +46,7 @@ import {
 import { AdvertImagesOptionsSchema } from "../../../typings/image-types/imageZodSchemas";
 import { SortOptionType } from "../../../typings/image-types/sortTypes";
 /**
- * Determines which sort options should be displayed
+ * Determines which sorting options should be displayed
  * @param secondDegCat the secondDegCategory that you want to determine which sorting parameters it should have
  * @returns
  */
@@ -176,13 +176,6 @@ export const determineSorts = (
         icon: <Restaurant style={{ color: `gold` }} />,
       };
       banner_type = true;
-      break;
-    case `business-cards`:
-      thirdDegreeCategory = {
-        title: "Business Card Type",
-        optionsArray: grDesStyleOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
-      };
       break;
     case `stickers-and-cliparts`:
       thirdDegreeCategory = {

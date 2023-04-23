@@ -23,7 +23,7 @@ const Index: NextPage = () => {
       const token = await user.getIdToken();
 
       const fetchRes = await fetch(
-        `${process.env.NEXT_PUBLIC_server}/api/checkUserStatus`,
+        `${process.env.NEXT_PUBLIC_server}/api/users/user-status`,
         { method: `POST`, body: token }
       ).catch((err: FirebaseError) => console.log(err));
       if (fetchRes === undefined)

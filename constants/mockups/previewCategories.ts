@@ -28,26 +28,6 @@ export const digitalCategories: MockupCategory[] = [
     value: `website`,
     source: "/mockups/website.png",
   },
-  {
-    name: `Facebook Banner`,
-    value: `facebook-banner`,
-    source: "/mockups/facebook-banner.png",
-  },
-  {
-    name: `Twitter Banner`,
-    value: `twitter-banner`,
-    source: "/mockups/twitter-banner.png",
-  },
-  {
-    name: `Facebook Post`,
-    value: `facebook-post`,
-    source: "/mockups/facebook-post.png",
-  },
-  {
-    name: `Instagram Post`,
-    value: `instagram-post`,
-    source: "/mockups/instagram-post.png",
-  },
 ];
 export const dayCategories: MockupCategory[] = [
   {

@@ -392,6 +392,6 @@ export const useTemporalCanvasState = <T extends unknown>(
 ) => useStore(useCanvasState.temporal, selector, equality);
 
 if (process.env.NODE_ENV === "development") {
-  mountStoreDevtool("Store", useCanvasState);
+  mountStoreDevtool("CanvasStore", useCanvasState);
   // mountStoreDevtool("tempStore", useTemporalCanvasState);
 }

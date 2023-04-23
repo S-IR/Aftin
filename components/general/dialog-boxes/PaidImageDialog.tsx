@@ -19,16 +19,16 @@ import { useRouter } from "next/router";
 import { galleryImageDialog } from "../SiteGallery";
 
 interface props {
-  doc: ImgDoc;
-  dialog: null | galleryImageDialog;
+  dialogName: null | galleryImageDialog["name"];
+  doc: null | ImgDoc;
   setDialog: React.Dispatch<React.SetStateAction<null | galleryImageDialog>>;
   loginStatus: LoginStatus;
   secondDegCat?: SecondDegreeCategory;
 }
 
 const PaidImageDialog: FC<props> = ({
+  dialogName,
   doc,
-  dialog,
   setDialog,
   loginStatus,
   secondDegCat,
@@ -36,10 +36,10 @@ const PaidImageDialog: FC<props> = ({
   const router = useRouter();
   if (secondDegCat === undefined)
     secondDegCat = router.query.secondDegCat as SecondDegreeCategory;
-
+  if (doc === null) return <></>;
   return (
     <Dialog
-      open={dialog !== null && dialog.name === "paid"}
+      open={doc !== null && dialogName === "paid"}
       onClose={(_, reason) => {
         if (reason === "backdropClick") return setDialog(null);
       }}

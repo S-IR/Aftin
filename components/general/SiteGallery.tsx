@@ -43,6 +43,9 @@ export type galleryImageDialog = {
   imgDoc: ImgDoc | null;
 };
 
+/**
+ * The masonry layout that appears when you want to display any number of commercial images
+ */
 const SiteGallery: FC<props> = ({ showSidebar }) => {
   // request image docs code
   const router = useRouter();
@@ -109,7 +112,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   // login status code
 
   const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
-    ["getUserStatus", user?.uid, userLoading],
+    ["getUserStatus", user?.uid],
     () => fetchUserStatus(user),
     {
       staleTime: 1000 * 60 * 60,
@@ -133,6 +136,13 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   if (isLoading || isLoading || !data || !isFetched) {
     return <Loading />;
   }
+
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
+  useEffect(() => {
+    console.log("error", error);
+  }, [error]);
 
   if (error) {
     return <div>{error.message} </div>;
@@ -159,7 +169,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
           type="text"
           onKeyDown={(e) => handleDescriptionEnter(e)}
           placeholder="Describe what you need "
-          className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  md:!w-1/2"
+          className="searchbox my-10 !ml-1 h-8  !w-48 !text-center  shadow-sm shadow-gray-700 md:!w-1/2 "
           defaultValue={description}
         />
       </div>
@@ -224,20 +234,20 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       {dialog !== null && (
         <>
           <LoginFirstDialog
-            dialog={dialog}
+            dialogName={dialog.name}
             setDialog={setDialog}
             imgDoc={dialog.imgDoc as ImgDoc}
           />
           <FreeImageDialog
-            doc={dialog.imgDoc as ImgDoc}
             dialogName={dialog.name}
+            doc={dialog.imgDoc}
             setDialog={setDialog}
             loginStatus={loginStatus}
             isMobile={isMobile}
           />
           <PaidImageDialog
-            doc={dialog.imgDoc as ImgDoc}
-            dialog={dialog}
+            dialogName={dialog.name}
+            doc={dialog.imgDoc}
             setDialog={setDialog}
             loginStatus={loginStatus}
           />

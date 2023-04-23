@@ -118,7 +118,7 @@ const SVGConverterDialog: FC<props> = ({
     }
     setImageToDisplay("After");
     const userToken = await user.getIdToken();
-    const res = await fetch("/api/image-transformation/toSVG", {
+    const res = await fetch("/api/products/image-tranasformations/toSVG", {
       method: "POST",
       credentials: "include",
       headers: {

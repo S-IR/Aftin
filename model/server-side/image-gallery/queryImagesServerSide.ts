@@ -11,15 +11,16 @@ import {
 import { requestImageDocs } from "../../client-side/image-functions/requestImages";
 
 /**
- * Requests images for the website gallery component
+ * Requests images server side for the website gallery component
  * @param url The url the request is coming from
  * @param params URl params
- * @returns
+ * @returns dehydrated state of query client
  */
 export const queryImagesServerSide = async (
   url: IncomingMessage[`url`],
   params: ParsedUrlQuery
 ) => {
+  //sets the react query client object
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -30,16 +31,21 @@ export const queryImagesServerSide = async (
     },
   });
 
+  // gets the first, second and third degree categories
+  if (url === undefined) return undefined;
   let firstDegreeCategory: FirstDegreeCategory = url.includes(
     "advertisement-images"
   )
     ? "advertisement-images"
     : "graphic-designs";
+
   const { imageCategory, ...queryParams } = params;
-  const secondDegreeCategory = params.imageCategory[0] as SecondDegreeCategory;
+  if (imageCategory === undefined) return undefined;
+  const secondDegreeCategory = imageCategory[0] as SecondDegreeCategory;
+
   const thirdDegreeCategory =
-    params.imageCategory?.length > 0
-      ? (params.imageCategory[1] as ThirdDegreeCategory)
+    Array.isArray(imageCategory) && imageCategory?.length > 1
+      ? (imageCategory[1] as ThirdDegreeCategory)
       : "no-third-category";
 
   const cacheName =
@@ -68,7 +74,7 @@ export const queryImagesServerSide = async (
       structuralSharing: true,
     }
   );
-  queryClient.setQueryData(`${secondDegreeCategory}`, (data) => ({
+  queryClient.setQueryData(`${secondDegreeCategory}`, (data: any) => ({
     ...data,
     pageParams: [],
   }));

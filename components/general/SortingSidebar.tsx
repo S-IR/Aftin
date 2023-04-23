@@ -68,6 +68,9 @@ interface props {
   toggleSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 //Changes the url query for the gallery
+/**
+ * The sorting sidebar that appears on the website gallery pages
+ */
 const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
   const router = useRouter();
   const secondDegreeCategory = router.query
@@ -78,7 +81,6 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
     ? (tags.split(";") as (typeof tagsArray)[number][])
     : null;
 
-  console.log("thirdDe");
   const {
     thirdDegreeCategory,
     size,
@@ -97,11 +99,11 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
 
   return (
     <section
-      className={`scroll fixed mr-2 mt-8  w-[216px] min-w-[40px]  md:mt-0 md:bg-none ${
+      className={`scroll fixed mr-2 mt-0 w-[216px]  min-w-[40px] lg:mt-8  ${
         showSidebar
-          ? `z-50 overflow-y-scroll border-r-4 border-black/30 bg-black  md:bg-none `
-          : `z-0 overflow-hidden border-r-0 bg-none`
-      }  scrollbar h-max    transition-all duration-300  `}
+          ? `z-50 overflow-y-scroll border-r-4 border-black/30 bg-black  lg:bg-transparent `
+          : `z-0 overflow-hidden border-r-0 `
+      }  scrollbar h-max transition-transform duration-300 md:transition-none  `}
     >
       {showSidebar ? (
         <></>
@@ -134,7 +136,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
           </button>
         </Tooltip>
         <div className="mt-3 flex h-16 w-full items-center  ">
-          <h2 className=" ml-3  h-min w-full text-center   font-serif text-2xl text-white md:text-xl ">
+          <h2 className=" ml-3  h-min w-full text-center font-Handwriting   text-2xl text-white md:text-xl ">
             Filters
           </h2>
         </div>

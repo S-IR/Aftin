@@ -2,8 +2,8 @@ import * as admin from "firebase-admin";
 import { doc, getDoc } from "firebase/firestore";
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../firebase";
-import { getUserTier } from "../../firebaseAdmin";
+import { db } from "../../../firebase";
+import { getUserTier } from "../../../firebaseAdmin";
 
 export default async function handler(
   req: NextApiRequest,
