@@ -6,7 +6,6 @@ import {
   MdRotateRight,
 } from "react-icons/md";
 import { fontFamilies } from "../../../constants/image-editor/fontFamilies";
-import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
 
 import {
   Dialog,
@@ -21,17 +20,21 @@ import {
   TextField,
   MenuItem,
   InputAdornment,
+  Alert,
 } from "@mui/material";
-import { BiColorFill, BiFontSize } from "react-icons/bi";
+import { BiColorFill, BiFontColor, BiFontSize } from "react-icons/bi";
 import { fillColors } from "../../../constants/image-editor/fillColors";
 import { fontSizes } from "../../../constants/image-editor/fontSizes";
 
-import { textFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import SelectComp from "../../general/SelectComp";
 import { Delete } from "@mui/icons-material";
-import { textFilterProperties } from "../../../zustand/textHandlers";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import {
+  canvasSelected,
+  useCanvasState,
+} from "../../../zustand/CanvasStore/store";
+import { textFilterProperties } from "../../../zustand/CanvasStore/textHandlers";
+import { textData } from "../../../zustand/CanvasStore/textHandlers";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 
 interface props {
   textData: textData;
@@ -47,25 +50,22 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
     CHANGE_FONT_VARIANT,
     CHANGE_STROKE_WIDTH,
     CHANGE_STROKE_COLOR,
-
     DELETE_ELEMENT,
-  ] = useCanvasState(
-    useCallback(
-      (state) => [
-        state.CHANGE_TEXT,
-        state.CHANGE_FONT_SIZE,
-        state.CHANGE_FONT_FAMILY,
-        state.CHANGE_FONT_COLOR,
-        state.CHANGE_FONT_VARIANT,
-        state.CHANGE_STROKE_WIDTH,
-        state.CHANGE_STROKE_COLOR,
-
-        state.DELETE_ELEMENT,
-      ],
-      []
-    )
-  );
-
+  ] = useCanvasState((state) => [
+    state.CHANGE_TEXT,
+    state.CHANGE_FONT_SIZE,
+    state.CHANGE_FONT_FAMILY,
+    state.CHANGE_FONT_COLOR,
+    state.CHANGE_FONT_VARIANT,
+    state.CHANGE_STROKE_WIDTH,
+    state.CHANGE_STROKE_COLOR,
+    state.DELETE_ELEMENT,
+  ]);
+  const [deleteWarningHappened, setDeleteWarningHappened] = useState(false);
+  const [changeModalText, changeModalType] = useModalStore((store) => [
+    store.CHANGE_MODAL_TEXT,
+    store.CHANGE_MODAL_TYPE,
+  ]);
   const { page: pageId, element: elementId } = selected as {
     page: number;
     element: number;
@@ -75,12 +75,15 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
     <>
       {/* change text */}
       <TextField
-        className=" mb-2 mt-6 w-full cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800   shadow-md shadow-black  transition-all duration-300 hover:shadow-sm active:shadow-none "
+        className=" cursor-pointer!border-t-4 mx-2 mb-2 mt-6  !w-[90%] !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800     transition-all duration-300 hover:shadow-sm active:shadow-none "
         InputLabelProps={{
-          className: `text-black flex items-center justify-center align-middle italic mt-3`,
+          className: `text-white flex items-center justify-center align-middle italic mt-2`,
         }}
         id="select-text"
         label="Change Text"
+        InputProps={{
+          className: "text-white",
+        }}
         defaultValue={textData.text}
         variant="outlined"
         onKeyDown={(e) => {
@@ -95,17 +98,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
       {/* Font family selector */}
       {/* I cannot refactor this as a select component due to the fact that I need to separate the list of options in two  */}
 
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { my: 2, width: "full" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
+      <Box component="form" noValidate autoComplete="off">
         <div>
           <TextField
-            className=" w-full cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800 shadow-md shadow-black transition-all duration-300  hover:shadow-sm active:shadow-none "
+            className="  mx-2 w-[90%] cursor-pointer  bg-gradient-to-b from-yellow-700 to-yellow-800 transition-all duration-300  hover:shadow-sm active:shadow-none "
             id={`select-font-family`}
             variant="filled"
             multiline={true}
@@ -113,12 +109,13 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
             fullWidth={true}
             select
             InputLabelProps={{
-              className: `text-black flex items-center justify-center align-middle italic`,
+              className: `text-white flex items-center justify-center align-middle italic`,
             }}
             InputProps={{
+              className: "text-white",
               startAdornment: (
                 <InputAdornment position="start">
-                  {<MdFontDownload className="mb-4 h-4 w-4" />}
+                  {<MdFontDownload color="white" className="mb-4 h-4 w-4" />}
                 </InputAdornment>
               ),
             }}
@@ -167,7 +164,7 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
       {/* Font size selector */}
       <SelectComp
         label="Font Size"
-        Icon={<BiFontSize className="mb-4 h-4 w-4" />}
+        Icon={<BiFontSize color="white" className="mb-4 h-4 w-4" />}
         onChangeFunction={(e) => {
           CHANGE_FONT_SIZE(pageId, elementId, Number(e.target.value));
         }}
@@ -182,7 +179,7 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
       {/* Font variant selector */}
       <SelectComp
         label="Font Variant"
-        Icon={<BiFontSize className="mb-4 h-4 w-4" />}
+        Icon={<BiFontColor color="white" className="mb-4 h-4 w-4" />}
         onChangeFunction={(e) =>
           CHANGE_FONT_VARIANT(pageId, elementId, e.target.value)
         }
@@ -205,10 +202,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* Color picker */}
       <TextField
-        className="my-2 w-full cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800 shadow-md shadow-black   transition-all duration-300  hover:shadow-sm active:shadow-none  "
+        className="cursor-pointer!border-t-4 my-2 mx-2  !w-[90%] !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800    transition-all duration-300  hover:shadow-sm active:shadow-none  "
         type={"color"}
         InputLabelProps={{
-          className: `text-black flex items-center justify-center align-middle italic mt-3`,
+          className: `text-white flex items-center justify-center align-middle italic mt-2`,
         }}
         id="select-color"
         label="Color"
@@ -221,9 +218,12 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* stroke width */}
       <TextField
-        className="my-2 w-full cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800 shadow-md shadow-black transition-all duration-300  hover:shadow-sm active:shadow-none "
+        className="my-2 mx-2 !w-[90%] cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800  transition-all duration-300  hover:shadow-sm active:shadow-none "
         InputLabelProps={{
-          className: `text-black flex items-center justify-center align-middle italic mt-3`,
+          className: `text-white flex items-center justify-center align-middle italic mt-2`,
+        }}
+        inputProps={{
+          className: "text-white",
         }}
         id="select-stroke-width"
         label="Stroke Width"
@@ -236,10 +236,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* stroke color */}
       <TextField
-        className="my-2 w-full cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800 shadow-md shadow-black   transition-all duration-300  hover:shadow-sm active:shadow-none  "
+        className="my-2 mx-2 !w-[90%] cursor-pointer !border-t-4 !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800    transition-all duration-300  hover:shadow-sm active:shadow-none  "
         type={"color"}
         InputLabelProps={{
-          className: `text-black flex  items-center justify-center align-middle italic mt-3`,
+          className: `text-white flex  items-center justify-center align-middle italic mt-2`,
         }}
         id="select-stroke-color"
         label="Stroke Color"
@@ -249,21 +249,28 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
           CHANGE_STROKE_COLOR(pageId, elementId, e.target.value as `#${string}`)
         }
       />
-      <div className="flex items-center justify-center align-middle ">
+
+      <div className=" mx-2 mt-6 flex w-[90%] justify-center">
         <button
-          className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
-          // onClick={(e) => handleDelete(dispatch, pageId, elementId)}
+          className=" flex h-12  w-full items-center justify-start bg-yellow-900 bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
+          onClick={(e) => {
+            if (pageId === 0 && elementId === 0 && !deleteWarningHappened) {
+              return setDeleteWarningHappened(true);
+            }
+            setDeleteWarningHappened(false);
+            DELETE_ELEMENT(pageId, elementId);
+          }}
         >
-          Replace
-        </button>
-        <button
-          className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
-          onClick={(e) => DELETE_ELEMENT(pageId, elementId)}
-        >
-          <Delete className="m-2 h-8 w-8" />
+          <Delete className=" ml-6 mb-0 h-8 w-8" />
           Delete Component
         </button>
       </div>
+      {deleteWarningHappened === true ? (
+        <Alert className="!max-w-full !rounded-none  " severity="error">
+          If you delete this component all of your editing progress on the page
+          will be lost. Click again on the delete button if you want to continue
+        </Alert>
+      ) : null}
     </>
   );
 };

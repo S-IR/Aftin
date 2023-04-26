@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { FaAngleDoubleLeft, FaIcons } from "react-icons/fa";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaIcons } from "react-icons/fa";
 import { BiText, BiPalette } from "react-icons/bi";
 import { MdOutlineDoubleArrow, MdOutlineDraw } from "react-icons/md";
 import {
@@ -22,14 +22,11 @@ import { Layers, Panorama } from "@mui/icons-material";
 import { DropzoneComp } from "../../components/image-editor";
 import { useSpring, animated, useTransition } from "react-spring";
 import LayoutButtons from "../../components/image-editor/Sidebar/LayoutButtons";
-import {
-  canvasElement,
-  canvasPagesCount,
-} from "../../features/canvasPages/canvas-elements/canvasPageSlice";
+
 import { Tooltip } from "@mui/material";
 import { activeSidebarType } from "../../components/image-editor/Sidebar/SidebarIcon";
 import { ButtonMenuSwitch } from "../../model/client-side/image-editor/ButtonMenus";
-import { useCanvasState } from "../../zustand/CanvasStore/store";
+import { canvasElement, useCanvasState } from "../../zustand/CanvasStore/store";
 const Canvas = dynamic(() => import("../../components/image-editor/Canvas"), {
   ssr: false,
 });
@@ -62,7 +59,7 @@ const Index: NextPage = () => {
       <div className="flex w-full ">
         <div className="fixed flex">
           <animated.section
-            className={`flex h-[90vh] w-[25vw]  flex-col  items-center bg-yellow-900 md:w-[7vw]   `}
+            className={`flex h-[90vh] w-[25vw]  flex-col  items-center overflow-visible bg-yellow-900 md:w-[7vw]`}
           >
             <SidebarIcon
               Icon={<Panorama className="h-[5vh] w-[5vw]" />}
@@ -97,15 +94,16 @@ const Index: NextPage = () => {
               Text="Draw"
             />
           </animated.section>
+          {/* lets people toggle the whole sidebar  */}
           {showSidebar ? (
             <button
-              className=" absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out  "
+              className=" absolute top-3 -right-4 z-[20000] w-auto rounded-full  p-2 transition-all duration-300 ease-in-out  "
               onClick={() => toggleSidebar((v) => !v)}
             >
               <FaAngleDoubleLeft
                 direction={"right"}
                 color={"black"}
-                className={"h-6 w-6"}
+                className={"z-[20000] h-6 w-6"}
               />
             </button>
           ) : (
@@ -116,7 +114,11 @@ const Index: NextPage = () => {
                 } absolute top-3 -right-4 z-10 w-auto rounded-full  p-2 transition-all duration-300 ease-in-out`}
                 onClick={() => toggleSidebar((v) => !v)}
               >
-                <MdOutlineDoubleArrow className="h-6 w-6 md:h-8 md:w-8 " />
+                <FaAngleDoubleRight
+                  direction={"left"}
+                  color={"black"}
+                  className="h-6 w-6  "
+                />
               </button>
             </Tooltip>
           )}

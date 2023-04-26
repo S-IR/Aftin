@@ -28,6 +28,9 @@ interface props {
   feature: paidFeature;
 }
 
+/**
+ * Dialog that pops up in order to alert the user that the feature he clicked on requires him to be subscribed and lets him proceed to checkout
+ */
 const PaidFeatureDialog: FC<props> = ({ dialog, setDialog, feature }) => {
   const router = useRouter();
   const { displayName, tier } = getPaidFeatureMetas(feature);

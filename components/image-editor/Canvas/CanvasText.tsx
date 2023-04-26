@@ -1,16 +1,17 @@
 import { RGB } from "konva/lib/filters/RGB";
 import React, { useRef } from "react";
 import { Text as KonvaText, Transformer } from "react-konva";
-import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { textFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
 
 import {
+  canvasSelected,
   changeElementPosition,
   selectElement,
 } from "../../../zustand/CanvasStore/store";
 import TransformerComp from "./TransformerComp";
-import { textFilterProperties } from "../../../zustand/CanvasStore/textHandlers";
+import {
+  textData,
+  textFilterProperties,
+} from "../../../zustand/CanvasStore/textHandlers";
 
 interface props {
   data: textData;
@@ -21,7 +22,9 @@ interface props {
   CHANGE_ELEMENT_POSITION: changeElementPosition;
   SELECT_ELEMENT: selectElement;
 }
-
+/**
+ * The text component that is meant to appear in the canvas editor
+ */
 const CanvasText = ({
   data,
   pageId,

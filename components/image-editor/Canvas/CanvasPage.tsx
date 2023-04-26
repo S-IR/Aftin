@@ -11,18 +11,11 @@ import {
   Rect,
 } from "react-konva";
 import { Stage } from "konva/lib/Stage";
-import {
-  imageFilter,
-  shapeFilter,
-  textFilter,
-} from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import {
-  canvasElement,
-  canvasPagesCount,
-  canvasSelected,
-} from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
+
 import { RectConfig } from "konva/lib/shapes/Rect";
 import {
+  canvasElement,
+  canvasSelected,
   changeElementPosition,
   changeElementScale,
   selectElement,
@@ -37,9 +30,7 @@ interface props {
   // if the element that is selected is on this page, the selectedElement value will be a number, else it will just be null
   pageId: number;
   setStageRefs: React.Dispatch<
-    React.SetStateAction<
-      React.RefObject<KonvaNodeComponent<Stage, StageProps>>[]
-    >
+    React.SetStateAction<React.RefObject<LegacyRef<Stage>>[]>
   >;
   CHANGE_ELEMENT_POSITION: changeElementPosition;
   CHANGE_ELEMENT_SCALE: changeElementScale;
@@ -47,6 +38,9 @@ interface props {
   SELECT_ELEMENT: selectElement;
 }
 
+/**
+ * Displays one page of the user's canvas
+ */
 const CanvasPage = ({
   width,
   height,
@@ -59,12 +53,12 @@ const CanvasPage = ({
   SELECT_ELEMENT,
   SELECT_PAGE,
 }: props) => {
+  //this is meant to represent a default  white background for every single canvas
   const canvasBGRef = useRef<null | Rect | RectConfig>(null);
-  const canvasContainer = useRef<null | HTMLDivElement>(null);
   const isPageSelected = selected?.page === pageId;
   const layerRef = useRef<undefined | Layer | null>(null);
 
-  const stageRef = useRef<KonvaNodeComponent<Stage, StageProps>>(null);
+  const stageRef = useRef<LegacyRef<Stage>>(null);
   useEffect(() => {
     if (!stageRef || stageRef.current === null) return;
     // ts is weird, the guard clause from above will block the stage from being null
@@ -80,7 +74,6 @@ const CanvasPage = ({
         width={width}
         height={height}
         ref={stageRef}
-        onClick={() => console.log("stage clicked")}
         willReadFrequently={true}
         className={`border-gradient-to-br z-10 rounded-sm border-2 from-gray-400 to-gray-600  ${
           isPageSelected

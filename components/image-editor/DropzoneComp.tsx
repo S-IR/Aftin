@@ -8,7 +8,6 @@ import React, {
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import { uploadImageToCanvas } from "../../model/client-side/image-editor/Upload";
-import { canvasPagesCount } from "../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { useCanvasState } from "../../zustand/CanvasStore/store";
 import { activeSidebarType } from "./Sidebar/SidebarIcon";
 
@@ -17,24 +16,48 @@ interface props {
   showSidebar: boolean;
 }
 
+/**
+ * The dropzone component used in the image editor in order to let users upload their image directly
+ * @param param0
+ * @returns
+ */
 const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
-  const [ADD_IMAGE, { page: pageId }] = useCanvasState((state) => [
-    state.ADD_IMAGE,
-    state.selected,
-  ]);
+  const [ADD_IMAGE, { page: pageId }, w, h, CHANGE_PAGE_SIZE] = useCanvasState(
+    (state) => [
+      state.ADD_IMAGE,
+      state.selected,
+      state.w,
+      state.h,
+      state.CHANGE_PAGE_SIZE,
+    ]
+  );
 
   const onDrop = <T extends File>(
     acceptedFiles: T[],
     fileRejections: FileRejection[],
     event: DropEvent
   ): void => {
-    uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
+    if (fileRejections.length > 0) {
+      return alert("The file you've provided is invalid");
+    }
+    uploadImageToCanvas(
+      ADD_IMAGE,
+      CHANGE_PAGE_SIZE,
+      w,
+      h,
+      pageId,
+      acceptedFiles
+    );
     return setActiveSidebar("Stylize");
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     noDragEventsBubbling: true,
     onDrop: onDrop,
+    accept: {
+      "image/png": [".png"],
+      "image/jpeg": [".jpg"],
+    },
   });
 
   return (
@@ -45,7 +68,7 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
     >
       <div
         className={`flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-800 bg-opacity-40 hover:bg-gray-400 hover:opacity-50  ${
-          isDragActive ? "bg-purple-500" : ""
+          isDragActive ? "bg-yellow-500" : ""
         } duration-400 transition-all`}
         {...getRootProps({})}
       >
@@ -55,9 +78,9 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
             <span className="font-semibold">Click to upload an image</span>or
             drag and drop
           </p>
-          <p className="mx-4 text-xs text-gray-500 dark:text-gray-400">
-            PNG, JPEG or JPG. Anything bigger than 1550 width or 1000 height
-            will be scaled down{" "}
+          <p className="mx-4 text-center text-xs text-gray-500 dark:text-gray-400">
+            PNG, JPEG or JPG.<br></br>
+            Images will <span className="text-red-400">NOT</span> be scaled down
           </p>
         </div>
         <input

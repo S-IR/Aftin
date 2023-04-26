@@ -24,13 +24,11 @@ interface props {
 }
 
 /**
- * This is a functional component that appears when a user tries to access an image or a feature like SVG conversion that requires him to be logged in to do.
+ * This is a functional component that appears when a user tries to access an image or a feature like SVG conversion that requires him to be logged in
  * @param {Object} props
  * @returns {JSX.Element}
  */
 const LoginFirstDialog = ({ dialogName, setDialog, imgDoc }: props) => {
-  console.log("imgDoc from loginFirst");
-
   const router = useRouter();
 
   const [addImageToCache] = useCachedStore((store) => [

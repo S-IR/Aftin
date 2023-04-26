@@ -2,6 +2,11 @@ import { FirebaseError } from "firebase-admin";
 import { User } from "firebase/auth";
 import { LoginStatus } from "../../../typings/typings";
 
+/**
+ * Fetches the subscription tier of the user from the server
+ * @param user the firebase user that is going to get fetched
+ * @returns {LoginStatus} the subscription tier of the user
+ */
 export const fetchUserStatus = async (
   user: User | null | undefined
 ): Promise<LoginStatus> => {

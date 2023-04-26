@@ -10,6 +10,11 @@ import {
 import LayoutButtons from "../../../components/image-editor/Sidebar/LayoutButtons";
 import { activeSidebarType } from "../../../components/image-editor/Sidebar/SidebarIcon";
 
+/**
+ * Handles the changing of a sidebar in the image editor
+ * @param activeSidebar the activeSidebar state (should be the newest active sidebar set)
+ * @param setActiveSidebar setState for activeSidebar. Used to be passed on to the sidebar components
+ */
 export const ButtonMenuSwitch = (
   activeSidebar: activeSidebarType,
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>

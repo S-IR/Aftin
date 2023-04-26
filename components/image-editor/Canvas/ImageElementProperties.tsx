@@ -1,17 +1,22 @@
 import React, { useCallback, useState } from "react";
 import { BiCrop, BiFilter } from "react-icons/bi";
 import { MdFindReplace, MdRotateRight, MdTune } from "react-icons/md";
-import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import Button from "../../general/Button";
 import { Crop, Delete } from "@mui/icons-material";
 import { Filter } from "../Sidebar";
-import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 
 import styles from "../../../styles/image-editor/image-editor.module.css";
 import { imageFilterProperties } from "../../../constants/image-editor/imageFilters";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import {
+  canvasSelected,
+  useCanvasState,
+} from "../../../zustand/CanvasStore/store";
 import { Alert } from "@mui/material";
+import { auth } from "../../../firebase";
+import { imageData } from "../../../zustand/CanvasStore/imageHandlers";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useMockupsStore } from "../../../zustand/MockupsStore/store";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 interface props {
   imageData: imageData;
   selected: canvasSelected;
@@ -25,6 +30,10 @@ const ImageElementProperties = ({
 }: props) => {
   const { page: pageId, element: elementId } = selected;
   const [deleteWarningHappened, setDeleteWarningHappened] = useState(false);
+  const [changeModalText, changeModalType] = useModalStore((store) => [
+    store.CHANGE_MODAL_TEXT,
+    store.CHANGE_MODAL_TYPE,
+  ]);
   const [SET_CROP, SET_HAS_CROP, DELETE_ELEMENT, RESET_IMAGE_FILTER] =
     useCanvasState(
       useCallback(
@@ -43,6 +52,7 @@ const ImageElementProperties = ({
   const contrast = imageFilter?.contrast;
   const blur = imageFilter?.blur;
 
+  const [user, userLoading] = useAuthState(auth);
   if (imageData.crop === true) {
     return (
       <div className="flex h-full w-full items-center justify-center align-middle">
@@ -98,7 +108,7 @@ const ImageElementProperties = ({
       </div>
 
       {/* Edit buttons div */}
-      <div className="mt-6 flex w-full flex-col items-center justify-center space-y-6 align-middle">
+      <div className="mt-4 flex w-full flex-col items-center justify-center space-y-6 align-middle">
         {/* <button
           className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg "
           onClick={() => SET_CROP(pageId as number, elementId as number)}
@@ -108,15 +118,25 @@ const ImageElementProperties = ({
             Crop
           </div>
         </button> */}
-        <button className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg ">
-          <div className="flex items-center justify-center align-middle ">
-            <MdFindReplace className="m-2 h-8 w-8" />
-            Replace
-          </div>
+        <button
+          className="group flex h-12  w-56  items-center justify-start bg-yellow-900 bg-opacity-70 text-center align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500   "
+          onClick={() => {
+            window.gtag(`event`, "image_editor_similar_images_clicked", {
+              userId: user ? user.uid : "not logged in",
+            });
+            changeModalText({
+              title: undefined,
+              text: "Searching and importing similar images with your provided image is not yet available. We are sorry for the inconvenience",
+            });
+            return changeModalType("missing-feature");
+          }}
+        >
+          <MdFindReplace className=" ml-6 h-8 w-8" />
+          <p className=" transition-all duration-300 ">Similar Images</p>
         </button>
         <div className=" flex justify-center">
           <button
-            className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
+            className=" flex h-12  w-56 items-center justify-start bg-yellow-900 bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
             onClick={(e) => {
               if (pageId === 0 && elementId === 0 && !deleteWarningHappened) {
                 return setDeleteWarningHappened(true);
@@ -125,12 +145,12 @@ const ImageElementProperties = ({
               DELETE_ELEMENT(pageId, elementId);
             }}
           >
-            <Delete className="m-2 h-8 w-8" />
+            <Delete className=" ml-6 mb-0 h-8 w-8" />
             Delete Component
           </button>
         </div>
         {deleteWarningHappened === true ? (
-          <Alert severity="error">
+          <Alert className="!max-w-full !rounded-none  " severity="error">
             If you delete this component all of your editing progress on the
             page will be lost. Click again on the delete button if you want to
             continue
@@ -141,19 +161,21 @@ const ImageElementProperties = ({
       </div>
       {/* Crop button */}
 
-      <div className="absolute bottom-0 left-5  m-2 flex h-12 w-60 items-center justify-center rounded-full  bg-blue-800 bg-opacity-60 font-bold shadow-md shadow-gray-500">
-        H :{" "}
-        <p className="m-2 underline">
-          {(imageData.height * imageData.scaleY).toFixed(0)}
-        </p>
-        W :{" "}
-        <p className="m-2 underline">
-          {(imageData.width * imageData.scaleX).toFixed(0)}
-        </p>{" "}
-        |
-        <MdRotateRight className="m-2 h-5 w-5" />
-        <p>{imageData.rotate}</p>
-      </div>
+      {deleteWarningHappened !== true && (
+        <div className="absolute bottom-0 left-5  m-2 flex h-12 w-60 items-center justify-center rounded-full  bg-blue-800 bg-opacity-60 font-bold shadow-md shadow-gray-500">
+          H :{" "}
+          <p className="m-2 underline">
+            {(imageData.height * imageData.scaleY).toFixed(0)}
+          </p>
+          W :{" "}
+          <p className="m-2 underline">
+            {(imageData.width * imageData.scaleX).toFixed(0)}
+          </p>{" "}
+          |
+          <MdRotateRight className="m-2 h-5 w-5" />
+          <p>{imageData.rotate}</p>
+        </div>
+      )}
     </>
   );
 };

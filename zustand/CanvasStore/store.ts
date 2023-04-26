@@ -54,6 +54,7 @@ export type canvasElement =
       filters: shapeFilterProperties;
     };
 
+export type deleteAllPages = () => void;
 export type deletePage = (pageId: number) => void;
 export type selectPage = (pageId: number) => void;
 export type changePageSize = (w?: number, h?: number) => void;
@@ -96,9 +97,10 @@ export type changeStrokeColor = (
 
 type canvasActions = {
   ADD_PAGE: () => void;
+  DELETE_ALL_PAGES: deleteAllPages;
   DELETE_PAGE: deletePage;
   SELECT_PAGE: selectPage;
-  CHANGE_PAGE_SIZE: (w: number, h: number) => void;
+  CHANGE_PAGE_SIZE: changePageSize;
 
   CHANGE_ELEMENT_POSITION: changeElementScale;
   CHANGE_ELEMENT_SCALE: changeElementScale;
@@ -128,6 +130,9 @@ type canvasActions = {
   CHANGE_SHAPE_STROKE_COLOR: changeShapeStrokeColor;
 };
 
+/**
+ * Global state that is meant to track all changes to the canvas in the image editor
+ */
 export const useCanvasState = create(
   temporal<canvasState & canvasActions>(
     (set, get) => ({
@@ -147,6 +152,14 @@ export const useCanvasState = create(
             state.pages.splice(pageId, 1);
           })
         ),
+      DELETE_ALL_PAGES: () => {
+        set(
+          produce((state: canvasState) => {
+            state.pages = [[]];
+            state.selected = { page: null, element: null };
+          })
+        );
+      },
       SELECT_PAGE: (pageId) =>
         set(
           produce((state: canvasState) => {
@@ -189,7 +202,7 @@ export const useCanvasState = create(
             state.pages[pageId].splice(elementId, 1);
             const pageHasMoreElements = state.pages[pageId].length > 0;
             if (pageHasMoreElements) {
-              return (state.selected.element = 0);
+              state.selected.element = 0;
             } else {
               state.pages.splice(pageId, 1);
               const canvasHasMoreElements =

@@ -58,7 +58,7 @@ const MoreDropdown = ({}: props) => {
       <div className="flex w-auto flex-col items-center space-y-2 p-2  ">
         <p className="mb-6 text-xl text-orange-300 ">Edit Images</p>
         <Link
-          href={`/image-edito`}
+          href={`/image-editor`}
           className="text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
           Access Image Editor

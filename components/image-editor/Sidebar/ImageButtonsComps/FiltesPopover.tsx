@@ -20,7 +20,12 @@ interface props {
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
 }
 
-const CategoriesPopover = ({
+/**
+ * A popover that allows the user to filter by some specific category in the image editor
+ * @param param0
+ * @returns
+ */
+const FiltesPopover = ({
   open,
   selectedCategory,
   setSelectedCategory,
@@ -111,4 +116,4 @@ const CategoriesPopover = ({
   );
 };
 
-export default CategoriesPopover;
+export default FiltesPopover;

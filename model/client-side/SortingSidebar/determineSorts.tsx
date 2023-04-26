@@ -64,8 +64,6 @@ export const determineSorts = (
   surr_env: boolean;
   material: boolean;
   banner_type: boolean;
-  business_card_style: boolean;
-  logo_type: boolean;
   shape: boolean;
 } => {
   let [

@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useCallback } from "react";
 import { MdFindReplace } from "react-icons/md";
-import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
 import Button from "../../general/Button";
 
 import {
@@ -72,7 +71,7 @@ const ShapeElementProperties = ({
           className="mt-2 ml-2  w-48  cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none "
           type={"color"}
           InputLabelProps={{
-            className: `!text-xl flex items-center justify-center align-middle font-bold italic`,
+            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
           }}
           id="select-stroke-width"
           label="Color"
@@ -91,7 +90,10 @@ const ShapeElementProperties = ({
         <TextField
           className="mt-5 ml-2  w-48 cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
           InputLabelProps={{
-            className: `!text-xl font-bold flex items-center justify-center align-middle italic`,
+            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
+          }}
+          inputProps={{
+            className: "text-white",
           }}
           id="select-stroke-width"
           label="Stroke Width"
@@ -106,7 +108,7 @@ const ShapeElementProperties = ({
         <TextField
           className="mt-5 ml-2  w-48 cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
           InputLabelProps={{
-            className: `!text-xl font-bold flex items-center justify-center align-middle italic`,
+            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
           }}
           type="color"
           id="select-stroke-width"
@@ -152,12 +154,7 @@ const ShapeElementProperties = ({
 
       {/* Edit buttons div */}
       <div className="mt-6 flex w-full flex-col items-center justify-center space-y-6 align-middle">
-        <button className="flex h-12  w-56  items-center justify-center border-l-0  bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg   transition-all duration-300 hover:bg-yellow-500 hover:text-lg ">
-          <div className="flex items-center justify-center align-middle font-bold">
-            Remove Pattern
-          </div>
-        </button>
-        <button className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg ">
+        <button className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500  ">
           <div className="flex items-center justify-center align-middle font-bold">
             <MdFindReplace className="m-2 h-8 w-8" />
             Replace
@@ -165,7 +162,7 @@ const ShapeElementProperties = ({
         </button>
         <div className=" flex justify-center">
           <button
-            className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg"
+            className=" flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
             onClick={(e) => DELETE_ELEMENT(pageId, elementId)}
           >
             <Delete className="m-2 h-8 w-8" />

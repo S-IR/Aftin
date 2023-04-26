@@ -4,7 +4,6 @@ import { uploadShapeToCanvas } from "../../../model/client-side/image-editor/Upl
 import { BiShapeCircle } from "react-icons/bi";
 import { FilterFrames, ShapeLine, ShareOutlined } from "@mui/icons-material";
 import { FaIcons } from "react-icons/fa";
-import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { activeSidebarType } from "./SidebarIcon";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
@@ -58,7 +57,6 @@ const DrawButtons = ({ setActiveSidebar }: props) => {
         setActiveSidebar("Stylize");
         break;
       case "rectangle-button":
-        console.log("we are  here");
         uploadShapeToCanvas(ADD_SHAPE, pageId, {
           shape: "Rect",
           width: 150,

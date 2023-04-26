@@ -30,6 +30,10 @@ interface props {
   changeModalType: changeModalType;
 }
 
+/**
+ * One single image in the commercial gallery section of the website
+
+ */
 function SingleImage({ imgDoc, isMobile, setDialog, changeModalType }: props) {
   // states that change based on mouse events
 
@@ -97,6 +101,10 @@ interface imageEditorProps {
   changeModalType: changeModalType;
 }
 
+/**
+ * One single image in the gallery in the image editor
+
+ */
 export const SingleEditorImage = ({
   imgDoc,
   loginStatus,

@@ -1,26 +1,40 @@
 import React from "react";
 import { DEFAULT_OPTIONS } from "../../../constants/image-editor/imageFilters";
-import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
-import { textData } from "../../../features/canvasPages/canvas-elements/textHandlingReducer";
 import { HTMLHexColor } from "../../../typings/typings";
 import { addImage } from "../../../zustand/CanvasStore/imageHandlers";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
-import { addText } from "../../../zustand/CanvasStore/textHandlers";
+import {
+  changePageSize,
+  useCanvasState,
+} from "../../../zustand/CanvasStore/store";
+import { addText, textData } from "../../../zustand/CanvasStore/textHandlers";
 import {
   addShape,
   addShapePatternImage,
+  shapeData,
 } from "../../../zustand/CanvasStore/shapeHandlers";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
+/**
+ * Uploads an image to the image editor canvas
+ * @param ADD_IMAGE The adds image function from zustand
+ * @param CHANGE_PAGE_SIZE Zustand function to change the page size if this image is the first image that is uploaded (meaning that width and height are null)
+ * @param w the width of the canvas, only used to check if it is null (meaning the canvas was empty prior to this)
+ * @param h the height of the canvas, used same as width
+ * @param pageId the page that you want to upload this image to
+ * @param imagesArray you can drop an image array from a dropzone component to upload the image directly
+ * @param url The url of the image that you would want to be uploaded
+ * @returns {void}
+ */
 export const uploadImageToCanvas = (
   ADD_IMAGE: addImage,
+  CHANGE_PAGE_SIZE: changePageSize,
+  w: null | number,
+  h: null | number,
   pageId: number | null,
   imagesArray?: File[] | null | FileList,
   url?: string
 ) => {
-  console.log("this uploadImageToCanvas ran");
   const image = new Image();
   if (imagesArray) {
     let selected = imagesArray[0];
@@ -51,6 +65,7 @@ export const uploadImageToCanvas = (
       },
     };
     const filterData = DEFAULT_OPTIONS;
+    if (w === null || h === null) CHANGE_PAGE_SIZE(image.width, image.height);
     return ADD_IMAGE(pageId ? pageId : 0, data, filterData);
   });
 };
@@ -121,10 +136,15 @@ export const uploadShapeToCanvas = (
     height: shapeData.height || 100,
     x: shapeData.x || 50,
     y: shapeData.y || 50,
-    fillPatternImageSRC: shapeData.fillPatternImageSRC || null,
-    fillGradientDirection: shapeData.fillGradientDirection || null,
-    fillLinearGradientColorStops:
-      shapeData.fillLinearGradientColorStops || null,
+    fillPatternImageSRC: shapeData.fillPatternImageSRC
+      ? shapeData.fillPatternImageSRC
+      : null,
+    fillGradientDirection: shapeData.fillGradientDirection
+      ? shapeData.fillGradientDirection
+      : null,
+    fillLinearGradientColorStops: shapeData.fillLinearGradientColorStops
+      ? shapeData.fillLinearGradientColorStops
+      : null,
     strokeWidth: shapeData.strokeWidth || 0,
     ...(shapeData.innerRadius !== undefined && {
       innerRadius: shapeData.innerRadius,

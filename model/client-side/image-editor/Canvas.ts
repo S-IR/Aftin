@@ -2,17 +2,14 @@ import { Filter } from "konva/lib/Node";
 import { Stage } from "konva/lib/Stage";
 import { NextRouter } from "next/router";
 import { KonvaNodeComponent, StageProps } from "react-konva";
-import { canvasPagesActions } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { selectElement } from "../../../zustand/CanvasStore/store";
 import { addImage } from "../../../zustand/MockupsStore/store";
+import { LegacyRef } from "react";
 
-export const canvasFilters = (filters: Filter[]) => {
-  const filtersString = filters.map((filter) => {
-    return `${filter.property}(${filter.value}${filter.unit})`;
-  });
-  return filtersString.join(" ");
-};
-
+/**
+ * Quickly downloads an image based on the uri
+ * @param uri the uri of the image
+ */
 export function downloadURI(uri: string) {
   var link = document.createElement("a");
   link.download = "";
@@ -21,9 +18,16 @@ export function downloadURI(uri: string) {
   link.click();
   document.body.removeChild(link);
 }
+
+/**
+ * Exports the canvas in the image editor to a set of png images to be downloaded
+ * @param SELECT_ELEMENT The select element function of the canvas. Used in order to deselect the canvas before exporting in order to remove any selection borders before exporting
+ * @param stageRefs all of the stage refs of the canvas that is going to be exported
+ * @param pageToDownload the id of the page in the canvas that needs to be downloaded or the string "all" in order to download every single page
+ */
 export const handleExport = (
   SELECT_ELEMENT: selectElement,
-  stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[],
+  stageRefs: LegacyRef<Stage>[],
   pageToDownload: number | "all"
 ) => {
   SELECT_ELEMENT(null, null);
@@ -31,12 +35,11 @@ export const handleExport = (
     stageRefs.forEach((stageRef) => {
       if (!stageRef.current) return;
       const uri = stageRef.current.toDataURL();
-
       return downloadURI(uri);
     });
   } else {
     const uri = stageRefs[pageToDownload].current.toDataURL();
-    // return downloadURI(uri);
+    return downloadURI(uri);
   }
 };
 /**
@@ -52,7 +55,7 @@ export const handlePreview = async (
   router: NextRouter,
   SELECT_ELEMENT: selectElement,
   ADD_IMAGE: addImage,
-  stageRefs: React.RefObject<KonvaNodeComponent<Stage, StageProps>>[],
+  stageRefs: LegacyRef<Stage>[],
   pageToPreview: number | "all"
 ) => {
   SELECT_ELEMENT(null, null);

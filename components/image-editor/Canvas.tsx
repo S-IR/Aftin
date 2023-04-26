@@ -1,5 +1,11 @@
 import { Stage } from "konva/lib/Stage";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  LegacyRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Stage as KonvaStage,
   Layer,
@@ -18,7 +24,9 @@ import { imageData } from "../../zustand/CanvasStore/imageHandlers";
 interface props {
   showSidebar: boolean;
 }
-
+/**
+ * The Canvas of the Image Editor route
+ */
 const Canvas = ({ showSidebar }: props) => {
   const [
     pages,
@@ -48,7 +56,7 @@ const Canvas = ({ showSidebar }: props) => {
 
   const downloadRef = useRef<HTMLButtonElement | null>(null);
   const [stageRefs, setStageRefs] = useState<
-    React.RefObject<KonvaNodeComponent<Stage, StageProps>>[]
+    React.RefObject<LegacyRef<Stage>>[]
   >([]);
 
   const firstImageData = pages[0].find(
@@ -63,7 +71,7 @@ const Canvas = ({ showSidebar }: props) => {
   return (
     <section
       className={`${
-        showSidebar ? `ml-[27vw]` : "ml-[5vh]"
+        showSidebar ? `ml-[30vw]` : "ml-[5vh]"
       } flex h-auto w-auto flex-col transition-all duration-300 `}
     >
       <CanvasEditButtons stageRefs={stageRefs} downloadRef={downloadRef} />

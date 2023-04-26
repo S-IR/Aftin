@@ -20,8 +20,8 @@ import {
   AnimatedComponent,
 } from "react-spring";
 import {
-  CategoriesPopover,
-  FilterPopover,
+  FiltesPopover,
+  ChooseFilterPopover,
   ImagesGrid,
 } from "./ImageButtonsComps/index";
 import { SecondDegreeCategory } from "../../../typings/image-types/ImageTypes";
@@ -29,32 +29,50 @@ import { handleOptionClick } from "../../../model/client-side/SortingSidebar/han
 import styles from "../../../styles/image-editor/image-editor.module.css";
 import { uploadImageToCanvas } from "../../../model/client-side/image-editor/Upload";
 import { activeSidebarType } from "./SidebarIcon";
-import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
+import { useCanvasState } from "../../../zustand/CanvasStore/store";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
 }
 
+/**
+ * Lets people import images from us or upload them from their device
+ * @param param0
+ * @returns
+ */
 const ImagesButtons = ({ setActiveSidebar }: props) => {
-  const [ADD_IMAGE, { page: pageId }] = useCanvasState((state) => [
-    state.ADD_IMAGE,
-    state.selected,
-  ]);
+  const [ADD_IMAGE, { page: pageId }, w, h, CHANGE_PAGE_SIZE] = useCanvasState(
+    (state) => [
+      state.ADD_IMAGE,
+      state.selected,
+      state.w,
+      state.h,
+      state.CHANGE_PAGE_SIZE,
+    ]
+  );
+
   const [selectedCategory, setSelectedCategory] = useState<{
     name: string;
     value: SecondDegreeCategory;
   }>({ name: "Main Dishes", value: "main-dishes" });
 
-  //POPOVER CODE
+  //Popover code
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  //Upload code
   const handleUpload = <T extends File>(acceptedFiles: T[]): void => {
-    uploadImageToCanvas(ADD_IMAGE, pageId, acceptedFiles);
+    uploadImageToCanvas(
+      ADD_IMAGE,
+      CHANGE_PAGE_SIZE,
+      w,
+      h,
+      pageId,
+      acceptedFiles
+    );
     setActiveSidebar("Stylize");
   };
 
@@ -65,7 +83,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
 
   return (
     <section
-      className={`z-50 h-[90vh] w-[336px] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
+      className={`z-50 h-[90vh] w-[20vw] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
     >
       <div className="flex flex-col items-center justify-center space-y-1  py-6 align-middle shadow-lg">
         <div
@@ -94,7 +112,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
         <p className="w-full  text-center font-Handwriting text-4xl ">
           Import an Image
         </p>
-        <div className="relative h-auto w-5/6">
+        <div className="relative h-auto w-5/6 ">
           <button
             className="relative  my-1 h-12 w-full rounded-sm border-t-4   border-orange-700 bg-yellow-800  p-2  font-Handwriting text-2xl text-orange-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80 "
             onClick={openPopover}
@@ -102,13 +120,17 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
           >
             {selectedCategory.name}
           </button>
-          <button className="z-10" onClick={openPopover} id={"filter-popover"}>
+          <button
+            className="group z-10 h-auto w-auto"
+            onClick={openPopover}
+            id={"filter-popover"}
+          >
             <Tune
               htmlColor="#fb923c"
-              className="absolute top-3 right-8 h-10 w-10  rounded-full p-2 transition-all  duration-300 ease-in-out hover:scale-110 hover:bg-slate-300/20 "
+              className="absolute top-3 right-8 !h-8 !w-8  rounded-full bg-white/0 p-2  transition-all duration-500  hover:scale-110 group-hover:bg-slate-300/20 "
             />
           </button>
-          <FilterPopover
+          <ChooseFilterPopover
             open={anchorEl?.id === "filter-popover"}
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
@@ -116,7 +138,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
           />
         </div>
 
-        <CategoriesPopover
+        <FiltesPopover
           open={anchorEl?.id === "category-popover"}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -126,7 +148,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
         {/* INPUT TEXT ELEMENTS  */}
 
         {/* SHOW IMAGES */}
-        {/* UNCOMMENT THIS AFTER DEVLELOPMENT  */}
+        {/* UNCOMMENT THIS AFTER DEVELOPMENT  */}
         {/* <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} /> */}
       </div>
     </section>

@@ -1,13 +1,12 @@
 import { InputAdornment, TextField } from "@mui/material";
 import React, { DOMAttributes, useCallback, useEffect, useState } from "react";
 import ShortTextIcon from "@mui/icons-material/ShortText";
+import styles from "../../../styles/image-editor/image-editor.module.css";
 
 import { Alert } from "@mui/material";
 import { uploadTextToCanvas } from "../../../model//client-side/image-editor/Upload";
-import { canvasPagesCount } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { activeSidebarType } from "./SidebarIcon";
-import styles from "../../../styles/image-editor/image-editor.module.css";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import { activeSidebarType } from "./SidebarIcon";
 
 interface props {
   setActiveSidebar: React.Dispatch<React.SetStateAction<activeSidebarType>>;
@@ -29,8 +28,6 @@ const TextButtons = ({ setActiveSidebar }: props) => {
     setAlert(null);
   }, [pages.length]);
 
-  //TODO
-  let alertMessage: null | string = null;
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isTheCanvasEmpty)
@@ -50,7 +47,7 @@ const TextButtons = ({ setActiveSidebar }: props) => {
   };
   return (
     <section
-      className={`flex h-[100vh] w-72 flex-col items-center bg-white bg-gradient-to-br ${styles.buttonMenusBG}`}
+      className={`flex h-auto min-h-full w-72 flex-col items-center  ${styles.buttonMenusBG}`}
     >
       <button
         id="big-text-button"

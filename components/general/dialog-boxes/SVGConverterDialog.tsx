@@ -48,6 +48,9 @@ interface props {
   loginStatus: LoginStatus;
 }
 
+/**
+ * Dialog box that allows the user to transform his desired image into an SVG
+ */
 const SVGConverterDialog: FC<props> = ({
   dialog,
   setDialog,
@@ -57,20 +60,17 @@ const SVGConverterDialog: FC<props> = ({
   user,
   loginStatus,
 }) => {
-  //handles server error modal appearance
-
   //saves the image after it has been modified
   const [afterImage, setAfterImage] = useState<null | UTF8Data<"svg+xml">>(
     null
   );
 
-  //toggles the before and after status
+  //toggles the before and after display image.
   const [imageToDisplay, setImageToDisplay] = useState<"Before" | "After">(
     "Before"
   );
 
   //react spring variables
-
   const transRef = useSpringRef();
   const transitions = useTransition(imageToDisplay, {
     keys: null,
@@ -82,7 +82,6 @@ const SVGConverterDialog: FC<props> = ({
 
   //variable used in case of errors
   const [error, setError] = useState<string | null>(null);
-  console.log(`loginStatus`, loginStatus, `user`, user);
 
   //used to display the  internal server error modal
   const changeModalType = useModalStore((store) => store.CHANGE_MODAL_TYPE);
@@ -105,13 +104,10 @@ const SVGConverterDialog: FC<props> = ({
   const handleSubmit = async () => {
     // if the user is not logged in ask him to log in
     if (loginStatus === "not logged in" || loginStatus === "unauthorized") {
-      console.log("placed the login first modal due to being unauthorized");
-
       return setDialog("login");
       //if the width and height is greater than 768 by 768 and the user is not premium
     }
     if (width * height > 589824 && !paid_tier_array.includes(loginStatus)) {
-      console.log("setError on handleSubmit ran due to image being too big");
       return setError(
         "The image is too big for your current subscription tier. Increase your subscription level or modify another image in order to proceedc"
       );
@@ -278,6 +274,9 @@ interface ImageComponentProps {
   height: number;
 }
 
+/**
+ * Only present in this SVG conversion dialog. Meant to display the image
+ */
 const ImageComponent = ({
   imageToDisplay,
   imageSrc,

@@ -7,17 +7,16 @@ import {
   KonvaNodeComponent,
   Transformer,
 } from "react-konva";
-import { imageData } from "../../../features/canvasPages/canvas-elements/imageHandlingReducer";
-import { imageFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
 import TransformerComp from "./TransformerComp";
 import CropComponent from "./CropComponent";
-import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { imageFilterProperties } from "../../../constants/image-editor/imageFilters";
 import {
+  canvasSelected,
   changeElementPosition,
   changeElementScale,
   selectElement,
 } from "../../../zustand/CanvasStore/store";
+import { imageData } from "../../../zustand/CanvasStore/imageHandlers";
 
 interface props {
   data: imageData;
@@ -31,6 +30,9 @@ interface props {
   SELECT_ELEMENT: selectElement;
 }
 
+/**
+ * The image component that is meant to appear in the canvas editor
+ */
 const CanvasImage = ({
   data,
   pageId,
@@ -75,7 +77,6 @@ const CanvasImage = ({
     <>
       <KonvaImage
         onClick={() => {
-          console.log("image click happened");
           return SELECT_ELEMENT(pageId, elementId);
         }}
         onTap={() => SELECT_ELEMENT(pageId, elementId)}

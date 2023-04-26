@@ -17,6 +17,10 @@ interface props {
   activeSidebar: activeSidebarType;
 }
 
+/**
+ * Sidebar icon of the image editor page. Allows people to switch between different sidebars, called 'buttons'
+
+ */
 const SidebarIcon = ({
   Icon,
   Text,

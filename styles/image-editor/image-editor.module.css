@@ -6,9 +6,10 @@
 }
 .buttonMenusBG {
   background-image: url("/image-editor/buttonMenusBG.svg");
+  background-size: contain;
 }
 .generalButton {
-  @apply rounded-sm border-t-4 border-orange-700 bg-yellow-800  p-2  font-serif  shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80;
+  @apply rounded-sm border-t-4 border-orange-700 bg-yellow-800  p-2   shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80;
 }
 .input[type="file"] {
   position: absolute;

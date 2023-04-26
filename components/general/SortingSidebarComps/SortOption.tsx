@@ -61,11 +61,13 @@ const SortOption = ({
 
   const handleClick = () => setOpen((open) => !open);
 
-  const thirdDegreePathname = `${router.pathname.replace(
-    "[...imageCategory]",
-    //ignore ts, image category cannot be undefined as the server would return a 404 page
-    router.query.imageCategory[0]
-  )}`;
+  const thirdDegreePathname =
+    router.query.imageCategory !== undefined
+      ? `${router.pathname.replace(
+          "[...imageCategory]",
+          router.query.imageCategory[0]
+        )}`
+      : undefined;
 
   return (
     <>
@@ -86,7 +88,7 @@ const SortOption = ({
             let isChecked: boolean;
             if (isThirdDegreeCategory) {
               isChecked =
-                //ignore ts, image category cannot be undefined as the server would return a 404 page
+                router.query.imageCategory !== undefined &&
                 router.query.imageCategory.length > 1
                   ? router.query.imageCategory[1] == sortOption.value
                   : false;
@@ -106,7 +108,6 @@ const SortOption = ({
                 )}
               >
                 <ListItemButton
-                  sx={{ pl: 4 }}
                   key={sortOption.name}
                   id={`${sortOption.value}`}
                   onClick={() => {

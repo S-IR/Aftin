@@ -2,17 +2,18 @@ import { CircleConfig } from "konva/lib/shapes/Circle";
 import { RectConfig } from "konva/lib/shapes/Rect";
 import React, { LegacyRef, useEffect, useRef } from "react";
 import { Circle, KonvaNodeComponent, Rect, Ring } from "react-konva";
-import { canvasSelected } from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
-import { shapeFilter } from "../../../features/canvasPages/canvas-elements/filtersHandlingReducers";
-import { shapeData } from "../../../features/canvasPages/canvas-elements/shapeHandlingReducer";
 
 import {
+  canvasSelected,
   changeElementPosition,
   changeElementScale,
   selectElement,
 } from "../../../zustand/CanvasStore/store";
 import TransformerComp from "./TransformerComp";
-import { shapeFilterProperties } from "../../../zustand/CanvasStore/shapeHandlers";
+import {
+  shapeData,
+  shapeFilterProperties,
+} from "../../../zustand/CanvasStore/shapeHandlers";
 
 interface props {
   data: shapeData;
@@ -25,6 +26,9 @@ interface props {
   SELECT_ELEMENT: selectElement;
   CHANGE_ELEMENT_SCALE: changeElementScale;
 }
+/**
+ * The shape component that is meant to appear in the canvas editor
+ */
 const CanvasShape = ({
   data,
   pageId,
@@ -48,14 +52,15 @@ const CanvasShape = ({
   }
 
   useEffect(() => {
-    if (fillPatternImage && shapeRef.current !== null) {
+    if (data.fillPatternImageSRC !== null && shapeRef.current !== null) {
       fillPatternImage.src = data.fillPatternImageSRC;
       fillPatternImage.onload = () => {
         shapeRef.current.cache();
         layerRef.current.draw();
       };
+      console.log("fillPatternImage.src", fillPatternImage.src);
     }
-  }, [fillPatternImage]);
+  }, [data.fillPatternImageSRC]);
 
   switch (data.shape) {
     case "Ring":
@@ -70,9 +75,7 @@ const CanvasShape = ({
             x={data.x}
             y={data.y}
             fill={
-              fillPatternImage.src.length !== null
-                ? undefined
-                : shapeFilter.fill
+              data.fillPatternImageSRC !== null ? undefined : shapeFilter.fill
             }
             fillPatternImage={fillPatternImage}
             stroke={shapeFilter.stroke}
@@ -106,9 +109,7 @@ const CanvasShape = ({
             x={data.x}
             y={data.y}
             fill={
-              fillPatternImage.src.length !== null
-                ? undefined
-                : shapeFilter.fill
+              data.fillPatternImageSRC !== null ? undefined : shapeFilter.fill
             }
             fillPatternImage={fillPatternImage}
             stroke={shapeFilter.stroke}
@@ -140,9 +141,7 @@ const CanvasShape = ({
             x={data.x}
             y={data.y}
             fill={
-              fillPatternImage.src.length !== null
-                ? undefined
-                : shapeFilter.fill
+              data.fillPatternImageSRC !== null ? undefined : shapeFilter.fill
             }
             fillPatternImage={fillPatternImage}
             stroke={shapeFilter.stroke}
