@@ -16,7 +16,8 @@
   transition: all 300ms;
 }
 .loginFieldBG {
-  background-image: url("/login/loginFieldsSVG.svg");
+  background-image: url("/LoginBG.svg");
+  background-repeat: repeat;
 }
 .loginBanner {
   background-image: url("/login/loginBanner1.png");

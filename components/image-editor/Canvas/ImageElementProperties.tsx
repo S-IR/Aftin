@@ -15,7 +15,6 @@ import { Alert } from "@mui/material";
 import { auth } from "../../../firebase";
 import { imageData } from "../../../zustand/CanvasStore/imageHandlers";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 interface props {
   imageData: imageData;
@@ -35,18 +34,12 @@ const ImageElementProperties = ({
     store.CHANGE_MODAL_TYPE,
   ]);
   const [SET_CROP, SET_HAS_CROP, DELETE_ELEMENT, RESET_IMAGE_FILTER] =
-    useCanvasState(
-      useCallback(
-        (state) =>
-          [
-            state.SET_CROP,
-            state.SET_HAS_CROP,
-            state.DELETE_ELEMENT,
-            state.RESET_IMAGE_FILTER,
-          ] as const,
-        []
-      )
-    );
+    useCanvasState((state) => [
+      state.SET_CROP,
+      state.SET_HAS_CROP,
+      state.DELETE_ELEMENT,
+      state.RESET_IMAGE_FILTER,
+    ]);
 
   const brightness = imageFilter?.brightness;
   const contrast = imageFilter?.contrast;
@@ -109,15 +102,13 @@ const ImageElementProperties = ({
 
       {/* Edit buttons div */}
       <div className="mt-4 flex w-full flex-col items-center justify-center space-y-6 align-middle">
-        {/* <button
-          className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 hover:text-lg "
-          onClick={() => SET_CROP(pageId as number, elementId as number)}
+        <button
+          className="group flex h-12  w-56  items-center justify-start bg-yellow-900 bg-opacity-70 text-center align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500   "
+          onClick={() => SET_CROP(pageId, elementId)}
         >
-          <div className="flex items-center justify-center align-middle ">
-            <Crop className="m-2 h-8 w-8" />
-            Crop
-          </div>
-        </button> */}
+          <Crop className=" ml-6 h-8 w-8" />
+          <p className=" transition-all duration-300 ">Crop Imagess</p>
+        </button>
         <button
           className="group flex h-12  w-56  items-center justify-start bg-yellow-900 bg-opacity-70 text-center align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500   "
           onClick={() => {

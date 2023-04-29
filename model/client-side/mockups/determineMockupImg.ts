@@ -1,5 +1,6 @@
 import {
   mockupTemplate,
+  previewDayHand,
   previewPhone,
 } from "../../../constants/mockups/mockupTemplates";
 import { MockupType } from "../../../constants/mockups/previewCategories";
@@ -12,5 +13,7 @@ export const determineMockupImg = (
       return previewPhone;
     default:
       return null;
+    case "in-hand-day-environment":
+      return previewDayHand;
   }
 };

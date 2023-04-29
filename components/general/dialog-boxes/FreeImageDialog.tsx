@@ -20,13 +20,15 @@ import {
 } from "../../../typings/image-types/ImageTypes";
 import { LoginStatus } from "../../../typings/typings";
 import { useCanvasState } from "../../../zustand/CanvasStore/store";
-import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 
 import Button from "../Button";
 import Loading from "../Loading";
 import { galleryImageDialog } from "../SiteGallery";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 import { useCachedStore } from "../../../zustand/CachedImageStore/store";
+import { triggerMissingMockupFeature } from "../../../model/client-side/general/missingFeatures";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
 
 interface props {
   dialogName: null | galleryImageDialog["name"];
@@ -36,6 +38,7 @@ interface props {
   isMobile: boolean;
 }
 
+let sentPreviewEventToGTM: boolean = true;
 const FreeImageDialog: FC<props> = ({
   dialogName,
   doc,
@@ -44,9 +47,9 @@ const FreeImageDialog: FC<props> = ({
   isMobile,
 }) => {
   const router = useRouter();
+  const [user, userLoading] = useAuthState(auth);
   const secondDegCat = router.query.imageCategory[0] as SecondDegreeCategory;
   const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
-  const [ADD_PREVIEW_IMAGE] = useMockupsStore((state) => [state.ADD_IMAGE]);
   const [changeModalText, changeModalType] = useModalStore((state) => [
     state.CHANGE_MODAL_TEXT,
     state.CHANGE_MODAL_TYPE,
@@ -219,26 +222,21 @@ const FreeImageDialog: FC<props> = ({
             <button
               className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500   hover:bg-brown-500   hover:shadow-none md:h-12   md:w-36 "
               onClick={() => {
-                const passedChecks = checkImageGalleryClick(
-                  loginStatus,
-                  doc,
-                  setDialog,
-                  changeModalType
-                );
-                if (passedChecks) {
-                  window.gtag("event", "previewed_image_through_siteGallery", {
-                    imageRef: doc.url.replace(
-                      "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
-                      ""
-                    ),
-                  });
-                  return handleWebsiteGalleryPreview(
-                    router,
-                    doc,
-                    secondDegCat,
-                    ADD_PREVIEW_IMAGE
+                //if the preview event has been fired once then it won't fire again
+                if (sentPreviewEventToGTM) {
+                  triggerMissingMockupFeature(
+                    user ? user.uid : "not logged in",
+                    changeModalText,
+                    changeModalType
                   );
+                } else {
+                  changeModalText({
+                    title: undefined,
+                    text: "Previewing images on mockups is not yet available. We are sorry for the inconvenience",
+                  });
+                  changeModalType("missing-feature");
                 }
+                return (sentPreviewEventToGTM = false);
               }}
             >
               Preview

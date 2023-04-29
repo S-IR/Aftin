@@ -47,10 +47,10 @@ function Login() {
         <title>Login</title>
       </Head>
       <div
-        className={`relative flex h-[95vh]  max-h-[100vh]  w-full flex-row overflow-y-hidden bg-black lg:overflow-x-hidden ${styles.loginBanner}`}
+        className={`relative flex h-auto  w-full flex-row  bg-black lg:overflow-x-hidden ${styles.loginBanner} overflow-hidden rounded-l-lg`}
       >
         <main
-          className={`z-10 flex h-screen w-full flex-col  ${styles.loginFieldBG} align-middle lg:w-1/4`}
+          className={`z-10 flex w-full  flex-col lg:h-[112vh]  ${styles.loginFieldBG} align-middle lg:w-1/4`}
         >
           <div className="flex h-[15vh] w-full items-center justify-center border-b-2 border-black align-middle">
             <button
@@ -99,6 +99,9 @@ function Login() {
             ))}
           </div>
         </main>
+        {!isMobile && (
+          <div className="z-10 w-[20vw] bg-gradient-to-r from-[#95663A] to-white/0 lg:h-[112vh]"></div>
+        )}
       </div>
     </div>
   );

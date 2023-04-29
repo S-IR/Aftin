@@ -70,10 +70,10 @@ const MoreDropdown = ({}: props) => {
           Increase Image Resolution
         </Link>
         <Link
-          href={`/preview`}
+          href={`/image-enhancing/stylize`}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
-          Preview Image
+          Stylize Images
         </Link>
         <Link
           href={`/image-enhancing/deblur`}
@@ -137,10 +137,13 @@ const MoreDropdown = ({}: props) => {
           onClick={() => router.push("/")}
           className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
-          Homepage{"/policies/privacy"}
+          Homepage{""}
         </button>
 
-        <button className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300">
+        <button
+          onClick={() => router.push("/policies/privacy")}
+          className="font-serif text-lg text-white transition-all duration-300 hover:text-gray-300"
+        >
           Privacy Policy{" "}
         </button>
       </div>

@@ -1,54 +1,36 @@
-import React, { LegacyRef, useEffect, useRef } from "react";
-import {
-  mockupBg,
-  sentImgPlacement,
-} from "../../constants/mockups/mockupTemplates";
-import {
-  Image as KonvaImage,
-  KonvaNodeComponent,
-  Transformer,
-} from "react-konva";
-import { ImageConfig } from "next/dist/shared/lib/image-config";
-import { animated } from "react-spring";
+// import React, { LegacyRef, useEffect, useRef } from "react";
+// import {
+//   mockupBg,
+//   sentImgPlacement,
+// } from "../../constants/mockups/mockupTemplates";
+// import { Transformer } from "react-konva";
+// import { ImageConfig } from "next/dist/shared/lib/image-config";
+// import { animated } from "react-spring";
+// import NextImage from "next/image";
 
-interface props {
-  src: undefined | string | Blob | Url;
+// interface props {
+//   src: undefined | string | Blob | Url;
+//   placementData: sentImgPlacement;
+// }
 
-  placementData: sentImgPlacement;
-  layerRef: Layer | LayerConfig | null;
-}
+// const PreviewElement = ({ src, placementData }: props) => {
+//   const imageRef = useRef<HTMLImageElement | null>(null);
 
-const PreviewElement = ({ src, placementData, layerRef }: props) => {
-  console.log();
-  const image = new Image();
-  image.src = src;
+//   return (
+//     <NextImage
+//       style={{
+//         position: "absolute",
+//         top: placementData.y,
+//         left: placementData.x,
+//       }}
+//       src={src}
+//       ref={imageRef}
+//       width={placementData.w}
+//       height={placementData.h}
+//       alt="the user's previewed image"
+//       //ROTATION TODO
+//     />
+//   );
+// };
 
-  image.onload = () => {
-    image.src = src as string;
-    if (!imageRef || !imageRef.current || !layerRef || layerRef.current) return;
-
-    imageRef.current.cache();
-    layerRef.current?.draw();
-  };
-  const imageRef = useRef<LegacyRef<KonvaNodeComponent<Image, ImageConfig>>>();
-
-  useEffect(() => {
-    if (image && imageRef.current) {
-    }
-  }, []);
-
-  return (
-    <KonvaImage
-      x={placementData.x}
-      y={placementData.y}
-      ref={imageRef}
-      image={image}
-      width={placementData.w}
-      height={placementData.h}
-
-      //ROTATION TODO
-    />
-  );
-};
-
-export default PreviewElement;
+// export default PreviewElement;

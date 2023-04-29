@@ -62,6 +62,7 @@ import { determineSorts } from "../../model/client-side/SortingSidebar/determine
 import { SecondDegreeCategory } from "../../typings/image-types/ImageTypes";
 import { tagsArray } from "../../constants/upload-image/Tags";
 import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
+import styles from "../../styles/website-gallery/SortingSidebar.module.css";
 
 interface props {
   showSidebar: boolean;
@@ -99,11 +100,13 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
 
   return (
     <section
-      className={`scroll fixed mr-2 mt-0 w-[216px]  min-w-[40px] lg:mt-8  ${
+      className={`scroll fixed  mt-0 w-[216px] min-w-[40px]  overflow-hidden   ${
         showSidebar
-          ? `z-50 overflow-y-scroll border-r-4 border-black/30 bg-black  lg:bg-transparent `
+          ? `z-50 overflow-y-scroll border-r-2 border-black/30  `
           : `z-0 overflow-hidden border-r-0 `
-      }  scrollbar h-max transition-transform duration-300 md:transition-none  `}
+      }  scrollbar h-max transition-transform duration-300 md:transition-none ${
+        styles.sidebarBG
+      } `}
     >
       {showSidebar ? (
         <></>

@@ -29,6 +29,8 @@ import PaidFeatureDialog from "../../general/dialog-boxes/PaidFeatureDialog";
 import SVGConverterDialog from "../../general/dialog-boxes/SVGConverterDialog";
 import { User } from "firebase/auth";
 import LoginFirstDialog from "../../general/dialog-boxes/LoginFirstDialog";
+import { triggerMissingMockupFeature } from "../../../model/client-side/general/missingFeatures";
+import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 
 interface props {
   stageRefs: LegacyRef<Stage>[];
@@ -50,6 +52,11 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
   const [dialog, setDialog] = useState<null | canvasEditButtonDialog>(null);
   const [featureName, setFeatureName] = useState<paidFeature>("svg-convert");
   const [user, userLoading] = useAuthState(auth);
+  //manages click on the preview button , namely to display a missing feature
+  const [changeModalType, changeModalText] = useModalStore((store) => [
+    store.CHANGE_MODAL_TYPE,
+    store.CHANGE_MODAL_TEXT,
+  ]);
   const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
     ["getUserStatus", user?.uid, userLoading],
     () => fetchUserStatus(user),
@@ -87,7 +94,6 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
       ] as const
   );
   //used for the preview button
-  const ADD_IMAGE = useMockupsStore((state) => state.ADD_IMAGE);
 
   //tracks the amount of pages on the canvas
   const pagesLength = canvasPages.length;
@@ -166,7 +172,11 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
         <button
           className=" h-[8vh] w-auto rounded-sm border-t-4 border-orange-700 bg-brown-800 p-2  font-['Lato'] text-sm shadow-brown-500  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-brown-500 active:shadow-none  disabled:bg-brown-200/80"
           onClick={() =>
-            handlePreview(router, SELECT_ELEMENT, ADD_IMAGE, stageRefs, "all")
+            triggerMissingMockupFeature(
+              user ? user.uid : "not logged in",
+              changeModalText,
+              changeModalType
+            )
           }
         >
           Preview

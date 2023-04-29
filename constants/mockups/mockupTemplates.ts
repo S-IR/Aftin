@@ -18,41 +18,82 @@ export type mockupBg = {
 };
 
 export type mockupTemplate = {
-  bg: mockupBg[];
-  sentImgPlacement: sentImgPlacement[];
-  src: undefined | string | Blob | Url;
+  placement: placement[];
+  src: null | string | Blob | Url;
+};
+type placement = {
+  bg: mockupBg;
+  sentImg: sentImgPlacement;
 };
 
 export const previewPhone: mockupTemplate = {
-  bg: [
+  placement: [
     {
-      w: 1920,
-      h: 1080,
-      x: 0,
-      y: 0,
-      src: "/mockups/phoneMockup/1.png",
+      bg: {
+        w: 1920,
+        h: 1080,
+        x: 0,
+        y: 0,
+        src: "/mockups/phoneMockup/1.png",
+      },
+      sentImg: {
+        w: 512,
+        h: 512,
+        x: 500,
+        y: 300,
+      },
     },
     {
-      w: 1920,
-      h: 1080,
-      x: 0,
-      y: 0,
-      src: "/mockups/phoneMockup/2.png",
+      bg: {
+        w: 1920,
+        h: 1080,
+        x: 0,
+        y: 0,
+        src: "/mockups/phoneMockup/2.png",
+      },
+      sentImg: {
+        w: 512,
+        h: 512,
+        x: 500,
+        y: 300,
+      },
     },
   ],
-  sentImgPlacement: [
+  src: null,
+};
+
+export const previewDayHand: mockupTemplate = {
+  placement: [
     {
-      w: 512,
-      h: 512,
-      x: 20,
-      y: 20,
+      bg: {
+        w: 1296,
+        h: 912,
+        x: 0,
+        y: 0,
+        src: "/mockups/in-hand-day-environment/1.png",
+      },
+      sentImg: {
+        w: 512,
+        h: 512,
+        x: 500,
+        y: 300,
+      },
     },
     {
-      w: 256,
-      h: 256,
-      x: 400,
-      y: 400,
+      bg: {
+        w: 1456,
+        h: 816,
+        x: 0,
+        y: 0,
+        src: "/mockups/in-hand-day-environment/2.png",
+      },
+      sentImg: {
+        w: 512,
+        h: 512,
+        x: 500,
+        y: 300,
+      },
     },
   ],
-  src: undefined,
+  src: null,
 };

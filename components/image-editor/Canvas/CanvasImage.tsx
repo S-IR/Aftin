@@ -17,6 +17,7 @@ import {
   selectElement,
 } from "../../../zustand/CanvasStore/store";
 import { imageData } from "../../../zustand/CanvasStore/imageHandlers";
+import { useImage } from "react-konva-utils";
 
 interface props {
   data: imageData;
@@ -45,8 +46,8 @@ const CanvasImage = ({
   SELECT_ELEMENT,
 }: props) => {
   // properties related to the HTML element
-  const image = new Image();
   const imageRef = useRef<Image>();
+  const [image] = useImage(data.imageSRC);
 
   const isSelected =
     selected?.page === pageId && selected.element === elementId;
@@ -54,16 +55,6 @@ const CanvasImage = ({
   const brightness = imageFilter.brightness;
   const contrast = imageFilter.contrast;
   const blur = imageFilter.blur;
-
-  useEffect(() => {
-    if (image && imageRef.current) {
-      image.src = data.imageSRC;
-      image.onload = () => {
-        imageRef.current.cache();
-        layerRef.current.draw();
-      };
-    }
-  }, [imageRef.current, imageRef, data.imageSRC]);
 
   useEffect(() => {
     if (data.cropRectangle.width === undefined) return;
@@ -81,13 +72,21 @@ const CanvasImage = ({
         }}
         onTap={() => SELECT_ELEMENT(pageId, elementId)}
         ref={imageRef}
-        x={data.x}
-        y={data.y}
+        x={data.cropRectangle.x && !data.crop ? data.cropRectangle.x : data.x}
+        y={data.cropRectangle.y && !data.crop ? data.cropRectangle.y : data.y}
         scaleX={data.scaleX}
         scaleY={data.scaleY}
         image={image}
-        width={data.width}
-        height={data.height}
+        width={
+          data.cropRectangle.width && !data.crop
+            ? data.cropRectangle.width
+            : data.width
+        }
+        height={
+          data.cropRectangle.height && !data.crop
+            ? data.cropRectangle.height
+            : data.height
+        }
         filters={[
           Konva.Filters.Brighten,
           Konva.Filters.Contrast,

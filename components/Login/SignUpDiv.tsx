@@ -120,7 +120,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
   //if the user doesn't exist , has not been loaded , there is a sign up happening or he has not confirmed his email
   if (user === undefined || user === null || loading || !user.emailVerified) {
     return (
-      <section className="flex h-full w-full flex-col items-center align-middle">
+      <section className="flex h-auto w-full flex-col items-center pb-5 align-middle">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className=" w-full flex-col items-center justify-center space-y-6 border-red-900 pl-2 pb-2 text-center align-top shadow-md shadow-black "
@@ -188,7 +188,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
             Sign Up
           </button>
         </form>
-        <div className="my-4 flex h-full w-full flex-col items-center justify-center  space-y-4 pl-2  text-center align-middle">
+        <div className="my-4 flex h-auto w-full flex-col items-center justify-center  space-y-4 pl-2 pb-5  text-center align-middle">
           <h3 className="  w-full text-center font-Handwriting text-4xl ">
             3rd Party Sign Up
           </h3>

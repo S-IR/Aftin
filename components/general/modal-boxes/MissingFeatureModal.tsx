@@ -10,25 +10,23 @@ interface props {
   text: JSX.Element | null;
   setModalText: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 }
-
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "50%",
+  height: "50%",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 2,
+};
 const MissingFeatureModal = ({
   title = "Feature not yet available",
   text = "This feature is not yet available. We are sorry for the inconvenience",
   modalType,
   changeModalType,
 }: generalModalBoxProps) => {
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 700,
-    height: 400,
-    bgcolor: "#000000",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 2,
-  };
   return (
     <Modal
       open={modalType === "missing-feature"}
@@ -36,28 +34,28 @@ const MissingFeatureModal = ({
       aria-describedby="spring-modal-description"
       onClose={() => changeModalType(null)}
     >
-      <Fade in={text !== null}>
+      <Fade in={modalType === "missing-feature"}>
         <Box
           sx={style}
           className={
-            "flex flex-col items-center justify-center rounded-sm text-center align-top "
+            "flex flex-col items-center justify-center  rounded-md bg-[url('/modals/MissingFeatureBG.png')] bg-cover text-center align-top "
           }
         >
           <Typography
             id="spring-modal-title"
             variant="h6"
             component="h2"
-            className="text-4xl text-orange-300"
+            className="font-Handwriting text-2xl text-orange-300 lg:text-6xl"
           >
             {title}
           </Typography>
-          {typeof text === "string" ? (
-            <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-              {text}
-            </Typography>
-          ) : (
-            { text }
-          )}
+          <Typography
+            className="font-serif"
+            id="spring-modal-description"
+            sx={{ mt: 2 }}
+          >
+            {text}
+          </Typography>
         </Box>
       </Fade>
     </Modal>

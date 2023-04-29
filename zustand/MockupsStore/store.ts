@@ -18,6 +18,9 @@ type Actions = {
   SELECT_IMAGE: selectImage;
 };
 
+/**
+ * This was supposed to be a separate website route for mockups store but due to time constraints it was scrapped
+ */
 export const useMockupsStore = create<State & Actions>((set) => ({
   images: [],
   currentlyPreviewed: null,
