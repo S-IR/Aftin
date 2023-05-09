@@ -37,7 +37,7 @@ interface props {
   optionsArray: SortOptionType[] | SortNestedOptionType[];
   title: string;
   queryName: queryField;
-  Icon: JSX.Element;
+  Icon: JSX.Element | HTMLImageElement;
   isThirdDegreeCategory?: boolean;
 }
 
@@ -76,7 +76,10 @@ const SortOption = ({
         className=" h-32 w-16 rounded-lg opacity-80 !transition-all  !duration-300 !ease-in-out  hover:opacity-100 md:h-auto md:w-auto"
       >
         <ListItemIcon>{Icon as unknown as ReactNode}</ListItemIcon>
-        <ListItemText primary={`${title}`} />
+        <ListItemText
+          primaryTypographyProps={{ className: "font-Handwriting" }}
+          primary={`${title}`}
+        />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -135,7 +138,7 @@ const SortOption = ({
                       {sortOption.imgSrc && (
                         <Avatar
                           alt={`template image for the ${sortOption.name} category`}
-                          src={"/SortingSidebar/dish_type/sushi.png"}
+                          src={sortOption.imgSrc}
                           className={`${
                             isChecked
                               ? `border-4 border-white/40 shadow-lg shadow-blue-200/30`

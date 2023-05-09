@@ -23,10 +23,8 @@ const Index = () => {
   return (
     <>
       <NextSeo
-        title={"Advertisement Images Library for Restaurants"}
-        description={
-          "Browse unique food advertisement images meant for restaurant owners"
-        }
+        title={"Menus, Banners and Brochure templates for Restaurants"}
+        description={"Browse unique graphic designs made for Restaurants"}
       />
       <main className="flex h-auto w-full flex-col items-center justify-center align-middle">
         <h1 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent drop-shadow-xl md:m-16 md:text-6xl">
@@ -42,7 +40,8 @@ const Index = () => {
         >
           {CategoryPageGraphicImages.map((list) => {
             return (
-              <div
+              <Link
+                href={`/restaurant-${list.catName}/${list.secondDegCatName}`}
                 key={list.name}
                 className="group relative m-2 flex h-[24vh] w-full justify-center rounded-md border-y-2 border-dashed border-white/30 align-middle shadow-gray-700  drop-shadow-xl  transition-all duration-300 hover:border-orange-500"
               >
@@ -59,17 +58,12 @@ const Index = () => {
                     "brightness-50 filter transition-all duration-300 group-hover:brightness-[25%]"
                   }
                 />
-                <button
+                <p
                   className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 group-hover:text-red-500 `}
-                  onClick={() =>
-                    router.push(
-                      `/restaurant-${list.catName}/${list.secondDegCatName}`
-                    )
-                  }
                 >
                   {list.name}
-                </button>
-              </div>
+                </p>
+              </Link>
             );
           })}
         </Masonry>

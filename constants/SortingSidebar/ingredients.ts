@@ -1,9 +1,10 @@
+import { SortNestedOptionType } from "../../typings/image-types/sortTypes";
 import { SortOptionType } from "../../typings/image-types/sortTypes";
 
-const ingredientsOptions: SortOption[] = [
+const ingredientsOptions: SortNestedOptionType[] = [
   {
     name: `Spices`,
-    imgSrc: null,
+    imgSrc: "/SortingSidebar/ingredients/spices.png",
     value: [
       {
         name: `Black Pepper`,
@@ -44,7 +45,7 @@ const ingredientsOptions: SortOption[] = [
   },
   {
     name: `Fruits`,
-    imgSrc: null,
+    imgSrc: "/SortingSidebar/ingredients/fruits.png",
     value: [
       {
         name: `Apples`,
@@ -83,7 +84,7 @@ const ingredientsOptions: SortOption[] = [
       },
       {
         name: `Strawberries`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/strawberry.png",
+        imgSrc: "/SortingSidebar/ingredients/fruits/strawberries.png",
         value: `strawberries`,
       },
       {
@@ -95,51 +96,51 @@ const ingredientsOptions: SortOption[] = [
   },
   {
     name: `Vegetables`,
-    imgSrc: null,
+    imgSrc: "/SortingSidebar/ingredients/vegetables.png",
     value: [
       {
         name: `Beans`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/beans.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/beans.png",
         value: `beans`,
       },
       {
         name: `Broccoli`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/broccoli.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/broccoli.png",
         value: `broccoli`,
       },
       {
         name: `Cabbages`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/cabbage.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/cabbage.png",
         value: `cabbages`,
       },
       {
         name: `Carrots`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/carrots.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/carrots.png",
         value: `carrots`,
       },
       {
         name: `Cucumbers`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/cucumbers.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/cucumbers.png",
         value: `cucumbers`,
       },
       {
         name: `Garlic`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/garlic.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/garlic.png",
         value: `garlic`,
       },
       {
         name: `Onions`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/onion.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/onion.png",
         value: `onions`,
       },
       {
         name: `Peas`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/peas.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/peas.png",
         value: `peas`,
       },
       {
         name: `Tomatoes`,
-        imgSrc: "/SortingSidebar/ingredients/fruits/tomatoes.png",
+        imgSrc: "/SortingSidebar/ingredients/vegetables/tomatoes.png",
         value: `tomatoes`,
       },
     ],

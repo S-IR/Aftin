@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { resetPassword } from "../../../model/server-side/sendEmail";
 import { NextSeo } from "next-seo";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase";
+import { useRouter } from "next/router";
 
 interface Inputs {
   email: string;
@@ -14,6 +17,11 @@ const Index = () => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const router = useRouter();
+  const [user, userLoading] = useAuthState(auth);
+  if (user === undefined && !userLoading) {
+    router.push("/");
+  }
 
   const [statusOfMail, setStatusOfMail] = useState<
     | null
@@ -35,7 +43,7 @@ const Index = () => {
   return (
     <div className="flex h-screen w-screen justify-center ">
       <NextSeo title="Reset Password" />
-      <section className="my-10 flex h-1/2 w-1/2 flex-col items-center justify-center rounded-md bg-brown-900 bg-gradient-to-r p-4 align-middle">
+      <section className="my-10 flex h-1/2 w-1/2 flex-col items-center justify-center rounded-md bg-[url('/image-enhancing/imageEnhancingBG.svg')] p-4 align-middle">
         <h1 className="mx-auto my-4 font-Handwriting text-2xl">
           Forgot your password?
         </h1>

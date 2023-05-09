@@ -13,14 +13,14 @@ export const physicalLayouts = [
   },
   {
     name: "Tabloid",
-    dimensions: " 8.5” by 14”",
+    dimensions: " 11” by 17”",
     value: { w: 2640, h: 4080 },
     url: "/image-editor/layoutTypes/physicalLayouts/tabloid.png",
   },
   {
     name: "A4",
-    dimensions: " 8.5” by 14”",
-    value: { w: 2640, h: 4080 },
+    dimensions: " 8.3” by 11.7”",
+    value: { w: 1985, h: 2806 },
     url: "/image-editor/layoutTypes/physicalLayouts/A4.png",
   },
   {
@@ -39,8 +39,8 @@ export const physicalLayouts = [
 export const digitalLayouts = [
   {
     name: "Facebook",
-    dimensions: "1200 X 630",
-    value: { w: 1200, h: 630 },
+    dimensions: "820 X 460px",
+    value: { w: 820, h: 460 },
     url: "/image-editor/layoutTypes/socialMediaLayouts/facebook.png",
   },
   {
@@ -51,8 +51,8 @@ export const digitalLayouts = [
   },
   {
     name: "Twitter",
-    dimensions: "1200 X 628",
-    value: { w: 1200, h: 628 },
+    dimensions: "1500 X 500px",
+    value: { w: 1500, h: 500 },
     url: "/image-editor/layoutTypes/socialMediaLayouts/twitter.png",
   },
 ] as const;

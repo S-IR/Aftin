@@ -1,36 +1,35 @@
-import { string } from "yup";
 import { gr_des_style_array } from "../../typings/image-types/ImageTypes";
 import { SortOptionType } from "../../typings/image-types/sortTypes";
 
-const grDesStyleOptions: SortOption[] = [
+const grDesStyleOptions: SortOptionType[] = [
   {
     name: "Diners",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/diner.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/diner.png",
     value: `diner`,
   },
   {
     name: "Fine Dining",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/fine-dining.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/fine-dining.png",
     value: `fine-dining`,
   },
   {
     name: "Bars",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/bar.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/bar.png",
     value: `bar`,
   },
   {
     name: "Cafeterias",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/cafeteria.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/cafeteria.png",
     value: `cafeteria`,
   },
   {
     name: "Family Restaurant",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/family-restaurant.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/family-restaurant.png",
     value: `family-restaurant`,
   },
   {
     name: "Pizzeria",
-    imgSrc: "/SortingSidebar/Graphic Design Styles/pizzeria.png",
+    imgSrc: "/SortingSidebar/gr_des_styles/pizzeria.png",
     value: `pizzeria`,
   },
   {
@@ -39,48 +38,47 @@ const grDesStyleOptions: SortOption[] = [
     value: [
       {
         name: `Italian`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/italian.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/italian.png",
         value: `italian`,
       },
       {
         name: `Japanese`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/japanese.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/japanese.png",
         value: `japanese`,
       },
       {
         name: `French`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/french.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/french.png",
         value: `french`,
       },
       {
         name: `Indian`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/indian.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/indian.png",
         value: `indian`,
       },
       {
         name: `Greek`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/greek.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/greek.png",
         value: `greek`,
       },
       {
         name: `thai`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/thai.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/thai.png",
         value: `thai`,
       },
       {
         name: `Mexican`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/mexican.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/mexican.png",
         value: `mexican`,
       },
       {
         name: `chinese`,
-        imgSrc: "/SortingSidebar/Graphic Design Styles/Ethnic/chinese.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/chinese.png",
         value: `chinese`,
       },
       {
         name: `Middle Eastern`,
-        imgSrc:
-          "/SortingSidebar/Graphic Design Styles/Ethnic/middle-eastern.png",
+        imgSrc: "/SortingSidebar/gr_des_styles/Ethnic/middle-eastern.png",
         value: `middle eastern`,
       },
     ],

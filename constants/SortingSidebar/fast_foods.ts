@@ -1,40 +1,41 @@
 import { SortOptionType } from "../../typings/image-types/sortTypes";
 
-const fastFoodOptions: SortOption[] = [
-  {
-    name: "Fries",
-    imgSrc: "/SortingSidebar/fast_foods/fries.png",
-    value: `fries`,
-  },
+const fastFoodOptions: SortOptionType[] = [
   {
     name: "Burgers",
-    imgSrc: "/SortingSidebar/fast_foods/burgers.png",
+    imgSrc: "/SortingSidebar/fast_food_type/burgers.png",
     value: `burgers`,
   },
   {
-    name: "Website Banner",
-    imgSrc: "/SortingSidebar/fast_foods/tacos.png",
-    value: `tacos`,
-  },
-  {
-    name: "Pizzas",
-    imgSrc: "/SortingSidebar/fast_foods/pizzas.png",
-    value: `pizzas`,
-  },
-  {
-    name: "Nuggets",
-    imgSrc: "/SortingSidebar/fast_foods/nuggets.png",
-    value: `nuggets`,
-  },
-  {
-    name: "Pretzels",
-    imgSrc: "/SortingSidebar/fast_foods/pretzels.png",
-    value: `pretzels`,
+    name: "Fries",
+    imgSrc: "/SortingSidebar/fast_food_type/fries.png",
+    value: `fries`,
   },
   {
     name: "Hot Dogs",
-    imgSrc: "/SortingSidebar/fast_foods/hot-dogs.png",
+    imgSrc: "/SortingSidebar/fast_food_type/hot-dogs.png",
     value: `hot-dogs`,
+  },
+  {
+    name: "Nuggets",
+    imgSrc: "/SortingSidebar/fast_food_type/nuggets.png",
+    value: `nuggets`,
+  },
+  {
+    name: "Pizzas",
+    imgSrc: "/SortingSidebar/fast_food_type/pizzas.png",
+    value: `pizzas`,
+  },
+  {
+    name: "Pretzels",
+    imgSrc: "/SortingSidebar/fast_food_type/pretzels.png",
+    value: `pretzels`,
+  },
+
+  {
+    name: "Tacos",
+    imgSrc: "/SortingSidebar/fast_food_type/tacos.png",
+    value: `tacos`,
   },
 ];
 export default fastFoodOptions;

@@ -56,8 +56,11 @@ const SortNestedOption: FC<props> = ({
         }
       >
         <ListItemIcon>
-          {/* TODO DETERMINE THE ICON THAT SHOULD BE DISPLAYED  */}
-          <Restaurant style={{ color: "red" }} />
+          <Avatar
+            alt={`template image for the ${sortNestedOption.name} category`}
+            src={sortNestedOption.imgSrc as string}
+            id={`${sortNestedOption.name}`}
+          />
         </ListItemIcon>
         <ListItemText primary={sortNestedOption.name} />
         {open ? <ExpandLess /> : <ExpandMore />}

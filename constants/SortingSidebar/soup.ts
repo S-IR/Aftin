@@ -1,29 +1,29 @@
 import { SortOptionType } from "../../typings/image-types/sortTypes";
 
-const soupOptions: SortOption[] = [
+const soupOptions: SortOptionType[] = [
   {
-    name: "Facebook Banner",
-    imgSrc: "/SortingSidebar/soup/clam-chowder.png",
+    name: "Clam Chowder",
+    imgSrc: "/SortingSidebar/soup_type/clam-chowder.png",
     value: `clam-chowder`,
   },
   {
-    name: "Twitter Banner",
-    imgSrc: "/SortingSidebar/soup/french-onion-soup.png",
+    name: "French Onion Soup",
+    imgSrc: "/SortingSidebar/soup_type/french-onion-soup.png",
     value: `french-onion-soup`,
   },
   {
-    name: "Website Banner",
-    imgSrc: "/SortingSidebar/soup/miso-soup.png",
+    name: "Miso Soup",
+    imgSrc: "/SortingSidebar/soup_type/miso-soup.png",
     value: `miso-soup`,
   },
   {
-    name: "Outdoor Banner",
-    imgSrc: "/SortingSidebar/soup/pho.png",
+    name: "Pho",
+    imgSrc: "/SortingSidebar/soup_type/pho.png",
     value: `pho`,
   },
   {
-    name: "Outdoor Banner",
-    imgSrc: "/SortingSidebar/soup/ramen.png",
+    name: "Ramen",
+    imgSrc: "/SortingSidebar/soup_type/ramen.png",
     value: `ramen`,
   },
 ];

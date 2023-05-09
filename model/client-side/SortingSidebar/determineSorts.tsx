@@ -1,18 +1,4 @@
 import {
-  Cake,
-  DinnerDining,
-  Fastfood,
-  LocalBar,
-  RamenDining,
-  Restaurant,
-  SoupKitchen,
-  StickyNote2,
-  TableBar,
-  Tapas,
-  Wallpaper,
-} from "@mui/icons-material";
-import Table from "@mui/material/Table";
-import {
   appetizerOptions,
   cutleriesOptions,
   dishOptions,
@@ -26,25 +12,14 @@ import {
 } from "../../../constants/SortingSidebar";
 import { tableOptions } from "../../../constants/SortingSidebar/table_type";
 import {
-  GraphicDesignsOptions,
   SecondDegreeCategory,
-  AdvertImagesOptions,
-  thirdDegArr,
-  appetizers_array,
-  ThirdDegreeCategory,
-  main_dish_array,
-  soups_array,
-  fast_foods_array,
-  sweets_and_desserts_array,
-  drinks_array,
-  cutleries_and_plates_array,
-  ingredients_array,
-  gr_des_style_array,
-  thirdDegCompositionArr,
   nestedImageFields,
 } from "../../../typings/image-types/ImageTypes";
 import { AdvertImagesOptionsSchema } from "../../../typings/image-types/imageZodSchemas";
-import { SortOptionType } from "../../../typings/image-types/sortTypes";
+import {
+  SortNestedOptionType,
+  SortOptionType,
+} from "../../../typings/image-types/sortTypes";
 /**
  * Determines which sorting options should be displayed
  * @param secondDegCat the secondDegCategory that you want to determine which sorting parameters it should have
@@ -81,12 +56,12 @@ export const determineSorts = (
   let thirdDegreeCategory:
     | {
         title: string;
-        optionsArray: SortOptionType[];
+        optionsArray: SortOptionType[] | SortNestedOptionType[];
         icon: JSX.Element;
       }
     | {
         title: nestedImageFields;
-        optionsArray: SortOptionType[];
+        optionsArray: SortOptionType[] | SortNestedOptionType[];
         icon: JSX.Element;
       };
   if (AdvertImagesOptionsSchema.safeParse(secondDegCat).success) {
@@ -96,51 +71,93 @@ export const determineSorts = (
   switch (secondDegCat) {
     case `appetizers`:
       thirdDegreeCategory = {
-        title: "Dish Type",
+        title: "Appetizer Type",
         optionsArray: appetizerOptions,
-        icon: <Tapas style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/appetizer_type/appetizer_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `soups`:
       thirdDegreeCategory = {
         title: "Soup Type",
         optionsArray: soupOptions,
-        icon: <SoupKitchen style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/soup_type/soup_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `main-dishes`:
       thirdDegreeCategory = {
         title: "Dish Type",
         optionsArray: dishOptions,
-        icon: <DinnerDining style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/main_dish_type/main_dish_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `sweets-and-desserts`:
       thirdDegreeCategory = {
         title: "Sweet Type",
         optionsArray: sweetOptions,
-        icon: <Cake style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/sweet_type/sweet_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `fast-foods`:
       thirdDegreeCategory = {
         title: "Fast Food Type",
         optionsArray: fastFoodOptions,
-        icon: <Fastfood style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/fast_food_type/fast_food_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `drinks`:
       thirdDegreeCategory = {
         title: "Drink Type",
         optionsArray: drinkOptions,
-        icon: <LocalBar style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/drink_type/drink_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `cutleries-and-plates`:
       thirdDegreeCategory = {
         title: "Cutlery Type",
         optionsArray: cutleriesOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/cutlery_type/cutlery_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       material = true;
       break;
@@ -148,14 +165,26 @@ export const determineSorts = (
       thirdDegreeCategory = {
         title: "Ingredient Type",
         optionsArray: ingredientsOptions,
-        icon: <RamenDining style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/ingredients/ingredient_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `tables`:
       thirdDegreeCategory = {
         title: "Table Type",
         optionsArray: tableOptions,
-        icon: <TableBar style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/table_type/table_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
 
@@ -163,7 +192,13 @@ export const determineSorts = (
       thirdDegreeCategory = {
         title: "Menu Style",
         optionsArray: grDesStyleOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/gr_des_styles/menu_style_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       menu_size = true;
       break;
@@ -171,7 +206,13 @@ export const determineSorts = (
       thirdDegreeCategory = {
         title: "Banner Style",
         optionsArray: grDesStyleOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/gr_des_styles/banner_style_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       banner_type = true;
       break;
@@ -179,14 +220,26 @@ export const determineSorts = (
       thirdDegreeCategory = {
         title: "Clipart type",
         optionsArray: stickerOptions,
-        icon: <StickyNote2 style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/sticker_category/sticker_type_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       break;
     case `brochures`:
       thirdDegreeCategory = {
         title: "Brochure Type",
         optionsArray: grDesStyleOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/gr_des_styles/brochure_style_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       shape = true;
       break;
@@ -194,7 +247,13 @@ export const determineSorts = (
       thirdDegreeCategory = {
         title: "Flyer Type",
         optionsArray: grDesStyleOptions,
-        icon: <Restaurant style={{ color: `gold` }} />,
+        icon: (
+          <img
+            src={"/SortingSidebar/gr_des_styles/flyer_style_icon.svg"}
+            width={32}
+            height={32}
+          />
+        ),
       };
       shape = true;
       break;

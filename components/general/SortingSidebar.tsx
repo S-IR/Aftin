@@ -63,6 +63,8 @@ import { SecondDegreeCategory } from "../../typings/image-types/ImageTypes";
 import { tagsArray } from "../../constants/upload-image/Tags";
 import { handleOptionClick } from "../../model/client-side/SortingSidebar/handleClick";
 import styles from "../../styles/website-gallery/SortingSidebar.module.css";
+import AppetizerTypeIcon from "../../public/SortingSidebar/appetizer_type/appetizer_type_icon.svg";
+import Image from "next/image";
 
 interface props {
   showSidebar: boolean;
@@ -138,7 +140,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
             />
           </button>
         </Tooltip>
-        <div className="mt-3 flex h-16 w-full items-center  ">
+        <div className="mt-3 flex h-16 w-full items-center border-b-2 border-dashed border-yellow-500/40 ">
           <h2 className=" ml-3  h-min w-full text-center font-Handwriting   text-2xl text-white md:text-xl ">
             Filters
           </h2>
@@ -165,7 +167,15 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               optionsArray={surrEnvOptions}
               queryName={`surr_env`}
               title={`Surrounding Environment`}
-              Icon={<OutdoorGrill style={{ color: `gold` }} />}
+              Icon={
+                <img
+                  src={
+                    "/SortingSidebar/surr_env/surrounding_environment_icon.svg"
+                  }
+                  width={32}
+                  height={32}
+                />
+              }
             />
           )}
 
@@ -174,7 +184,13 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               optionsArray={materialOptions}
               queryName={`material`}
               title={`Material`}
-              Icon={<Straighten style={{ color: `gold` }} />}
+              Icon={
+                <img
+                  src={"/SortingSidebar/material/material_icon.svg"}
+                  width={32}
+                  height={32}
+                />
+              }
             />
           )}
 
@@ -183,7 +199,13 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               optionsArray={bannerTypeOptions}
               queryName={`banner_type`}
               title={`Banner Type`}
-              Icon={<Wallpaper style={{ color: `gold` }} />}
+              Icon={
+                <img
+                  src={"/SortingSidebar/banner_type/banner_type_icon.svg"}
+                  width={32}
+                  height={32}
+                />
+              }
             />
           )}
 
@@ -201,7 +223,13 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               optionsArray={menuSizeOptions}
               queryName={`menu_size`}
               title={`Menu Size`}
-              Icon={<MenuBook style={{ color: `gold` }} />}
+              Icon={
+                <img
+                  src={"/SortingSidebar/menu_size/menu_size_icon.svg"}
+                  width={32}
+                  height={32}
+                />
+              }
             />
           )}
           {size && (
@@ -209,7 +237,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
               optionsArray={sizeOptions}
               queryName={`size`}
               title={`Size`}
-              Icon={<AspectRatio style={{ color: `gold` }} />}
+              Icon={<AspectRatio style={{ color: `gold`, paddingLeft: 2 }} />}
             />
           )}
         </List>

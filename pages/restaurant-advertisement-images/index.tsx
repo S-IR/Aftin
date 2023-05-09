@@ -39,8 +39,9 @@ const Index = () => {
         >
           {CategoryPageAdvertImages.map((list) => {
             return (
-              <div
+              <Link
                 key={list.name}
+                href={`/restaurant-${list.catName}/${list.secondDegCatName}`}
                 className="group relative m-2 flex h-[24vh] w-full justify-center rounded-md border-y-2 border-dashed border-white/30 align-middle shadow-gray-700  drop-shadow-xl  transition-all duration-300 hover:border-orange-500"
               >
                 <Image
@@ -56,17 +57,12 @@ const Index = () => {
                     "brightness-50 filter transition-all duration-300 group-hover:brightness-[25%]"
                   }
                 />
-                <button
+                <p
                   className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 group-hover:text-red-500 `}
-                  onClick={() =>
-                    router.push(
-                      `/restaurant-${list.catName}/${list.secondDegCatName}`
-                    )
-                  }
                 >
                   {list.name}
-                </button>
-              </div>
+                </p>
+              </Link>
             );
           })}
         </Masonry>

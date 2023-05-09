@@ -32,7 +32,7 @@ import { useCachedStore } from "../zustand/CachedImageStore/store";
 
 const Home: NextPage = () => {
   const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
-  return (
+  return  (
     <>
       <Head>
         <NextSeo
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
         />
         <title>Aftin - Homepage</title>
       </Head>
-      <main className="website-theme-image max-w-full overflow-x-hidden">
+      <main className="website-theme-image max-w-full overflow-x-hidden font-serif">
         <HomeBanner />
         <HomeIntro />
         <StudiesBox />

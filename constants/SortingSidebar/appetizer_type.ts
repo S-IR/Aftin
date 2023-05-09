@@ -52,6 +52,11 @@ const appetizerOptions: SortOptionType[] = [
     value: `falafel`,
   },
   {
+    name: "French Toast",
+    imgSrc: "/SortingSidebar/appetizer_type/french-toast.png",
+    value: `french-toast`,
+  },
+  {
     name: "Gnocchi",
     imgSrc: "/SortingSidebar/appetizer_type/gnocchi.png",
     value: `gnocchi`,
