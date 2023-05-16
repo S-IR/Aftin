@@ -10,7 +10,7 @@ const HomepageGallery = () => {
   return (
     <section
       className={
-        "e  flex overflow-hidden border-t-8 border-dotted border-white"
+        "e  flex overflow-hidden border-t-2 border-dashed border-brown-900/40"
       }
     >
       <h3 className="m-16 mt-48  bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent  lg:text-8xl">

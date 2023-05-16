@@ -41,9 +41,9 @@ export const secondDegArray = [
 export const size_array = [
   `<256x256`,
   `256x256-512x512`,
-  `512x512-1280x720`,
-  `1280x720-1920x1080`,
-  `1920x1080-4K`,
+  `512x512-1024-1024`,
+  `2K`,
+  `2K-4K`,
   `4K+`,
 ] as const;
 
@@ -212,7 +212,8 @@ export const menu_size_array = [
   `letter`,
   `legal`,
   `tabloid`,
-  `half-page`,
+  "bi-fold",
+  "tri-fold",
   "other-dimension",
 ] as const;
 
@@ -221,6 +222,7 @@ export const banner_type_array = [
   `twitter-banner`,
   `website-banner`,
   `outdoor-banner`,
+  "other-dimension",
 ] as const;
 
 export const stickers_and_cliparts_categories = [
@@ -323,8 +325,8 @@ export type ImgDoc = {
   color?: { r: number; g: number; b: number }[];
   color_scheme: HTMLHexColor[];
   surr_env?: (typeof surr_env_array)[number];
-  url: string;
-  real_url: string;
+  url: string | string[];
+  real_url: string | string[];
   width: number;
   height: number;
   tags: (typeof tagsArray)[number][];

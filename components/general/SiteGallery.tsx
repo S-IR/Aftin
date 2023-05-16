@@ -184,7 +184,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
           {data.pages.map((page) =>
             page.docsArray.map((imgDoc) => (
               <SingleImage
-                key={imgDoc.url}
+                key={imgDoc.description}
                 imgDoc={imgDoc}
                 isMobile={isMobile}
                 setDialog={setDialog}

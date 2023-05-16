@@ -5,6 +5,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
+import { animated, useSpringRef, useTransition } from "react-spring";
+
 import { BiDollar, BiDollarCircle } from "react-icons/bi";
 import {
   checkImageGalleryClick,
@@ -25,10 +27,14 @@ import Button from "../Button";
 import Loading from "../Loading";
 import { galleryImageDialog } from "../SiteGallery";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
-import { useCachedStore } from "../../../zustand/CachedImageStore/store";
+import {
+  imagetoEnhance,
+  useCachedStore,
+} from "../../../zustand/CachedImageStore/store";
 import { triggerMissingMockupFeature } from "../../../model/client-side/general/missingFeatures";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 interface props {
   dialogName: null | galleryImageDialog["name"];
@@ -47,9 +53,16 @@ const FreeImageDialog: FC<props> = ({
   isMobile,
 }) => {
   const router = useRouter();
+
+  //used to determine if the user can click on a button
   const [user, userLoading] = useAuthState(auth);
-  const secondDegCat = router.query.imageCategory[0] as SecondDegreeCategory;
-  const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
+
+  const imageCategory = router.query.imageCategory as string[];
+  const secondDegCat = imageCategory[0] as SecondDegreeCategory;
+  const [ADD_IMAGE, ADD_PAGE] = useCanvasState((state) => [
+    state.ADD_IMAGE,
+    state.ADD_PAGE,
+  ]);
   const [changeModalText, changeModalType] = useModalStore((state) => [
     state.CHANGE_MODAL_TEXT,
     state.CHANGE_MODAL_TYPE,
@@ -100,6 +113,11 @@ const FreeImageDialog: FC<props> = ({
                   {`${doc.width} x ${doc.height}`}
                 </p>
               )}
+              {Array.isArray(doc.url) && (
+                <p className="text-center text-lg">
+                  Set of {doc.url.length} images
+                </p>
+              )}
               <p className="text-center text-lg">
                 <span className="text-gray-500">Tags:</span> <br></br>
                 {doc.tags.length === 0 ? (
@@ -147,18 +165,47 @@ const FreeImageDialog: FC<props> = ({
                         "redirected_to_upscale_through_siteGallery",
                         {
                           secondDegCat,
-                          imageRef: doc.url.replace(
-                            "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
-                            ""
-                          ),
+                          imageRef: Array.isArray(doc.url)
+                            ? doc.url[0].replace(
+                                "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                                ""
+                              )
+                            : doc.url.replace(
+                                "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                                ""
+                              ),
                         }
                       );
-                      addEnhanceImageToCache({
-                        src: doc.tier === "bronze" ? doc.url : doc.real_url,
-                        name: doc.tier === "bronze" ? doc.url : doc.real_url,
-                        width: doc.width,
-                        height: doc.height,
-                      });
+                      let toEnhance: imagetoEnhance | imagetoEnhance[];
+                      if (
+                        !Array.isArray(doc.url) &&
+                        !Array.isArray(doc.real_url)
+                      ) {
+                        toEnhance = {
+                          src: doc.tier === "bronze" ? doc.url : doc.real_url,
+                          name: doc.tier === "bronze" ? doc.url : doc.real_url,
+                          width: doc.width,
+                          height: doc.height,
+                        };
+                      } else {
+                        toEnhance = [];
+                        for (let i = 0; i < doc.url.length; i++) {
+                          toEnhance.push({
+                            src:
+                              doc.tier === "bronze"
+                                ? doc.url[i]
+                                : doc.real_url[i],
+                            name:
+                              doc.tier === "bronze"
+                                ? doc.url[i]
+                                : doc.real_url[i],
+                            width: doc.width,
+                            height: doc.height,
+                          });
+                        }
+                      }
+
+                      addEnhanceImageToCache(toEnhance);
                       return router.push("/image-enhancing/upscale");
                     case "not logged in":
                     case "unauthorized":
@@ -171,19 +218,28 @@ const FreeImageDialog: FC<props> = ({
                 Upscale Image
               </button>
             </div>
-            <Image
-              id="modal-modal-description"
-              src={doc.url}
-              width={
-                isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
-              }
-              height={
-                isMobile ? Math.min(doc.height, 256) : Math.min(doc.height, 384)
-              }
-              style={{ objectFit: `scale-down` }}
-              className="mx-auto overflow-hidden  rounded-sm lg:mx-0  "
-              alt={doc.description}
-            />
+            {Array.isArray(doc.url) ? (
+              <DisplayDesignSet
+                doc={doc as Omit<ImgDoc, "url"> & { url: string[] }}
+                isMobile={isMobile}
+              />
+            ) : (
+              <Image
+                id="modal-modal-description"
+                src={doc.url}
+                width={
+                  isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
+                }
+                height={
+                  isMobile
+                    ? Math.min(doc.height, 256)
+                    : Math.min(doc.height, 384)
+                }
+                style={{ objectFit: `scale-down` }}
+                className="mx-auto overflow-hidden  rounded-sm lg:mx-0  "
+                alt={doc.description}
+              />
+            )}
           </div>
 
           <div className="grid h-full w-full basis-1/5  grid-cols-2 flex-row items-center  justify-center gap-2 bg-brown-700    px-2  py-10  align-middle  md:flex md:flex-col md:space-x-0  md:space-y-16 md:px-0 ">
@@ -201,15 +257,21 @@ const FreeImageDialog: FC<props> = ({
                     "event",
                     "redirected_to_edit_through_siteGallery",
                     {
-                      imageRef: doc.url.replace(
-                        "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
-                        ""
-                      ),
+                      imageRef: Array.isArray(doc.url)
+                        ? doc.url[0].replace(
+                            "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                            ""
+                          )
+                        : doc.url.replace(
+                            "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                            ""
+                          ),
                     }
                   );
                   return handleWebsiteGalleryEdit(
                     router,
                     ADD_IMAGE,
+                    ADD_PAGE,
                     doc.url,
                     doc.width,
                     doc.height
@@ -252,10 +314,15 @@ const FreeImageDialog: FC<props> = ({
                 );
                 if (passedChecks) {
                   window.gtag("event", "downloaded_image_through_siteGallery", {
-                    imageRef: doc.url.replace(
-                      "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
-                      ""
-                    ),
+                    imageRef: Array.isArray(doc.url)
+                      ? doc.url[0].replace(
+                          "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                          ""
+                        )
+                      : doc.url.replace(
+                          "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o",
+                          ""
+                        ),
                   });
                   return handleDownload(doc.url);
                 }
@@ -278,3 +345,80 @@ const FreeImageDialog: FC<props> = ({
 };
 
 export default FreeImageDialog;
+
+interface DisplayDesignSetProps {
+  doc: Omit<ImgDoc, "url"> & { url: string[] };
+  isMobile: boolean;
+}
+const DisplayDesignSet = ({ doc, isMobile }: DisplayDesignSetProps) => {
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const transRef = useSpringRef();
+  const transitions = useTransition(carouselIndex, {
+    ref: transRef,
+    keys: null,
+    from: { opacity: 0, transform: "translate(-5%, 0)" },
+    enter: { opacity: 1, transform: "translate(0, 0)" },
+    leave: { opacity: 0, transform: "translate(5%, 0)" },
+  });
+  useEffect(() => {
+    transRef.start();
+  }, [carouselIndex]);
+  return (
+    <div className="relative flex w-full  justify-center align-middle">
+      <div
+        className="absolute top-0 flex h-8 translate-y-2 items-center justify-center  align-middle "
+        style={{
+          transform: `translateY(${isMobile ? 1536 / 8 : 1536 / 4})`,
+          width: isMobile ? 1536 / 16 : 1536 / 8,
+        }}
+      >
+        <button
+          className=" z-10 mx-auto h-8 w-8 rounded-full bg-orange-500 transition-all duration-300 hover:bg-orange-700 disabled:bg-gray-500  "
+          disabled={carouselIndex === 0}
+          onClick={() => setCarouselIndex((v) => v - 1)}
+        >
+          <KeyboardArrowLeft />
+        </button>
+        <button
+          className="z-10 mx-auto h-8 w-8 rounded-full bg-orange-500 transition-all duration-300 hover:bg-orange-700 disabled:bg-gray-500  "
+          disabled={carouselIndex === doc.url.length - 1}
+          onClick={() => setCarouselIndex((v) => v + 1)}
+        >
+          <KeyboardArrowRight />
+        </button>
+      </div>
+      {transitions((style, i) => {
+        const url = doc.url[i];
+        return (
+          <animated.div
+            style={style}
+            className=" absolute top-12 left-0 flex h-fit w-full    items-start  justify-start rounded-md align-top"
+          >
+            <Image
+              id="modal-modal-description"
+              src={url}
+              style={{
+                objectFit: `scale-down`,
+                width: isMobile
+                  ? Math.min(doc.width, 256)
+                  : Math.min(doc.width, 512),
+                height: isMobile
+                  ? Math.min(doc.height, 256)
+                  : Math.min(doc.height, 384),
+              }}
+              className="mx-auto overflow-hidden rounded-sm "
+              alt={doc.description}
+              width={
+                isMobile ? Math.min(doc.width, 256) : Math.min(doc.width, 512)
+              }
+              height={
+                isMobile ? Math.min(doc.height, 256) : Math.min(doc.height, 384)
+              }
+            />
+          </animated.div>
+        );
+      })}
+    </div>
+  );
+};

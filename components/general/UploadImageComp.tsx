@@ -25,7 +25,9 @@ import {
 } from "../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/determineInput";
 import {
   getImgFieldsFromTitle,
+  getSizeField,
   getTagsFromTitle,
+  uploadImageSetToStorage,
   uploadImageToStorage,
 } from "../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/uploadImageToStorage";
 import { makeID } from "../../model/GeneralFunctions";
@@ -33,20 +35,28 @@ import {
   gr_des_style_array,
   FirstDegreeCategory,
   SecondDegreeCategory,
+  ImgDoc,
+  tier_array,
 } from "../../typings/image-types/ImageTypes";
 import { AdvertImagesOptionsSchema } from "../../typings/image-types/imageZodSchemas";
 import FirstDegreeInput from "../f302b492-a403-4ac8-9745-c4db741051c9/UploadImage/FirstDegreeInput";
+import LoadingScreen from "./LoadingScreen";
 
 interface props {
   FirstDegreeCategory: FirstDegreeCategory;
   SecondDegreeCategory: SecondDegreeCategory;
 }
-
+export type UploadImageForm = {
+  files: FileList;
+  tier: (typeof tier_array)[number];
+  real_files?: FileList;
+  lim_edition_expiration_date?: Date;
+};
 const UploadImageComp = ({
   FirstDegreeCategory,
   SecondDegreeCategory,
 }: props) => {
-  const canvasRef = useRef<MutableRefObject<HTMLCanvasElement | null>>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const inputsArray = useMemo(
     () => determineInputs(FirstDegreeCategory, SecondDegreeCategory),
@@ -54,14 +64,14 @@ const UploadImageComp = ({
   );
 
   const [limEditionChecked, setLimEditionChecked] = useState(false);
-  const [realImageChecked, setRealImageChecked] = useState(false);
+  const [isDesignSet, setIsDesignSet] = useState(false);
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<UploadImgInputs>({
+  } = useForm<UploadImageForm>({
     resolver: zodResolver(uploadImageSchema),
   });
   useEffect(() => {
@@ -77,89 +87,140 @@ const UploadImageComp = ({
   const [disableUpload, setDisableUpload] = useState(false);
   const storageAddress = `product-images/${FirstDegreeCategory}/${SecondDegreeCategory}`;
 
-  const onSubmit: SubmitHandler<UploadImgInputs> = async ({
+  const onSubmit: SubmitHandler<UploadImageForm> = async ({
     files,
     real_files,
     ...imgFields
   }) => {
-    const watermark = (await import("watermarkjs")).default;
-    const watermarkOptions = {
-      init(img) {
-        img.crossOrigin = "anonymous";
-      },
-    };
-    // if the image has a limited edition , convert it to a date format
-    if (imgFields.lim_edition_expiration_date) {
-      const string = imgFields.lim_edition_expiration_date;
-      imgFields.lim_edition_expiration_date = new Date(string);
-    }
-    //Disable upload button while uploading
-    // setDisableUpload(true);
+    try {
+      let realImageChecked =
+        imgFields.tier === "silver" || imgFields.tier === "gold";
+      setDisableUpload(true);
+      const watermark = (await import("watermarkjs")).default;
+      const watermarkOptions = {
+        init(img: any) {
+          img.crossOrigin = "anonymous";
+        },
+      };
 
-    const forLoop = async () => {
-      for (let i = 0; i < files.length; i++) {
-        // Create a storage ref for the image
-
-        // if there is a real image (meaning the previous reference was for the image with the watercolors), create a reference for that image also
-
-        const description = files[i].name
-          .replace(".png", "")
-          .replace("_", "")
-          .replace("Wildhide", "");
-        const tags = getTagsFromTitle(description);
+      // if the image has a limited edition , convert it to a date format
+      if (imgFields.lim_edition_expiration_date) {
+        const string = imgFields.lim_edition_expiration_date;
+        imgFields.lim_edition_expiration_date = new Date(string);
+      }
+      //Disable upload button while uploading
+      // setDisableUpload(true);
+      if (isDesignSet) {
         const uniqueImageFields = getImgFieldsFromTitle(
-          files[i].name,
+          files[0].name,
           SecondDegreeCategory,
-          i
+          0
         );
+        const tags = getTagsFromTitle(uniqueImageFields.description as string);
 
         imgFields = Object.assign(uniqueImageFields, imgFields);
-        let sizeField: "menu_size" | "size" | "banner_type" | undefined;
-        if (AdvertImagesOptionsSchema.safeParse(SecondDegreeCategory).success)
-          sizeField = "size";
-        if (SecondDegreeCategory === "menus") sizeField = "menu_size";
-        if (SecondDegreeCategory === "banners") sizeField = "banner_type";
+        const sizeField = getSizeField(SecondDegreeCategory);
 
-        const docFields = { tags, description, ...imgFields };
-        // if the image needs to have a watermark added, then create a new image with the watermark
+        const docFields = { tags, ...imgFields };
         if (realImageChecked) {
-          watermark(
-            [
-              files[i],
-              "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
-            ],
-            watermarkOptions
-          )
-            .image(watermark.image.lowerRight(0.5))
-            .then((watermarkedImg) => {
+          let watermarkLinksArr: string[] | undefined;
+          for (let i = 0; i < files.length; i++) {
+            const watermarkedImg = await watermark(
+              [
+                files[i],
+                "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
+              ],
+              watermarkOptions
+            ).image(watermark.image.lowerRight(0.5));
+            watermarkLinksArr?.push(watermarkedImg.src);
+          }
+          uploadImageSetToStorage(
+            storageAddress,
+            files,
+            doc,
+            docFields,
+            canvasRef,
+            sizeField,
+            watermarkLinksArr
+          ).then(() => setDisableUpload(false));
+        } else {
+          uploadImageSetToStorage(
+            storageAddress,
+            files,
+            doc,
+            docFields,
+            canvasRef,
+            sizeField
+          ).then(() => setDisableUpload(false));
+        }
+      } else {
+        const forLoop = async () => {
+          for (let i = 0; i < files.length; i++) {
+            // Create a storage ref for the image
+
+            // if there is a real image (meaning the previous reference was for the image with the watercolors), create a reference for that image also
+
+            const uniqueImageFields = getImgFieldsFromTitle(
+              files[i].name,
+              SecondDegreeCategory,
+              i
+            );
+            const tags = getTagsFromTitle(
+              uniqueImageFields.description as string
+            );
+
+            imgFields = Object.assign(uniqueImageFields, imgFields);
+            const sizeField = getSizeField(SecondDegreeCategory);
+
+            const docFields = { tags, ...imgFields };
+
+            // if the image needs to have a watermark added, then create a new image with the watermark
+            if (realImageChecked) {
+              watermark(
+                [
+                  files[i],
+                  "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
+                ],
+                watermarkOptions
+              )
+                .image(watermark.image.lowerRight(0.5))
+                .then((watermarkedImg: any) => {
+                  uploadImageToStorage(
+                    storageAddress,
+                    files[i],
+                    doc,
+                    docFields,
+                    canvasRef,
+                    sizeField,
+                    watermarkedImg.src
+                  );
+                });
+            } else {
               uploadImageToStorage(
                 storageAddress,
                 files[i],
                 doc,
                 docFields,
                 canvasRef,
-                sizeField,
-                watermarkedImg.src
+                sizeField
               );
-            });
-        } else {
-          uploadImageToStorage(
-            storageAddress,
-            files[i],
-            doc,
-            docFields,
-            canvasRef,
-            sizeField
-          );
-        }
+            }
+          }
+        };
+
+        forLoop().then(() => setDisableUpload(false));
       }
-    };
-    forLoop().then(() => setDisableUpload(false));
+    } catch (error) {
+      setDisableUpload(false);
+      throw error;
+    }
   };
   if (!inputsArray)
     return <div>somehow this appeared without any inputs to show</div>;
+
   return (
     <div className="w-full bg-gray-500">
+      {disableUpload && <LoadingScreen isLoading={disableUpload} />}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="z-50 row-span-1 mx-5 flex-row items-center justify-center  space-y-8 rounded-sm bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 p-4 text-white sm:w-auto  md:max-w-md md:px-14"
@@ -228,18 +289,18 @@ const UploadImageComp = ({
           )}
         </div>
 
-        <div>
-          <label title="are the first images watermarked images? upload the real ones">
-            <span>
-              are the first images watermarked images? upload the real ones
-            </span>
-            <input
-              type={"checkbox"}
-              checked={realImageChecked}
-              onClick={(e) => setRealImageChecked(e.currentTarget.checked)}
-            />
-          </label>
-        </div>
+        {FirstDegreeCategory === "graphic-designs" && (
+          <div>
+            <label title="Toggle if the images that you're uploading are from a set">
+              <span>Design set?</span>
+              <input
+                type={"checkbox"}
+                checked={isDesignSet}
+                onClick={(e) => setIsDesignSet(e.currentTarget.checked)}
+              />
+            </label>
+          </div>
+        )}
 
         <div className="flex items-center justify-center">
           <button

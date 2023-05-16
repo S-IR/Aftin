@@ -78,6 +78,7 @@ export const determineSorts = (
             src={"/SortingSidebar/appetizer_type/appetizer_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for appetizer type"}
           />
         ),
       };
@@ -91,6 +92,7 @@ export const determineSorts = (
             src={"/SortingSidebar/soup_type/soup_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for soup type"}
           />
         ),
       };
@@ -104,6 +106,7 @@ export const determineSorts = (
             src={"/SortingSidebar/main_dish_type/main_dish_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for main dish type"}
           />
         ),
       };
@@ -117,6 +120,7 @@ export const determineSorts = (
             src={"/SortingSidebar/sweet_type/sweet_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for sweet type"}
           />
         ),
       };
@@ -130,6 +134,7 @@ export const determineSorts = (
             src={"/SortingSidebar/fast_food_type/fast_food_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for fast food type"}
           />
         ),
       };
@@ -143,6 +148,7 @@ export const determineSorts = (
             src={"/SortingSidebar/drink_type/drink_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for drink type"}
           />
         ),
       };
@@ -156,6 +162,7 @@ export const determineSorts = (
             src={"/SortingSidebar/cutlery_type/cutlery_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for cutlery type"}
           />
         ),
       };
@@ -170,6 +177,7 @@ export const determineSorts = (
             src={"/SortingSidebar/ingredients/ingredient_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for ingredient type"}
           />
         ),
       };
@@ -183,6 +191,7 @@ export const determineSorts = (
             src={"/SortingSidebar/table_type/table_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for table type"}
           />
         ),
       };
@@ -197,6 +206,7 @@ export const determineSorts = (
             src={"/SortingSidebar/gr_des_styles/menu_style_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for menu style"}
           />
         ),
       };
@@ -211,6 +221,7 @@ export const determineSorts = (
             src={"/SortingSidebar/gr_des_styles/banner_style_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for banner style"}
           />
         ),
       };
@@ -225,6 +236,7 @@ export const determineSorts = (
             src={"/SortingSidebar/sticker_category/sticker_type_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for sticker style"}
           />
         ),
       };
@@ -238,6 +250,7 @@ export const determineSorts = (
             src={"/SortingSidebar/gr_des_styles/brochure_style_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for brochure style"}
           />
         ),
       };
@@ -252,6 +265,7 @@ export const determineSorts = (
             src={"/SortingSidebar/gr_des_styles/flyer_style_icon.svg"}
             width={32}
             height={32}
+            alt={"icon for flyer style"}
           />
         ),
       };

@@ -43,8 +43,8 @@ const Index = () => {
   return (
     <div className="flex h-screen w-screen justify-center ">
       <NextSeo title="Reset Password" />
-      <section className="my-10 flex h-1/2 w-1/2 flex-col items-center justify-center rounded-md bg-[url('/image-enhancing/imageEnhancingBG.svg')] p-4 align-middle">
-        <h1 className="mx-auto my-4 font-Handwriting text-2xl">
+      <section className="my-10 flex h-3/4 w-3/4 flex-col items-center justify-center rounded-md bg-opacity-75 bg-[url('/reset/bg.png')] bg-cover p-4 align-middle">
+        <h1 className="mx-auto my-4 font-Handwriting text-4xl text-orange-200 lg:text-6xl">
           Forgot your password?
         </h1>
         <h2 className="mx-auto text-xl text-gray-400">
@@ -54,14 +54,14 @@ const Index = () => {
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={
-            "flex flex-col items-center justify-center space-y-5 align-middle"
+            "flex flex-col items-center justify-center space-y-20 align-middle"
           }
         >
           <label className="0 mt-10 inline-block ">
             <input
               type="email"
               placeholder="Email"
-              className="white/25 h-8 w-80 bg-[#3A0602]   text-center text-xl shadow-xl !outline-none drop-shadow-xl transition-all duration-300  placeholder:text-orange-700  focus:bg-orange-800 focus:placeholder:text-orange-500 active:drop-shadow-none"
+              className="h-8 w-80 bg-orange-800 text-center text-xl shadow-xl !outline-none drop-shadow-xl transition-all duration-300  placeholder:text-orange-400  focus:bg-orange-800 focus:placeholder:text-orange-500 active:drop-shadow-none"
               {...register("email", {
                 required: true,
               })}
@@ -74,7 +74,7 @@ const Index = () => {
           </label>
           <button
             type="submit"
-            className="buttons-1 !mx-0 h-8 w-32 !bg-[#3A0602] text-center"
+            className="buttons-1 !mx-0 h-8 w-32 !bg-orange-500 text-center"
           >
             Submit
           </button>

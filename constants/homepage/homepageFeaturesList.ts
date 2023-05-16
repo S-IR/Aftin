@@ -27,9 +27,9 @@ export const homepageFeaturesList: homepageFeature[] = [
     imgSrc: ``,
   },
   {
-    title: `Preview your images`,
-    description: `Preview your images in your desired environment using our Smartmockup system to ensure that you are getting what you need`,
-    href: "/restaurant-mockups",
+    title: `Edit Images`,
+    description: `Quicklly edit your required images to make them fit your needs`,
+    href: "/image-enhancing",
     imgSrc: ``,
   },
 ];

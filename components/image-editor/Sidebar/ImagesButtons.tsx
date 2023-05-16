@@ -85,7 +85,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
     <section
       className={`z-50 h-[90vh] w-[20vw] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
     >
-      <div className="flex flex-col items-center justify-center space-y-1  py-6 align-middle shadow-lg">
+      <div className="flex cursor-pointer flex-col items-center justify-center  space-y-1 py-6 align-middle shadow-lg">
         <div
           className={`relative  h-12 w-72 ${
             isDragActive ? `bg-orange-300/60` : ``

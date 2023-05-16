@@ -26,7 +26,7 @@ const Index: NextPage = () => {
       <div className="flex h-[85%] w-[85%]  flex-col items-center justify-center space-y-20 overflow-hidden rounded-lg bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
         {loginStatusLoading ? (
           <Loading />
-        ) : loginStatus === "gold" ? (
+        ) : loginStatus === "gold" || loginStatus === "silver" ? (
           <>
             <h1 className="0 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-2xl text-transparent md:text-4xl">
               What do you want to do to a particular image?
@@ -57,15 +57,18 @@ const Index: NextPage = () => {
         ) : (
           <>
             <h1 className="text-center font-Handwriting text-2xl md:text-4xl">
-              You require gold tier to access this page <br></br>
+              You require silver or gold tier to access this page <br></br>
               <Link
-                href={"/subscribe?tier=gold"}
+                href={"/subscribe?tier=silver"}
                 className={"buttons-3"}
                 legacyBehavior
               >
                 <p className="mt-4 underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
                   {" "}
-                  Unlock <span className="text-yellow-300">gold</span> tier
+                  Unlock <span className="text-yellow-300">
+                    silver | gold
+                  </span>{" "}
+                  tier
                 </p>
               </Link>
             </h1>

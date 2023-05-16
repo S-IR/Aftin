@@ -50,6 +50,7 @@ const Index = () => {
                     " "
                   )}`}
                   fill
+                  priority
                   quality={100}
                   style={{ objectFit: "cover" }}
                   src={`/galleries-root/banner-${list.catName}/${list.secondDegCatName}.png`}

@@ -4,16 +4,7 @@ import Head from "next/head";
 import { Snackbar, SnackbarContent } from "@mui/material";
 import { MdOutlineImage } from "react-icons/md";
 import CachedImageSnackbar from "../components/general/snackbars/CachedImageSnackbar";
-import {
-  CreateWithUs,
-  HomeBanner,
-  HomeIntro,
-  HomepageGallery,
-  HomepageHireProfessional,
-  HomepageTiers,
-  OurFeatures,
-  StudiesBox,
-} from "../components/homepage";
+import { CreateWithUs, HomeBanner, HomeIntro } from "../components/homepage";
 import { NextSeo } from "next-seo";
 import {
   appetizers_array,
@@ -29,19 +20,53 @@ import {
 } from "../typings/image-types/ImageTypes";
 import { MockupTypeArr } from "../constants/mockups/previewCategories";
 import { useCachedStore } from "../zustand/CachedImageStore/store";
+import styles from "../styles/Home.module.css";
+import dynamic from "next/dynamic";
+import { FaSpinner } from "react-icons/fa";
+
+const StudiesBox = dynamic(() => import("../components/homepage/StudiesBox"), {
+  ssr: false,
+});
+
+const OurFeatures = dynamic(
+  () => import("../components/homepage/OurFeatures"),
+  {
+    ssr: false,
+  }
+);
+
+const HomepageHireProfessional = dynamic(
+  () => import("../components/homepage/HomepageHireProfessional"),
+  {
+    ssr: false,
+  }
+);
+
+const HomepageTiers = dynamic(
+  () => import("../components/homepage/HomepageTiers"),
+  {
+    ssr: false,
+  }
+);
+
+const HomepageGallery = dynamic(
+  () => import("../components/homepage/HomepageGallery"),
+  {
+    ssr: false,
+  }
+);
 
 const Home: NextPage = () => {
   const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
-  return  (
+  return (
     <>
-      <Head>
-        <NextSeo
-          title="Aftin - Unique Graphic Designs for Restaurants"
-          description="Aftin is a graphic design library for unique, colorful and elegant restaurants. Express your restaurant through images"
-        />
-        <title>Aftin - Homepage</title>
-      </Head>
-      <main className="website-theme-image max-w-full overflow-x-hidden font-serif">
+      <NextSeo
+        title="Aftin - Homepage"
+        description="Aftin is a graphic design library for unique, colorful and elegant restaurants. Express your restaurant through images"
+      />
+      <main
+        className={`website-theme-image max-w-full overflow-x-hidden font-serif `}
+      >
         <HomeBanner />
         <HomeIntro />
         <StudiesBox />

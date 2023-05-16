@@ -2,24 +2,22 @@ import { create } from "zustand";
 import { ImgDoc } from "../../typings/image-types/ImageTypes";
 import produce from "immer";
 import { mountStoreDevtool } from "simple-zustand-devtools";
-
-type State = {
-  imageBeforeRedirect: ImgDoc | null;
-  imageToEnhance: {
-    src: string;
-    name: string;
-    width: number;
-    height: number;
-  } | null;
-};
-type AddRedirectImageToCache = (imgDoc: ImgDoc) => void;
-type ClearRedirectImageCache = () => void;
-type AddEnhanceImageToCache = (imageToEnhance: {
+export type imagetoEnhance = {
   src: string;
   name: string;
   width: number;
   height: number;
-}) => void;
+};
+type State = {
+  imageBeforeRedirect: ImgDoc | null;
+  toEnhance: imagetoEnhance | imagetoEnhance[] | null;
+};
+
+type AddRedirectImageToCache = (imgDoc: ImgDoc) => void;
+type ClearRedirectImageCache = () => void;
+type AddEnhanceImageToCache = (
+  toEnhance: imagetoEnhance[] | imagetoEnhance
+) => void;
 type ClearEnhanceImageCache = () => void;
 
 type Actions = {
@@ -30,7 +28,7 @@ type Actions = {
 };
 export const useCachedStore = create<State & Actions>((set) => ({
   imageBeforeRedirect: null,
-  imageToEnhance: null,
+  toEnhance: null,
   ADD_REDIRECT_IMAGE__TO_CACHE: (imgDoc) =>
     set(
       produce((state: State) => {
@@ -43,16 +41,16 @@ export const useCachedStore = create<State & Actions>((set) => ({
         state.imageBeforeRedirect = null;
       })
     ),
-  ADD_ENHANCE_IMAGE_TO_CACHE: (imageToEnhance) =>
+  ADD_ENHANCE_IMAGE_TO_CACHE: (setToEnhance) =>
     set(
       produce((state: State) => {
-        state.imageToEnhance = imageToEnhance;
+        state.toEnhance = setToEnhance;
       })
     ),
   CLEAR_ENHANCE_IMAGE_CACHE: () =>
     set(
       produce((state: State) => {
-        state.imageToEnhance = null;
+        state.toEnhance = null;
       })
     ),
 }));

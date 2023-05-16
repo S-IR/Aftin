@@ -61,7 +61,7 @@ const MoreDropdown = ({}: props) => {
           href={`/image-editor`}
           className="text-lg text-white transition-all duration-300 hover:text-gray-300"
         >
-          Access Image Editor
+          Image Editor
         </Link>
         <Link
           href={`/image-enhancing/upscale`}

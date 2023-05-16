@@ -3,7 +3,7 @@ import React from "react";
 
 const TopBanner = () => {
   return (
-    <section className="relative h-[100vh] w-full border-y-2 border-dashed border-gray-400  ">
+    <section className="relative h-[100vh] w-full border-2 border-dashed border-orange-400/20  ">
       <Image
         className="absolute top-0 left-0 brightness-50 filter"
         src={"/about-us/top-banner.png"}

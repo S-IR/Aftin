@@ -1,28 +1,67 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSpring, animated } from "react-spring";
 
 const SellAtmospheres = () => {
   const { ref: hTwoRef, inView: hTwoRefVisible } = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
+  const [zrot, setZrot] = useState(0);
+  const [xrot, setXrot] = useState(0);
+  const [yrot, setYrot] = useState(0);
+  useEffect(() => {
+    if (!hTwoRefVisible) {
+      setZrot(0);
+      setXrot(0);
+      setYrot(0);
+    }
+  }, [hTwoRefVisible]);
+
+  useEffect(() => {
+    const handleMouseMoveSellAtmosphere = (event: MouseEvent) => {
+      setXrot(
+        (event.clientX * 15 + Math.random() * 10) / window.innerWidth - 15
+      );
+      setYrot(
+        (event.clientX * 15 + Math.random() * 10) / window.innerHeight - 15
+      );
+      setZrot((prev) => prev + (Math.random() - 0.5) * 1.5);
+      console.log("e", event);
+    };
+
+    window.addEventListener("mousemove", handleMouseMoveSellAtmosphere);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMoveSellAtmosphere);
+    };
+  }, []);
   const hTwoStyle = useSpring({
     opacity: hTwoRefVisible ? 1 : 0,
-    transform: `translateY(${hTwoRefVisible ? 0 : 20}%)`,
+    transform: `translateX(${hTwoRefVisible ? 0 : -10}%)`,
   });
-
+  const animatedProps = useSpring({
+    transform: `rotateX(${xrot}deg) rotateY(${yrot}deg) rotateZ(${zrot}deg)`,
+    config: { tension: 280, friction: 60 },
+  });
   return (
-    <article className="flex h-[75vh] w-full items-center justify-center border-y-2 border-dashed border-gray-400 align-middle">
-      <div className="relative h-full w-1/2">
-        <Image
-          alt="Banner for the People Eat section for About Us - Aftin"
-          src={"/about-us/SellAtmosphereBanner.png"}
-          fill
-          style={{ objectFit: "cover" }}
-          className="absolute top-0 left-0 -z-10 brightness-75 filter "
-        />
+    <article className="flex h-[75vh] w-full rotate-[6deg] items-center justify-center overflow-clip align-middle">
+      <div className="relative h-full w-1/2 -rotate-[6deg]">
+        <animated.div
+          style={animatedProps}
+          className={"absolute top-0 left-0 -z-10 "}
+        >
+          <Image
+            quality={100}
+            src={"/about-us/SellAtmosphereBanner.png"}
+            alt={"banner for the people eat section of about us, Aftin"}
+            width={1024}
+            height={1024}
+            // style={{ objectFit: "scale-down" }}
+            className="rounded-full shadow-md shadow-gray-800/40 filter"
+          />
+        </animated.div>
         <animated.h2
           ref={hTwoRef}
           style={hTwoStyle}
@@ -32,7 +71,7 @@ const SellAtmospheres = () => {
           as much as they sell foods
         </animated.h2>
       </div>
-      <p className="w-1/2 pl-4 text-center font-serif text-2xl">
+      <p className="w-1/2 -rotate-[6deg] pl-4 text-center font-serif text-2xl">
         People don’t go to restaurants to just eat.<br></br>
         <br></br>
         They come to restaurants to enjoy an atmosphere. Be it a casual dinning

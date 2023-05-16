@@ -19,7 +19,7 @@ const OurFeatures = () => {
   });
 
   return (
-    <section className="relative flex h-auto min-h-[75vh] w-screen flex-col items-center border-y-2 border-gray-500   px-4">
+    <section className="relative flex h-auto min-h-[75vh] w-screen flex-col items-center border-y-2 border-dashed  border-brown-900/40  px-4">
       <Image
         className="absolute top-0 left-0 brightness-[25%] filter"
         layout="fill"
@@ -34,13 +34,13 @@ const OurFeatures = () => {
       >
         We are at your disposal
       </a.h2>
-      <a.h4
+      <a.h3
         className="text-serif text-md transition-all duration-300 md:text-lg"
         style={hTwoStyles}
       >
         We are here to achieve your desired aesthetic and attract the most
         amount of customers{" "}
-      </a.h4>
+      </a.h3>
       <div className=" z-20 m-4 grid grid-cols-2 ">
         {homepageFeaturesList.map((feature, i) => {
           return (

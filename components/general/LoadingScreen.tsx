@@ -23,6 +23,7 @@ const LoadingScreen = ({ isLoading }: props) => {
     } else {
       enableScroll();
     }
+    return enableScroll();
   }, [isLoading]);
 
   if (!isLoading) return null;

@@ -22,3 +22,8 @@ export type enhancerOptionFields =
   | deblurOptionFields
   | stylizeOptionFields
   | upscaleOptionFields;
+
+export type enhancerAuthor =
+  | "nightmareai"
+  | "Gihyun Kwon, Jong Chul Ye"
+  | "Jingyun Liang et al.";

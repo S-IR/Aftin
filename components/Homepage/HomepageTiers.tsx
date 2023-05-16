@@ -27,7 +27,7 @@ const HomepageTiers = () => {
   });
 
   return (
-    <section className="relative flex h-auto min-h-[70vh] w-screen flex-col items-center border-y-2 border-gray-500 bg-white/10 py-10">
+    <section className="relative flex h-auto min-h-[70vh] w-screen flex-col items-center border-t-2 border-dashed border-brown-900/40 bg-white/10 py-10">
       <Image
         className="absolute top-0 left-0 brightness-[25%] filter"
         fill
@@ -120,7 +120,9 @@ function TierDescription(
             href={`/checkout?tier=${tier.value}&period=${subscriptionPeriod}`}
           >
             <p className="buttons-3 h-min  w-48  rounded-sm bg-brown-900/50 font-serif text-lg font-thin text-red-300 no-underline shadow-md shadow-black transition-all  duration-500 group-hover:bg-brown-900 ">
-              Learn more
+              {tier.value === "bronze"
+                ? "Learn More"
+                : `Get ${tier.value} tier`}
             </p>
           </Link>
         </div>

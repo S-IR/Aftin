@@ -115,15 +115,6 @@ const Index: NextPage = () => {
         <div className="mt-auto flex h-48 flex-col items-center justify-center  align-middle ">
           <Restaurant sx={{ width: 48, height: 48 }} color="action" />
 
-          <Tooltip
-            title="This survey will tell us more about yourself so that we can deliver images better suited for you"
-            arrow
-            placement="top-start"
-          >
-            <button className=" font-serif text-orange-700 transition-all duration-300 hover:text-orange-500 ">
-              Help us improve your experience by completing this survey
-            </button>
-          </Tooltip>
           <Cookie className="h-12 w-12" />
           <button
             onClick={() => setCookiesConsent(true)}

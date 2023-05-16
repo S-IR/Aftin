@@ -32,12 +32,10 @@ import {
 import { thirdDegCat_schema } from "../../../typings/image-types/imageZodSchemas";
 
 export const uploadImageSchema = z.object({
-  files: z.any().refine((files) => files?.length > 0, "Image is required."),
+  files: z.unknown().refine((value) => value instanceof FileList, {
+    message: "Must be a FileList object",
+  }),
   tier: z.enum(tier_array),
-  thirdDegreeCategory: thirdDegCat_schema,
-  material: z.enum(cutlery_type).optional(),
-  menu_size: z.enum(menu_size_array).optional(),
-  shape: z.enum(shape_array).optional(),
   real_files: z
     .any()
     .refine((files) => files?.length == 1, "Image is required.")
@@ -52,6 +50,7 @@ export const uploadImageSchema = z.object({
     }, z.date().optional())
     .optional(),
 });
+
 export type UploadImgInputs = z.infer<typeof uploadImageSchema>;
 
 /**

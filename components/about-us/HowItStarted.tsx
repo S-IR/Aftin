@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSpring, animated } from "react-spring";
+import Image from "next/image";
 
 const HowItStarted = () => {
   const { ref: hTwoRef, inView: hTwoRefVisible } = useInView({
@@ -13,7 +14,7 @@ const HowItStarted = () => {
   });
 
   return (
-    <article className="flex h-[75vh] w-full items-center justify-center border-y-2 border-dashed border-gray-400 align-middle">
+    <article className="flex h-[75vh] w-full items-center justify-center border-y-2 border-dashed border-orange-400/20 align-middle  ">
       <p className="w-1/2 pl-4 font-serif">
         As I stare at the doorknob my eyes immediately notice the large paper
         that has been whirled onto my door. <br></br>
@@ -32,6 +33,7 @@ const HowItStarted = () => {
         <br></br>
         They all look the same... and they’re all boring
       </p>
+
       <animated.h2
         style={hTwoStyle}
         ref={hTwoRef}

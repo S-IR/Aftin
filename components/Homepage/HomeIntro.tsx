@@ -56,7 +56,7 @@ function HomeIntro() {
   });
 
   return (
-    <section className="relative h-[800px] flex-col justify-center space-y-8  overflow-hidden border-2 border-gray-500 bg-white/10 pt-10 text-center text-2xl shadow-white drop-shadow-xl">
+    <section className="relative h-[800px] flex-col justify-center space-y-8  overflow-hidden border-2 border-dashed border-brown-900/40 bg-white/10 pt-10 text-center text-2xl shadow-white drop-shadow-xl">
       <a.div
         className="absolute -bottom-1/4 -left-1/4  flex justify-start overflow-y-hidden overflow-x-visible align-top "
         style={{ ...imageOneStyles, transformOrigin: "bottom" }}
@@ -65,11 +65,9 @@ function HomeIntro() {
           src={"/homepage/homeIntro1.png"}
           width={1024}
           height={1024}
-          style={{ objectFit: "none" }}
+          style={{ objectFit: "none", width: 1024, height: 1024 }}
           quality={100}
-          className={
-            "!h-[1024px] !w-[1024px] origin-bottom  overflow-visible filter"
-          }
+          className={"!h-[1024px] !w-[1024px] origin-bottom  filter"}
           alt={"home intro banner 1 for Aftin"}
         />
       </a.div>
@@ -82,7 +80,7 @@ function HomeIntro() {
           width={1024}
           height={1024}
           quality={100}
-          style={{ objectFit: "none" }}
+          style={{ objectFit: "none", width: 1024, height: 1024 }}
           className={"overflow-hiddenfilter !h-[1024px] !w-[1024px]"}
           alt={"home intro banner 2 for Aftin"}
         />

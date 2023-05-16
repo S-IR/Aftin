@@ -1,7 +1,7 @@
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import { useGesture } from "@use-gesture/react";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import {
   useSpring,
@@ -39,7 +39,7 @@ function SingleImage({ imgDoc, isMobile, setDialog, changeModalType }: props) {
 
   const [premiumText, setPremiumText] = useState(false);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // function to get the w and h of the image
 
@@ -54,37 +54,92 @@ function SingleImage({ imgDoc, isMobile, setDialog, changeModalType }: props) {
           <Loading />
         </div>
       )}
-
       <div
-        className={`relative flex h-fit w-fit justify-center rounded-md align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
+        onMouseEnter={() => {
+          setPremiumText(true);
+        }}
+        onMouseLeave={() => {
+          setPremiumText(false);
+        }}
+        onClick={() => setDialog({ name: `free`, imgDoc })}
+        style={{
+          // width: Array.isArray(imgDoc.url)
+          //   ? isMobile
+          //     ? 384
+          //     : 512
+          //   : "fit-content",
+          height: Array.isArray(imgDoc.url)
+            ? isMobile
+              ? imgDoc.height / 6
+              : imgDoc.height / 3
+            : "fit-content",
+        }}
+        className={`relative flex h-full w-full justify-center overflow-clip rounded-md border-2 border-dashed  border-orange-500/20 p-2 align-middle brightness-[0.8] filter-none transition-all duration-300 hover:filter ${
           loading ? "hidden" : "block"
         }`}
       >
-        <animated.div
-          ref={target}
-          className="relative flex h-fit w-fit cursor-pointer  items-start  justify-start rounded-lg align-top filter-none transition duration-300 ease-in-out hover:filter "
-          onMouseEnter={() => {
-            setPremiumText(true);
-          }}
-          onMouseLeave={() => {
-            setPremiumText(false);
-          }}
-          onClick={() => setDialog({ name: `free`, imgDoc })}
-        >
-          <NextImage
-            src={imgDoc.url}
-            alt={imgDoc.description}
-            width={isMobile ? 256 : 380}
-            height={isMobile ? imgDoc.height / 6 : imgDoc.height / 3}
-            style={{ objectFit: "cover" }}
-            className="rounded-md   "
-            onLoad={() => setLoading(false)}
-          />
-          {imgDoc.tier === `silver` ||
-            (imgDoc.tier === "gold" && (
-              <PremiumIcon premiumText={premiumText} />
-            ))}
-        </animated.div>
+        {Array.isArray(imgDoc.url) ? (
+          imgDoc.url.map((url, i) => {
+            return (
+              <div
+                ref={target}
+                style={{
+                  transform: `rotate(${
+                    -15 + (i / (imgDoc.url.length - 1)) * 30
+                  }deg) translate(-50%, -50%)`,
+                }}
+                className=" h absolute top-1/2 left-1/2 flex  h-fit w-fit  origin-bottom  cursor-pointer  items-start justify-start rounded-lg  align-top ease-in-out "
+              >
+                <NextImage
+                  src={url}
+                  alt={imgDoc.description}
+                  width={isMobile ? 124 : 124}
+                  height={isMobile ? imgDoc.height / 12 : imgDoc.height / 6}
+                  style={{ objectFit: "scale-down" }}
+                  className="rounded-md"
+                  onLoad={() => setLoading(true)}
+                  onLoadingComplete={() => setLoading(false)}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <animated.div
+            ref={target}
+            className="relative flex  cursor-pointer  items-start  justify-start rounded-lg align-top filter-none transition duration-300 ease-in-out hover:filter "
+            style={{
+              height: isMobile
+                ? imgDoc.height / 12
+                : Math.round(imgDoc.height / 6),
+              width: isMobile ? 256 : 384,
+            }}
+            onMouseEnter={() => {
+              setPremiumText(true);
+            }}
+            onMouseLeave={() => {
+              setPremiumText(false);
+            }}
+          >
+            <NextImage
+              src={imgDoc.url}
+              alt={imgDoc.description}
+              height={
+                isMobile ? imgDoc.height / 12 : Math.round(imgDoc.height / 6)
+              }
+              width={isMobile ? 256 : 384}
+              style={{ objectFit: "scale-down" }}
+              className="h-full w-full"
+              onLoad={() => setLoading(true)}
+              onLoadingComplete={() => setLoading(false)}
+            />
+            {imgDoc.tier === `silver` ||
+              (imgDoc.tier === "gold" && (
+                <PremiumIcon premiumText={premiumText} />
+              ))}
+          </animated.div>
+        )}
+        {imgDoc.tier === `silver` ||
+          (imgDoc.tier === "gold" && <PremiumIcon premiumText={premiumText} />)}
       </div>
     </>
   );
@@ -113,7 +168,10 @@ export const SingleEditorImage = ({
   changeModalType,
   setDialog,
 }: imageEditorProps) => {
-  const [ADD_IMAGE] = useCanvasState((state) => [state.ADD_IMAGE]);
+  const [ADD_IMAGE, CHANGE_PAGE_SIZE] = useCanvasState((state) => [
+    state.ADD_IMAGE,
+    state.CHANGE_PAGE_SIZE,
+  ]);
 
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false);
@@ -121,8 +179,6 @@ export const SingleEditorImage = ({
   const [loading, setLoading] = useState(true);
 
   // function to get the w and h of the image
-
-  const target = useRef<null | HTMLDivElement>(null);
 
   //get the image width and height
 
@@ -140,7 +196,6 @@ export const SingleEditorImage = ({
         }`}
       >
         <animated.div
-          ref={target}
           className="relative h-min w-min cursor-pointer rounded-lg  filter-none  transition duration-300 ease-in-out hover:filter "
           onMouseEnter={() => {
             setPremiumText(true);
@@ -158,7 +213,10 @@ export const SingleEditorImage = ({
             if (checked)
               return uploadImageToCanvas(
                 ADD_IMAGE,
-                pageId,
+                CHANGE_PAGE_SIZE,
+                imgDoc.width,
+                imgDoc.height,
+                0,
                 undefined,
                 imgDoc.url
               );
@@ -182,3 +240,8 @@ export const SingleEditorImage = ({
     </>
   );
 };
+
+interface DisplayAsCardsProps {
+  imgDoc: ImgDoc;
+  setPremiumText: React.Dispatch<React.SetStateAction<boolean>>;
+}

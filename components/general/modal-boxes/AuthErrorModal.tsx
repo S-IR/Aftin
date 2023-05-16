@@ -6,7 +6,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import React from "react";
 import { generalModalBoxProps } from "./AllDialogBoxes";
-import { Modal, Typography } from "@mui/material";
+import { Fade, Modal, Typography } from "@mui/material";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "50%",
+  height: "50%",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 2,
+};
 
 const AuthErrorModal = ({
   title = "Authentication Error",
@@ -22,14 +34,25 @@ const AuthErrorModal = ({
       aria-describedby="alert-modal-slide-description"
       className="bg-gray-500/40"
     >
-      <Box className="bg-red-200">
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {title}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {text}
-        </Typography>
-      </Box>
+      <Fade in={modalType === "auth-error"}>
+        <Box className="rounded-md !bg-black/20" sx={style}>
+          <Typography
+            // id="modal-modal-title"
+            className="!text-center !font-Handwriting !text-4xl lg:!text-6xl"
+            variant="h6"
+            component="h2"
+          >
+            {title}
+          </Typography>
+          <Typography
+            className="!text-center !font-serif !text-lg"
+            id="modal-modal-description"
+            sx={{ mt: 4 }}
+          >
+            {text}
+          </Typography>
+        </Box>
+      </Fade>
     </Modal>
   );
 };

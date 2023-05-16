@@ -1,4 +1,10 @@
-export const buildRgb = (imageData: ImageData) => {
+type RGBValues = {
+  r: number;
+  g: number;
+  b: number;
+}[];
+
+export const buildRgb = (imageData: ImageData[`data`]): RGBValues => {
   const rgbValues = [];
   for (let i = 0; i < imageData.length; i += 4) {
     const rgb = {
@@ -11,14 +17,15 @@ export const buildRgb = (imageData: ImageData) => {
   return rgbValues;
 };
 
-export const findBiggestColorRange = (rgbValues) => {
-  let rMin = Number.MAX_VALUE;
-  let gMin = Number.MAX_VALUE;
-  let bMin = Number.MAX_VALUE;
+export const findBiggestColorRange = (rgbValues: RGBValues) => {
+  //we declare the minimum valus here at the start to be the max 255 or 0 in order for them to be slowly increased / decreaseed if there is a pixel that has a bigger / smaller value than them
+  let rMin = 255;
+  let gMin = 255;
+  let bMin = 255;
 
-  let rMax = Number.MIN_VALUE;
-  let gMax = Number.MIN_VALUE;
-  let bMax = Number.MIN_VALUE;
+  let rMax = 0;
+  let gMax = 0;
+  let bMax = 0;
 
   rgbValues.forEach((pixel) => {
     rMin = Math.min(rMin, pixel.r);
@@ -44,7 +51,10 @@ export const findBiggestColorRange = (rgbValues) => {
   }
 };
 
-export const ColorQuantization = (rgbValues, depth) => {
+export const ColorQuantization = (
+  rgbValues: RGBValues,
+  depth: number
+): RGBValues => {
   const MAX_DEPTH = 4;
 
   // Base case
@@ -95,13 +105,15 @@ function componentToHex(c: number) {
   return hex.length == 1 ? "0" + hex : hex;
 }
 function rgbToHex(r: number, g: number, b: number) {
-  return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`
- }
-export const rgbArrayToHex = (colorArray: Array<{r: number, g: number, b: number}>) => {
-  const hexArray = []
-  colorArray.forEach((color) => {
-    const hexColor = rgbToHex(color.r, color.g, color.b)
-    hexArray.push(hexColor)
-  })
-  return hexArray
+  return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
+export const rgbArrayToHex = (
+  colorArray: Array<{ r: number; g: number; b: number }>
+): string[] => {
+  let hexArray: string[] = [];
+  colorArray.forEach((color) => {
+    const hexColor = rgbToHex(color.r, color.g, color.b);
+    hexArray.push(hexColor);
+  });
+  return hexArray;
+};

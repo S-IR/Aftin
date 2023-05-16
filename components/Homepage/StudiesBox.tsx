@@ -3,7 +3,7 @@ import React from "react";
 import { useInView } from "react-intersection-observer";
 import { StudiesList } from "../../constants/homepage/StudiesList";
 import { useTrail, animated as a, useSpring } from "react-spring";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 /**
  * Third component of the homepage. Meant to give data in order to be more authoritative.
@@ -26,6 +26,7 @@ function StudiesBox() {
           height={612}
           style={{ objectFit: "scale-down" }}
           quality={100}
+          alt={"Plate of a steak with different vegetables"}
           src={"/homepage/studiexBoxImg.png"}
         />
       </div>

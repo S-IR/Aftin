@@ -201,7 +201,7 @@ export const fillWithPattern = (
   ADD_SHAPE_PATTERN_IMAGE: addShapePatternImage,
   pageId: number,
   elementId: number,
-  imagesArray: FileList | null
+  imagesArray: FileList | null | File[]
 ) => {
   if (!imagesArray) return console.log("no image was provided");
   let image = new Image();

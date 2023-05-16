@@ -20,7 +20,6 @@ export const tierBenefits: tierBenefit[] = [
       "Thousands of free stock images",
       "Thousands of free graphic designs",
       "Access to our image editor",
-      "Access to image previewing",
     ],
   },
   {

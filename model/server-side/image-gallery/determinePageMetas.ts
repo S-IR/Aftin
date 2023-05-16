@@ -35,7 +35,7 @@ const grDesSchema = z.enum([
 ]);
 
 type thirdDegCatType = z.infer<typeof thirdDegCat_schema>;
-
+const server = process.env.NEXT_PUBLIC_server;
 /**
  * Determines the title and the description for a website gallery page
  * @param secondDegCat The sub category of that page
@@ -68,7 +68,7 @@ export const determinePageMetas = (
     if (!thirdDegCat_schema.safeParse(thirdDegCat).success) {
       title = `Mesmerizing ${cleanedSecondDegCat} Images - Aftin Designs`;
       description = `Unique ${cleanedSecondDegCat} images meant to be used in advertising`;
-      canonical = `${baseUrl}/${secondDegCat}`;
+      canonical = `${server}/${baseUrl}/${secondDegCat}`;
       return { title, description, canonical };
     } else {
       //ignore ts

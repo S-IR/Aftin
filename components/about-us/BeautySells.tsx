@@ -2,7 +2,7 @@ import React from "react";
 
 const BeautySells = () => {
   return (
-    <article className="flex h-[75vh] w-full items-center justify-center border-y-2 border-dashed border-gray-400 align-middle">
+    <article className="relative z-50 flex h-[75vh] w-full items-center justify-center border-y-2 border-dashed border-orange-400/20 bg-gray-800 align-middle">
       <h2 className="w-1/2 bg-gradient-to-r from-white to-orange-600 bg-clip-text text-center font-Handwriting text-4xl text-transparent  lg:text-8xl">
         Beauty Sells
       </h2>

@@ -1,9 +1,23 @@
 import {
+  enhancerAuthor,
   enhancerOptionFields,
   enhancerType,
 } from "../../../constants/image-enhancing/enhancingTypes";
 import { changeModalType } from "../../../zustand/ModalBoxStore/store";
 
+/**
+ * Small function that determines the author of the model in order for it to be displayed on the page
+ * @param name
+ */
+export const determineModelAuthor = (name: enhancerType): enhancerAuthor => {
+  switch (name) {
+    case "upscale":
+      return "nightmareai";
+    case "deblur":
+    case "stylize":
+      return "Gihyun Kwon, Jong Chul Ye";
+  }
+};
 export const determineDefaultOptionFields = (
   enhancerType: enhancerType
 ): enhancerOptionFields => {
@@ -17,7 +31,24 @@ export const determineDefaultOptionFields = (
   }
 };
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
+const loadImage = (src: string) => {
+  return new Promise<{ src: string; width: number; height: number }>(
+    (resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        resolve({
+          src: img.src,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+      };
+      img.onerror = (error) => {
+        reject(error);
+      };
+    }
+  );
+};
 /**
  * Handles the API request to replicate for any AI model
  * @param enhancerType describes what kind of transformation do you want the image to go through. Used to determine the route of the request
@@ -31,29 +62,25 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
  */
 export const handleEnhanceAPIRequest = async (
   enhancerType: enhancerType,
-  image: string | ArrayBuffer | null,
+  image: ArrayBuffer,
   otherFields: enhancerOptionFields,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setImageToDisplay: React.Dispatch<
     React.SetStateAction<"Before" | "After" | null>
   >,
-  setAfterImage: React.Dispatch<
-    React.SetStateAction<{
-      src: string;
-      width: number;
-      height: number;
-    } | null>
-  >,
-  changeModalType: changeModalType
-): Promise<any> => {
-  setImageToDisplay("After");
-  setAfterImage(null);
 
-  const response = await fetch(`/api/products/image-tranasformations/${enhancerType}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ image, ...otherFields }),
-  });
+  changeModalType: changeModalType
+): Promise<{ src: string; width: number; height: number } | void> => {
+  setImageToDisplay("After");
+
+  const response = await fetch(
+    `/api/products/image-tranasformations/${enhancerType}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image, ...otherFields }),
+    }
+  );
 
   let prediction = await response.json();
   console.log("prediction", prediction);
@@ -62,7 +89,9 @@ export const handleEnhanceAPIRequest = async (
     console.log("prediction", prediction);
 
     await sleep(1000);
-    const response = await fetch(`/api/products/image-tranasformations/${prediction.id}`);
+    const response = await fetch(
+      `/api/products/image-tranasformations/${prediction.id}`
+    );
     prediction = await response.json();
 
     if (response.status === 500) {
@@ -75,17 +104,8 @@ export const handleEnhanceAPIRequest = async (
       return handleErrorText(prediction.error, setError);
     }
 
-    console.log("prediction", prediction);
-
-    const img = new Image();
-
-    img.src = prediction.output;
-    img.onload = () =>
-      setAfterImage({
-        src: img.src,
-        width: img.naturalWidth,
-        height: img.naturalHeight,
-      });
+    const imageInfo = await loadImage(prediction.output);
+    return imageInfo;
   }
 };
 

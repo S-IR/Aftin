@@ -59,6 +59,10 @@ const CanvasShape = ({
         layerRef.current.draw();
       };
       console.log("fillPatternImage.src", fillPatternImage.src);
+    } else {
+      fillPatternImage.src = "";
+      shapeRef.current.cache();
+      layerRef.current.draw();
     }
   }, [data.fillPatternImageSRC]);
 

@@ -1,44 +1,56 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { object } from 'yup'
-import { UploadImgInputs } from '../../UploadImageComp'
+import React, { useEffect, useRef, useState } from "react";
+import { object } from "yup";
+import {
+  FieldErrorsImpl,
+  UseFormGetValues,
+  UseFormRegister,
+} from "react-hook-form";
+import { UploadImgInputs } from "../../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/determineInput";
 
 interface props {
-  getValues: UseFormGetValues<UploadImgInputs>
-  imgFieldObj: object
-  register: UseFormRegister<UploadImgInputs>
-  errors: FieldErrorsImpl<UploadImgInputs>
+  getValues: UseFormGetValues<UploadImgInputs>;
+  imgFieldObj: object;
+  register: UseFormRegister<UploadImgInputs>;
+  errors: FieldErrorsImpl<UploadImgInputs>;
 }
-const SecondDegreeInput = ({ getValues, imgFieldObj, register, errors }: props) => {
-  const inputName = Object.keys(imgFieldObj)
-  const optionsArr = Object.values(imgFieldObj)[0]
-  const selectRef = useRef<React.LegacyRef<null | HTMLSelectElement>>(null)
-  const [firstOptionState, setFirstOptionState] = useState<null | string>(null)
-
-
-
-
+const SecondDegreeInput = ({
+  getValues,
+  imgFieldObj,
+  register,
+  errors,
+}: props) => {
+  const inputName = Object.keys(imgFieldObj);
+  const optionsArr = Object.values(imgFieldObj)[0];
+  const selectRef = useRef<React.LegacyRef<null | HTMLSelectElement>>(null);
+  const [firstOptionState, setFirstOptionState] = useState<null | string>(null);
 
   return (
     <>
-      <label className='inline-block w-full'>
+      <label className="inline-block w-full">
         <p>{inputName}</p>
-        <select ref={selectRef} onChange={(e) => setFirstOptionState(e.target.value)} className='bg-black'>
+        <select
+          ref={selectRef}
+          onChange={(e) => setFirstOptionState(e.target.value)}
+          className="bg-black"
+        >
           {/* you choose the type of thing that you want to add ( this is called the first degree). if it's values are another object then another componet will be displayed (the second degree) for you to choose the option that you would like */}
           {optionsArr.map((option: object | string) => {
-            if (typeof (option) !== 'string') return
-            return <option key={option} value={option}>{option}</option>
-          }
-          )}
+            if (typeof option !== "string") return;
+            return (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            );
+          })}
         </select>
       </label>
 
       {imgFieldObj.map((fieldObj) => {
-        if(Object.keys(fieldObj)[0] === firstOptionState){
-          
+        if (Object.keys(fieldObj)[0] === firstOptionState) {
         }
       })}
     </>
-  )
-}
+  );
+};
 
-export default SecondDegreeInput
+export default SecondDegreeInput;

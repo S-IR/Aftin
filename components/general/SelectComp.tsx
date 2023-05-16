@@ -45,7 +45,7 @@ const SelectComp = ({
     >
       <div>
         <TextField
-          className=" w-full bg-gradient-to-b from-yellow-700 to-yellow-800  transition-all duration-300 hover:shadow-sm active:shadow-none "
+          className=" w-full transition-all duration-300 hover:shadow-sm active:shadow-none "
           id={`select-${label}`}
           variant="filled"
           multiline={true}
@@ -53,10 +53,10 @@ const SelectComp = ({
           fullWidth={true}
           select
           InputLabelProps={{
-            className: `text-white flex items-center justify-center align-middle italic`,
+            className: `!text-yellow-800  flex items-center justify-center align-middle italic`,
           }}
           InputProps={{
-            className: "text-white",
+            className: "!text-yellow-800 ",
             startAdornment: (
               <InputAdornment position="start">{Icon}</InputAdornment>
             ),

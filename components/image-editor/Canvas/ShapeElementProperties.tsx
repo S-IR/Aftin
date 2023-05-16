@@ -17,15 +17,19 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-import {
-  canvasPagesCount,
-  canvasSelected,
-} from "../../../features/canvasPages/canvas-elements/canvasPageSlice";
 import { Delete } from "@mui/icons-material";
 import styles from "../../../styles/image-editor/image-editor.module.css";
-import { useCanvasState } from "../../../zustand/CanvasStore/store";
+import {
+  canvasSelected,
+  useCanvasState,
+} from "../../../zustand/CanvasStore/store";
 import { fillWithPattern } from "../../../model/client-side/image-editor/Upload";
-import { shapeFilterProperties } from "../../../zustand/CanvasStore/shapeHandlers";
+import {
+  shapeData,
+  shapeFilterProperties,
+} from "../../../zustand/CanvasStore/shapeHandlers";
+import { useDropzone } from "react-dropzone";
+
 interface props {
   shapeData: shapeData;
   selected: canvasSelected;
@@ -43,6 +47,7 @@ const ShapeElementProperties = ({
     DELETE_ELEMENT,
     CHANGE_SHAPE_FILL_COLOR,
     ADD_SHAPE_PATTERN_IMAGE,
+    REMOVE_SHAPE_PATTERN_IMAGE,
   ] = useCanvasState(
     useCallback(
       (state) =>
@@ -52,11 +57,23 @@ const ShapeElementProperties = ({
           state.DELETE_ELEMENT,
           state.CHANGE_SHAPE_FILL_COLOR,
           state.ADD_SHAPE_PATTERN_IMAGE,
+          state.REMOVE_SHAPE_PATTERN_IMAGE,
         ] as const,
       []
     )
   );
   const { page: pageId, element: elementId } = selected;
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    noDragEventsBubbling: true,
+    onDrop: <T extends File>(acceptedFiles: T[]): void =>
+      fillWithPattern(
+        ADD_SHAPE_PATTERN_IMAGE,
+        pageId as number,
+        elementId as number,
+        acceptedFiles
+      ),
+  });
 
   if (pageId === null || elementId === null) {
     console.log(
@@ -66,12 +83,12 @@ const ShapeElementProperties = ({
   }
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-center pt-4 align-middle">
+      <div className="flex w-full flex-col items-center justify-center space-y-4 pt-4 align-middle">
         <TextField
-          className="mt-2 ml-2  w-48  cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none "
+          className="mt-2 ml-2  w-48  cursor-pointer   shadow-sm shadow-black transition-all duration-300 hover:shadow-none "
           type={"color"}
           InputLabelProps={{
-            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
+            className: `!text-xl !text-white flex items-center justify-center align-middle mt-2  italic`,
           }}
           id="select-stroke-width"
           label="Color"
@@ -88,12 +105,12 @@ const ShapeElementProperties = ({
 
         {/* Stroke width */}
         <TextField
-          className="mt-5 ml-2  w-48 cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
+          className="mt-5 ml-2  w-48 cursor-pointer   shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
           InputLabelProps={{
-            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
+            className: `!text-xl !text-white flex items-center justify-center align-middle mt-2  italic`,
           }}
           inputProps={{
-            className: "text-white",
+            className: "!text-white",
           }}
           id="select-stroke-width"
           label="Stroke Width"
@@ -106,9 +123,9 @@ const ShapeElementProperties = ({
 
         {/* Stroke color */}
         <TextField
-          className="mt-5 ml-2  w-48 cursor-pointer bg-yellow-800  shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
+          className="mt-5 ml-2  w-48 cursor-pointer   shadow-sm shadow-black transition-all duration-300 hover:shadow-none"
           InputLabelProps={{
-            className: `!text-xl text-white flex items-center justify-center align-middle mt-2  italic`,
+            className: `!text-xl !text-white flex items-center justify-center align-middle mt-2  italic`,
           }}
           type="color"
           id="select-stroke-width"
@@ -128,21 +145,19 @@ const ShapeElementProperties = ({
 
       {/* image pattern         */}
 
-      <div className="my-6 flex flex-col items-center justify-center space-y-1 align-middle shadow-lg">
-        <div className="relative my-2 h-16 w-72 ">
+      <div className="flex cursor-pointer flex-col items-center justify-center  space-y-1 py-6 align-middle shadow-lg ">
+        <div
+          className={`relative  h-16 w-72 ${
+            isDragActive ? `bg-orange-300/60` : ``
+          } transition-all duration-300 `}
+          {...getRootProps()}
+        >
           <input
             className={`  ${styles.input}  `}
             id="image_input"
             type="file"
             title=" "
-            onChange={(e) =>
-              fillWithPattern(
-                ADD_SHAPE_PATTERN_IMAGE,
-                pageId,
-                elementId,
-                e.target.files
-              )
-            }
+            {...getInputProps()}
           />
           <div
             className={`${styles.fileDummy} flex items-center justify-center align-middle`}
@@ -169,6 +184,14 @@ const ShapeElementProperties = ({
             Delete Component
           </button>
         </div>
+        {shapeData.fillPatternImageSRC !== null && (
+          <button
+            className="flex h-12  w-56  items-center justify-center bg-yellow-900 bg-opacity-70 align-middle shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
+            onClick={() => REMOVE_SHAPE_PATTERN_IMAGE(pageId, elementId)}
+          >
+            Remove Pattern
+          </button>
+        )}
       </div>
     </>
   );

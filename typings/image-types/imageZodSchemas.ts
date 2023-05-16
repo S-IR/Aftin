@@ -20,6 +20,7 @@ import {
   tables_arr,
   thirdDegArr,
   valid_image_fields,
+  menu_size_array,
 } from "./ImageTypes";
 
 export const firstDegCat_schema = z.enum(fistDegArray);
@@ -46,3 +47,4 @@ export const valid_image_fields_schema = z.enum(valid_image_fields);
 export const surr_env_schema = z.enum(surr_env_array);
 export const cutlery_type_schema = z.enum(cutlery_type);
 export const shape_schema = z.enum(shape_array);
+export const menu_size_schema = z.enum(menu_size_array);

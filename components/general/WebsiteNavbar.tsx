@@ -24,6 +24,7 @@ const WebsiteNavbar = (): JSX.Element => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (window.scrollY < 75) setIsVisible(true);
       if (lastWidth <= window.scrollY || lastWidth < 75) {
         setIsVisible(true);
       } else {
@@ -136,17 +137,27 @@ const WebsiteNavbar = (): JSX.Element => {
                 : setActiveSidebar("ProfileDropdown")
             }
           >
-            <div className=" border-1 ml-auto mr-8 h-[35px] w-[35px] rounded-full border-dashed border-gray-500">
-              {!userLoading && user && user.photoURL !== null && (
-                <Image
-                  src={user.photoURL}
-                  width={25}
-                  height={25}
-                  alt={"user profile picture"}
-                  className={`  mx-2 rounded-full  `}
-                />
-              )}
-            </div>
+            {
+              //user profile icon component
+              !userLoading && user && (
+                <div
+                  className={` ml-auto mr-8 flex h-[35px] w-[35px] items-center justify-center rounded-full border-dotted border-gray-500 align-middle transition-all  duration-300 hover:border-red-500 `}
+                >
+                  {user && user.photoURL !== null && (
+                    <Image
+                      src={user.photoURL}
+                      width={25}
+                      height={25}
+                      alt={"user profile picture"}
+                      className={`  mx-2 rounded-full  `}
+                    />
+                  )}
+                  {user && !user.photoURL && (
+                    <UserCircleIcon width={25} height={25} />
+                  )}
+                </div>
+              )
+            }
           </button>
           {activeSidebar === "ProfileDropdown" && user ? (
             <ProfileDropdown user={user} activeSidebar={activeSidebar} />

@@ -72,17 +72,17 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center space-y-4 pt-4 align-middle">
       {/* change text */}
       <TextField
-        className=" cursor-pointer!border-t-4 mx-2 mb-2 mt-6  !w-[90%] !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800     transition-all duration-300 hover:shadow-sm active:shadow-none "
+        className=" ! !w-[90%] cursor-pointer  !border-red-600  transition-all duration-300 hover:shadow-sm active:bg-yellow-500 active:shadow-none "
         InputLabelProps={{
-          className: `text-white flex items-center justify-center align-middle italic mt-2`,
+          className: `!text-yellow-800 flex items-center justify-center align-middle italic mt-2`,
         }}
         id="select-text"
         label="Change Text"
         InputProps={{
-          className: "text-white",
+          className: "!text-yellow-800",
         }}
         defaultValue={textData.text}
         variant="outlined"
@@ -98,10 +98,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
       {/* Font family selector */}
       {/* I cannot refactor this as a select component due to the fact that I need to separate the list of options in two  */}
 
-      <Box component="form" noValidate autoComplete="off">
+      <Box className="!w-[90%]" component="form" noValidate autoComplete="off">
         <div>
           <TextField
-            className="  mx-2 w-[90%] cursor-pointer  bg-gradient-to-b from-yellow-700 to-yellow-800 transition-all duration-300  hover:shadow-sm active:shadow-none "
+            className="! !w-full cursor-pointer transition-all duration-300  hover:shadow-sm active:shadow-none "
             id={`select-font-family`}
             variant="filled"
             multiline={true}
@@ -109,10 +109,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
             fullWidth={true}
             select
             InputLabelProps={{
-              className: `text-white flex items-center justify-center align-middle italic`,
+              className: `!text-yellow-800 flex items-center justify-center align-middle italic`,
             }}
             InputProps={{
-              className: "text-white",
+              className: "!text-yellow-800",
               startAdornment: (
                 <InputAdornment position="start">
                   {<MdFontDownload color="white" className="mb-4 h-4 w-4" />}
@@ -202,10 +202,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* Color picker */}
       <TextField
-        className="cursor-pointer!border-t-4 my-2 mx-2  !w-[90%] !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800    transition-all duration-300  hover:shadow-sm active:shadow-none  "
+        className="cursor-pointer!border-t-4 my-2 mx-2  !w-[90%] !border-red-600 transition-all duration-300  hover:shadow-sm active:shadow-none  "
         type={"color"}
         InputLabelProps={{
-          className: `text-white flex items-center justify-center align-middle italic mt-2`,
+          className: `!text-yellow-800 flex items-center justify-center align-middle italic mt-2`,
         }}
         id="select-color"
         label="Color"
@@ -218,12 +218,12 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* stroke width */}
       <TextField
-        className="my-2 mx-2 !w-[90%] cursor-pointer bg-gradient-to-b from-yellow-700 to-yellow-800  transition-all duration-300  hover:shadow-sm active:shadow-none "
+        className="my-2 mx-2 !w-[90%] cursor-pointer   transition-all duration-300  hover:shadow-sm active:shadow-none "
         InputLabelProps={{
-          className: `text-white flex items-center justify-center align-middle italic mt-2`,
+          className: `!text-yellow-800 flex items-center justify-center align-middle italic mt-2`,
         }}
         inputProps={{
-          className: "text-white",
+          className: "!text-yellow-800",
         }}
         id="select-stroke-width"
         label="Stroke Width"
@@ -236,10 +236,10 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
 
       {/* stroke color */}
       <TextField
-        className="my-2 mx-2 !w-[90%] cursor-pointer !border-t-4 !border-red-600  bg-gradient-to-b from-yellow-700 to-yellow-800    transition-all duration-300  hover:shadow-sm active:shadow-none  "
+        className="my-2 mx-2 !w-[90%] cursor-pointer !border-t-4 !border-red-600      transition-all duration-300  hover:shadow-sm active:shadow-none  "
         type={"color"}
         InputLabelProps={{
-          className: `text-white flex  items-center justify-center align-middle italic mt-2`,
+          className: `!text-yellow-800 flex  items-center justify-center align-middle italic mt-2`,
         }}
         id="select-stroke-color"
         label="Stroke Color"
@@ -250,9 +250,9 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
         }
       />
 
-      <div className=" mx-2 mt-6 flex w-[90%] justify-center">
+      <div className=" mx-2 mt-6 flex w-[90%] justify-center bg-yellow-800">
         <button
-          className=" flex h-12  w-full items-center justify-start bg-yellow-900 bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
+          className=" flex h-12  w-full items-center justify-start  bg-opacity-70 align-middle  shadow-gray-200 drop-shadow-lg transition-all duration-300 hover:bg-yellow-500 "
           onClick={(e) => {
             if (pageId === 0 && elementId === 0 && !deleteWarningHappened) {
               return setDeleteWarningHappened(true);
@@ -271,7 +271,7 @@ const TextElementProperties = ({ textData, selected, textFilter }: props) => {
           will be lost. Click again on the delete button if you want to continue
         </Alert>
       ) : null}
-    </>
+    </div>
   );
 };
 

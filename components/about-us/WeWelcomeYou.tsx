@@ -3,7 +3,7 @@ import React from "react";
 
 const WeWelcomeYou = () => {
   return (
-    <article className="relative flex h-[30vh] items-center justify-center align-middle">
+    <article className="relative z-30 flex h-[30vh] items-center justify-center border-t-2 border-dashed border-orange-400/20 align-middle ">
       <Image
         alt="Banner for the People Eat section for About Us - Aftin"
         src={"/about-us/bottom-banner.png"}

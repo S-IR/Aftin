@@ -174,6 +174,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
                   }
                   width={32}
                   height={32}
+                  alt={"icon for surrounding environment"}
                 />
               }
             />
@@ -189,6 +190,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
                   src={"/SortingSidebar/material/material_icon.svg"}
                   width={32}
                   height={32}
+                  alt={"icon for material type"}
                 />
               }
             />
@@ -204,6 +206,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
                   src={"/SortingSidebar/banner_type/banner_type_icon.svg"}
                   width={32}
                   height={32}
+                  alt={"icon for banner type"}
                 />
               }
             />
@@ -228,6 +231,7 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
                   src={"/SortingSidebar/menu_size/menu_size_icon.svg"}
                   width={32}
                   height={32}
+                  alt={"icon for menu size"}
                 />
               }
             />

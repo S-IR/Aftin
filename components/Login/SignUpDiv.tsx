@@ -22,6 +22,8 @@ import PinterestButton from "./PinterestButton";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
 import { determineModalError } from "../../model/client-side/login/errors";
 import LoadingScreen from "../general/LoadingScreen";
+import { QuestionMark } from "@mui/icons-material";
+import Tooltip from "@mui/material/Tooltip";
 
 interface props {
   user: User | null | undefined;
@@ -29,7 +31,7 @@ interface props {
 }
 const signUpSchema = z
   .object({
-    username: z.string().min(1),
+    username: z.string().min(4),
     email: z.string().email(),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
@@ -129,7 +131,7 @@ const SignUpDiv = ({ user, userLoading }: props) => {
             Email Sign Up
           </h3>
 
-          <label className="inline-block w-full">
+          <label className="inline-block w-full ">
             <input
               type="text"
               placeholder="Username"
@@ -137,8 +139,14 @@ const SignUpDiv = ({ user, userLoading }: props) => {
               {...register("username")}
             />
             {errors.username && (
-              <p className=" h-min text-sm text-orange-500">
+              <p className="wrap relative mx-auto h-min w-min whitespace-nowrap text-sm text-orange-500">
                 Please enter a valid username
+                <Tooltip
+                  title="Your username must be at least 4 characters long"
+                  placement="top-start"
+                >
+                  <QuestionMark className="absolute top-0 -right-4 !h-3 !w-3 rounded-full bg-orange-500/20 transition-all duration-300 hover:bg-red-500/20" />
+                </Tooltip>
               </p>
             )}
           </label>
@@ -163,8 +171,14 @@ const SignUpDiv = ({ user, userLoading }: props) => {
               {...register("password")}
             />
             {errors.password && (
-              <p className="text-[13px] text-orange-500">
+              <p className="wrap relative mx-auto h-min w-min whitespace-nowrap text-sm text-orange-500">
                 Please enter a valid password
+                <Tooltip
+                  title="Your username must be at least 8 characters long"
+                  placement="top-start"
+                >
+                  <QuestionMark className="absolute top-0 -right-4 !h-3 !w-3 rounded-full bg-orange-500/20 transition-all duration-300 hover:bg-red-500/20" />
+                </Tooltip>
               </p>
             )}
           </label>

@@ -68,17 +68,7 @@ h3 {
     sm:text-xs md:h-10 md:w-32
     md:px-2;
 }
-.website-theme-settings {
-  aspect-ratio: 1920/1080;
-  width: 100;
-  background-position: center;
-  background-size: cover;
-}
-.website-theme-image {
-  background-image: url("/website-background.png");
-  width: auto;
-  background-repeat: repeat;
-}
+
 .image-editor-menuSVG {
   background-color: #090809;
   background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.89' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");

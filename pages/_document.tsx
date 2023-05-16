@@ -6,8 +6,11 @@ export default function Document() {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
   return (
-    <Html>
+    <Html lang={"en"}>
       <Head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="manifest" href="/manifest.json" />
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}
           strategy="afterInteractive"

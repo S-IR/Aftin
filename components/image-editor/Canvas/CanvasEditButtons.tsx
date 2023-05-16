@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { Stage } from "konva/lib/Stage";
 import { InputLabel, MenuItem, Select, Tooltip } from "@mui/material";
@@ -101,6 +101,29 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
   for (let i = 0; i < pagesLength; i++) {
     optionValues.push(i);
   }
+
+  // puts the CTRL z and the delete key listeners for the undo / redo button
+  useEffect(() => {
+    function handleCTRL_Z(event: KeyboardEvent) {
+      if (event.ctrlKey && event.key === "z") {
+        return undo(1);
+      }
+    }
+
+    function handleCTRL_Y(event: KeyboardEvent) {
+      if (event.ctrlKey && event.key === "y") {
+        return redo(1);
+      }
+    }
+
+    document.addEventListener("keydown", handleCTRL_Z);
+    document.addEventListener("keydown", handleCTRL_Y);
+
+    return () => {
+      document.removeEventListener("keydown", handleCTRL_Z);
+      document.removeEventListener("keydown", handleCTRL_Y);
+    };
+  }, []);
 
   const [showLeftSidebar, toggleLeftSidebar] = useState(true);
 

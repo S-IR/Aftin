@@ -57,6 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             site: "@Aftin",
             cardType: "summary_large_image",
           }}
+          themeColor="#000000"
         />
         <Hydrate state={pageProps.dehydratedState}>
           <Layout>

@@ -30,43 +30,32 @@ const Index = () => {
         <h1 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent drop-shadow-xl md:m-16 md:text-6xl">
           What Graphic Design Templates do you need?
         </h1>
-        <Masonry
-          columns={isMobile ? 1 : 3}
-          spacing={2}
-          defaultHeight={450}
-          defaultColumns={4}
-          defaultSpacing={2}
-          className={"  !mx-auto flex"}
-        >
-          {CategoryPageGraphicImages.map((list) => {
-            return (
-              <Link
-                href={`/restaurant-${list.catName}/${list.secondDegCatName}`}
-                key={list.name}
-                className="group relative m-2 flex h-[24vh] w-full justify-center rounded-md border-y-2 border-dashed border-white/30 align-middle shadow-gray-700  drop-shadow-xl  transition-all duration-300 hover:border-orange-500"
+        {CategoryPageGraphicImages.map((list) => {
+          return (
+            <Link
+              href={`/restaurant-${list.catName}/${list.secondDegCatName}`}
+              key={list.name}
+              className="group relative m-2 flex h-[24vh] w-screen justify-center rounded-md border-y-2 border-dashed border-white/30 align-middle shadow-gray-700  drop-shadow-xl  transition-all duration-300 hover:border-orange-500"
+            >
+              <Image
+                alt={`representative image from ${list.name.replace("-", " ")}`}
+                fill
+                priority
+                quality={100}
+                style={{ objectFit: "cover" }}
+                src={`/galleries-root/banner-${list.catName}/${list.secondDegCatName}.png`}
+                className={
+                  "brightness-50 filter transition-all duration-300 group-hover:brightness-[25%]"
+                }
+              />
+              <p
+                className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 group-hover:text-red-500 `}
               >
-                <Image
-                  alt={`representative image from ${list.name.replace(
-                    "-",
-                    " "
-                  )}`}
-                  fill
-                  quality={100}
-                  style={{ objectFit: "cover" }}
-                  src={`/galleries-root/banner-${list.catName}/${list.secondDegCatName}.png`}
-                  className={
-                    "brightness-50 filter transition-all duration-300 group-hover:brightness-[25%]"
-                  }
-                />
-                <p
-                  className={`absolute top-1/2 left-1/2  text-center font-serif  text-2xl text-red-300 underline !grayscale-0 !filter transition-all duration-300 group-hover:text-red-500 `}
-                >
-                  {list.name}
-                </p>
-              </Link>
-            );
-          })}
-        </Masonry>
+                {list.name}
+              </p>
+            </Link>
+          );
+        })}
       </main>
     </>
   );

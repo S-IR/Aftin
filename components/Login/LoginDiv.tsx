@@ -52,6 +52,10 @@ const LoginDiv = ({ user, userLoading }: props) => {
   const [authWithGoogle, authWithFacebook, authWithPinterest] =
     useAuthThirdParty();
 
+  useEffect(() => {
+    changeModalType("generic-error");
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -153,8 +157,8 @@ const LoginDiv = ({ user, userLoading }: props) => {
               </label>
               <button
                 type="button"
-                className=" w-auto  text-center  text-lg text-yellow-700 transition-all duration-300 hover:text-gray-800"
-                onClick={() => router.push("/reset")}
+                className=" w-auto  text-center  text-lg text-gray-800 transition-all duration-300 hover:text-red-500"
+                onClick={() => router.push("/reset/password")}
               >
                 Forgot Password?
               </button>

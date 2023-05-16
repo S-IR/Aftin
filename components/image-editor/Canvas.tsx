@@ -37,6 +37,8 @@ const Canvas = ({ showSidebar }: props) => {
     CHANGE_ELEMENT_SCALE,
     SELECT_PAGE,
     SELECT_ELEMENT,
+    DELETE_ELEMENT,
+    DELETE_PAGE,
   ] = useCanvasState(
     useCallback(
       (state) =>
@@ -49,6 +51,8 @@ const Canvas = ({ showSidebar }: props) => {
           state.CHANGE_ELEMENT_SCALE,
           state.SELECT_PAGE,
           state.SELECT_ELEMENT,
+          state.DELETE_ELEMENT,
+          state.DELETE_PAGE,
         ] as const,
       []
     )
@@ -68,6 +72,22 @@ const Canvas = ({ showSidebar }: props) => {
 
   //bottom buttons functionalities
 
+  useEffect(() => {
+    function handleDLELETE_KEY(event: KeyboardEvent) {
+      if (event.key === "Delete") {
+        selected.element === null
+          ? DELETE_PAGE(selected.page as number)
+          : DELETE_ELEMENT(selected.page as number, selected.element);
+        // Call the function to trigger here
+      }
+    }
+
+    document.addEventListener("keydown", handleDLELETE_KEY);
+
+    return () => {
+      document.removeEventListener("keydown", handleDLELETE_KEY);
+    };
+  }, []);
   return (
     <section
       className={`${

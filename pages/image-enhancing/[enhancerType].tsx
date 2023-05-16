@@ -16,7 +16,7 @@ import { useQuery } from "react-query";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "../../components/general/Loading";
 import { auth } from "../../firebase";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { NextRouter, useRouter } from "next/router";
@@ -33,10 +33,16 @@ import {
 import { renderFields } from "../../model/client-side/image-enhancing/renderFields";
 import {
   determineDefaultOptionFields,
+  determineModelAuthor,
   handleEnhanceAPIRequest,
 } from "../../model/client-side/image-enhancing/enhancerFunctions";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
-import { useCachedStore } from "../../zustand/CachedImageStore/store";
+import {
+  imagetoEnhance,
+  useCachedStore,
+} from "../../zustand/CachedImageStore/store";
+import { InputLabel, MenuItem, Select } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 
 interface props {
   enhancerType: enhancerType;
@@ -47,7 +53,7 @@ const Index: NextPage<props> = ({ enhancerType }) => {
 
   //if the user has been pushed to this route through some sort of image clicking event data about that image will be saved here
   const [cachedEnhancerImage, clearEnhanceImage] = useCachedStore((store) => [
-    store.imageToEnhance,
+    store.toEnhance,
     store.CLEAR_ENHANCE_IMAGE_CACHE,
   ]);
 
@@ -86,18 +92,23 @@ const Index: NextPage<props> = ({ enhancerType }) => {
   }, [cachedEnhancerImage]);
 
   //this variable detects if there's an uploaded image and saves <it></it>
-  const [beforeImage, setBeforeImage] = useState<null | {
-    src: string;
-    name: string;
-    width: number;
-    height: number;
-  }>(null);
+  const [beforeImage, setBeforeImage] = useState<
+    null | imagetoEnhance | imagetoEnhance[]
+  >(null);
   const isDropboxDisabled = beforeImage !== null;
-  const [afterImage, setAfterImage] = useState<null | {
-    src: string;
-    width: number;
-    height: number;
-  }>(null);
+  const [afterImage, setAfterImage] = useState<
+    | null
+    | {
+        src: string;
+        width: number;
+        height: number;
+      }
+    | {
+        src: string;
+        width: number;
+        height: number;
+      }[]
+  >(null);
 
   //gets users status
   const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
@@ -109,7 +120,7 @@ const Index: NextPage<props> = ({ enhancerType }) => {
       refetchOnWindowFocus: false,
     }
   );
-  const uploadedImg = useRef<null | File>(null);
+  const uploadedImg = useRef<null | File | undefined>(null);
 
   const transRef = useSpringRef();
   const transitions = useTransition(imageToDisplay, {
@@ -124,23 +135,42 @@ const Index: NextPage<props> = ({ enhancerType }) => {
     transRef.start();
   }, [imageToDisplay]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let reader = new FileReader();
-    console.log(`uploadedImg`, uploadedImg);
-    reader.readAsDataURL(uploadedImg.current);
-
-    setImageToDisplay("Before");
-    reader.onload = () => {
+    reader.readAsDataURL(uploadedImg.current as File);
+    if (beforeImage === null) return setError("Please upload an image first");
+    setAfterImage(null);
+    if (Array.isArray(beforeImage)) {
+      for (let i = 0; i < beforeImage.length; i++) {
+        const response = await fetch(beforeImage[i].src as string);
+        const arrayBuffer = await response.arrayBuffer();
+        const afterImgObj = await handleEnhanceAPIRequest(
+          enhancerType,
+          arrayBuffer,
+          optionFields,
+          setError,
+          setImageToDisplay,
+          changeModalType
+        );
+        if (afterImgObj === undefined) return;
+        setAfterImage((v) => {
+          if (v === null) return [];
+          if (!Array.isArray(v)) return null;
+          return [...v, afterImgObj];
+        });
+      }
+    } else {
+      const response = await fetch(beforeImage.src as string);
+      const arrayBuffer = await response.arrayBuffer();
       return handleEnhanceAPIRequest(
         enhancerType,
-        reader.result,
+        arrayBuffer,
         optionFields,
         setError,
         setImageToDisplay,
-        setAfterImage,
         changeModalType
       );
-    };
+    }
   };
   const onDrop = async <T extends File>(
     acceptedFiles: T[],
@@ -149,7 +179,6 @@ const Index: NextPage<props> = ({ enhancerType }) => {
   ) => {
     if (acceptedFiles.length > 1) return alert("You can only upload 1 image");
     uploadedImg.current = acceptedFiles[0];
-    console.log(`uploadedImg in onDrop`, uploadedImg);
 
     const image = new Image();
     image.src = URL.createObjectURL(uploadedImg.current);
@@ -181,26 +210,48 @@ const Index: NextPage<props> = ({ enhancerType }) => {
     setBeforeImage(null);
   };
 
+  const modelAuthor = determineModelAuthor(enhancerType);
+
   const determineImageToDisplay = (item: "Before" | "After" | null) => {
     switch (item) {
       case null:
         return <></>;
       case "Before":
-        return (
-          <ImageComponent
-            imageDataObj={beforeImage}
-            imageToDisplay={imageToDisplay}
-            enhancerType={enhancerType}
-          />
-        );
+        if (Array.isArray(beforeImage)) {
+          return (
+            <ImageSetComponent
+              dataArr={beforeImage}
+              imageToDisplay={imageToDisplay}
+              enhancerType={enhancerType}
+            />
+          );
+        } else {
+          return (
+            <ImageComponent
+              data={beforeImage}
+              imageToDisplay={imageToDisplay}
+              enhancerType={enhancerType}
+            />
+          );
+        }
       case "After":
-        return (
-          <ImageComponent
-            imageDataObj={afterImage}
-            imageToDisplay={imageToDisplay}
-            enhancerType={enhancerType}
-          />
-        );
+        if (Array.isArray(afterImage)) {
+          return (
+            <ImageSetComponent
+              dataArr={afterImage}
+              imageToDisplay={imageToDisplay}
+              enhancerType={enhancerType}
+            />
+          );
+        } else {
+          return (
+            <ImageComponent
+              data={afterImage}
+              imageToDisplay={imageToDisplay}
+              enhancerType={enhancerType}
+            />
+          );
+        }
       default:
         return <></>;
     }
@@ -219,9 +270,25 @@ const Index: NextPage<props> = ({ enhancerType }) => {
       />
       <section className="flex h-screen w-screen items-center justify-center align-middle">
         <div className="relative flex h-[85%] w-[85%] overflow-hidden  rounded-3xl bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
+          <div className="absolute top-0 right-0 z-10">
+            <Tooltip
+              title="This AI model is not created by us. Click in order to read our AI policies."
+              placement="top"
+              arrow
+              className="!text-center"
+            >
+              <button
+                onClick={() => router.push("/policies/AI")}
+                className=" h-auto w-auto bg-yellow-900 p-2 text-xs"
+              >
+                Model created by : {modelAuthor}
+              </button>
+            </Tooltip>
+          </div>
+
           {loginStatusLoading || userLoading ? (
             <Loading />
-          ) : loginStatus === "gold" ? (
+          ) : loginStatus === "gold" || loginStatus === "silver" ? (
             <>
               <section className=" flex h-full w-1/4  flex-col bg-gray-900/20 align-middle ">
                 <button
@@ -252,7 +319,11 @@ const Index: NextPage<props> = ({ enhancerType }) => {
                     />
 
                     <p className="ml-5 text-xs text-gray-500 dark:text-gray-400">
-                      {beforeImage === null ? `Upload Image` : beforeImage.name}
+                      {beforeImage === null
+                        ? `Upload Image`
+                        : Array.isArray(beforeImage)
+                        ? `${beforeImage[0].name}, ...others`
+                        : beforeImage.name}
                     </p>
                   </div>
                   <input
@@ -349,15 +420,16 @@ const Index: NextPage<props> = ({ enhancerType }) => {
           ) : (
             <div className="flex w-full flex-col items-center justify-center align-middle">
               <h1 className=" text-center font-Handwriting text-2xl md:text-4xl">
-                You require gold tier to access this page <br></br>
+                You require silver or gold tier to access this page <br></br>
                 <Link
-                  href={"/subscribe?tier=gold"}
-                  className={"buttons-3"}
+                  href={"/subscribe?tier=silver"}
+                  className={"buttons-3 cursor-pointer"}
                   legacyBehavior
                 >
                   <p className="mt-4 h-full text-center underline decoration-yellow-600 transition-all duration-300 hover:decoration-yellow-300 md:mt-10">
                     {" "}
-                    Unlock <span className="text-yellow-300">gold</span> tier
+                    Unlock{" "}
+                    <span className="text-yellow-300">silver or gold</span> tier
                   </p>
                 </Link>
               </h1>
@@ -373,20 +445,21 @@ export default Index;
 
 interface ImageComponentProps {
   imageToDisplay: null | "Before" | "After";
-  imageDataObj: null | { src: string; width: number; height: number };
+  data: null | imagetoEnhance | Omit<imagetoEnhance, "name">;
   enhancerType: enhancerType;
 }
 
 const ImageComponent = ({
   imageToDisplay,
-  imageDataObj,
+  data,
   enhancerType,
 }: ImageComponentProps): JSX.Element => {
-  const isBiggerThanScreenWidth = imageDataObj?.width > window.innerWidth;
+  const isBiggerThanScreenWidth =
+    data === null ? undefined : data.width > window.innerWidth;
   return (
     <>
       <div className=" flex h-full w-full flex-col items-center  justify-center align-middle">
-        {imageToDisplay === "After" && imageDataObj === null ? (
+        {imageToDisplay === "After" && data === null ? (
           <>
             <h2 className="mt-32 w-full text-center font-Handwriting text-2xl">
               Please Wait
@@ -394,11 +467,11 @@ const ImageComponent = ({
             <Loading />
           </>
         ) : (
-          imageDataObj !== null && (
+          data !== null && (
             <NextImage
-              src={imageDataObj.src}
-              width={Math.min(imageDataObj.width, window.innerWidth / 2)}
-              height={Math.min(imageDataObj.height, window.innerHeight / 2)}
+              src={data.src}
+              width={Math.min(data.width, window.innerWidth / 2)}
+              height={Math.min(data.height, window.innerHeight / 2)}
               style={{ objectFit: "scale-down" }}
               className="rounded-sm shadow-sm shadow-black"
               alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for ${enhancerType} `}
@@ -406,10 +479,90 @@ const ImageComponent = ({
           )
         )}
       </div>
-      {imageDataObj !== null && (
+      {data !== null && (
         <div className="from absolute bottom-0 right-0 h-auto  w-auto rounded-sm bg-yellow-700 bg-gradient-to-r to-yellow-800 p-4 font-Handwriting">
           <p className="text-sm text-yellow-200 ">
-            Width : {imageDataObj.width} | Height : {imageDataObj.height}
+            Width : {data.width} | Height : {data.height}
+            <br></br>
+            {isBiggerThanScreenWidth ? "Displayed image is scaled down" : null}
+          </p>
+        </div>
+      )}
+    </>
+  );
+};
+
+interface ImageSetComponentProps {
+  imageToDisplay: null | "Before" | "After";
+  dataArr: null | imagetoEnhance[] | Omit<imagetoEnhance, "name">[];
+  enhancerType: enhancerType;
+}
+const ImageSetComponent = ({
+  imageToDisplay,
+  dataArr,
+  enhancerType,
+}: ImageSetComponentProps) => {
+  const [imageIndex, setImageIndex] = useState(0);
+  const data = dataArr !== null ? dataArr[imageIndex] : null;
+  const isBiggerThanScreenWidth =
+    dataArr === null
+      ? undefined
+      : dataArr[imageIndex].width > window.innerWidth;
+  return (
+    <>
+      <div className="relative flex h-full w-full flex-col items-center  justify-center align-middle">
+        {dataArr !== null && (
+          <div className="absolute top-2 right-2 flex flex-col items-center justify-center  pb-2 align-middle ">
+            <InputLabel
+              className="my-2 mx-2  font-Handwriting text-lg font-semibold !text-brown-300  "
+              id="pageId-select"
+            >{`Selected Image `}</InputLabel>
+            <Select
+              labelId="pageId-select"
+              id="demo-simple-select"
+              defaultValue={1}
+              label="Age"
+              value={imageIndex}
+              className={` !rounded-full !text-brown-300`}
+              onChange={(e) => setImageIndex(Number(e.target.value))}
+            >
+              {Array.from(Array(dataArr.length).keys()).map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value + 1}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+        )}
+
+        {imageToDisplay === "After" && data === null ? (
+          <>
+            <h2 className="mt-32 w-full text-center font-Handwriting text-2xl">
+              Please Wait
+            </h2>
+            <Loading />
+          </>
+        ) : (
+          data !== null && (
+            <NextImage
+              src={data.src}
+              width={Math.min(data.width, window.innerWidth / 2)}
+              height={Math.min(data.height, window.innerHeight / 2)}
+              style={{
+                objectFit: "scale-down",
+                width: Math.min(data.width, window.innerWidth / 2),
+                height: Math.min(data.height, window.innerHeight / 2),
+              }}
+              className="rounded-sm shadow-sm shadow-black"
+              alt={`The ${imageToDisplay?.toLocaleLowerCase()} image of what the user uploaded for ${enhancerType} `}
+            />
+          )
+        )}
+      </div>
+      {data !== null && (
+        <div className="from absolute bottom-0 right-0 h-auto  w-auto rounded-sm bg-yellow-700 bg-gradient-to-r to-yellow-800 p-4 font-Handwriting">
+          <p className="text-sm text-yellow-200 ">
+            Width : {data.width} | Height : {data.height}
             <br></br>
             {isBiggerThanScreenWidth ? "Displayed image is scaled down" : null}
           </p>
@@ -449,25 +602,25 @@ const ChooseEnhancerModal = ({
     >
       <Box
         sx={style}
-        className="flex flex-col items-center justify-center space-y-2 rounded-md bg-black align-middle shadow-md shadow-gray-500  "
+        className="flex flex-col items-center justify-center space-y-2  rounded-lg !bg-black/20 align-middle shadow-md shadow-gray-500  "
       >
-        <h3 className="w- full my-5 text-center !font-Handwriting text-4xl text-yellow-300 ">
+        <h3 className=" my-5 text-center !font-Handwriting text-4xl text-yellow-300 ">
           What would you like to do to your image?
         </h3>
         <button
-          className="block h-16 w-96  rounded-sm  bg-yellow-900 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
+          className="block h-16 w-64 rounded-md  bg-yellow-900/70 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
           onClick={() => router.push("/image-enhancing/upscale")}
         >
           Upscale
         </button>
         <button
-          className="block h-16 w-96  rounded-sm  bg-yellow-900 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
+          className="block h-16 w-64 rounded-md  bg-yellow-900/70 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
           onClick={() => router.push("/image-enhancing/deblur")}
         >
           Deblur
         </button>
         <button
-          className="block h-16 w-96  rounded-sm  bg-yellow-900 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
+          className="block h-16 w-64 rounded-md  bg-yellow-900/70 font-Handwriting text-xl transition-all duration-300 hover:bg-yellow-700  "
           onClick={() => router.push("/image-enhancing/stylize")}
         >
           Stylize
@@ -484,7 +637,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       { params: { enhancerType: "deblur" } },
       { params: { enhancerType: "stylize" } },
     ],
-    fallback: false, // can also be true or 'blocking'
+    fallback: false,
   };
 };
 export const getStaticProps: GetStaticProps = async (context) => {

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginBanner from "../public/login/loginBanner.png";
 import aftinLogo from "../public//aftinLogoSvg.svg";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -25,12 +25,15 @@ interface Inputs {
 function Login() {
   const [user, userLoading] = useAuthState(auth);
   const router = useRouter();
+  let { form: routerForm } = router.query;
 
   //if someone is redirected to the login page they can use this url query to specifically make the login or the signup appear on the screen
-  let { form } = router.query;
-  const notProperForm =
-    form === undefined || (form !== "login" && form !== "sign-up");
-  if (notProperForm) form = "login";
+  const [form, setForm] = useState<"login" | "sign-up">("login");
+  useEffect(() => {
+    if (routerForm !== undefined) {
+      setForm(routerForm as "login" | "sign-up");
+    }
+  }, [routerForm]);
 
   const pathname = router.pathname;
 
