@@ -33,17 +33,12 @@ export const uploadImageToCanvas = (
   h: null | number,
   pageId: number | null,
   imagesArray?: File[] | null | FileList,
-  url?: string
+  url?: string | string[]
 ) => {
-  const image = new Image();
-  if (imagesArray) {
-    let selected = imagesArray[0];
-    image.src = URL.createObjectURL(selected);
-  } else if (url) {
-    image.src = url;
-  }
-
-  return (image.onload = () => {
+  const putImageOnCanvas = (
+    image: HTMLImageElement,
+    index?: number
+  ): any | null => {
     const data = {
       imageSRC: image.src,
       width: image.width,
@@ -65,9 +60,31 @@ export const uploadImageToCanvas = (
       },
     };
     const filterData = DEFAULT_OPTIONS;
-    if (w === null || h === null) CHANGE_PAGE_SIZE(image.width, image.height);
+    const noWidthOrHeight = w === null || h === null;
+    const isFirstImage = index === undefined || index === 0;
+
+    if (noWidthOrHeight && isFirstImage)
+      CHANGE_PAGE_SIZE(image.width, image.height);
     return ADD_IMAGE(pageId ? pageId : 0, data, filterData);
-  });
+  };
+  if (imagesArray) {
+    for (let i = 0; i < imagesArray.length; i++) {
+      const image = new Image();
+      let selected = imagesArray[i];
+      image.src = URL.createObjectURL(selected);
+      image.onload = putImageOnCanvas(image, i);
+    }
+  } else if (typeof url === "string") {
+    const image = new Image();
+    image.src = url;
+    image.onload = putImageOnCanvas(image);
+  } else if (Array.isArray(url)) {
+    for (let i = 0; i < url.length; i++) {
+      const image = new Image();
+      image.src = url[i];
+      image.onload = putImageOnCanvas(image, i);
+    }
+  }
 };
 
 export const uploadTextToCanvas = (

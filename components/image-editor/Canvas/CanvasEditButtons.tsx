@@ -31,6 +31,7 @@ import { User } from "firebase/auth";
 import LoginFirstDialog from "../../general/dialog-boxes/LoginFirstDialog";
 import { triggerMissingMockupFeature } from "../../../model/client-side/general/missingFeatures";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
+import { useUserTier } from "../../../hooks/useUserTier";
 
 interface props {
   stageRefs: LegacyRef<Stage>[];
@@ -57,16 +58,8 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
     store.CHANGE_MODAL_TYPE,
     store.CHANGE_MODAL_TEXT,
   ]);
-  const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
-    ["getUserStatus", user?.uid, userLoading],
-    () => fetchUserStatus(user),
-    {
-      //1hr
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const loginStatus = useUserTier(user, userLoading);
+
   //saves the selected page image in order to he sent to a image editing feature
   const [beforeImage, setBeforeImage] = useState<null | {
     src: Base64Data<"png">;
@@ -205,7 +198,7 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
           Preview
         </button>
         <button
-          disabled={loginStatusLoading}
+          disabled={userLoading}
           className="!mt-auto h-auto w-full whitespace-nowrap rounded bg-orange-800 p-2 text-center  font-['Lato'] text-xs text-orange-100  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-orange-700 active:shadow-none  disabled:bg-brown-200/80  "
           onClick={async () => {
             // I need to use this silly structure to ensure that the elements are first deselected so that they don't have that transformer wrapper around them before the image is going to be transferred to the SVG box

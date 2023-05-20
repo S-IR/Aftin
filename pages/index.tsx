@@ -23,6 +23,11 @@ import { useCachedStore } from "../zustand/CachedImageStore/store";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import { FaSpinner } from "react-icons/fa";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+import { requestSetTier } from "../model/client-side/users/setters/requestSetTier";
+import { requestSetSessionCookie } from "../model/client-side/users/setters/requestSetSessionCookie";
 
 const StudiesBox = dynamic(() => import("../components/homepage/StudiesBox"), {
   ssr: false,
@@ -58,6 +63,8 @@ const HomepageGallery = dynamic(
 
 const Home: NextPage = () => {
   const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
+  const [user, userLoading] = useAuthState(auth);
+
   return (
     <>
       <NextSeo

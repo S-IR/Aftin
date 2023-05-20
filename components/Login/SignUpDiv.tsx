@@ -42,6 +42,7 @@ const signUpSchema = z
       ctx.addIssue({
         code: "custom",
         message: "The passwords did not match",
+        path: ["confirmPassword"],
       });
     }
   });
@@ -78,13 +79,22 @@ const SignUpDiv = ({ user, userLoading }: props) => {
     });
     changeModalType("generic-success");
   };
+
+  useEffect(() => {
+    console.log("errors", errors);
+  }, [errors]);
+
   const onSubmit: SubmitHandler<Inputs> = async ({
     username,
     email,
     password,
   }) => {
+    console.log("hello");
+
     setUserMail(email);
     const res = await signUp(email, password, username);
+    console.log("response from signUp", res);
+
     if (res?.status === "success") {
       return handleConfirmEmailModal();
     } else {

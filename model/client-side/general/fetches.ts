@@ -29,3 +29,14 @@ export const fetchUserStatus = async (
     return undefined;
   }
 };
+
+/**
+ * Takes in the encrypted url of a commercial image and returns the fetch result of it
+ * @param encryptedUrl the url string that has been encrypted
+ * @returns the decrypted url
+ */
+export const fetchDecryptedUrl = async (encryptedUrl: string) => {
+  const res = await fetch("/api/products/images/decrypt");
+  const { imageUrl } = await res.json();
+  return imageUrl;
+};

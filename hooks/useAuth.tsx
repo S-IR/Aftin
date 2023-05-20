@@ -15,6 +15,8 @@ import { auth, createUserDoc, db } from "../firebase";
 import { verifyEmail } from "../model/server-side/sendEmail";
 import { FirebaseError } from "firebase-admin";
 import { authResponseType } from "../constants/login/types";
+import { requestSetTier } from "../model/client-side/users/setters/requestSetTier";
+import { requestSetSessionCookie } from "../model/client-side/users/setters/requestSetSessionCookie";
 
 const useAuth = (): [
   (
@@ -54,6 +56,10 @@ const useAuth = (): [
         window.gtag(`event`, `sign_up`, {
           method: "Aftin",
         });
+        let token = await userCredential.user.getIdToken();
+        await requestSetTier(token, "bronze");
+        token = await userCredential.user.getIdToken(true);
+        await requestSetSessionCookie(token);
         return { status: `success`, user: userCredential.user };
       } else {
         return { status: "error", error: resBody };
@@ -87,7 +93,9 @@ const useAuth = (): [
         window.gtag(`event`, `login`, {
           method: "Aftin",
         });
-        return { status: "success", user: userCredential };
+        const token = await userCredential.user.getIdToken();
+        await requestSetSessionCookie(token);
+        return { status: "success", user: userCredential.user };
       } else {
         return { status: "error", error: userCredential.code };
       }
@@ -103,7 +111,10 @@ const useAuth = (): [
   const logout = async () => {
     setLoading(true);
     signOut(auth)
-      .then(() => router.push("/login"))
+      .then(async () => {
+        await fetch("/api/users/remove-session-cookie");
+        return router.push("/login");
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };

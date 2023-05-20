@@ -8,6 +8,8 @@ import { auth } from "../../firebase";
 import { NavbarDropdown, ProfileDropdown } from "../navbar";
 import styles from "../../styles/WebsiteNavbar.module.css";
 import Link from "next/link";
+import { PuffLoader } from "react-spinners";
+import { useUserTier } from "../../hooks/useUserTier";
 
 let lastWidth = 0;
 
@@ -15,6 +17,11 @@ const WebsiteNavbar = (): JSX.Element => {
   const [activeSidebar, setActiveSidebar] =
     useState<navLink["DropdownState"]>(null);
   const [user, userLoading] = useAuthState(auth);
+
+  const loginStatus = useUserTier(user, userLoading);
+  useEffect(() => {
+    console.log("userTier", loginStatus);
+  }, [loginStatus]);
 
   //this exit state is meant to stop the setting of the hover state if the navbar dropdown is animating out. It sets a value with the current dropdown state that's animating out. On hovering the text the code first checks if the navbar hovered is the same as the one that's animating out, and if it is it doesn't do anything
 
@@ -139,7 +146,13 @@ const WebsiteNavbar = (): JSX.Element => {
           >
             {
               //user profile icon component
-              !userLoading && user && (
+              userLoading ? (
+                <PuffLoader
+                  size={20}
+                  color="orange"
+                  className="ml-auto  mr-8 rounded-full "
+                />
+              ) : (
                 <div
                   className={` ml-auto mr-8 flex h-[35px] w-[35px] items-center justify-center rounded-full border-dotted border-gray-500 align-middle transition-all  duration-300 hover:border-red-500 `}
                 >
@@ -149,7 +162,7 @@ const WebsiteNavbar = (): JSX.Element => {
                       width={25}
                       height={25}
                       alt={"user profile picture"}
-                      className={`  mx-2 rounded-full  `}
+                      className={` rounded-full  `}
                     />
                   )}
                   {user && !user.photoURL && (

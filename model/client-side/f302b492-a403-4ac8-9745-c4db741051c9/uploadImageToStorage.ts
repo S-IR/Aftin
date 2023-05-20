@@ -20,6 +20,7 @@ import {
 } from "../../../typings/image-types/ImageTypes";
 import {
   AdvertImagesOptionsSchema,
+  banner_type_schema,
   cutlery_type_schema,
   menu_size_schema,
   shape_schema,
@@ -35,7 +36,7 @@ const imageType = `png`;
 
 const uploadToStorage = (
   storageRef: StorageReference,
-  file: FileList[number]
+  file: FileList[number] | Blob
 ) => {
   const uploadTask = uploadBytesResumable(storageRef, file);
   const url = uploadTask.on(
@@ -58,7 +59,7 @@ export const uploadImageSetToStorage = async (
   docFields: Partial<ImgDoc>,
   canvasRef: RefObject<HTMLCanvasElement | null>,
   sizeField?: sizeField,
-  real_image_urls?: string[]
+  watermarked_images?: Blob[]
 ) => {
   const urlArr: string[] = [];
   for (let i = 0; i < files.length; i++) {
@@ -88,7 +89,7 @@ export const uploadImageSetToStorage = async (
       setSizeField(width, height, docFields, sizeField);
     }
 
-    if (real_image_urls === undefined) {
+    if (watermarked_images === undefined) {
       addDoc(doc, {
         ...docFields,
         color: MainColors,
@@ -97,26 +98,32 @@ export const uploadImageSetToStorage = async (
         height,
       });
     } else {
-      let realUrlArr: string[] = [];
-      for (let i = 0; i < real_image_urls.length; i++) {
-        const realStorageRef = ref(
+      let watermarkImgArr: string[] = [];
+      for (let i = 0; i < watermarked_images.length; i++) {
+        const watermarkStorage = ref(
           storage,
           `${storageAddress}/${makeID(imageNameLen)}.${imageType}`
         );
-        await uploadString(realStorageRef, real_image_urls[i], "data_url");
-        const realImgUrl = await getDownloadURL(realStorageRef);
-        realUrlArr.push(realImgUrl);
+        const watermarkUploadTask = uploadToStorage(
+          watermarkStorage,
+          watermarked_images[i]
+        );
+        (await watermarkUploadTask).state === "success";
+
+        const watermarkedImg = await getDownloadURL(watermarkStorage);
+        // const encryptedUrl = await encryptURL(url);
+        watermarkImgArr.push(watermarkedImg);
       }
 
-      if (realUrlArr.length < real_image_urls.length)
+      if (urlArr.length < watermarked_images.length)
         throw new Error(
           "the realImgUrl.length is smaller than the real_image_urls.length at uploadImageSetToStorage"
         );
       addDoc(doc, {
         ...docFields,
         color: MainColors,
-        url: urlArr,
-        realImgUrl: realUrlArr,
+        url: watermarkImgArr,
+        real_url: urlArr,
         width,
         height,
       });
@@ -134,7 +141,7 @@ export const uploadImageSetToStorage = async (
  * @param docFields The document fields that you want to be put the previously mentioned firestore document
  * @param canvasRef A reference of a canvas that allows us to extract the colors of the image
  * @param sizeField Specify which type  (if any) of size field you would like added based on the images width and height
- * @param real_file If you want to add watermarks to the previously uploaded image then this will be interpreted as the real image file whereas the previous one will be the one that has the watermark on it
+ * @param watermarkedImg If you want to add watermarks to the previously uploaded image then this should be a blob of the watermarked image
  * @returns
  */
 export const uploadImageToStorage = async (
@@ -144,7 +151,7 @@ export const uploadImageToStorage = async (
   docFields: Partial<ImgDoc>,
   canvasRef: RefObject<HTMLCanvasElement | null>,
   sizeField?: sizeField,
-  real_file?: any | undefined
+  watermarkedImg?: Blob
 ) => {
   const storageRef = ref(
     storage,
@@ -170,7 +177,7 @@ export const uploadImageToStorage = async (
       setSizeField(width, height, docFields, sizeField);
     }
 
-    if (real_file === undefined) {
+    if (watermarkedImg === undefined) {
       addDoc(doc, {
         ...docFields,
         color: MainColors,
@@ -179,19 +186,24 @@ export const uploadImageToStorage = async (
         height,
       });
     } else {
-      const realStorageRef = ref(
+      const watermarkStorageRef = ref(
         storage,
         `${storageAddress}/${makeID(imageNameLen)}.${imageType}`
       );
-      await uploadString(realStorageRef, real_file, "data_url");
-      const realImgUrl = await getDownloadURL(realStorageRef);
-      if (realImgUrl === undefined)
-        throw new Error("realImgUrl undefined at uploadImageToStorage");
+      const watermarkUploadTask = uploadToStorage(
+        watermarkStorageRef,
+        watermarkedImg
+      );
+      (await watermarkUploadTask).state === "success";
+
+      const watermarkUrl = await getDownloadURL(watermarkStorageRef);
+      console.log("watermarkUrl", watermarkUrl);
+
       addDoc(doc, {
         ...docFields,
         color: MainColors,
-        url,
-        realImgUrl,
+        url: watermarkUrl,
+        real_url: url,
         width,
         height,
       });
@@ -300,6 +312,14 @@ const setSizeField = (
   }
 };
 
+const encryptURL = async (url: string): Promise<string> => {
+  const encryptionRes = await fetch(
+    `/api/products/images/encrypt?url=${encodeURIComponent(url)}`
+  );
+  const encodedUrlRes = await encryptionRes.json();
+  return encodedUrlRes.imageUrl as string;
+};
+
 export const getTagsFromTitle = (
   title: string
 ): Array<(typeof tagsArray)[number]> => {
@@ -320,10 +340,12 @@ export const getImgFieldsFromTitle = (
   index: number
 ): Partial<ImgDoc> => {
   const imgFields = new Map();
-  const surr_env_regex = /surr_env=([A-Za-z0-9\-\_]*);/i;
+  const surr_env_regex = /SURR_ENV=([A-Za-z0-9\-\_]*);/i;
   const cutlery_type_regex = /cutlery_type=([A-Za-z0-9\-\_]*);/i;
   const shape_regex = /shape=([A-Za-z0-9\-\_]*);/i;
-  const menu_size_regex = /menu_size=([A-Za-z0-9\-\_]*);/i;
+  const menu_size_regex = /MENU_SIZE=([A-Za-z0-9\-\_]*);/i;
+  const banner_type_regex = /BANNER_TYPE=([A-Za-z0-9\-\_]*);/i;
+  const style_regex = /STYLE=([A-Za-z0-9\-\_]*);/i;
 
   let description = title.replace(".png", "").replace("Wildhide", "");
 
@@ -338,8 +360,8 @@ export const getImgFieldsFromTitle = (
         `Could not find the required ${img_field} image field in the ${index}th image title`
       );
     } else {
-      schema.parse(img_field_match_arr[1]);
-      imgFields.set(img_field, img_field_match_arr[1]);
+      schema.parse(img_field_match_arr[1].toLowerCase());
+      imgFields.set(img_field, img_field_match_arr[1].toLowerCase());
       description = description
         .replace(img_field_match_arr[1], "")
         .replace(`${img_field}=`, "");
@@ -348,7 +370,6 @@ export const getImgFieldsFromTitle = (
 
   switch (SecondDegreeCategory) {
     case "appetizers":
-    case "banners":
     case "main-dishes":
     case "sweets-and-desserts":
     case "fast-foods":
@@ -362,10 +383,14 @@ export const getImgFieldsFromTitle = (
       insertImgField("cutlery_type", cutlery_type_regex, cutlery_type_schema);
       break;
     case "flyers":
+    case "brochures":
       insertImgField("shape", shape_regex, shape_schema);
+      insertImgField("menu_size", menu_size_regex, menu_size_schema);
       break;
     case "menus":
       insertImgField("menu_size", menu_size_regex, menu_size_schema);
+    case "banners":
+      insertImgField("banner_type", banner_type_regex, banner_type_schema);
     default:
       break;
   }

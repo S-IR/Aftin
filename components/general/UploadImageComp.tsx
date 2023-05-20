@@ -41,6 +41,7 @@ import {
 import { AdvertImagesOptionsSchema } from "../../typings/image-types/imageZodSchemas";
 import FirstDegreeInput from "../f302b492-a403-4ac8-9745-c4db741051c9/UploadImage/FirstDegreeInput";
 import LoadingScreen from "./LoadingScreen";
+import { addImageWatermark } from "../../model/client-side/f302b492-a403-4ac8-9745-c4db741051c9/addWatermark";
 
 interface props {
   FirstDegreeCategory: FirstDegreeCategory;
@@ -92,16 +93,14 @@ const UploadImageComp = ({
     real_files,
     ...imgFields
   }) => {
+    setDisableUpload(true);
     try {
+      console.log(`imgFields.tier`, imgFields.tier);
+
       let realImageChecked =
         imgFields.tier === "silver" || imgFields.tier === "gold";
       setDisableUpload(true);
-      const watermark = (await import("watermarkjs")).default;
-      const watermarkOptions = {
-        init(img: any) {
-          img.crossOrigin = "anonymous";
-        },
-      };
+      console.log(`realImageChecked`, realImageChecked);
 
       // if the image has a limited edition , convert it to a date format
       if (imgFields.lim_edition_expiration_date) {
@@ -125,14 +124,8 @@ const UploadImageComp = ({
         if (realImageChecked) {
           let watermarkLinksArr: string[] | undefined;
           for (let i = 0; i < files.length; i++) {
-            const watermarkedImg = await watermark(
-              [
-                files[i],
-                "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
-              ],
-              watermarkOptions
-            ).image(watermark.image.lowerRight(0.5));
-            watermarkLinksArr?.push(watermarkedImg.src);
+            const watermarkedImg = await addImageWatermark(files[i]);
+            watermarkLinksArr?.push(watermarkedImg);
           }
           uploadImageSetToStorage(
             storageAddress,
@@ -176,25 +169,17 @@ const UploadImageComp = ({
 
             // if the image needs to have a watermark added, then create a new image with the watermark
             if (realImageChecked) {
-              watermark(
-                [
-                  files[i],
-                  "https://firebasestorage.googleapis.com/v0/b/aftin-3516f.appspot.com/o/product-images%2Faw09rpoj2qw4pijawij41295.png?alt=media&token=bfd24342-12eb-4e69-99eb-6bab8c7efb6a",
-                ],
-                watermarkOptions
-              )
-                .image(watermark.image.lowerRight(0.5))
-                .then((watermarkedImg: any) => {
-                  uploadImageToStorage(
-                    storageAddress,
-                    files[i],
-                    doc,
-                    docFields,
-                    canvasRef,
-                    sizeField,
-                    watermarkedImg.src
-                  );
-                });
+              const watermarkImg = await addImageWatermark(files[i]);
+              console.log("watermarkImg", watermarkImg);
+              uploadImageToStorage(
+                storageAddress,
+                files[i],
+                doc,
+                docFields,
+                canvasRef,
+                sizeField,
+                watermarkImg
+              );
             } else {
               uploadImageToStorage(
                 storageAddress,
@@ -215,12 +200,16 @@ const UploadImageComp = ({
       throw error;
     }
   };
+  useEffect(() => {
+    console.log("disabledUpload", disableUpload);
+  }, [disableUpload]);
+
   if (!inputsArray)
     return <div>somehow this appeared without any inputs to show</div>;
 
   return (
     <div className="w-full bg-gray-500">
-      {disableUpload && <LoadingScreen isLoading={disableUpload} />}
+      {disableUpload === true && <LoadingScreen isLoading={disableUpload} />}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="z-50 row-span-1 mx-5 flex-row items-center justify-center  space-y-8 rounded-sm bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 p-4 text-white sm:w-auto  md:max-w-md md:px-14"

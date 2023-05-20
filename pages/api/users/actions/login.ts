@@ -6,6 +6,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const token = req.headers.token;
+  if (typeof token !== "string") {
+    res.status(400).send("Bad request");
+    return null;
+  }
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("LOGIN_DATA", token, {

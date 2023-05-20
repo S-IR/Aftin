@@ -5,6 +5,8 @@ import ConsentCookiesSnackbar from "./snackbars/ConsentCookiesSnackbar";
 import WebsiteNavbar from "./WebsiteNavbar";
 import AllModalBoxes from "./modal-boxes/AllDialogBoxes";
 import { useRouter } from "next/router";
+import { auth } from "../../firebase";
+import { User } from "firebase/auth";
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   const router = useRouter();
@@ -29,6 +31,26 @@ const Layout = ({ children }: React.PropsWithChildren) => {
         functionality_storage === undefined ||
         security_storage === undefined
     );
+  }, []);
+
+  useEffect(() => {
+    const handleIdTokenChanged = async (user: User | null) => {
+      if (user) {
+        const idToken = await user.getIdToken();
+        user.refreshToken;
+        Cookies.set("idToken", idToken);
+      } else {
+        Cookies.set("idToken", "");
+      }
+    };
+
+    // Set up the listener for authentication state changes
+    const unregisterAuthObserver = auth.onIdTokenChanged(handleIdTokenChanged);
+
+    // Clean up the listener when the component is unmounted
+    return () => {
+      unregisterAuthObserver();
+    };
   }, []);
 
   return (

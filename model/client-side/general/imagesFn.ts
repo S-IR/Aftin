@@ -1,3 +1,6 @@
+import { ImgDoc } from "../../../typings/image-types/ImageTypes";
+import { fetchDecryptedUrl } from "./fetches";
+
 /**
  * Simple function to download an image alongside changing its name to the correct form
  * @param url The image url

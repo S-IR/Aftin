@@ -35,6 +35,7 @@ import { triggerMissingMockupFeature } from "../../../model/client-side/general/
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { fetchDecryptedUrl } from "../../../model/client-side/general/fetches";
 
 interface props {
   dialogName: null | galleryImageDialog["name"];
@@ -159,6 +160,7 @@ const FreeImageDialog: FC<props> = ({
                 className="text-md  rounded-sm bg-yellow-700 p-2 text-yellow-200 drop-shadow-xl  transition-all duration-500 hover:bg-yellow-500 hover:shadow-none"
                 onClick={() => {
                   switch (loginStatus) {
+                    case "silver":
                     case "gold":
                       window.gtag(
                         "event",
@@ -177,13 +179,10 @@ const FreeImageDialog: FC<props> = ({
                         }
                       );
                       let toEnhance: imagetoEnhance | imagetoEnhance[];
-                      if (
-                        !Array.isArray(doc.url) &&
-                        !Array.isArray(doc.real_url)
-                      ) {
+                      if (!Array.isArray(doc.url)) {
                         toEnhance = {
-                          src: doc.tier === "bronze" ? doc.url : doc.real_url,
-                          name: doc.tier === "bronze" ? doc.url : doc.real_url,
+                          src: doc.url,
+                          name: `image.png`,
                           width: doc.width,
                           height: doc.height,
                         };
@@ -191,20 +190,13 @@ const FreeImageDialog: FC<props> = ({
                         toEnhance = [];
                         for (let i = 0; i < doc.url.length; i++) {
                           toEnhance.push({
-                            src:
-                              doc.tier === "bronze"
-                                ? doc.url[i]
-                                : doc.real_url[i],
-                            name:
-                              doc.tier === "bronze"
-                                ? doc.url[i]
-                                : doc.real_url[i],
+                            src: doc.url[i],
+                            name: `image${i}.png`,
                             width: doc.width,
                             height: doc.height,
                           });
                         }
                       }
-
                       addEnhanceImageToCache(toEnhance);
                       return router.push("/image-enhancing/upscale");
                     case "not logged in":
@@ -245,7 +237,7 @@ const FreeImageDialog: FC<props> = ({
           <div className="grid h-full w-full basis-1/5  grid-cols-2 flex-row items-center  justify-center gap-2 bg-brown-700    px-2  py-10  align-middle  md:flex md:flex-col md:space-x-0  md:space-y-16 md:px-0 ">
             <button
               className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500  hover:bg-brown-500 hover:shadow-none md:h-12 md:w-36 "
-              onClick={() => {
+              onClick={async () => {
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc,
@@ -305,7 +297,7 @@ const FreeImageDialog: FC<props> = ({
             </button>
             <button
               className=" h-full w-full bg-yellow-700 text-yellow-200 drop-shadow-xl  transition-all duration-500   hover:bg-brown-500   hover:shadow-none md:h-12   md:w-36 "
-              onClick={() => {
+              onClick={async () => {
                 const passedChecks = checkImageGalleryClick(
                   loginStatus,
                   doc,

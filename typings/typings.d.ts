@@ -69,8 +69,7 @@ export type LoginStatus =
   | "unauthorized"
   | "bronze"
   | "silver"
-  | "gold"
-  | undefined;
+  | "gold";
 export type Base64Data<imageType extends string> =
   `data:image/${imageType};base64,${string}`;
 export type UTF8Data<imageType extends string> =

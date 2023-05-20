@@ -52,10 +52,6 @@ const LoginDiv = ({ user, userLoading }: props) => {
   const [authWithGoogle, authWithFacebook, authWithPinterest] =
     useAuthThirdParty();
 
-  useEffect(() => {
-    changeModalType("generic-error");
-  }, []);
-
   const {
     register,
     handleSubmit,

@@ -22,6 +22,9 @@ import {
   ThirdDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
 import { isValidUrlParams } from "../../model/client-side/image-gallery/confirmValidUrlParams";
+import { cookies } from "next/dist/client/components/headers";
+import { auth } from "firebase-admin";
+import { LoginStatus } from "../../typings/typings";
 
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
@@ -63,12 +66,16 @@ export const getServerSideProps: GetServerSideProps = async ({
       notFound: true,
     };
   }
+
   const validParamsCheck = isValidUrlParams(params.imageCategory);
   if (!validParamsCheck) {
     return {
       notFound: true,
     };
   }
+
+  let idToken = req.cookies.idToken;
+  if (idToken === undefined) idToken = "";
   const pageMetas = determinePageMetas(
     req.url,
     params.imageCategory[0] as SecondDegreeCategory,

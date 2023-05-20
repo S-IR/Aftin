@@ -172,7 +172,6 @@ export const SingleEditorImage = ({
     state.ADD_IMAGE,
     state.CHANGE_PAGE_SIZE,
   ]);
-
   // states that change based on mouse events
   const [premiumText, setPremiumText] = useState(false);
 
@@ -222,15 +221,43 @@ export const SingleEditorImage = ({
               );
           }}
         >
-          <NextImage
-            src={imgDoc.url}
-            alt={imgDoc.description}
-            width={256}
-            height={imgDoc.height / 4}
-            style={{ objectFit: `scale-down` }}
-            className="rounded-md   "
-            onLoad={() => setLoading(false)}
-          />
+          {Array.isArray(imgDoc.url) ? (
+            imgDoc.url.map((url, i) => {
+              return (
+                <div
+                  style={{
+                    transform: `rotate(${
+                      -15 + (i / (imgDoc.url.length - 1)) * 30
+                    }deg) translate(-50%, -50%)`,
+                  }}
+                  className=" h absolute top-1/2 left-1/2 flex  h-fit w-fit  origin-bottom  cursor-pointer  items-start justify-start rounded-lg  align-top ease-in-out "
+                >
+                  <NextImage
+                    src={url}
+                    alt={imgDoc.description}
+                    width={isMobile ? 124 : 124}
+                    height={isMobile ? imgDoc.height / 12 : imgDoc.height / 6}
+                    style={{ objectFit: "scale-down" }}
+                    className="rounded-md"
+                    onLoad={() => setLoading(true)}
+                    onLoadingComplete={() => setLoading(false)}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <NextImage
+              src={imgDoc.url}
+              alt={imgDoc.description}
+              width={256}
+              height={imgDoc.height / 4}
+              style={{ objectFit: `scale-down` }}
+              className="rounded-md   "
+              onLoad={() => setLoading(true)}
+              onLoadingComplete={() => setLoading(false)}
+            />
+          )}
+
           {imgDoc.tier === `silver` ||
             (imgDoc.tier === "gold" && (
               <PremiumIcon premiumText={premiumText} />

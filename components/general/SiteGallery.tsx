@@ -27,13 +27,15 @@ import {
 import { auth } from "../../firebase";
 import { fetchUserStatus } from "../../model/client-side/general/fetches";
 import { User } from "firebase/auth";
-import useUserStatus from "../../hooks/useUserStatus";
 import LoginFirstDialog from "./dialog-boxes/LoginFirstDialog";
 import { GetServerSideProps } from "next";
 import { getImageQueryParams } from "../../model/client-side/image-gallery/getImageQueryParams";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
 import FreeImageDialog from "./dialog-boxes/FreeImageDialog";
 import PaidImageDialog from "./dialog-boxes/PaidImageDialog";
+import { getUserTier } from "../../firebaseAdmin";
+import { useUserTier } from "../../hooks/useUserTier";
+import { LoginStatus } from "../../typings/typings";
 interface props {
   showSidebar: boolean;
 }
@@ -50,6 +52,8 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   // request image docs code
   const router = useRouter();
   const [user, userLoading] = useAuthState(auth);
+
+  const loginStatus = useUserTier(user, userLoading);
 
   const changeModalType = useModalStore((store) => store.CHANGE_MODAL_TYPE);
   // this value is meant to track how many times a person clicked on the 'load more' button. If it reaches 3 it will fire a google tag event and go back to 0
@@ -84,7 +88,8 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
         firstDegreeCategory,
         secondDegreeCategory,
         thirdDegreeCategory,
-        queryParams
+        queryParams,
+        loginStatus
       ),
     {
       getNextPageParam: (lastRow, allRows) => {
@@ -108,18 +113,6 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
     marginLeft: showSidebar && !isMobile ? 226 : 40,
     config: { duration: 300 },
   });
-
-  // login status code
-
-  const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
-    ["getUserStatus", user?.uid],
-    () => fetchUserStatus(user),
-    {
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-      refetchOnWindowFocus: false,
-    }
-  );
 
   // Dialog popup code
 
@@ -175,7 +168,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       </div>
       {data.pages !== undefined &&
       data.pages[0].docsArray.length !== 0 &&
-      !loginStatusLoading ? (
+      !userLoading ? (
         <section
           className={
             " grid  w-full grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-1"

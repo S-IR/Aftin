@@ -13,9 +13,9 @@ if (!admin.apps.length) {
     databaseURL: "https://aftin-3516f-default-rtdb.firebaseio.com",
   });
 }
-
+export default admin;
 /**
- * Backend function thatGets the user's payment tier level
+ * Backend function that gets the user's payment tier level
  * @param token firebase JWT token of the user
  * @returns
  */
@@ -23,7 +23,6 @@ export const getUserTier = async (
   token: string | undefined
 ): Promise<"bronze" | "silver" | "gold" | "unauthorized"> => {
   if (token === undefined) return "unauthorized";
-
   let userTier: "bronze" | "silver" | "gold" | "unauthorized" = "bronze";
   await admin
     .auth()
@@ -44,7 +43,6 @@ export const getUserTier = async (
     });
   return userTier;
 };
-
 // SEND VERIFY EMAIL FUNCTION
 
 /**

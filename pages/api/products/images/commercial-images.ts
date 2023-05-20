@@ -19,6 +19,9 @@ import {
   valid_image_fields_schema,
 } from "../../../../typings/image-types/imageZodSchemas";
 import { queryType } from "../../../../typings/image-types/queryTypes";
+import admin, { getUserTier } from "../../../../firebaseAdmin";
+import { LoginStatus } from "../../../../typings/typings";
+import { auth } from "firebase-admin";
 
 /**
  * Filters the data sent by Firebase depending on the user's URL request or
@@ -103,10 +106,41 @@ const filterData = (
   return filteredData;
 };
 
+const changeUrlBasedOnTier = (
+  docsArray: ImgDoc[],
+  tier: LoginStatus
+): ImgDoc[] => {
+  if (tier === "silver") {
+    docsArray.forEach((doc) => {
+      if (doc.tier === "silver") {
+        doc.url = doc.real_url;
+        const { [`real_url`]: _, ...newObj } = doc;
+        return newObj;
+      } else {
+        return doc;
+      }
+    });
+  }
+  if (tier === "gold") {
+    docsArray.forEach((doc) => {
+      if (doc.tier === "silver" || doc.tier === "gold") {
+        doc.url = doc.real_url;
+        const { [`real_url`]: _, ...newObj } = doc;
+        return newObj;
+      } else {
+        return doc;
+      }
+    });
+  }
+  return docsArray;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("api reached");
+
   // get all of the image docs of that subcategory
   const {
     firstDegreeCategory,
@@ -134,20 +168,31 @@ export default async function handler(
       ))
   ) {
     // I do wonder if status code 422 is correct. Seems like stack overflow agrees in terms of upvote numbers
-    return res.status(422).send({ message: "invalid request" });
+    res.status(422).send({ message: "invalid request" });
+    return;
   }
+
+  const session = req.cookies.session;
+  let loginStatus: LoginStatus = "bronze";
+  if (session) {
+    const decodedClaims = await auth().verifySessionCookie(session);
+    loginStatus = decodedClaims.tier;
+  }
+  console.log("loginStatus from commercial images", loginStatus);
 
   //save them in an array
   const firebaseAPIResponse = await fetch(
     `${
       process.env.NEXT_PUBLIC_server
-    }/api//products/images/firebase-commercial-images?${new URLSearchParams({
+    }/api/products/images/firebase-commercial-images?${new URLSearchParams({
       firstDegreeCategory: firstDegreeCategory as string,
       secondDegreeCategory: secondDegreeCategory as string,
     })}`
   );
 
   let docsArray: ImgDoc[] = await firebaseAPIResponse.json();
+  docsArray = changeUrlBasedOnTier(docsArray, loginStatus);
+  console.log("docsArray after changeUrlBasedOnTier", changeUrlBasedOnTier);
 
   // calculate what part of the array should be sent back
   const slicingStart = 0 + 15 * Number(rowRequested);
@@ -158,7 +203,6 @@ export default async function handler(
     thirdDegreeCategory !== "no-third-category" &&
     thirdDegreeCategory !== undefined
   ) {
-    console.log("thirdDegreeCategory is something");
     docsArray = filterData(
       docsArray,
       thirdDegreeCategory,
@@ -170,8 +214,6 @@ export default async function handler(
   docsArray = docsArray.slice(slicingStart, slicingEnd);
 
   res.setHeader("Cache-Control", "s-maxage=10800");
-
-  console.log("docsArray");
 
   return res.status(200).send({ docsArray, hasNextPage });
 }

@@ -12,6 +12,7 @@ import {
   secondDegCat_schema,
   valid_image_fields_schema,
 } from "../../../typings/image-types/imageZodSchemas";
+import { LoginStatus } from "../../../typings/typings";
 
 /**
  * Does a request to the backend for the specified images
@@ -19,6 +20,8 @@ import {
  * @param {'graphic designs | advertisement-images'} category the category of images
  * @param {SecondDegreeCategory} subCat the subcategory of the images
  * @param {ParsedUrlQuery} queryData The query parameters that are sent down
+ * @param {idToken} queryData The firebase id token of the user, it is an empty string if he is not logged in. Used to determine what images will be sent to the user
+ *
  * @returns {ImgDoc[] | string }
  */
 export const requestImageDocs = async (

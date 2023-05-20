@@ -7,24 +7,17 @@ import { useQuery } from "react-query";
 import Loading from "../../components/general/Loading";
 import { auth } from "../../firebase";
 import { fetchUserStatus } from "../../model/client-side/general/fetches";
+import { useUserTier } from "../../hooks/useUserTier";
 
 const Index: NextPage = () => {
   const [user, userLoading] = useAuthState(auth);
 
-  const { data: loginStatus, isLoading: loginStatusLoading } = useQuery(
-    ["getUserStatus", user?.uid, userLoading],
-    () => fetchUserStatus(user),
-    {
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const loginStatus = useUserTier(user, userLoading);
 
   return (
     <section className="flex h-screen w-screen items-center justify-center align-middle">
       <div className="flex h-[85%] w-[85%]  flex-col items-center justify-center space-y-20 overflow-hidden rounded-lg bg-[url('/image-enhancing/imageEnhancingBG.svg')] align-middle drop-shadow-xl ">
-        {loginStatusLoading ? (
+        {loginStatus ? (
           <Loading />
         ) : loginStatus === "gold" || loginStatus === "silver" ? (
           <>

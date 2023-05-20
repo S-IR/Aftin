@@ -69,6 +69,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       notFound: true,
     };
   }
+  let idToken = req.cookies.idToken;
+  if (idToken === undefined) idToken = "";
   const pageMetas = determinePageMetas(
     req.url,
     params.imageCategory[0] as SecondDegreeCategory,

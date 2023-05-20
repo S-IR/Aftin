@@ -9,11 +9,14 @@ import {
   ThirdDegreeCategory,
 } from "../../../typings/image-types/ImageTypes";
 import { requestImageDocs } from "../../client-side/image-functions/requestImages";
+import { LoginStatus } from "../../../typings/typings";
 
 /**
  * Requests images server side for the website gallery component
  * @param url The url the request is coming from
  * @param params URl params
+ * @param idToken the firebase ID token for the user
+ *
  * @returns dehydrated state of query client
  */
 export const queryImagesServerSide = async (
