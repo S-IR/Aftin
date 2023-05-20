@@ -13,10 +13,11 @@ import { Router, useRouter } from "next/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth, createUserDoc, db } from "../firebase";
 import { verifyEmail } from "../model/server-side/sendEmail";
-import { FirebaseError } from "firebase-admin";
 import { authResponseType } from "../constants/login/types";
 import { requestSetTier } from "../model/client-side/users/setters/requestSetTier";
 import { requestSetSessionCookie } from "../model/client-side/users/setters/requestSetSessionCookie";
+import { deleteCookie } from "cookies-next";
+import { sessionCookieExpiration } from "../pages/api/users/set-session-cookie";
 
 const useAuth = (): [
   (
@@ -112,7 +113,13 @@ const useAuth = (): [
     setLoading(true);
     signOut(auth)
       .then(async () => {
-        await fetch("/api/users/remove-session-cookie");
+        deleteCookie("session", {
+          maxAge: parseInt(
+            process.env.NEXT_PUBLIC_sessionCookieExpiration as string
+          ),
+          httpOnly: true,
+          secure: true,
+        });
         return router.push("/login");
       })
       .catch((err) => console.log(err))

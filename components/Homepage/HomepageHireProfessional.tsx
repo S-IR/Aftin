@@ -7,6 +7,7 @@ import Image from "next/legacy/image";
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 /**
  * Fifth component of the homepage. Meant to allow people to hire professionals
@@ -31,6 +32,7 @@ const HomepageHireProfessional = () => {
   ]);
   const [user] = useAuthState(auth);
 
+  const isMobile = useIsMobile();
   return (
     <section className="relative flex min-h-screen justify-center space-y-4 text-center ">
       <div className="absolute -top-2 left-2 overflow-hidden">
@@ -39,13 +41,18 @@ const HomepageHireProfessional = () => {
           height={612}
           style={{ objectFit: "scale-down" }}
           quality={100}
+          className={`${isMobile ? `brightness-50 filter` : ""}`}
           alt={`Aftin banner for Hire Professional iamge`}
           src={"/homepage/HomepageHireProfessionalImg.png"}
         />
       </div>
-      <div className="absolute top-40 right-28 flex flex-col items-center">
+      <div
+        className={`absolute top-40 ${
+          isMobile ? `left-1/2 -translate-x-1/2` : `right-28`
+        }  flex flex-col items-center`}
+      >
         <a.h2
-          className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-4xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"
+          className="mb-10  bg-gradient-to-br from-red-300 to-white bg-clip-text font-Handwriting text-6xl text-transparent shadow-lg drop-shadow-xl transition-all duration-300 md:text-8xl"
           ref={hTwoRef}
           style={hTwoStyles}
         >

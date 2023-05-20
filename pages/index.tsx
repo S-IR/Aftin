@@ -4,7 +4,16 @@ import Head from "next/head";
 import { Snackbar, SnackbarContent } from "@mui/material";
 import { MdOutlineImage } from "react-icons/md";
 import CachedImageSnackbar from "../components/general/snackbars/CachedImageSnackbar";
-import { CreateWithUs, HomeBanner, HomeIntro } from "../components/homepage";
+import {
+  CreateWithUs,
+  HomeBanner,
+  HomeIntro,
+  HomepageGallery,
+  HomepageHireProfessional,
+  HomepageTiers,
+  OurFeatures,
+  StudiesBox,
+} from "../components/homepage";
 import { NextSeo } from "next-seo";
 import {
   appetizers_array,
@@ -29,41 +38,40 @@ import { auth } from "../firebase";
 import { requestSetTier } from "../model/client-side/users/setters/requestSetTier";
 import { requestSetSessionCookie } from "../model/client-side/users/setters/requestSetSessionCookie";
 
-const StudiesBox = dynamic(() => import("../components/homepage/StudiesBox"), {
-  ssr: false,
-});
+// const StudiesBox = dynamic(() => import("../components/homepage/StudiesBox"), {
+//   ssr: false,
+// });
 
-const OurFeatures = dynamic(
-  () => import("../components/homepage/OurFeatures"),
-  {
-    ssr: false,
-  }
-);
+// const OurFeatures = dynamic(
+//   () => import("../components/homepage/OurFeatures"),
+//   {
+//     ssr: false,
+//   }
+// );
 
-const HomepageHireProfessional = dynamic(
-  () => import("../components/homepage/HomepageHireProfessional"),
-  {
-    ssr: false,
-  }
-);
+// const HomepageHireProfessional = dynamic(
+//   () => import("../components/homepage/HomepageHireProfessional"),
+//   {
+//     ssr: false,
+//   }
+// );
 
-const HomepageTiers = dynamic(
-  () => import("../components/homepage/HomepageTiers"),
-  {
-    ssr: false,
-  }
-);
+// const HomepageTiers = dynamic(
+//   () => import("../components/homepage/HomepageTiers"),
+//   {
+//     ssr: false,
+//   }
+// );
 
-const HomepageGallery = dynamic(
-  () => import("../components/homepage/HomepageGallery"),
-  {
-    ssr: false,
-  }
-);
+// const HomepageGallery = dynamic(
+//   () => import("../components/homepage/HomepageGallery"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 const Home: NextPage = () => {
   const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
-  const [user, userLoading] = useAuthState(auth);
 
   return (
     <>

@@ -9,7 +9,7 @@ import {
 import styles from "../../styles/Home.module.css";
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
-import { isMobile } from "react-device-detect";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 /**
  * Component at the top of homepage
@@ -24,26 +24,26 @@ function HomeBanner() {
     opacity: hOneVisible ? 1 : 0,
     transform: `translateY(${hOneVisible ? 0 : 20}%)`,
   });
-
+  const isMobile = useIsMobile();
   return (
     <section className="relative h-screen bg-gradient-to-b from-black via-black to-gray-800">
-      {!isMobile && (
-        <a.div
-          className="absolute top-2 -right-20 max-h-screen overflow-hidden"
-          style={hOneStyles}
-        >
-          <Image
-            src={"/homepage/homeBannerImg.png"}
-            alt={"home banner image for Aftin"}
-            priority
-            sizes={`768px`}
-            width={768}
-            height={768}
-            quality={100}
-            style={{ objectFit: "scale-down" }}
-          />
-        </a.div>
-      )}
+      <a.div
+        className={`absolute top-2 ${
+          isMobile ? `left-2 brightness-50 filter` : `-right-20`
+        }  max-h-screen overflow-hidden`}
+        style={hOneStyles}
+      >
+        <Image
+          src={"/homepage/homeBannerImg.png"}
+          alt={"home banner image for Aftin"}
+          priority
+          sizes={`768px`}
+          width={768}
+          height={768}
+          quality={100}
+          style={{ objectFit: "scale-down" }}
+        />
+      </a.div>
       <div className={`relative  max-w-full `}>
         <a.h1
           className={`absolute top-32 left-10
@@ -52,11 +52,11 @@ function HomeBanner() {
           ref={hOneRef}
           style={hOneStyles}
         >
-          <span className="p-2 text-8xl  md:text-6xl ">
+          <span className="p-2 text-6xl  lg:text-6xl ">
             The graphic persuader
           </span>
-          <span className=" text-3xl  md:text-6xl">of the</span>
-          <span className=" text-3xl  md:text-8xl"> food industry</span>
+          <span className=" text-3xl  lg:text-6xl">of the</span>
+          <span className=" text-3xl  lg:text-8xl"> food industry</span>
         </a.h1>
       </div>
     </section>

@@ -10,7 +10,6 @@ import {
 } from "@heroicons/react/solid";
 import { AiFillEdit } from "react-icons/ai";
 import { LoginStatus, paidFeature } from "../../../typings/typings";
-import { isMobile } from "react-device-detect";
 import {
   ImgDoc,
   SecondDegreeCategory,
@@ -19,6 +18,7 @@ import { useRouter } from "next/router";
 import { galleryImageDialog } from "../SiteGallery";
 import { canvasEditButtonDialog } from "../../image-editor/Canvas/CanvasEditButtons";
 import { getPaidFeatureMetas } from "../../../model/client-side/general/dialogFn";
+import { useIsMobile } from "../../../hooks/useIsMobile";
 
 interface props {
   dialog: null | canvasEditButtonDialog;
@@ -33,6 +33,7 @@ interface props {
  */
 const PaidFeatureDialog: FC<props> = ({ dialog, setDialog, feature }) => {
   const router = useRouter();
+  const isMobile = useIsMobile();
   const { displayName, tier } = getPaidFeatureMetas(feature);
   return (
     <Dialog

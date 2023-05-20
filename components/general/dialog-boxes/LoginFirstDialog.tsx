@@ -4,7 +4,6 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
 import React from "react";
-import { isMobile } from "react-device-detect";
 import Fade from "../../../constants/general/Fade";
 import useAuthThirdParty from "../../../hooks/useAuthThirdParty";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
@@ -13,6 +12,7 @@ import { galleryImageDialog } from "../SiteGallery";
 import Cookies from "js-cookie";
 import { useCachedStore } from "../../../zustand/CachedImageStore/store";
 import { canvasEditButtonDialog } from "../../image-editor/Canvas/CanvasEditButtons";
+import { useIsMobile } from "../../../hooks/useIsMobile";
 
 interface props {
   dialogName: null | galleryImageDialog[`name`] | canvasEditButtonDialog;
@@ -44,7 +44,7 @@ const LoginFirstDialog = ({ dialogName, setDialog, imgDoc }: props) => {
     boxShadow: 24,
     p: 6,
   };
-
+  const isMobile = useIsMobile();
   return (
     <Dialog
       aria-labelledby="spring-modal-title"

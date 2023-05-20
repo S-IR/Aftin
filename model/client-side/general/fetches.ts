@@ -1,4 +1,3 @@
-import { FirebaseError } from "firebase-admin";
 import { User } from "firebase/auth";
 import { LoginStatus } from "../../../typings/typings";
 

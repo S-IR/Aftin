@@ -8,6 +8,7 @@ import {
 import { useTrail, animated as a, useSpring } from "react-spring";
 import { useInView } from "react-intersection-observer";
 import Image from "next/image";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 /**
  * Sixth component of the homepage. Meant to link the homepage to the different purchase plans
@@ -25,19 +26,23 @@ const HomepageTiers = () => {
     opacity: hTwoVisible ? 1 : 0,
     transform: `translateX(${hTwoVisible ? 0 : 20}%)`,
   });
-
+  const isMobile = useIsMobile();
   return (
     <section className="relative flex h-auto min-h-[70vh] w-screen flex-col items-center border-t-2 border-dashed border-brown-900/40 bg-white/10 py-10">
-      <Image
-        className="absolute top-0 left-0 brightness-[25%] filter"
-        fill
-        quality={100}
-        src={"/homepage/HomepageTiersBG.png"}
-        alt={"Background image to present our payment tiers on Aftin Homepage"}
-        style={{ objectFit: "fill" }}
-      />
+      {!isMobile && (
+        <Image
+          className="absolute top-0 left-0 brightness-[25%] filter"
+          fill
+          quality={100}
+          src={"/homepage/HomepageTiersBG.png"}
+          alt={
+            "Background image to present our payment tiers on Aftin Homepage"
+          }
+          style={{ objectFit: "fill" }}
+        />
+      )}
       <a.h2
-        className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text text-center font-Handwriting text-4xl  text-transparent md:text-8xl"
+        className="mt-6 bg-gradient-to-br from-red-300  to-white bg-clip-text text-center font-Handwriting text-6xl  text-transparent md:text-8xl"
         ref={hTwoRef}
         style={hTwoStyles}
       >
@@ -80,7 +85,7 @@ function TierDescription(
     <div
       key={tier.name}
       className={
-        "h-[75vh] w-1/2  rounded-md bg-gradient-to-br from-brown-700 to-brown-900 p-1 md:w-[18vw] "
+        "h-[90vh]  w-1/2 rounded-md  bg-gradient-to-br from-brown-700 to-brown-900 p-1 md:w-[18vw] lg:h-[75vh] "
       }
     >
       <div

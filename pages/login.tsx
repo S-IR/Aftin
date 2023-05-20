@@ -15,8 +15,8 @@ import { NextPage } from "next";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
-import { isMobile } from "react-device-detect";
 import styles from "../styles/Login.module.css";
+import { useIsMobile } from "../hooks/useIsMobile";
 interface Inputs {
   email: string;
   password: string;
@@ -26,7 +26,7 @@ function Login() {
   const [user, userLoading] = useAuthState(auth);
   const router = useRouter();
   let { form: routerForm } = router.query;
-
+  const isMobile = useIsMobile();
   //if someone is redirected to the login page they can use this url query to specifically make the login or the signup appear on the screen
   const [form, setForm] = useState<"login" | "sign-up">("login");
   useEffect(() => {
@@ -53,7 +53,7 @@ function Login() {
         className={`relative flex h-auto  w-full flex-row  bg-black lg:overflow-x-hidden ${styles.loginBanner} overflow-hidden rounded-l-lg`}
       >
         <main
-          className={`z-10 flex w-full  flex-col lg:h-[112vh]  ${styles.loginFieldBG} align-middle lg:w-1/4`}
+          className={`z-10 flex h-[120vh]  w-full flex-col  lg:h-[112vh]  ${styles.loginFieldBG} align-middle lg:w-1/4`}
         >
           <div className="flex h-[15vh] w-full items-center justify-center border-b-2 border-black align-middle">
             <button
@@ -102,9 +102,11 @@ function Login() {
             ))}
           </div>
         </main>
-        {!isMobile && (
-          <div className="z-10 w-[20vw] bg-gradient-to-r from-[#95663A] to-white/0 lg:h-[112vh]"></div>
-        )}
+        <div
+          className={`z-10  ${
+            isMobile ? "w-none" : `w-[20vw]`
+          } bg-gradient-to-r from-[#95663A] to-white/0 lg:h-[112vh]`}
+        ></div>
       </div>
     </div>
   );

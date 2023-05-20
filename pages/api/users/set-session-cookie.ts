@@ -16,17 +16,18 @@ export default async function handler(
     res.status(401).send("UNAUTHORIZED REQUEST");
     return;
   }
-
-  const expiresIn = 60 * 60 * 24 * 14 * 1000;
+  const sessionCookieExpiration = parseInt(
+    process.env.NEXT_PUBLIC_sessionCookieExpiration as string
+  );
   auth()
-    .createSessionCookie(idToken, { expiresIn })
+    .createSessionCookie(idToken, { expiresIn: sessionCookieExpiration })
     .then(
       (sessionCookie) => {
         // Set cookie policy for session cookie.
         const options = {
           req,
           res,
-          maxAge: expiresIn,
+          maxAge: sessionCookieExpiration,
           httpOnly: true,
           secure: true,
         };

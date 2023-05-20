@@ -2,16 +2,17 @@ import { Masonry } from "@mui/lab";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { isMobile } from "react-device-detect";
 import { homepageGalleryList } from "../../constants/homepage/homepageGalleryList";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 const HomepageGallery = () => {
   const router = useRouter();
+  const isMobile = useIsMobile();
   return (
     <section
-      className={
-        "e  flex overflow-hidden border-t-2 border-dashed border-brown-900/40"
-      }
+      className={`e  ${
+        isMobile ? `flex-col` : `flex`
+      }  overflow-hidden border-t-2 border-dashed border-brown-900/40`}
     >
       <h3 className="m-16 mt-48  bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent  lg:text-8xl">
         Browse Our Images
@@ -26,14 +27,16 @@ const HomepageGallery = () => {
             return (
               <div
                 key={list.name}
-                className="group relative m-0 flex h-[33vh] w-[33vw] justify-center rounded-md  align-middle shadow-xl shadow-black  transition-all duration-300"
+                className={`group relative m-0 flex ${
+                  isMobile ? `h-[20vh]` : `h-[33vh]`
+                } h-[33vh] w-[33vw] justify-center rounded-md  align-middle shadow-xl shadow-black  transition-all duration-300`}
               >
                 <Image
                   alt={`representative image from ${list.name.replace(
                     "-",
                     " "
                   )}`}
-                  layout="fill"
+                  layout={`fill`}
                   // width={1920 / 4}
                   // height={1080 / 4}
                   src={`/homepage/homepage-gallery/${list.secondDegCatName}.png`}

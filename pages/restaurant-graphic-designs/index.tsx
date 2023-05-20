@@ -13,7 +13,6 @@ import {
   CategoryPageGraphicImages,
 } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
-import { isMobile } from "react-device-detect";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
 

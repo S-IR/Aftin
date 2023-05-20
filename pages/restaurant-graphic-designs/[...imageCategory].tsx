@@ -9,7 +9,6 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
 import { dehydrate, QueryClient } from "react-query";
 import SiteGallery from "../../components/general/SiteGallery";
 import SortingSidebar from "../../components/general/SortingSidebar";
@@ -22,11 +21,13 @@ import {
   ThirdDegreeCategory,
 } from "../../typings/image-types/ImageTypes";
 import { isValidUrlParams } from "../../model/client-side/image-gallery/confirmValidUrlParams";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
 }
 const Index = ({ pageMetas }: props) => {
+  const isMobile = useIsMobile();
   const [showSidebar, toggleSidebar] = useState(true);
   useEffect(() => {
     if (isMobile) toggleSidebar(false);

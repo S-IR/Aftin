@@ -116,7 +116,7 @@ const LoginDiv = ({ user, userLoading }: props) => {
       <>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="z-50 row-span-1 mx-10 flex  h-auto  flex-col items-center   space-y-10  rounded-md p-4 align-middle text-white sm:w-auto md:px-4 "
+          className="z-50 row-span-1 mx-10 flex  h-auto min-h-[90vh]  flex-col items-center   space-y-10  rounded-md p-4 align-middle text-white sm:w-auto md:px-4 "
         >
           <div className="mt-10 flex w-full flex-col items-center justify-center  space-y-10 align-middle font-serif">
             <label className="flex w-full flex-col items-center  justify-center align-middle ">

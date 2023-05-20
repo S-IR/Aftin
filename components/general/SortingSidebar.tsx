@@ -56,7 +56,6 @@ import {
   sweetOptions,
   cutleriesOptions,
 } from "../../constants/SortingSidebar";
-import { isMobile } from "react-device-detect";
 import { SortColor, SortOption } from "./SortingSidebarComps";
 import { determineSorts } from "../../model/client-side/SortingSidebar/determineSorts";
 import { SecondDegreeCategory } from "../../typings/image-types/ImageTypes";
@@ -65,6 +64,7 @@ import { handleOptionClick } from "../../model/client-side/SortingSidebar/handle
 import styles from "../../styles/website-gallery/SortingSidebar.module.css";
 import AppetizerTypeIcon from "../../public/SortingSidebar/appetizer_type/appetizer_type_icon.svg";
 import Image from "next/image";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface props {
   showSidebar: boolean;
@@ -76,6 +76,7 @@ interface props {
  */
 const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
   const router = useRouter();
+  const isMobile = useIsMobile();
   const secondDegreeCategory = router.query
     .imageCategory[0] as SecondDegreeCategory;
   const tags = router.query.tags as string | undefined;

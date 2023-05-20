@@ -10,13 +10,13 @@ import ImgLink from "../../components/general/ImgLink";
 import { Masonry } from "@mui/lab";
 import { CategoryPageAdvertImages } from "../../constants/category-pages/CategoryBanners";
 import { useRouter } from "next/router";
-import { isMobile } from "react-device-detect";
 import Head from "next/head";
 import { NextSeo } from "next-seo";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 const Index = () => {
   const router = useRouter();
-
+  const isMobile = useIsMobile();
   return (
     <>
       <NextSeo

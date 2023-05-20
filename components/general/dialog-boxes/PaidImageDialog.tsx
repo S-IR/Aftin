@@ -10,13 +10,13 @@ import {
 } from "@heroicons/react/solid";
 import { AiFillEdit } from "react-icons/ai";
 import { LoginStatus } from "../../../typings/typings";
-import { isMobile } from "react-device-detect";
 import {
   ImgDoc,
   SecondDegreeCategory,
 } from "../../../typings/image-types/ImageTypes";
 import { useRouter } from "next/router";
 import { galleryImageDialog } from "../SiteGallery";
+import { useIsMobile } from "../../../hooks/useIsMobile";
 
 interface props {
   dialogName: null | galleryImageDialog["name"];
@@ -33,6 +33,7 @@ const PaidImageDialog: FC<props> = ({
   loginStatus,
   secondDegCat,
 }) => {
+  const isMobile = useIsMobile();
   const router = useRouter();
   if (secondDegCat === undefined)
     secondDegCat = router.query.secondDegCat as SecondDegreeCategory;

@@ -10,7 +10,6 @@ import {
 } from "@heroicons/react/solid";
 import { AiFillEdit } from "react-icons/ai";
 import { Base64Data, LoginStatus, UTF8Data } from "../../../typings/typings";
-import { isMobile } from "react-device-detect";
 import {
   ImgDoc,
   SecondDegreeCategory,
@@ -35,6 +34,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase";
 import { User } from "firebase/auth";
 import { downloadImage } from "../../../model/client-side/general/imagesFn";
+import { useIsMobile } from "../../../hooks/useIsMobile";
 
 interface props {
   dialog: null | canvasEditButtonDialog;
@@ -80,6 +80,7 @@ const SVGConverterDialog: FC<props> = ({
     leave: { opacity: 0 },
   });
 
+  const isMobile = useIsMobile();
   //variable used in case of errors
   const [error, setError] = useState<string | null>(null);
 

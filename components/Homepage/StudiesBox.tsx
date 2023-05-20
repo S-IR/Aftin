@@ -19,7 +19,7 @@ function StudiesBox() {
   });
 
   return (
-    <section className="relative h-screen  ">
+    <section className="relative h-auto lg:h-screen  ">
       <div className="absolute -top-52  right-2 overflow-hidden">
         <Image
           width={612}
@@ -49,11 +49,11 @@ function StudiesBox() {
         </a.p>
       </div>
 
-      <figure className="text-md mt-16 mb-10 ml-3  flex w-screen flex-col justify-center  space-y-2 px-2 font-serif md:mt-40 md:mb-28 md:flex-row md:space-x-4 md:space-y-0 ">
+      <figure className="text-md mt-16 mb-10 ml-3  flex w-screen flex-col items-center justify-center space-y-2  px-2 align-middle font-serif md:mt-40 md:mb-28 md:flex-row md:space-x-4 md:space-y-0 ">
         {StudiesList.map((study) => (
           <div
             key={study.text}
-            className={`flex h-48 w-full items-center justify-center  rounded-sm bg-brown-900/30 align-middle drop-shadow-xl transition-all  duration-300 hover:bg-brown-900 md:h-72 md:w-72`}
+            className={`flex h-32 w-3/4 items-center justify-center  rounded-sm bg-brown-900/30 align-middle drop-shadow-xl transition-all  duration-300 hover:bg-brown-900 md:h-72 md:w-72`}
           >
             <Link href={study.href} className="w-[200px]">
               <p className="text-wrap ml-2  break-words text-center font-Handwriting font-light transition-all duration-300 hover:text-gray-300 hover:underline ">

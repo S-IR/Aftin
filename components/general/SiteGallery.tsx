@@ -5,7 +5,6 @@ import Image from "next/legacy/image";
 import PremiumIcon from "./PremiumIcon";
 import SingleImage from "./SingleImage";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { isMobile } from "react-device-detect";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
 import {
@@ -33,9 +32,9 @@ import { getImageQueryParams } from "../../model/client-side/image-gallery/getIm
 import { useModalStore } from "../../zustand/ModalBoxStore/store";
 import FreeImageDialog from "./dialog-boxes/FreeImageDialog";
 import PaidImageDialog from "./dialog-boxes/PaidImageDialog";
-import { getUserTier } from "../../firebaseAdmin";
 import { useUserTier } from "../../hooks/useUserTier";
 import { LoginStatus } from "../../typings/typings";
+import { useIsMobile } from "../../hooks/useIsMobile";
 interface props {
   showSidebar: boolean;
 }
@@ -61,6 +60,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
 
   //used to make modals
 
+  const isMobile = useIsMobile();
   // find the big category name
   const {
     firstDegreeCategory,
