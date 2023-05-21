@@ -1,6 +1,8 @@
 import { Stage } from "konva/lib/Stage";
 import React, {
   LegacyRef,
+  MutableRefObject,
+  Ref,
   useCallback,
   useEffect,
   useRef,
@@ -20,6 +22,7 @@ import CanvasPage from "./Canvas/CanvasPage";
 import CanvasShape from "./Canvas/CanvasShape";
 import { CanvasImage, CanvasText, CanvasEditButtons } from "./Canvas/index";
 import { imageData } from "../../zustand/CanvasStore/imageHandlers";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface props {
   showSidebar: boolean;
@@ -57,11 +60,9 @@ const Canvas = ({ showSidebar }: props) => {
       []
     )
   );
-
+  const isMobile = useIsMobile();
   const downloadRef = useRef<HTMLButtonElement | null>(null);
-  const [stageRefs, setStageRefs] = useState<
-    React.RefObject<LegacyRef<Stage>>[]
-  >([]);
+  const [stageRefs, setStageRefs] = useState<Ref<Stage>[]>([]);
 
   const firstImageData = pages[0].find(
     (element) => element.elementType === "image"
@@ -91,8 +92,8 @@ const Canvas = ({ showSidebar }: props) => {
   return (
     <section
       className={`${
-        showSidebar ? `ml-[30vw]` : "ml-[5vh]"
-      } flex h-auto w-auto flex-col transition-all duration-300 `}
+        showSidebar ? `ml-[30vw]` : ` ml-[25vw] lg:ml-[5vw]`
+      } -z-10 flex h-auto w-auto flex-col transition-all duration-300 `}
     >
       <CanvasEditButtons stageRefs={stageRefs} downloadRef={downloadRef} />
 

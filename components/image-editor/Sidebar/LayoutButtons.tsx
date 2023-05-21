@@ -39,7 +39,7 @@ const LayoutButtons = () => {
 
   return (
     <section
-      className={`flex h-[90vh] w-[15vw] flex-col ${styles.buttonMenusBG} bg-gradient-to-br text-white shadow-md shadow-gray-500`}
+      className={`flex h-screen w-[50vw] flex-col lg:w-[15vw] ${styles.buttonMenusBG} bg-gradient-to-br text-white shadow-md shadow-gray-500`}
     >
       <div className=" flex h-full w-full">
         <button

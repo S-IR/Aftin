@@ -57,7 +57,7 @@ export type canvasElement =
 export type deleteAllPages = () => void;
 export type deletePage = (pageId: number) => void;
 export type selectPage = (pageId: number) => void;
-export type changePageSize = (w?: number, h?: number) => void;
+export type changePageSize = (w: number | null, h: number | null) => void;
 
 export type changeElementPosition = (
   pageId: number,
@@ -300,6 +300,11 @@ export const useCanvasState = create(
       ADD_IMAGE: (pageId, data, filterData) =>
         set(
           produce((state: canvasState) => {
+            if (state.pages[pageId] === undefined) {
+              while (state.pages[pageId] === undefined) {
+                state.pages.push([]);
+              }
+            }
             const index = state.pages[pageId].push({
               elementType: "image",
               data,

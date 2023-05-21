@@ -14,7 +14,6 @@ import {
   StylizeButtons,
 } from "../../components/image-editor/Sidebar";
 import dynamic from "next/dynamic";
-import { useAppSelector } from "../../Redux/hooks";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { NextPage } from "next";
@@ -27,6 +26,8 @@ import { Tooltip } from "@mui/material";
 import { activeSidebarType } from "../../components/image-editor/Sidebar/SidebarIcon";
 import { ButtonMenuSwitch } from "../../model/client-side/image-editor/ButtonMenus";
 import { canvasElement, useCanvasState } from "../../zustand/CanvasStore/store";
+import { NextSeo } from "next-seo";
+import { useIsMobile } from "../../hooks/useIsMobile";
 const Canvas = dynamic(() => import("../../components/image-editor/Canvas"), {
   ssr: false,
 });
@@ -51,15 +52,14 @@ const Index: NextPage = () => {
     config: { duration: 300 },
   });
 
+  const isMobile = useIsMobile();
   return (
     <>
-      <Head>
-        <title>Food Image Editor</title>
-      </Head>
-      <div className="flex w-full ">
+      <NextSeo title={"Image editor for Restaurants"} />
+      <div className="flex h-full w-full overflow-visible ">
         <div className="fixed flex">
           <animated.section
-            className={`flex h-[90vh] w-[25vw]  flex-col  items-center overflow-visible bg-yellow-900 md:w-[7vw]`}
+            className={`flex h-screen w-[25vw] flex-col  items-center  overflow-visible bg-yellow-900 md:w-[7vw] lg:h-[90vh]`}
           >
             <SidebarIcon
               Icon={<Panorama className="h-[5vh] w-[5vw]" />}
@@ -140,10 +140,12 @@ const Index: NextPage = () => {
         {firstImage ? (
           <Canvas showSidebar={showSidebar} />
         ) : (
-          <DropzoneComp
-            showSidebar={showSidebar}
-            setActiveSidebar={setActiveSidebar}
-          />
+          !isMobile && (
+            <DropzoneComp
+              showSidebar={showSidebar}
+              setActiveSidebar={setActiveSidebar}
+            />
+          )
         )}
       </div>
     </>

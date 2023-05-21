@@ -30,7 +30,8 @@ export default function useAuthThirdParty() {
         window.gtag(`event`, `login`, {
           method: "Google",
         });
-        await requestSetTier(await result.user.getIdToken(), "bronze");
+        const token = await result.user.getIdToken();
+        await requestSetSessionCookie(token);
         return { status: "success", user: result.user, isNewUser: false };
       }
       const emailRes = await verifyEmail(result.user.email as string);

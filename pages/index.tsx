@@ -72,6 +72,17 @@ import { requestSetSessionCookie } from "../model/client-side/users/setters/requ
 
 const Home: NextPage = () => {
   const cachedImage = useCachedStore((store) => store.imageBeforeRedirect);
+  // const [user, userLoading] = useAuthState(auth);
+  // useEffect(() => {
+  //   const changeToGold = async () => {
+  //     if (!user) return;
+  //     let token = await user.getIdToken();
+  //     await requestSetTier(token, "gold");
+  //     token = await user.getIdToken(true);
+  //     await requestSetSessionCookie(token);
+  //   };
+  //   changeToGold();
+  // }, [user]);
 
   return (
     <>

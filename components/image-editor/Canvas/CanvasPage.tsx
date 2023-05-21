@@ -1,4 +1,11 @@
-import React, { LegacyRef, useEffect, useRef, useState } from "react";
+import React, {
+  LegacyRef,
+  MutableRefObject,
+  Ref,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import CanvasImage from "./CanvasImage";
 import CanvasShape from "./CanvasShape";
 import CanvasText from "./CanvasText";
@@ -29,9 +36,7 @@ interface props {
   selected: canvasSelected;
   // if the element that is selected is on this page, the selectedElement value will be a number, else it will just be null
   pageId: number;
-  setStageRefs: React.Dispatch<
-    React.SetStateAction<React.RefObject<LegacyRef<Stage>>[]>
-  >;
+  setStageRefs: React.Dispatch<React.SetStateAction<Ref<Stage>[]>>;
   CHANGE_ELEMENT_POSITION: changeElementPosition;
   CHANGE_ELEMENT_SCALE: changeElementScale;
   SELECT_PAGE: selectPage;
@@ -56,9 +61,9 @@ const CanvasPage = ({
   //this is meant to represent a default  white background for every single canvas
   const canvasBGRef = useRef<null | Rect | RectConfig>(null);
   const isPageSelected = selected?.page === pageId;
-  const layerRef = useRef<undefined | Layer | null>(null);
+  const layerRef = useRef<Layer | null>(null);
 
-  const stageRef = useRef<LegacyRef<Stage>>(null);
+  const stageRef = useRef<Stage | null>(null);
   useEffect(() => {
     if (!stageRef || stageRef.current === null) return;
     // ts is weird, the guard clause from above will block the stage from being null

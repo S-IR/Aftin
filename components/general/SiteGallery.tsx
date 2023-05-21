@@ -88,8 +88,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
         firstDegreeCategory,
         secondDegreeCategory,
         thirdDegreeCategory,
-        queryParams,
-        loginStatus
+        queryParams
       ),
     {
       getNextPageParam: (lastRow, allRows) => {
@@ -154,7 +153,9 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
   const description = router.query.description;
   return (
     <animated.section
-      className={` flex h-auto w-full max-w-[80vw]  flex-col items-center  justify-center rounded-sm bg-gray-900/40 p-2 align-middle `}
+      className={` ${
+        showSidebar ? "ml-[216px] max-w-[80vw]" : "!mx-auto max-w-[90vw]"
+      } flex h-auto w-full   flex-col items-center  justify-center rounded-sm bg-gray-900/40 align-middle lg:p-2 `}
       style={galleryMarginLeft}
     >
       <div className="!flex w-full flex-col items-center justify-center align-middle ">
@@ -171,7 +172,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
       !userLoading ? (
         <section
           className={
-            " grid  w-full grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-1"
+            " grid  w-full grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-1 p-2"
           }
         >
           {data.pages.map((page) =>
@@ -215,7 +216,7 @@ const SiteGallery: FC<props> = ({ showSidebar }) => {
               </button>
             ) : (
               <div className="mx-10 h-10 w-[60vw]  justify-center rounded-sm bg-brown-900/70  py-2 text-center  font-serif text-white/30  text-gray-200  md:w-[15vw] ">
-                No more images to load
+                No more images left
               </div>
             )
           ) : (

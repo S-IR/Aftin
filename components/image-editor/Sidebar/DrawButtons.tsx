@@ -77,7 +77,7 @@ const DrawButtons = ({ setActiveSidebar }: props) => {
   };
 
   return (
-    <section className="flex h-[90vh] w-64 flex-col items-center  bg-brown-900 bg-gradient-to-br py-10">
+    <section className="flex h-screen w-64 flex-col items-center  bg-brown-900 bg-gradient-to-br py-10">
       <button
         className="bg-brown-700align-middle flex h-full w-60  items-center justify-center space-x-4 rounded-sm  border-y-2 border-brown-500 font-serif   text-2xl shadow-sm  transition-all duration-300 ease-in-out hover:translate-x-1 active:scale-100 active:shadow-none "
         id={`show shapes button`}
@@ -92,17 +92,9 @@ const DrawButtons = ({ setActiveSidebar }: props) => {
         onClick={showPopover}
       >
         <FaIcons className="mr-4 h-8 w-8" color="brown" />
-        Insert sticker
+        Insert stickers
       </button>
 
-      <button
-        className="bg-brown-700align-middle flex h-full w-60  items-center justify-center space-x-4 rounded-sm  border-y-2 border-brown-500 font-serif    text-2xl shadow-sm  transition-all duration-300 ease-in-out hover:translate-x-1 active:scale-100 active:shadow-none "
-        id={`show edges button`}
-        onClick={showPopover}
-      >
-        <FilterFrames className="mr-4 ml-4 h-8 w-8" htmlColor="#f97316" />
-        Insert Frames & Edges
-      </button>
       {/* shapes popup */}
       <Popover
         id={shapeID}

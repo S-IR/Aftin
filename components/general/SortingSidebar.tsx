@@ -103,13 +103,11 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
 
   return (
     <section
-      className={`scroll fixed  mt-0 w-[216px] min-w-[40px]  overflow-hidden   ${
+      className={`scroll fixed mt-0 w-[216px] min-w-[40px]  overflow-hidden   ${
         showSidebar
-          ? `z-50 overflow-y-scroll border-r-2 border-black/30  `
-          : `z-0 overflow-hidden border-r-0 `
-      }  scrollbar h-max transition-transform duration-300 md:transition-none ${
-        styles.sidebarBG
-      } `}
+          ? `z-50 overflow-y-scroll border-r-2 border-black/30  ${styles.sidebarBG}`
+          : `z-0 -translate-x-[180px] overflow-hidden border-r-0 bg-none `
+      }  scrollbar h-max transition-transform duration-300 md:transition-none  `}
     >
       {showSidebar ? (
         <></>
@@ -118,10 +116,10 @@ const SortingSidebar = ({ showSidebar, toggleSidebar }: props) => {
           <button
             className={` ${
               showSidebar ? ` opacity-0` : ` opacity-1`
-            } absolute top-8 -left-2 z-[50000] ml-2 h-16 w-16 shadow-lg  transition-all duration-500  md:h-8  md:w-8 `}
+            } absolute top-8 -right-2 z-[50000] ml-2 h-16 w-16 shadow-lg  transition-all duration-500  md:h-8  md:w-8 `}
             onClick={() => toggleSidebar((v) => !v)}
           >
-            <KeyboardDoubleArrowRight className="z-50 h-6 w-6 md:h-8 md:w-8 " />
+            <KeyboardDoubleArrowRight className="z-50 h-6 w-6  " />
           </button>
         </Tooltip>
       )}

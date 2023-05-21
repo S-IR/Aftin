@@ -27,6 +27,7 @@ import { isMobile } from "react-device-detect";
 import { fetchUserStatus } from "../../../../model/client-side/general/fetches";
 import { useModalStore } from "../../../../zustand/ModalBoxStore/store";
 import { galleryImageDialog } from "../../../general/SiteGallery";
+import { useUserTier } from "../../../../hooks/useUserTier";
 
 interface props {
   selectedCategory: { name: string; value: SecondDegreeCategory };
@@ -44,10 +45,7 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
 
   const [user, userLoading] = useAuthState(auth);
 
-  const { data: loginStatus } = useQuery(
-    ["getUserStatus", user?.uid, userLoading],
-    () => fetchUserStatus(user)
-  );
+  const loginStatus = useUserTier(user, userLoading);
 
   //FETCH IMAGE CODE
   const category = useMemo(() => {
@@ -84,8 +82,10 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
 
   //refetch if the query changes
   useEffect(() => {
+    console.log("selectedCategory.value", selectedCategory.value);
+
     refetch();
-  }, [router.query]);
+  }, [router.query, selectedCategory.value]);
 
   let imgDocs: ImgDoc[] = [];
   data?.pages.map((page) => {
@@ -120,11 +120,11 @@ const ImageButtonImages = ({ selectedCategory, pageId }: props) => {
           })}
       </div>
       <button
-        className="my-1 h-8 !w-5/6 rounded-sm border-t-4   border-orange-700 bg-yellow-800   font-Handwriting  text-orange-200  shadow-brown-500 drop-shadow-md  transition-all duration-300   ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80"
+        className="my-1 h-8 !w-5/6 rounded-sm border-t-4   border-orange-700 bg-yellow-800   font-Handwriting  text-white  shadow-brown-500  drop-shadow-md transition-all   duration-300 ease-in-out hover:bg-yellow-500 active:shadow-none disabled:bg-yellow-200/80"
         onClick={() => fetchNextPage()}
         disabled={!hasNextPage}
       >
-        See more images
+        {hasNextPage ? "See more images" : "No more images left"}
       </button>
     </>
   );

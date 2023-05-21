@@ -389,6 +389,7 @@ export const getImgFieldsFromTitle = (
       break;
     case "menus":
       insertImgField("menu_size", menu_size_regex, menu_size_schema);
+      break;
     case "banners":
       insertImgField("banner_type", banner_type_regex, banner_type_schema);
     default:

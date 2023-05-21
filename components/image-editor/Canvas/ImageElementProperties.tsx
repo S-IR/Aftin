@@ -16,6 +16,7 @@ import { auth } from "../../../firebase";
 import { imageData } from "../../../zustand/CanvasStore/imageHandlers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useModalStore } from "../../../zustand/ModalBoxStore/store";
+import { useIsMobile } from "../../../hooks/useIsMobile";
 interface props {
   imageData: imageData;
   selected: canvasSelected;
@@ -65,10 +66,10 @@ const ImageElementProperties = ({
     console.log("there is no selected image or page for the filter component");
     return <></>;
   }
-
+  const isMobile = useIsMobile();
   return (
     <>
-      <div className="mt-4 w-full border-b-4 border-gray-200 py-5">
+      <div className=" w-full border-b-4 border-gray-200 py-5">
         <Filter
           key={"brightness"}
           option={brightness}
@@ -152,7 +153,7 @@ const ImageElementProperties = ({
       </div>
       {/* Crop button */}
 
-      {deleteWarningHappened !== true && (
+      {deleteWarningHappened !== true && !isMobile && (
         <div className="absolute bottom-0 left-5  m-2 flex h-12 w-60 items-center justify-center rounded-full  bg-blue-800 bg-opacity-60 font-bold shadow-md shadow-gray-500">
           H :{" "}
           <p className="m-2 underline">

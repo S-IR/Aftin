@@ -83,11 +83,11 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
 
   return (
     <section
-      className={`z-50 h-[90vh] w-[20vw] bg-gradient-to-br  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
+      className={`relative z-50 h-[90vh] w-[60vw]  bg-gradient-to-br lg:w-[20vw]  ${styles.buttonMenusBG} flex flex-col pb-5 text-white shadow-md shadow-gray-500 `}
     >
       <div className="flex cursor-pointer flex-col items-center justify-center  space-y-1 py-6 align-middle shadow-lg">
         <div
-          className={`relative  h-12 w-72 ${
+          className={`relative  h-12 w-3/4 ${
             isDragActive ? `bg-orange-300/60` : ``
           } transition-all duration-300 `}
           {...getRootProps()}
@@ -127,7 +127,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
           >
             <Tune
               htmlColor="#fb923c"
-              className="absolute top-3 right-8 !h-8 !w-8  rounded-full bg-white/0 p-2  transition-all duration-500  hover:scale-110 group-hover:bg-slate-300/20 "
+              className="absolute top-2 right-2 !h-8 !w-8  rounded-full bg-white/0 p-2  transition-all duration-500  hover:scale-110 group-hover:bg-slate-300/20 "
             />
           </button>
           <ChooseFilterPopover
@@ -149,7 +149,7 @@ const ImagesButtons = ({ setActiveSidebar }: props) => {
 
         {/* SHOW IMAGES */}
         {/* UNCOMMENT THIS AFTER DEVELOPMENT  */}
-        {/* <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} /> */}
+        <ImagesGrid selectedCategory={selectedCategory} pageId={pageId} />
       </div>
     </section>
   );

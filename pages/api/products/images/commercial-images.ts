@@ -175,7 +175,7 @@ export default async function handler(
   const session = req.cookies.session;
   let loginStatus: LoginStatus = "bronze";
   if (session) {
-    const decodedClaims = await auth().verifySessionCookie(session);
+    const decodedClaims = await admin.auth().verifySessionCookie(session);
     loginStatus = decodedClaims.tier;
   }
   console.log("loginStatus from commercial images", loginStatus);
@@ -192,7 +192,7 @@ export default async function handler(
 
   let docsArray: ImgDoc[] = await firebaseAPIResponse.json();
   docsArray = changeUrlBasedOnTier(docsArray, loginStatus);
-  console.log("docsArray after changeUrlBasedOnTier", changeUrlBasedOnTier);
+  console.log("docsArray after changeUrlBasedOnTier", docsArray);
 
   // calculate what part of the array should be sent back
   const slicingStart = 0 + 15 * Number(rowRequested);

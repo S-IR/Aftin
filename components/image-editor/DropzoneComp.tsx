@@ -46,7 +46,8 @@ const DropzoneComp = ({ setActiveSidebar, showSidebar }: props) => {
       w,
       h,
       pageId,
-      acceptedFiles
+      acceptedFiles,
+      undefined
     );
     return setActiveSidebar("Stylize");
   };

@@ -109,7 +109,6 @@ const WebsiteNavbar = (): JSX.Element => {
               width={60}
               height={60}
               className={"rounded-full"}
-              style={{ objectFit: "scale-down" }}
               alt={"Aftin Logo"}
             />
           </button>

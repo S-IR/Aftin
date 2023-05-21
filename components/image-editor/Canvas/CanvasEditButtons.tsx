@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { LegacyRef, Ref, useEffect, useRef, useState } from "react";
 import { KonvaNodeComponent, StageProps } from "react-konva";
 import { Stage } from "konva/lib/Stage";
 import { InputLabel, MenuItem, Select, Tooltip } from "@mui/material";
@@ -34,7 +34,7 @@ import { useModalStore } from "../../../zustand/ModalBoxStore/store";
 import { useUserTier } from "../../../hooks/useUserTier";
 
 interface props {
-  stageRefs: LegacyRef<Stage>[];
+  stageRefs: Ref<Stage>[];
   downloadRef: React.RefObject<HTMLButtonElement>;
 }
 export type canvasEditButtonDialog = "svg-convert" | "paid" | "login";
@@ -199,24 +199,25 @@ const CanvasEditButtons = ({ stageRefs, downloadRef }: props) => {
         </button>
         <button
           disabled={userLoading}
-          className="!mt-auto h-auto w-full whitespace-nowrap rounded bg-orange-800 p-2 text-center  font-['Lato'] text-xs text-orange-100  drop-shadow-md transition-all  duration-300 ease-in-out   hover:bg-orange-700 active:shadow-none  disabled:bg-brown-200/80  "
+          className="!mt-auto h-auto w-full flex-wrap whitespace-nowrap rounded bg-orange-800 p-2  text-center font-['Lato'] text-xs  text-orange-100  drop-shadow-md transition-all duration-300 ease-in-out   hover:bg-orange-700 active:shadow-none  disabled:bg-brown-200/80  "
           onClick={async () => {
             // I need to use this silly structure to ensure that the elements are first deselected so that they don't have that transformer wrapper around them before the image is going to be transferred to the SVG box
             new Promise((resolve) => {
               resolve(SELECT_ELEMENT(pageId, null));
             }).then(async () => {
               const stageRef = stageRefs[pageId as number];
+              //typescript is weird
               setBeforeImage({
-                src: stageRef.current.toDataURL() as Base64Data<"png">,
-                width: stageRef.current.width() as number,
-                height: stageRef.current.height() as number,
+                src: stageRef?.current?.toDataURL() as Base64Data<"png">,
+                width: stageRef?.current?.width() as number,
+                height: stageRef?.current?.height() as number,
               });
               setFeatureName("svg-convert");
               setDialog("svg-convert");
             });
           }}
         >
-          Export as SVG <br></br>
+          Export as <br></br> SVG <br></br>
           <Wallpaper htmlColor="#D5EDFF" className="h-8 w-8" />
         </button>
       </div>

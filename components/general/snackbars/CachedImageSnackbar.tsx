@@ -41,11 +41,9 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
     (store) => store.CLEAR_REDIRECT_IMAGE_CACHE
   );
 
-  const [user] = useAuthState(auth);
+  const [user userLoading] = useAuthState(auth);
 
-  const { data: loginStatus } = useQuery("getUserStatus", () =>
-    fetchUserStatus(user)
-  );
+  const loginStatus = useUserTier(user, userLoading)
 
   return (
     <>

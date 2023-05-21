@@ -8,12 +8,16 @@ const serviceAccount = require("./serviceAccountKey.json");
 const ejs = require("ejs");
 
 if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://aftin-3516f-default-rtdb.firebaseio.com",
-  });
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: "https://aftin-3516f-default-rtdb.firebaseio.com",
+    });
+  } catch (error) {
+    console.log("firebase admin initialization error", error);
+  }
 }
-export default admin;
+export default admin
 /**
  * Backend function that gets the user's payment tier level
  * @param token firebase JWT token of the user

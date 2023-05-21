@@ -25,7 +25,7 @@ const LoginFirstModal = ({
       aria-describedby="alert-dialog-slide-description"
       className="bg-gray-500/40"
     >
-      <Box className="bg-red-400">
+      <Box className="bg-gray-700/40 ">
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {title}
         </Typography>

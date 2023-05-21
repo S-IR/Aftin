@@ -60,7 +60,7 @@ const FiltesPopover = ({
                 onClick={() =>
                   setSelectedCategory({
                     name: category.name,
-                    value: category.value as SecondDegreeCategory,
+                    value: category.secondDegCatName as SecondDegreeCategory,
                   })
                 }
               >
@@ -93,7 +93,7 @@ const FiltesPopover = ({
                   onClick={() =>
                     setSelectedCategory({
                       name: category.name,
-                      value: category.value as SecondDegreeCategory,
+                      value: category.secondDegCatName as SecondDegreeCategory,
                     })
                   }
                 >

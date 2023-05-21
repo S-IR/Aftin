@@ -39,6 +39,9 @@ export const uploadImageToCanvas = (
     image: HTMLImageElement,
     index?: number
   ): any | null => {
+    console.log("image", image, "image width", image.width);
+    console.log("w", w, "h", h);
+
     const data = {
       imageSRC: image.src,
       width: image.width,
@@ -63,22 +66,46 @@ export const uploadImageToCanvas = (
     const noWidthOrHeight = w === null || h === null;
     const isFirstImage = index === undefined || index === 0;
 
+    console.log(
+      "noWidthOrHeight",
+      noWidthOrHeight,
+      "isFirstImage",
+      isFirstImage
+    );
+
     if (noWidthOrHeight && isFirstImage)
       CHANGE_PAGE_SIZE(image.width, image.height);
-    return ADD_IMAGE(pageId ? pageId : 0, data, filterData);
-  };
-  if (imagesArray) {
-    for (let i = 0; i < imagesArray.length; i++) {
-      const image = new Image();
-      let selected = imagesArray[i];
-      image.src = URL.createObjectURL(selected);
-      image.onload = putImageOnCanvas(image, i);
+
+    //if the pageId is undefined, upload on the first page. If the index is 0, meaning we're not in a for loop, upload where the page id says, if the index exists, upload at pageId plus index in order to put all images on separate pages
+    let pageToUpload: number = 0;
+    if (pageId === null && index === undefined) {
+      pageToUpload = 0;
+    } else if (pageId === null && typeof index === "number") {
+      pageToUpload = 0 + index;
+    } else if (pageId !== null && index === undefined) {
+      pageToUpload = pageId;
+    } else if (pageId !== null && typeof index === "number") {
+      pageToUpload = pageId + index;
     }
+
+    console.log("putting image on ", pageToUpload);
+
+    return ADD_IMAGE(pageToUpload, data, filterData);
+  };
+  if (imagesArray !== undefined && imagesArray !== null) {
+    const image = new Image();
+    let selected = imagesArray[0];
+    image.src = URL.createObjectURL(selected);
+    image.onload = putImageOnCanvas(image);
   } else if (typeof url === "string") {
+    console.log("url is string");
+
     const image = new Image();
     image.src = url;
     image.onload = putImageOnCanvas(image);
   } else if (Array.isArray(url)) {
+    console.log("url is array");
+
     for (let i = 0; i < url.length; i++) {
       const image = new Image();
       image.src = url[i];

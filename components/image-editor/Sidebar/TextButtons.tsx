@@ -47,7 +47,7 @@ const TextButtons = ({ setActiveSidebar }: props) => {
   };
   return (
     <section
-      className={`flex h-auto min-h-full w-72 flex-col items-center  ${styles.buttonMenusBG}`}
+      className={`flex h-screen w-72  flex-col items-center  ${styles.buttonMenusBG}`}
     >
       <button
         id="big-text-button"
