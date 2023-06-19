@@ -6,8 +6,6 @@ import aftinLogo from "../public//aftinLogoSvg.svg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import useAuth from "../hooks/useAuth";
-import LoginDiv from "../components/login/LoginDiv";
-import SignUpDiv from "../components/login/SignUpDiv";
 import { CSSTransition } from "react-transition-group";
 import Loading from "../components/general/Loading";
 import { useSpring, animated, useTransition } from "react-spring";
@@ -17,6 +15,7 @@ import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import styles from "../styles/Login.module.css";
 import { useIsMobile } from "../hooks/useIsMobile";
+import { LoginDiv, SignUpDiv } from "../components/Login";
 interface Inputs {
   email: string;
   password: string;

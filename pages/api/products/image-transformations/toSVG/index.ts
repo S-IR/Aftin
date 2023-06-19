@@ -4,9 +4,9 @@ import fs from "fs";
 import path from "path";
 import { makeID } from "../../../../model/GeneralFunctions";
 import potrace from "potrace";
-import { getUserTier } from "../../../../firebaseAdmin";
 import sharp from "sharp";
-import { paid_tier_array } from "../../../../typings/image-types/ImageTypes";
+import { getUserTier } from "../../../../../firebaseAdmin";
+import { paid_tier_array } from "../../../../../typings/image-types/ImageTypes";
 
 const bodySchema = z.object({
   image: z.any(),

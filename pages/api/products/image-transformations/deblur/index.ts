@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { deblurModelTypes } from "../../../../constants/image-enhancing/enhancingTypes";
+import { deblurModelTypes } from "../../../../../constants/image-enhancing/enhancingTypes";
 
 const bodySchema = z.object({
   model: z.enum(deblurModelTypes, { invalid_type_error: "Invalid Model Type" }),
