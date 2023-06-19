@@ -10,7 +10,7 @@ import { NextSeo } from "next-seo";
 const Index = () => {
   return (
     <>
-      <NextSeo title={"AI Policy"} />
+      {/* <NextSeo title={"AI Policy"} /> */}
       <h1 className="mx-auto my-40 text-center text-6xl text-gray-200 ">
         AI Policy
       </h1>

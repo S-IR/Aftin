@@ -55,7 +55,7 @@ const Index: NextPage = () => {
   const isMobile = useIsMobile();
   return (
     <>
-      <NextSeo title={"Image editor for Restaurants"} />
+      {/* <NextSeo title={"Image editor for Restaurants"} /> */}
       <div className="flex h-full w-full overflow-visible ">
         <div className="fixed flex">
           <animated.section

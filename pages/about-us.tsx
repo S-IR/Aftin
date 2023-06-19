@@ -14,10 +14,10 @@ import { NextSeo } from "next-seo";
 const AboutUs: NextPage = () => {
   return (
     <main>
-      <NextSeo
+      {/* <NextSeo
         title="Aftin - About Us"
         description="Aftin is a graphic design agency made to deliver images to unique restaurants. We portray their brand through images"
-      />
+      /> */}
       <TopBanner />
       <HowItStarted />
       <BeautySells />

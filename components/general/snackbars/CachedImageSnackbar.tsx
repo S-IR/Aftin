@@ -25,6 +25,7 @@ import { useCanvasState } from "../../../zustand/CanvasStore/store";
 import { handleWebsiteGalleryPreview } from "../../../model/client-side/image-gallery/dialogButtons";
 import { useMockupsStore } from "../../../zustand/MockupsStore/store";
 import { useCachedStore } from "../../../zustand/CachedImageStore/store";
+import { useUserTier } from "../../../hooks/useUserTier";
 
 interface props {
   cachedImage: ImgDoc;
@@ -41,9 +42,9 @@ const CachedImageSnackbar = ({ cachedImage }: props) => {
     (store) => store.CLEAR_REDIRECT_IMAGE_CACHE
   );
 
-  const [user userLoading] = useAuthState(auth);
+  const [user, userLoading] = useAuthState(auth);
 
-  const loginStatus = useUserTier(user, userLoading)
+  const loginStatus = useUserTier(user, userLoading);
 
   return (
     <>

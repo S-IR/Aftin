@@ -21,10 +21,10 @@ const Index = () => {
 
   return (
     <>
-      <NextSeo
+      {/* <NextSeo
         title={"Menus, Banners and Brochure templates for Restaurants"}
         description={"Browse unique graphic designs made for Restaurants"}
-      />
+      /> */}
       <main className="flex h-auto w-full flex-col items-center justify-center align-middle">
         <h1 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent drop-shadow-xl md:m-16 md:text-6xl">
           What Graphic Design Templates do you need?

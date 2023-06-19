@@ -7,13 +7,13 @@ import React from "react";
 import Fade from "../../../constants/general/Fade";
 import useAuthThirdParty from "../../../hooks/useAuthThirdParty";
 import { ImgDoc } from "../../../typings/image-types/ImageTypes";
-import { FacebookButton, GoogleButton } from "../../login";
 import { galleryImageDialog } from "../SiteGallery";
 import Cookies from "js-cookie";
 import { useCachedStore } from "../../../zustand/CachedImageStore/store";
 import { canvasEditButtonDialog } from "../../image-editor/Canvas/CanvasEditButtons";
 import { useIsMobile } from "../../../hooks/useIsMobile";
 import Image from "next/image";
+import { FacebookButton, GoogleButton } from "../../Login";
 
 interface props {
   dialogName: null | galleryImageDialog[`name`] | canvasEditButtonDialog;

@@ -42,7 +42,7 @@ const Index = () => {
   };
   return (
     <div className="flex h-screen w-screen justify-center ">
-      <NextSeo title="Reset Password" />
+      {/* <NextSeo title="Reset Password" /> */}
       <section className="my-10 flex h-3/4 w-3/4 flex-col items-center justify-center rounded-md bg-opacity-75 bg-[url('/reset/bg.png')] bg-cover p-4 align-middle">
         <h1 className="mx-auto my-4 font-Handwriting text-4xl text-orange-200 lg:text-6xl">
           Forgot your password?

@@ -37,11 +37,11 @@ const Index = ({ pageMetas }: props) => {
 
   return (
     <>
-      <NextSeo
+      {/* <NextSeo
         title={pageMetas.title}
         description={pageMetas.description}
         canonical={pageMetas.canonical}
-      />
+      /> */}
       <div className="flex h-auto w-full">
         <SortingSidebar
           showSidebar={showSidebar}

@@ -19,12 +19,12 @@ const Index = () => {
   const isMobile = useIsMobile();
   return (
     <>
-      <NextSeo
+      {/* <NextSeo
         title={"Advertisement Images Library for Restaurants"}
         description={
           "Browse unique food advertisement images meant for restaurant owners"
         }
-      />
+      /> */}
       <main className="flex h-auto w-full flex-col items-center justify-center align-middle">
         <h1 className="m-4 bg-gradient-to-br from-red-300 to-white bg-clip-text text-center font-Handwriting text-4xl text-transparent drop-shadow-xl md:m-16 md:text-6xl">
           What Advertisement Image do you need?

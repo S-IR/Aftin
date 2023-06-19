@@ -259,10 +259,10 @@ const Index: NextPage<props> = ({ enhancerType }) => {
 
   return (
     <>
-      <NextSeo
+      {/* <NextSeo
         title={`Image ${enhancerType} for Restaurants`}
         description={`An image ${enhancerType} meant for different restaurant images`}
-      />
+      /> */}
       <ChooseEnhancerModal
         popover={popover}
         setPopover={setPopover}
