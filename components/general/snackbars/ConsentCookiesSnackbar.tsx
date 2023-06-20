@@ -18,9 +18,9 @@ import * as gtag from "../../../lib/gtag";
 import { cookiesConsentOptions } from "../../../constants/general/cookiesConsentOptions";
 import FormGroup from "@mui/material/FormGroup/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
-import Switch from "@mui/material/Switch/Switch";
 import CustomCookieConsent from "../../policies/privacy/CustomCookieConsent";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 interface props {
   open: boolean;
@@ -40,6 +40,8 @@ interface customInputs {
  * @param open In order to avoid unnecessarry
  * @returns
  */
+const Switch = dynamic(() => import("@mui/material/Switch"), { ssr: false });
+
 const ConsentCookiesSnackbar = ({ open, setCookiesConsent }: props) => {
   const [openCustom, setOpenCustom] = useState(false);
 
