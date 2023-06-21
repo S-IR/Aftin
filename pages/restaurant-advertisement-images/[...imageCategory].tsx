@@ -9,7 +9,6 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { dehydrate, QueryClient } from "react-query";
 import SiteGallery from "../../components/general/SiteGallery";
 import SortingSidebar from "../../components/general/SortingSidebar";
 import { requestImageDocs } from "../../model/client-side/image-functions/requestImages";
@@ -24,6 +23,7 @@ import { isValidUrlParams } from "../../model/client-side/image-gallery/confirmV
 import { cookies } from "next/dist/client/components/headers";
 import { LoginStatus } from "../../typings/typings";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { performance, PerformanceObserver } from "perf_hooks";
 
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
@@ -83,7 +83,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       ? (params.imageCategory[1] as ThirdDegreeCategory)
       : undefined
   );
+
   const dehydratedState = await queryImagesServerSide(req.url, params);
+
   return {
     props: {
       pageMetas,

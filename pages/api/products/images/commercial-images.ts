@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { db } from "../../../../firebase";
@@ -21,8 +20,11 @@ import {
 import { queryType } from "../../../../typings/image-types/queryTypes";
 import admin, { getUserTier } from "../../../../firebaseAdmin";
 import { LoginStatus } from "../../../../typings/typings";
-import { auth } from "firebase-admin";
 
+// Utility function to iterate over object keys and values with proper types
+function typedEntries<T>(obj: T): [keyof T, T[keyof T]][] {
+  return Object.entries(obj) as [keyof T, T[keyof T]][];
+}
 /**
  * Filters the data sent by Firebase depending on the user's URL request or
  * @param data firebase data document
@@ -34,30 +36,41 @@ const filterData = (
   data: ImgDoc[],
   thirdDegreeCategory: ThirdDegreeCategory,
   queries: queryType | undefined
-) => {
-  //create an intermediate array that will be modified
-  let filteredData: ImgDoc[] | [] = data;
-  //filter based on the third degree category
-  filteredData = filteredData.filter(
-    (imgDoc) => imgDoc.thirdDegreeCategory === thirdDegreeCategory
-  );
+): ImgDoc[] => {
+  const filteredData = data.filter((imgDoc) => {
+    if (queries === undefined) return true;
+    if (imgDoc.thirdDegreeCategory !== thirdDegreeCategory) return false;
 
-  //if there are no more queries stop
-  if (queries === undefined) return filteredData;
+    // go through each one of the filters
+    for (const [filter, filterValue] of typedEntries(queries)) {
+      if (filter === "color") continue;
+      if (imgDoc[filter] === undefined) return false;
+      if (filterValue === undefined) continue;
+      //if the filter is a color
 
-  // get the filter names
-  const filtersArray = Object.keys(queries) as unknown as Array<
-    keyof queryType
-  >;
-  // go through each one of the filters
-  filtersArray.forEach((filter) => {
-    //if the filter is a color
-    if (filter === `color`) {
+      if (filter === `description`) {
+        return imgDoc[filter].toLowerCase().includes(filterValue.toLowerCase());
+      }
+      //ignore ts
+      const paramsArr = filterValue.toLowerCase().split(";");
+      if (typeof data[0][filter] === `string`) {
+        //if the query params is just a string, meaning it's just one, then find the imgDoc that exactly matches that query param
+        return imgDoc[filter] === paramsArr[0];
+      } else if (Array.isArray(data[0][filter])) {
+        //else if it's an array, check that every element of that paramsArr to be included in the imgField doc
+        paramsArr.every((arrElem: any) => imgDoc[filter].includes(arrElem));
+      }
+    }
+  });
+  if (queries?.color === undefined) {
+    return filteredData;
+  } else {
+    {
       // get the R G B values in this array
       const rgbQueryArr = queries.color?.split("-");
-      if (!rgbQueryArr) return;
+      if (!rgbQueryArr) return filteredData;
       //sort the data by
-      return (filteredData = filteredData.sort((a, b) => {
+      return filteredData.sort((a, b) => {
         // first declare 2 variables that are meant to represent the proximity of this image's colors to that of the query
         let aProximity: number = 0;
         let bProximity: number = 0;
@@ -78,32 +91,9 @@ const filterData = (
         });
         //then sort them by descending order
         return aProximity - bProximity;
-      }));
+      });
     }
-
-    //ignore ts
-    if (filter === `description`) {
-      return (filteredData = filteredData.filter((imgDoc) =>
-        imgDoc[filter].toLowerCase().includes(queries[filter].toLowerCase())
-      ));
-    }
-    //ignore ts
-    const paramsArr = queries[filter].toLowerCase().split(";");
-    if (data[0][filter] === undefined || typeof data[0][filter] === `string`) {
-      //if the query params is just a string, meaning it's just one, then find the imgDocs d that exactly matches that query params
-      return (filteredData = filteredData.filter(
-        (imgField) => imgField[filter] === paramsArr[0]
-      ));
-    } else if (Array.isArray(data[0][filter])) {
-      //else if it's an array, check that every element of that paramsArr to be included in the imgField doc
-      return (filteredData = filteredData.filter((imgFied) =>
-        paramsArr.every((arrElem) => imgFied[filter].includes(arrElem))
-      ));
-    }
-
-    return filteredData;
-  });
-  return filteredData;
+  }
 };
 
 const changeUrlBasedOnTier = (
@@ -157,6 +147,8 @@ export default async function handler(
     queryParams: ParsedUrlQuery | undefined;
   };
   if (
+    firstDegreeCategory === undefined ||
+    secondDegreeCategory === undefined ||
     !firstDegCat_schema.safeParse(firstDegreeCategory) ||
     !secondDegCat_schema.safeParse(secondDegCat_schema) ||
     (thirdDegreeCategory !== undefined &&
@@ -180,8 +172,7 @@ export default async function handler(
   }
   console.log("loginStatus from commercial images", loginStatus);
 
-  //save them in an array
-  const firebaseAPIResponse = await fetch(
+  let firebaseRouteRes = await fetch(
     `${
       process.env.NEXT_PUBLIC_server
     }/api/products/images/firebase-commercial-images?${new URLSearchParams({
@@ -189,10 +180,9 @@ export default async function handler(
       secondDegreeCategory: secondDegreeCategory as string,
     })}`
   );
+  let docsArray: ImgDoc[] = await firebaseRouteRes.json();
 
-  let docsArray: ImgDoc[] = await firebaseAPIResponse.json();
   docsArray = changeUrlBasedOnTier(docsArray, loginStatus);
-  console.log("docsArray after changeUrlBasedOnTier", docsArray);
 
   // calculate what part of the array should be sent back
   const slicingStart = 0 + 15 * Number(rowRequested);

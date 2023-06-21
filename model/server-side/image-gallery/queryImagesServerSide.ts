@@ -10,6 +10,7 @@ import {
 } from "../../../typings/image-types/ImageTypes";
 import { requestImageDocs } from "../../client-side/image-functions/requestImages";
 import { LoginStatus } from "../../../typings/typings";
+import * as v8Profiler from "v8-profiler-next";
 
 /**
  * Requests images server side for the website gallery component

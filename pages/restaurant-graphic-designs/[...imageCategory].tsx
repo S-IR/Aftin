@@ -9,7 +9,6 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { dehydrate, QueryClient } from "react-query";
 import SiteGallery from "../../components/general/SiteGallery";
 import SortingSidebar from "../../components/general/SortingSidebar";
 import { requestImageDocs } from "../../model/client-side/image-functions/requestImages";
@@ -22,6 +21,7 @@ import {
 } from "../../typings/image-types/ImageTypes";
 import { isValidUrlParams } from "../../model/client-side/image-gallery/confirmValidUrlParams";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import * as v8Profiler from "v8-profiler-next";
 
 interface props {
   pageMetas: { title: string; description: string; canonical: string };
@@ -70,6 +70,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       notFound: true,
     };
   }
+
+  // Call your queryImagesServerSide function
   let idToken = req.cookies.idToken;
   if (idToken === undefined) idToken = "";
   const pageMetas = determinePageMetas(
@@ -79,7 +81,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       ? (params.imageCategory[1] as ThirdDegreeCategory)
       : undefined
   );
+
   const dehydratedState = await queryImagesServerSide(req.url, params);
+
   return {
     props: {
       pageMetas,

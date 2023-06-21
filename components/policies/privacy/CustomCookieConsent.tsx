@@ -2,11 +2,11 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { cookiesConsentOptions } from "../../../constants/general/cookiesConsentOptions";
-import Switch from "@mui/material/Switch/Switch";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import * as gtag from "../../../lib/gtag";
 import Cookies from "js-cookie";
 import { useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 
 interface props {
   open: boolean;
@@ -20,6 +20,7 @@ interface customInputs {
   personalization_storage?: boolean;
   security_storage?: boolean;
 }
+const Switch = dynamic(() => import("@mui/material/Switch"), { ssr: false });
 
 export default function CustomCookieConsent({ open, handleClose }: props) {
   const {

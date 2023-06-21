@@ -21,17 +21,15 @@ import {
 } from "./ImageTypes";
 
 export type queryType = {
-  paid?: typeof tier_array;
+  tier?: typeof tier_array;
   size?: typeof size_array | typeof banner_type_array;
   description?: string;
   color?: `${number}-${number}-${number}`;
   color_scheme?: string;
   surr_env?: typeof surr_env_array;
   thirdDegreeCategory: ThirdDegreeCategory;
-  dish_type?: typeof main_dish_array;
   material?: typeof cutlery_type;
   banner_type?: typeof banner_type_array;
-  style: typeof gr_des_style_array;
   shape?: typeof shape_array;
 };
 export type queryField = keyof ImgDoc;
